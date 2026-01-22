@@ -21,32 +21,43 @@ const teamsByYear = Object.keys(rawTeamFiles)
   .filter(f => f.valid)
   .sort((a, b) => b.year - a.year); // descending
 
+
 // ----------------------------------------------------
 // Step 3: Normalize data with executiveList and teamPhoto
 // ----------------------------------------------------
-// Also check if team-photo.png exists in the folder
-const photoFiles = import.meta.glob('/public/data/about/*/team-photo.png', { eager: true });
+
+// Import all possible team photos (png, jpg, jpeg)
+const photoFiles = import.meta.glob(
+  ['/public/data/about/*/team-photo.png',
+   '/public/data/about/*/team-photo.jpg',
+   '/public/data/about/*/team-photo.jpeg'],
+  { eager: true }
+);
 
 const teamsData = teamsByYear.map(({ year, path }) => {
   const teamJson = rawTeamFiles[path].default;
 
-  // Normalize exec images
+  // Normalize executive images
   const executiveList = teamJson.map(section => ({
     ...section,
     items: section.items.map(member => ({
       ...member,
-      image: member.image
-        ? `/data/about/${year}/exec-photos/${member.image}`
-        : null,
+      image: member.image ? `/data/about/${year}/exec-photos/${member.image}` : null,
     })),
   }));
 
-  // Check if team-photo.png exists
-  const photoPathCandidate = `/public/data/about/${year}/team-photo.png`;
-  const teamPhoto = photoFiles[photoPathCandidate] ? `/data/about/${year}/team-photo.png` : null;
+  // Locate team photo for the year, any supported extension
+  const teamPhotoPath = Object.keys(photoFiles).find(file =>
+    new RegExp(`/data/about/${year}/team-photo\\.(png|jpe?g)$`).test(file)
+  );
+
+  // Strip the "/public" prefix for the URL
+  const teamPhoto = teamPhotoPath ? teamPhotoPath.replace(/^\/public/, '') : null;
 
   return { year, executiveList, teamPhoto };
 });
+
+
 
 // ----------------------------------------------------
 // Step 4: Helper function to group members by role

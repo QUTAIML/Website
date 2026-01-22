@@ -1,12 +1,15 @@
 .history-space {
-    padding-top: 7rem;
+  padding-top: 7rem;
 }
 
 /* Loader Styles */
 .image-wrapper {
-  position: relative;
   width: 100%;
-  height: auto;
+  height: 100%; /* fill parent container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .loader {
@@ -29,21 +32,19 @@
   to { transform: rotate(360deg); }
 }
 
-
 /* === Layout === */
 .team-split.static-layout {
   display: grid;
   grid-template-columns: 40% 60%;
   gap: 2.5rem;
-  align-items: start;
   width: 100%;
+  align-items: start;
 }
 
 /* === LEFT SIDE (Yearbook Table) === */
 .yearbook {
-  border-radius: 8px;
-  max-height: 80vh;
   overflow-y: auto;
+  max-height: 100%; /* fills container but scrolls if content too tall */
 }
 
 .yearbook-title {
@@ -85,23 +86,66 @@
   line-height: 1.4;
 }
 
-/* === RIGHT SIDE (Large Team Photo) === */
+/* ----------------------------- */
+/*  TEAM PHOTO: SHRINK & RESPECT PADDING  */
+/* ----------------------------- */
+
+/* ----------------------------- */
+/*  TEAM PHOTO: SHRINK & RESPECT PADDING  */
+/* ----------------------------- */
+
+/* Right image container: fill height but respect parent padding */
 .team-photo-large {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 2rem;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100% !important;       /* fill parent height */
+  min-height: 0 !important;      /* prevent flex stretching */
+  flex-shrink: 1 !important;     /* allow shrinking */
+  box-sizing: border-box;        /* respect parent padding */
+  padding-right: 80px !important; /* much more padding on the right */
 }
 
-.team-hero {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
+/* Wrapper respects container */
+.image-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-shrink: 1 !important;
+  min-height: 0 !important;
+  box-sizing: border-box;
 }
+
+/* Image scales proportionally and shrinks to fit parent */
+.team-photo-large img.team-hero {
+  max-height: 100% !important;  /* shrink to fit container height */
+  max-width: 100% !important;   /* prevent overflowing horizontally */
+  width: auto !important;       /* maintain aspect ratio */
+  height: auto !important;
+  object-fit: contain !important; 
+  flex-shrink: 1 !important;
+  display: block !important;
+  border-radius: 10px !important;
+}
+
 
 .team-spacer td {
   padding: 0.5rem 0; 
   border: none;
+}
+
+/* === Constrain info boxes === */
+.info-panel.history-box {
+  margin-bottom: 3rem;
+  max-height: 525px; /* max height of each box */
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  align-items: stretch; /* children fill container height */
+  overflow: hidden; /* prevent overflow */
 }
 
 /* === Responsive === */
@@ -132,30 +176,23 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* Modal image
-   Ensure the image never expands into the area where the close button sits.
-   We reserve horizontal and vertical space so the close control can be placed
-   outside the image area without overlap. */
 .modal-content {
-  margin: 64px auto 24px; /* leaves vertical room for close button */
+  margin: 64px auto 24px;
   display: block;
   width: 80%;
-  max-width: min(900px, calc(100% - 140px)); /* reserve ~140px horizontally for close + breathing room */
+  max-width: min(900px, calc(100% - 140px));
   border-radius: 10px;
   animation: zoom 0.3s;
   box-shadow: 0 18px 50px rgba(0,0,0,0.5);
-  max-height: calc(100vh - 120px); /* prevent overflow beyond viewport when tall */
+  max-height: calc(100vh - 120px);
   object-fit: contain;
 }
 
-/* Close button
-   Use fixed positioning so it remains outside the image area and never scrolls with content.
-   Keep it above modal z-index so it's always visible. */
 .modal-close {
-  position: fixed;      /* fixed to viewport to avoid overlap with modal-content */
+  position: fixed;
   top: 28px;
   right: 28px;
-  z-index: 1100;        /* above .modal (1000) and .modal-content */
+  z-index: 1100;
   color: #fff;
   font-size: 2.6rem;
   font-weight: bold;
@@ -167,7 +204,6 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.6);
 }
 
-/* If you prefer closer spacing on large screens, tweak these values */
 @media (min-width: 1400px) {
   .modal-content {
     margin-top: 72px;
@@ -180,18 +216,16 @@
   }
 }
 
-/* Animation */
 @keyframes zoom {
   from { transform: scale(0.7); }
   to { transform: scale(1); }
 }
 
-/* Responsive modal image */
 @media (max-width: 900px){
   .modal-content {
     margin-top: 56px;
     width: 94%;
-    max-width: calc(100% - 64px); /* ensure at least 32px margin either side */
+    max-width: calc(100% - 64px);
     max-height: calc(100vh - 96px);
   }
   .modal-close {
@@ -202,18 +236,14 @@
   }
 }
 
-/* Body class while modal is open */
 body.modal-open {
-  overflow: hidden; /* prevents background scrolling */
+  overflow: hidden;
 }
 
-/* Hide navbar when modal is open */
 body.modal-open nav {
   display: none !important;
 }
 
-/* Extra helpers: if modal content is smaller than reserved area,
-   place it centered but never under the close button. */
 .modal .modal-inner {
   display: flex;
   justify-content: center;
@@ -221,56 +251,47 @@ body.modal-open nav {
   padding: 24px;
 }
 
-/* Accessibility: ensure focus outline for close control */
 .modal-close:focus {
   outline: 3px solid rgba(255,0,230,0.45);
   outline-offset: 3px;
 }
 
-.history-box {
-  margin-bottom: 3rem;
-}
-
-/* Placeholder for missing hero image */
 .team-placeholder {
-  width: 100%;           /* full container width */
-  aspect-ratio: 4/3;     /* maintain image-like aspect ratio */
+  width: 100%;
+  aspect-ratio: 4/3;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
-  background-color: #333; /* dark grey background */
-  color: #fff;            /* white text */
+  background-color: #333;
+  color: #fff;
   font-weight: bold;
   text-align: center;
   font-size: 1.2rem;
 }
 
-
-
-
 /* ---------- MOBILE: Full-width team photo ---------- */
 @media (max-width: 768px) {
   .team-split {
-    flex-direction: column; /* stack the table and image vertically */
-    gap: 2rem; /* optional spacing */
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .team-photo-large {
-    width: 100%; /* full container width */
+    width: 100%;
     display: flex;
     justify-content: center;
   }
 
   .team-photo-large .image-wrapper,
   .team-photo-large img.team-hero {
-    width: 100%; /* make the image fill the container */
-    height: auto; /* maintain aspect ratio */
-    object-fit: cover; /* optional: scale the image nicely */
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* shrink image instead of overflow */
   }
 
   .yearbook {
-    width: 100%; /* table takes full width above image */
-    overflow-x: auto; /* allow horizontal scroll if table is wide */
+    width: 100%;
+    overflow-x: auto;
   }
 }

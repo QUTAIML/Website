@@ -90,46 +90,43 @@
 /*  TEAM PHOTO: SHRINK & RESPECT PADDING  */
 /* ----------------------------- */
 
-/* ----------------------------- */
-/*  TEAM PHOTO: SHRINK & RESPECT PADDING  */
-/* ----------------------------- */
-
 /* Right image container: fill height but respect parent padding */
 .team-photo-large {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  height: 100% !important;       /* fill parent height */
-  min-height: 0 !important;      /* prevent flex stretching */
-  flex-shrink: 1 !important;     /* allow shrinking */
-  box-sizing: border-box;        /* respect parent padding */
-  padding-right: 80px !important; /* much more padding on the right */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;       /* fill parent height */
+  min-height: 0;      /* prevent flex stretching */
+  flex-shrink: 1;     /* allow shrinking */
+  box-sizing: border-box; /* respect padding */
+  padding-right: 80px;    /* large right padding */
 }
 
 /* Wrapper respects container */
 .image-wrapper {
-  width: 100% !important;
-  max-width: 100% !important;
-  height: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  flex-shrink: 1 !important;
-  min-height: 0 !important;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 1;
+  min-height: 0;
   box-sizing: border-box;
 }
 
 /* Image scales proportionally and shrinks to fit parent */
 .team-photo-large img.team-hero {
-  max-height: 100% !important;  /* shrink to fit container height */
-  max-width: 100% !important;   /* prevent overflowing horizontally */
-  width: auto !important;       /* maintain aspect ratio */
-  height: auto !important;
-  object-fit: contain !important; 
-  flex-shrink: 1 !important;
-  display: block !important;
-  border-radius: 10px !important;
+  max-height: 100%;  /* shrink to fit container height */
+  max-width: 100%;   /* prevent horizontal overflow */
+  width: auto;       /* maintain aspect ratio */
+  height: auto;
+  object-fit: contain; 
+  flex-shrink: 1;
+  display: block;
+  border-radius: 10px;
 }
+
 
 
 .team-spacer td {
@@ -293,5 +290,57 @@ body.modal-open nav {
   .yearbook {
     width: 100%;
     overflow-x: auto;
+  }
+}
+
+
+
+
+@media (max-width: 900px) {
+
+  /* Stack table and image vertically */
+  .team-split.static-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* spacing between table and image */
+  }
+
+  /* Info panel: allow full height of content */
+  .info-panel.history-box {
+    max-height: none;        /* remove desktop max-height */
+    overflow: visible;       /* show all rows */
+    padding-bottom: 2rem;    /* add space under table so image doesn't overlap text */
+  }
+
+  /* Table (yearbook) */
+  .yearbook {
+    width: 100%;
+    max-height: none;        /* expand naturally */
+    overflow-y: visible;     /* show all content */
+  }
+
+  /* Move image below table */
+  .team-photo-large {
+    width: 100%;
+    height: auto;            /* natural height */
+    padding-right: 0;        /* remove desktop padding */
+    order: 2;                /* ensure it comes after table */
+    margin-top: 0;
+    position: relative;      /* normal flow, not absolute/fixed */
+    z-index: 0;              /* prevent overlapping text */
+  }
+
+  .team-photo-large .image-wrapper {
+    width: 100%;
+    height: auto;            /* respect image aspect ratio */
+  }
+
+  .team-photo-large img.team-hero {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    display: block;
+    z-index: 0;
   }
 }

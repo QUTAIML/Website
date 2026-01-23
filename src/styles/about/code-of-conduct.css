@@ -1,0 +1,132 @@
+/* -------------------------------------------------- */
+/* Heading styles                                      */
+/* -------------------------------------------------- */
+
+.h2-pink {
+  color: var(--color-primary);
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+.h3-link {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+}
+
+.h3-link a {
+  text-decoration: none;
+  color: inherit;
+  line-height: 1.1;
+}
+
+/* -------------------------------------------------- */
+/* Code of Conduct content styling                     */
+/* -------------------------------------------------- */
+
+.coc-content ul {
+  list-style: disc;
+  margin-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.coc-content ul ul {
+  list-style: circle !important;
+  margin-left: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+.coc-content li {
+  margin-bottom: 0.35rem;
+  line-height: 1.4;
+}
+
+.coc-content h2 {
+  color: var(--color-primary);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.coc-content h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------- */
+/* Horizontal rule spacing                             */
+/* -------------------------------------------------- */
+
+.coc-content hr {
+  margin: 1.5rem 0;
+  border: none;
+  border-top: 1px solid var(--color-primary);
+  opacity: 0.4;
+}
+
+/* -------------------------------------------------- */
+/* Code of Conduct intro bullet list                   */
+/* -------------------------------------------------- */
+
+.coc-intro {
+  list-style: disc !important;
+  margin-left: 1.25rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.coc-intro li {
+  margin-bottom: 0.5rem;
+}
+
+.coc-intro a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.coc-intro a:hover {
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------- */
+/* Link styling shared across governance pages         */
+/* -------------------------------------------------- */
+
+.constitution-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.constitution-link:hover {
+  text-decoration: underline;
+}
+
+
+.coc-content ul,
+.coc-content ol {
+  list-style: initial !important;
+  margin-left: 1.25rem !important;
+}
+
+.coc-content ul ul,
+.coc-content ol ol {
+  list-style: initial !important;
+  margin-left: 1.25rem !important;
+}
+
+/* FORCE BULLETS BACK IN THE CODE OF CONDUCT */
+.info-panel .coc-content ul {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+}
+
+.info-panel .coc-content ul ul {
+  list-style-type: circle !important;
+  margin-left: 1.5rem !important;
+}
+
+.info-panel .coc-content li {
+  display: list-item !important;
+}

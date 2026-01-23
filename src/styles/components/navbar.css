@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
 
-  padding: 0.8rem 4rem;
+  padding: 0.1rem 4rem;
 
   /* Frosted glass effect */
   background: rgba(10, 10, 10, 0.8);
@@ -33,9 +33,50 @@
   letter-spacing: 0.02em;
 }
 
-.brand .logo { 
-  width:46px; 
+.brand a {
+  margin-top: 0.6rem;
+  display: inline-block;
+  position: relative;
+  overflow: hidden; /* prevent shine from escaping */
+  width: 55px;      /* match logo width */
+  height: auto;
 }
+
+.brand a img {
+  display: block;
+  width: 150%;
+  height: auto;
+}
+
+/* Shiny “holographic” stripe */
+.brand a::after {
+  content: "";
+  position: absolute;
+  top: -50%;          /* move slightly above logo */
+  left: -50%;         /* start off left */
+  width: 50%;         /* narrow stripe only */
+  height: 200%;       /* enough to cover diagonally */
+  background: rgba(255,255,255,0.3);
+  transform: rotate(25deg); /* angled stripe */
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+}
+
+.brand a:hover::after {
+  opacity: 1;
+  animation: shine 1s forwards;
+}
+
+@keyframes shine {
+  0% { left: -50%; }
+  100% { left: 150%; }
+}
+
+
+
+
+
 
 .brand {
   font-size:1.5rem; 

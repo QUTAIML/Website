@@ -1,10 +1,13 @@
 ---
+import "@/styles/global.css";
+import "@/styles/about/about.css";
 import "@/styles/about/constitution.css";
 import Navigation from "@/components/Navigation.astro";
 import Footer from "@/components/Footer.astro";
 import { marked } from "marked";
 
-const rawURL = "https://raw.githubusercontent.com/QUT-AIML/Constitution/main/README.md";
+const rawURL =
+  "https://raw.githubusercontent.com/QUT-AIML/Constitution/main/README.md";
 
 let constitutionHTML = "";
 
@@ -14,12 +17,58 @@ try {
 
   const md = await res.text();
 
-  // Convert Markdown to HTML
-  constitutionHTML = marked.parse(md);
+  // Custom renderer for heading styling
+  const renderer = new marked.Renderer();
 
+  let inTOC = false;
+
+  renderer.heading = function (token) {
+    const level = token.depth;
+    const innerHtml = this.parser.parseInline(token.tokens);
+    const rawText = token.text;
+
+    // Detect start of TOC
+    if (level === 2 && rawText.trim().toLowerCase() === "contents") {
+      inTOC = true;
+      return `<h2 class="h2-pink">Contents</h2><div class="toc">`;
+    }
+
+    // Detect TOC items
+    const isTOC = inTOC && level === 3 && /^\d+\./.test(rawText);
+
+    if (isTOC) {
+      return `<div class="toc-item">${innerHtml}</div>`;
+    }
+
+    // Detect end of TOC (first non‑TOC heading)
+    if (inTOC && level === 2 && rawText.trim().toLowerCase() !== "contents") {
+      inTOC = false;
+      // close TOC wrapper
+      return `</div><h2 id="${token.slug}" class="h2-pink">${innerHtml}</h2>`;
+    }
+
+    // Normal headings
+    const slug = rawText
+      .toLowerCase()
+      .replace(/[^\w]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+    if (level === 2) {
+      return `<h2 id="${slug}" class="h2-pink">${innerHtml}</h2>`;
+    }
+
+    if (level === 3) {
+      return `<h3 id="${slug}" class="h3-link">${innerHtml}</h3>`;
+    }
+
+    return `<h${level} id="${slug}">${innerHtml}</h${level}>`;
+  };
+
+
+  constitutionHTML = marked.parse(md, { renderer });
 } catch (err) {
   console.error("Error fetching constitution:", err);
-  constitutionHTML = `<p>Error fetching constitution: ${err.message}</p>`;
+  constitutionHTML = `<p>Error fetching constitution.</p>`;
 }
 ---
 
@@ -35,14 +84,17 @@ try {
   <body class="background-dots">
     <Navigation />
 
-    <div class="content-wrapper top-space vacant-space">
+    <div class="content-wrapper about-space bottom-space">
       <section class="pink-panel">
         <p class="pink-title">Our Constitution</p>
       </section>
 
       <div class="info-panel-wrapper">
-        <section class="info-panel">
-          <div class="constitution-content" set:html={constitutionHTML}></div>
+        <section class="info-panel special-padding">
+          <div
+            class="constitution-content"
+            set:html={constitutionHTML}
+          ></div>
         </section>
       </div>
     </div>

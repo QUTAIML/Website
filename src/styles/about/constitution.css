@@ -1,0 +1,17 @@
+.h2-pink {
+  color: var(--color-primary) !important; /* light pink */
+  font-size: 2rem; /* bigger than normal */
+  margin-top: 4rem !important;
+  margin-bottom: 1rem;
+}
+
+.h3-link {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+}
+
+.h3-link a {
+  text-decoration: none;
+  color: inherit;
+}

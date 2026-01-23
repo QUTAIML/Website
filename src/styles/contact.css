@@ -12,6 +12,14 @@
   box-sizing: border-box;
 }
 
+.contact-space {
+  margin-top: 2rem;
+}
+
+.contact-bottom-space {
+  margin-bottom: 4rem !important;
+}
+
 /* ---------- LOGO SECTION ---------- */
 .logo-section {
   display: flex;

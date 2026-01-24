@@ -1,13 +1,20 @@
 ---
+import { marked } from "marked";
 import "@/styles/global.css";
 import "@/styles/about/about.css";
-import "@/styles/about/constitution.css";
+import "@/styles/about/code-of-conduct.css";
 import Navigation from "@/components/Navigation.astro";
 import Footer from "@/components/Footer.astro";
-import { marked } from "marked";
 
 const rawURL =
-  "https://raw.githubusercontent.com/QUT-AIML/Code-of-Conduct/refs/heads/main/README.md";
+  "https://raw.githubusercontent.com/QUT-AIML/Code-of-Conduct/main/README.md";
+
+marked.setOptions({
+  gfm: true,
+  breaks: false,
+  headerIds: true,
+  mangle: false,
+});
 
 let cocHTML = "";
 
@@ -17,36 +24,39 @@ try {
 
   const md = await res.text();
 
-  // Custom renderer for heading styling
+  console.log("===== RAW MARKDOWN (first 400 chars) =====");
+  console.log(md.slice(0, 400));
+
   const renderer = new marked.Renderer();
 
-  renderer.heading = function (token) {
-    const level = token.depth;
-    const innerHtml = this.parser.parseInline(token.tokens);
-    const rawText = token.text;
-
-    const slug = rawText
-      .toLowerCase()
-      .replace(/[^\w]+/g, "-")
-      .replace(/(^-|-$)/g, "");
-
-    if (level === 2) {
-      return `<h2 id="${slug}" class="h2-pink">${innerHtml}</h2>`;
-    }
-
-    if (level === 3) {
-      return `<h3 id="${slug}" class="h3-link">${innerHtml}</h3>`;
-    }
-
-    return `<h${level} id="${slug}">${innerHtml}</h${level}>`;
-  };
-
   cocHTML = marked.parse(md, { renderer });
+
+  console.log("===== PARSED HTML CHECK =====");
+  console.log("Contains <ul>:", cocHTML.includes("<ul"));
+  console.log("Contains <li>:", cocHTML.includes("<li"));
+  console.log("Contains '<p>-':", cocHTML.includes("<p>-"));
+
+  const firstUlIndex = cocHTML.indexOf("<ul");
+  console.log("First <ul> index:", firstUlIndex);
+
+  if (firstUlIndex !== -1) {
+    console.log("===== HTML AROUND FIRST <ul> =====");
+    console.log(
+      cocHTML.slice(
+        Math.max(0, firstUlIndex - 300),
+        firstUlIndex + 1500
+      )
+    );
+  } else {
+    console.log("No <ul> found in HTML.");
+  }
+
 } catch (err) {
   console.error("Error fetching Code of Conduct:", err);
   cocHTML = `<p>Error fetching Code of Conduct.</p>`;
 }
 ---
+
 
 <html lang="en">
   <head>
@@ -61,17 +71,13 @@ try {
     <Navigation />
 
     <div class="content-wrapper about-space bottom-space">
-
       <section class="pink-panel constitution-space">
         <p class="pink-title">Code of Conduct</p>
       </section>
 
       <div class="info-panel-wrapper">
         <section class="info-panel special-padding">
-          <div
-            class="coc-content"
-            set:html={cocHTML}
-          ></div>
+          <div class="coc-content" set:html={cocHTML}></div>
         </section>
       </div>
     </div>

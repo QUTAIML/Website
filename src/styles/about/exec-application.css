@@ -1,0 +1,244 @@
+/* ===============================
+   EXEC APPLICATIONS PAGE
+   =============================== */
+
+.exec-node-map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+/* Adjust node colors */
+.exec-node {
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-size: 0.85rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.exec-connector {
+  width: 40px;
+  height: 2px;
+  background-color: #ccc;
+}
+
+/* Stack nicely on small screens */
+@media (max-width: 768px) {
+  .exec-node-map {
+    flex-direction: column;
+  }
+
+  .exec-connector {
+    width: 2px;
+    height: 24px;
+  }
+}
+
+/* ===============================
+   MARKDOWN ROLE CONTENT
+   =============================== */
+
+.roles-content h1,
+.roles-content h2,
+.roles-content h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.roles-content p {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.roles-content ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.roles-content li {
+  margin-bottom: 0.4rem;
+}
+
+/* Prevent massive markdown headers */
+.roles-content h1 {
+  font-size: 1.4rem;
+}
+
+.roles-content h2 {
+  font-size: 1.2rem;
+}
+
+.roles-content h3 {
+  font-size: 1.05rem;
+}
+
+.spacing-above {
+  margin-top: 3rem;
+}
+
+/* ===============================
+   EXEC ORG CHART
+   =============================== */
+
+.exec-org-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+/* Scrollable container for horizontal layout */
+.scroll-horizontal {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-horizontal .info-panel {
+  min-width: 1200px; /* adjust as needed to fit all groups side by side */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.exec-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.second-row {
+  gap: 2.5rem;
+  flex-wrap: nowrap; /* force groups 2–5 side by side */
+}
+
+.exec-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exec-sub-row {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.exec-sub-row.wrap {
+  flex-wrap: wrap;
+  max-width: 260px;
+}
+
+/* ===============================
+   NODES
+   =============================== */
+
+.exec-node {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.exec-node.pink {
+  background-color: #f6c1d1;
+  color: #2b2b2b;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* ===============================
+   CONNECTORS
+   =============================== */
+
+.vertical-connector {
+  width: 2px;
+  height: 28px;
+  background-color: #ccc;
+  margin: 0.4rem 0;
+}
+
+.vertical-connector.small {
+  height: 20px;
+}
+
+/* ===============================
+   PINK GROUP BUBBLES
+   =============================== */
+
+.pink-group {
+  background-color: #f6c1d1;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+/* Group title inside pink bubble */
+.group-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* ===============================
+   SVG CONNECTORS
+   =============================== */
+
+.exec-lines {
+  position: relative;
+  top: -20px; /* adjust so lines start at President */
+  margin-bottom: -20px; /* pull the next row closer */
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 900px) {
+  .second-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .exec-sub-row.wrap {
+    max-width: 100%;
+  }
+
+  /* Adjust SVG connectors for mobile */
+  .exec-lines {
+    display: none; /* hide lines on mobile */
+  }
+
+  /* Make scroll horizontal still usable */
+  .scroll-horizontal .info-panel {
+    min-width: 100%;
+  }
+}
+
+/* ===============================
+   SCROLLBAR STYLING
+   =============================== */
+
+.scroll-horizontal::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-track {
+  background: transparent;
+}

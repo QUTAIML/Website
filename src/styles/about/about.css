@@ -336,8 +336,12 @@
   width: 100% !important;
 }
 
-.team-grid-wrapper {
-  padding-bottom: 5rem;
+.small-bottom-spacing {
+  margin-bottom: 4rem;
+}
+
+.bottom-spacing {
+  margin-bottom: 6rem;
 }
 
 

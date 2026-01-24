@@ -21,7 +21,7 @@
 
 /* Space between each info panel */
 .info-panel {
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
 }
 
 /* Community image styling */
@@ -73,3 +73,4 @@ body.modal-open {
 .team-hero {
   cursor: pointer;
 }
+

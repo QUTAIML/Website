@@ -1,7 +1,6 @@
 ---
 import { marked } from "marked";
 import "@/styles/global.css";
-import "@/styles/partners.css";
 import "@/styles/about/exec-application.css";
 import Navigation from "@/components/Navigation.astro";
 import Footer from "@/components/Footer.astro";
@@ -22,7 +21,11 @@ try {
   const res = await fetch(rawURL);
   if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
 
-  const md = await res.text();
+  let md = await res.text();
+
+  // Remove all occurrences of [!NOTE] in blockquotes
+  md = md.replace(/>\s*\[!NOTE\]/g, ">");
+
   const renderer = new marked.Renderer();
   rolesHTML = marked.parse(md, { renderer });
 } catch (err) {
@@ -30,7 +33,6 @@ try {
   rolesHTML = `<p>Error loading executive role descriptions.</p>`;
 }
 ---
-
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -40,13 +42,13 @@ try {
       name="description"
       content="QUT AI & ML Society Executive Applications"
     />
-    <title>QUT AI & ML Society | Executive Applications</title>
+    <title>QUT AI & ML Society</title>
   </head>
 
   <body class="background-dots">
     <Navigation />
 
-    <div class="content-wrapper top-space bottom-space">
+    <div class="content-wrapper top-space">
 
       <!-- PAGE TITLE -->
       <section class="pink-panel">
@@ -54,7 +56,7 @@ try {
       </section>
 
       <!-- INTRO -->
-      <div class="info-panel-wrapper">
+      <div class="info-panel-wrapper full-space">
         <div class="thick-line-behind"></div>
         <section class="info-panel">
           <p>
@@ -64,120 +66,135 @@ try {
         </section>
       </div>
 
+      </div>
+
+    <div class="content-wrapper spacing-above">
+
       <!-- WHEN APPLICATIONS OPEN -->
-      <section class="pink-panel spacing-above">
+      <section class="pink-panel ">
         <p class="pink-title">When Do Applications Open?</p>
       </section>
 
-      <div class="info-panel-wrapper">
+      <div class="info-panel-wrapper spacing-bottom full-space">
         <section class="info-panel">
           <p>
-            Executive applications open once per year at the club’s
-            Annual General Meeting.
-          </p>
-          <p>
-            Every executive position is declared vacant and open for
-            re election at the AGM.
+            Executive applications open once per year at the club’s Annual General Meeting. Every executive position is declared vacant and open for re election at the AGM.
           </p>
         </section>
       </div>
 
-      <!-- EXEC STRUCTURE -->
-    <section class="pink-panel spacing-above">
-      <p class="pink-title">Executive Team Structure</p>
-    </section>
-
-    <div class="info-panel-wrapper scroll-horizontal">
-      <section class="info-panel">
-
-        <div class="exec-org-chart">
-
-          <!-- ROW 1: CORE EXEC as a single group -->
-          <div class="exec-row top-row">
-            <div class="exec-group pink-group">
-              <div class="group-title">Admin Team</div>
-              <div class="exec-sub-row">
-                <div class="exec-node">President</div>
-                <div class="exec-node">Vice President</div>
-                <div class="exec-node">Secretary</div>
-                <div class="exec-node">Treasurer</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- SVG CONNECTORS FROM PRESIDENT TO GROUPS -->
-          <svg class="exec-lines" width="100%" height="120" xmlns="http://www.w3.org/2000/svg">
-            <!-- Marketing Team -->
-            <line x1="15%" y1="0" x2="15%" y2="120" stroke="#f6c1d1" stroke-width="2"/>
-            <!-- Projects Team -->
-            <line x1="40%" y1="0" x2="40%" y2="120" stroke="#f6c1d1" stroke-width="2"/>
-            <!-- Events Team -->
-            <line x1="65%" y1="0" x2="65%" y2="120" stroke="#f6c1d1" stroke-width="2"/>
-            <!-- Support Team -->
-            <line x1="90%" y1="0" x2="90%" y2="120" stroke="#f6c1d1" stroke-width="2"/>
-          </svg>
-
-          <!-- ROW 2: TEAMS -->
-          <div class="exec-row second-row">
-
-            <!-- MARKETING TEAM -->
-            <div class="exec-group pink-group">
-              <div class="group-title">Marketing Team</div>
-              <div class="exec-node">Marketing Director</div>
-              <div class="exec-sub-row">
-                <div class="exec-node">Social Media Manager</div>
-                <div class="exec-node">Reels & Video Officer</div>
-                <div class="exec-node">Graphic Designer</div>
-              </div>
-            </div>
-
-            <!-- PROJECTS TEAM -->
-            <div class="exec-group pink-group">
-              <div class="group-title">Projects Team</div>
-              <div class="exec-sub-row">
-                <div class="exec-node">Projects Director</div>
-                <div class="exec-node">Projects Manager</div>
-              </div>
-              <div class="exec-sub-row wrap">
-                <div class="exec-node">Projects Officer</div>
-                <div class="exec-node">Projects Officer</div>
-                <div class="exec-node">Projects Officer</div>
-                <div class="exec-node">Projects Officer</div>
-                <div class="exec-node">Projects Officer</div>
-              </div>
-            </div>
-
-            <!-- EVENTS TEAM -->
-            <div class="exec-group pink-group">
-              <div class="group-title">Events Team</div>
-              <div class="exec-node">Events Director</div>
-              <div class="exec-sub-row">
-                <div class="exec-node">Activities Facilitator</div>
-                <div class="exec-node">Activities Facilitator</div>
-                <div class="exec-node">Activities Facilitator</div>
-              </div>
-            </div>
-
-            <!-- SUPPORT TEAM -->
-            <div class="exec-group pink-group">
-              <div class="group-title">Support Team</div>
-              <div class="exec-sub-row">
-                <div class="exec-node">Industry Director</div>
-                <div class="exec-node">Engagement Officer</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </section>
     </div>
 
+    <div class="content-wrapper spacing-above">
 
+
+      <!-- EXEC STRUCTURE -->
+      <section class="pink-panel">
+        <p class="pink-title">Executive Team Structure</p>
+      </section>
+
+      <div class="info-panel-wrapper scroll-horizontal">
+        <section class="info-panel">
+
+          <div class="exec-org-chart">
+
+            <!-- SVG OVERLAY FOR CONNECTOR LINES -->
+            <svg class="exec-connector-layer"></svg>
+
+            <!-- ROW 1: CORE EXEC -->
+            <div class="exec-row top-row">
+              <div class="exec-group pink-group">
+                <div class="group-title">Admin Team</div>
+                <div class="exec-sub-row">
+                  <div class="exec-node" data-id="president">President</div>
+                  <div class="exec-node" data-id="vp" data-parent="president">Vice President</div>
+                  <div class="exec-node" data-id="secretary" data-parent="president">Secretary</div>
+                  <div class="exec-node" data-id="treasurer" data-parent="president">Treasurer</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 2: TEAMS -->
+            <div class="exec-row second-row">
+
+              <!-- MARKETING TEAM -->
+              <div class="exec-group pink-group">
+                <div class="group-title">Marketing Team</div>
+                <div class="exec-node" data-id="marketing-director" data-parent="president">
+                  Marketing Director
+                </div>
+                <div class="exec-sub-row">
+                  <div class="exec-node" data-id="social-media" data-parent="marketing-director">
+                    Social Media Manager
+                  </div>
+                  <div class="exec-node" data-id="reels-video" data-parent="marketing-director">
+                    Reels & Video Officer
+                  </div>
+                  <div class="exec-node" data-id="graphic-designer" data-parent="marketing-director">
+                    Graphic Designer
+                  </div>
+                </div>
+              </div>
+
+              <!-- PROJECTS TEAM -->
+              <div class="exec-group pink-group">
+                <div class="group-title">Projects Team</div>
+                <div class="exec-sub-row">
+                  <div class="exec-node" data-id="projects-director" data-parent="president">
+                    Projects Director
+                  </div>
+                  <div class="exec-node" data-id="projects-manager" data-parent="projects-director">
+                    Projects Manager
+                  </div>
+                </div>
+                <div class="exec-sub-row wrap">
+                  <div class="exec-node" data-id="projects-officer-1" data-parent="projects-manager">Projects Officer</div>
+                  <div class="exec-node" data-id="projects-officer-2" data-parent="projects-manager">Projects Officer</div>
+                  <div class="exec-node" data-id="projects-officer-3" data-parent="projects-manager">Projects Officer</div>
+                  <div class="exec-node" data-id="projects-officer-4" data-parent="projects-manager">Projects Officer</div>
+                  <div class="exec-node" data-id="projects-officer-5" data-parent="projects-manager">Projects Officer</div>
+                </div>
+              </div>
+
+              <!-- EVENTS TEAM -->
+              <div class="exec-group pink-group">
+                <div class="group-title">Events Team</div>
+                <div class="exec-node" data-id="events-director" data-parent="president">
+                  Events Director
+                </div>
+                <div class="exec-sub-row">
+                  <div class="exec-node" data-id="af-1" data-parent="events-director">Activities Facilitator</div>
+                  <div class="exec-node" data-id="af-2" data-parent="events-director">Activities Facilitator</div>
+                  <div class="exec-node" data-id="af-3" data-parent="events-director">Activities Facilitator</div>
+                </div>
+              </div>
+
+              <!-- SUPPORT TEAM -->
+              <div class="exec-group pink-group">
+                <div class="group-title">Support Team</div>
+                <div class="exec-sub-row">
+                  <div class="exec-node" data-id="industry-director" data-parent="president">
+                    Industry Director
+                  </div>
+                  <div class="exec-node" data-id="engagement-officer" data-parent="president">
+                    Engagement Officer
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+      </div>
+
+      </div>
+
+    <div class="content-wrapper spacing-above spacing-below">
 
 
       <!-- ROLES AND RESPONSIBILITIES -->
-      <section class="pink-panel spacing-above">
+      <section class="pink-panel">
         <p class="pink-title">Roles and Responsibilities</p>
       </section>
 
@@ -190,5 +207,6 @@ try {
     </div>
 
     <Footer />
+
   </body>
 </html>

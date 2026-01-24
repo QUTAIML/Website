@@ -34,3 +34,42 @@
   height: auto;
   border-radius: 12px;
 }
+
+
+/* Modal backdrop */
+.photo-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal image */
+.photo-modal-content {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 12px;
+}
+
+/* Close button */
+.photo-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Prevent background scroll */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Clickable image hint */
+.team-hero {
+  cursor: pointer;
+}

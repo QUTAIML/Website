@@ -41,7 +41,11 @@ import Footer from "@/components/Footer.astro";
           </p>
 
           <!-- Image placeholder -->
-          <img src="/public/community.png" alt="QUT AI & ML Society event" />
+          <img
+            src="/public/community.png"
+            alt="QUT AI & ML Society event"
+            class="team-hero"
+          />
         </section>
 
         <!-- SECOND BOX -->
@@ -107,6 +111,40 @@ import Footer from "@/components/Footer.astro";
       </div>
     </div>
 
+    <div id="photoModal-0" class="photo-modal">
+      <span id="modalClose-0" class="photo-modal-close">&times;</span>
+      <img id="modalImg-0" class="photo-modal-content" />
+    </div>
+
     <Footer />
   </body>
 </html>
+
+
+  <script>
+  document.querySelectorAll('.team-hero').forEach((img, i) => {
+    const modal = document.getElementById(`photoModal-${i}`);
+    const modalImg = document.getElementById(`modalImg-${i}`);
+    const closeBtn = document.getElementById(`modalClose-${i}`);
+
+    if (!modal || !modalImg || !closeBtn) return;
+
+    img.onclick = () => {
+      modal.style.display = "flex";
+      modalImg.src = img.src;
+      document.body.classList.add("modal-open");
+    };
+
+    closeBtn.onclick = () => {
+      modal.style.display = "none";
+      document.body.classList.remove("modal-open");
+    };
+
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+        document.body.classList.remove("modal-open");
+      }
+    };
+  });
+</script>

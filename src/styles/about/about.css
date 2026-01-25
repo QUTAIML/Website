@@ -638,7 +638,7 @@
 }
 
 .resources-header {
-  margin-top: 4rem;
+  margin-top: 4rem !important;
   width: 100%;
  }
 

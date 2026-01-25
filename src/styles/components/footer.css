@@ -60,6 +60,10 @@
   opacity: 1;
 }
 
+.logo-spacing {
+  margin-top: 0.45rem; /* tiny space */
+}
+
 /* Mobile layout: single column links, stacked */
 @media (max-width: 768px) {
   .footer-inner {

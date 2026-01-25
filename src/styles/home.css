@@ -534,9 +534,7 @@
 
 /* Responsive */
 @media (max-width: 900px) {
-  .toolkit-inner {
-    width: 92vw;
-  }
+
 
   .toolkit-grid {
     grid-template-columns: 1fr;

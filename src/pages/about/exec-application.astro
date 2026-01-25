@@ -15,7 +15,13 @@ marked.setOptions({
   mangle: false,
 });
 
-let rolesHTML = "";
+let expectationsHTML = "";
+let summaryHTML = "";
+let adminHTML = "";
+let projectsHTML = "";
+let marketingHTML = "";
+let eventsHTML = "";
+let otherHTML = "";
 
 try {
   const res = await fetch(rawURL);
@@ -23,14 +29,27 @@ try {
 
   let md = await res.text();
 
-  // Remove all occurrences of [!NOTE] in blockquotes
+  // Remove literal [!NOTE] from blockquotes
   md = md.replace(/>\s*\[!NOTE\]/g, ">");
 
-  const renderer = new marked.Renderer();
-  rolesHTML = marked.parse(md, { renderer });
+  const sections = md.split(/^# /m);
+
+  function getSection(title) {
+    const section = sections.find(s => s.startsWith(title));
+    if (!section) return "";
+    return marked.parse("# " + section);
+  }
+
+  expectationsHTML = getSection("Expectations of QUT AIML Executives");
+  summaryHTML = getSection("Summary of Roles");
+  adminHTML = getSection("Admin Team");
+  projectsHTML = getSection("Projects Team");
+  marketingHTML = getSection("Marketing Team");
+  eventsHTML = getSection("Events Team");
+  otherHTML = getSection("Other Supporting Roles");
+
 } catch (err) {
   console.error("Error fetching Role Descriptions:", err);
-  rolesHTML = `<p>Error loading executive role descriptions.</p>`;
 }
 ---
 <html lang="en">
@@ -48,9 +67,8 @@ try {
   <body class="background-dots">
     <Navigation />
 
+    <!-- PAGE TITLE -->
     <div class="content-wrapper top-space">
-
-      <!-- PAGE TITLE -->
       <section class="pink-panel">
         <p class="pink-title">Executive Applications</p>
       </section>
@@ -60,31 +78,33 @@ try {
         <div class="thick-line-behind"></div>
         <section class="info-panel">
           <p>
-            The QUT AI & ML Society executive team is responsible for leading
-            the club’s operations, events, and long term direction.
+            The QUT AI & ML Society executive team is responsible for leading the club’s operations, events, and long term direction.
+            Executives work collaboratively to plan initiatives, deliver high quality events, support members’ learning and professional development,
+            and ensure the club operates sustainably and in line with university requirements.
           </p>
         </section>
       </div>
+    </div>
 
-      </div>
-
+    <!-- WHEN APPLICATIONS OPEN -->
     <div class="content-wrapper spacing-above">
-
-      <!-- WHEN APPLICATIONS OPEN -->
-      <section class="pink-panel ">
+      <section class="pink-panel">
         <p class="pink-title">When Do Applications Open?</p>
       </section>
 
       <div class="info-panel-wrapper spacing-bottom full-space">
         <section class="info-panel">
           <p>
-            Executive applications open once per year at the club’s Annual General Meeting. Every executive position is declared vacant and open for re election at the AGM.
+            Executive applications open once per year at the club’s Annual General Meeting.
+            Every executive position is declared vacant and open for re election at the AGM.
+            Any eligible member may nominate for a role, and applicants will have the opportunity to outline their interest,
+            experience, and vision for the position before voting takes place.
           </p>
         </section>
       </div>
-
     </div>
 
+    <!-- EXEC STRUCTURE -->
     <div class="content-wrapper spacing-above">
 
 
@@ -190,23 +210,93 @@ try {
 
       </div>
 
+
+    <!-- ROLES AND RESPONSIBILITIES -->
     <div class="content-wrapper spacing-above spacing-below">
 
-
-      <!-- ROLES AND RESPONSIBILITIES -->
+      <!-- EXPECTATIONS -->
       <section class="pink-panel">
-        <p class="pink-title">Roles and Responsibilities</p>
+        <p class="pink-title">Expectations of Executives</p>
       </section>
+      <div class="info-panel-wrapper width-full">
+        <section class="info-panel special-padding">
+          <div class="roles-content" set:html={expectationsHTML}></div>
+        </section>
+      </div>
 
+      <!-- SUMMARY -->
+      <section class="pink-panel spacing-above">
+        <p class="pink-title">Summary of Roles</p>
+      </section>
       <div class="info-panel-wrapper">
         <section class="info-panel special-padding">
-          <div class="roles-content" set:html={rolesHTML}></div>
+          <div class="roles-content" set:html={summaryHTML}></div>
+        </section>
+      </div>
+
+      <!-- ADMIN -->
+      <section class="pink-panel spacing-above">
+        <p class="pink-title">Admin Team</p>
+      </section>
+      <div class="info-panel-wrapper">
+        <section class="info-panel special-padding">
+          <div class="roles-content" set:html={adminHTML}></div>
+        </section>
+      </div>
+
+      <!-- PROJECTS -->
+      <section class="pink-panel spacing-above">
+        <p class="pink-title">Projects Team</p>
+      </section>
+      <div class="info-panel-wrapper">
+        <section class="info-panel special-padding">
+          <div class="roles-content" set:html={projectsHTML}></div>
+        </section>
+      </div>
+
+      <!-- MARKETING -->
+      <section class="pink-panel spacing-above">
+        <p class="pink-title">Marketing Team</p>
+      </section>
+      <div class="info-panel-wrapper">
+        <section class="info-panel special-padding">
+          <div class="roles-content" set:html={marketingHTML}></div>
+        </section>
+      </div>
+
+      <!-- EVENTS -->
+      <section class="pink-panel spacing-above">
+        <p class="pink-title">Events Team</p>
+      </section>
+      <div class="info-panel-wrapper">
+        <section class="info-panel special-padding">
+          <div class="roles-content" set:html={eventsHTML}></div>
+        </section>
+      </div>
+
+      <!-- OTHER -->
+      <section class="pink-panel spacing-above">
+        <p class="pink-title">Other Supporting Roles</p>
+      </section>
+      <div class="info-panel-wrapper">
+        <section class="info-panel special-padding">
+          <div class="roles-content" set:html={otherHTML}></div>
         </section>
       </div>
 
     </div>
 
     <Footer />
-
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,56 +1,8 @@
 ---
-import { marked } from "marked";
 import "@/styles/global.css";
 import "@/styles/about/exec-application.css";
 import Navigation from "@/components/Navigation.astro";
 import Footer from "@/components/Footer.astro";
-
-const rawURL =
-  "https://raw.githubusercontent.com/QUT-AIML/Constitution/main/Role-Descriptions.md";
-
-marked.setOptions({
-  gfm: true,
-  breaks: false,
-  headerIds: true,
-  mangle: false,
-});
-
-let expectationsHTML = "";
-let summaryHTML = "";
-let adminHTML = "";
-let projectsHTML = "";
-let marketingHTML = "";
-let eventsHTML = "";
-let otherHTML = "";
-
-try {
-  const res = await fetch(rawURL);
-  if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
-
-  let md = await res.text();
-
-  // Remove literal [!NOTE] from blockquotes
-  md = md.replace(/>\s*\[!NOTE\]/g, ">");
-
-  const sections = md.split(/^# /m);
-
-  function getSection(title) {
-    const section = sections.find(s => s.startsWith(title));
-    if (!section) return "";
-    return marked.parse("# " + section);
-  }
-
-  expectationsHTML = getSection("Expectations of QUT AIML Executives");
-  summaryHTML = getSection("Summary of Roles");
-  adminHTML = getSection("Admin Team");
-  projectsHTML = getSection("Projects Team");
-  marketingHTML = getSection("Marketing Team");
-  eventsHTML = getSection("Events Team");
-  otherHTML = getSection("Other Supporting Roles");
-
-} catch (err) {
-  console.error("Error fetching Role Descriptions:", err);
-}
 ---
 <html lang="en">
   <head>
@@ -104,187 +56,34 @@ try {
       </div>
     </div>
 
-    <!-- EXEC STRUCTURE -->
-    <div class="content-wrapper spacing-above">
 
 
-      <!-- EXEC STRUCTURE -->
-      <section class="pink-panel">
-        <p class="pink-title">Executive Team Structure</p>
-      </section>
-
-      <div class="info-panel-wrapper scroll-horizontal">
-        <section class="info-panel">
-
-          <div class="exec-org-chart">
-
-            <!-- SVG OVERLAY FOR CONNECTOR LINES -->
-            <svg class="exec-connector-layer"></svg>
-
-            <!-- ROW 1: CORE EXEC -->
-            <div class="exec-row top-row">
-              <div class="exec-group pink-group">
-                <div class="group-title">Admin Team</div>
-                <div class="exec-sub-row">
-                  <div class="exec-node" data-id="president">President</div>
-                  <div class="exec-node" data-id="vp" data-parent="president">Vice President</div>
-                  <div class="exec-node" data-id="secretary" data-parent="president">Secretary</div>
-                  <div class="exec-node" data-id="treasurer" data-parent="president">Treasurer</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- ROW 2: TEAMS -->
-            <div class="exec-row second-row">
-
-              <!-- MARKETING TEAM -->
-              <div class="exec-group pink-group">
-                <div class="group-title">Marketing Team</div>
-                <div class="exec-node" data-id="marketing-director" data-parent="president">
-                  Marketing Director
-                </div>
-                <div class="exec-sub-row">
-                  <div class="exec-node" data-id="social-media" data-parent="marketing-director">
-                    Social Media Manager
-                  </div>
-                  <div class="exec-node" data-id="reels-video" data-parent="marketing-director">
-                    Reels & Video Officer
-                  </div>
-                  <div class="exec-node" data-id="graphic-designer" data-parent="marketing-director">
-                    Graphic Designer
-                  </div>
-                </div>
-              </div>
-
-              <!-- PROJECTS TEAM -->
-              <div class="exec-group pink-group">
-                <div class="group-title">Projects Team</div>
-                <div class="exec-sub-row">
-                  <div class="exec-node" data-id="projects-director" data-parent="president">
-                    Projects Director
-                  </div>
-                  <div class="exec-node" data-id="projects-manager" data-parent="projects-director">
-                    Projects Manager
-                  </div>
-                </div>
-                <div class="exec-sub-row wrap">
-                  <div class="exec-node" data-id="projects-officer-1" data-parent="projects-manager">Projects Officer</div>
-                  <div class="exec-node" data-id="projects-officer-2" data-parent="projects-manager">Projects Officer</div>
-                  <div class="exec-node" data-id="projects-officer-3" data-parent="projects-manager">Projects Officer</div>
-                  <div class="exec-node" data-id="projects-officer-4" data-parent="projects-manager">Projects Officer</div>
-                  <div class="exec-node" data-id="projects-officer-5" data-parent="projects-manager">Projects Officer</div>
-                </div>
-              </div>
-
-              <!-- EVENTS TEAM -->
-              <div class="exec-group pink-group">
-                <div class="group-title">Events Team</div>
-                <div class="exec-node" data-id="events-director" data-parent="president">
-                  Events Director
-                </div>
-                <div class="exec-sub-row">
-                  <div class="exec-node" data-id="af-1" data-parent="events-director">Activities Facilitator</div>
-                  <div class="exec-node" data-id="af-2" data-parent="events-director">Activities Facilitator</div>
-                  <div class="exec-node" data-id="af-3" data-parent="events-director">Activities Facilitator</div>
-                </div>
-              </div>
-
-              <!-- SUPPORT TEAM -->
-              <div class="exec-group pink-group">
-                <div class="group-title">Support Team</div>
-                <div class="exec-sub-row">
-                  <div class="exec-node" data-id="industry-director" data-parent="president">
-                    Industry Director
-                  </div>
-                  <div class="exec-node" data-id="engagement-officer" data-parent="president">
-                    Engagement Officer
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </section>
-      </div>
-
-      </div>
 
 
-    <!-- ROLES AND RESPONSIBILITIES -->
+
+
+
     <div class="content-wrapper spacing-above spacing-below">
-
-      <!-- EXPECTATIONS -->
-      <section class="pink-panel">
-        <p class="pink-title">Expectations of Executives</p>
-      </section>
-      <div class="info-panel-wrapper width-full">
-        <section class="info-panel special-padding">
-          <div class="roles-content" set:html={expectationsHTML}></div>
+        <section class="pink-panel">
+          <p class="pink-title">Executive Team Roles</p>
         </section>
+
+        <div class="info-panel-wrapper">
+          <div class="thick-line"></div>			
+            <section class="info-panel">
+              <p>
+                 QUT AIML Executives are expected to actively contribute to the club by attending events and meetings, taking ownership of their role, 
+                 and representing the society professionally. Each role has defined responsibilities and weekly time commitments, which may increase near major events.
+                Eligibility requires members to continue their studies at QUT the following year. 
+                <br /><br />
+                <a class="roles-link" href="https://github.com/QUT-AIML/Constitution/blob/main/Role-Descriptions.md" target="_blank">
+                  Detailed responsibilities and expectations for each role can be found here →
+                </a>
+              </p>
+            </section>
+        </div>
       </div>
 
-      <!-- SUMMARY -->
-      <section class="pink-panel spacing-above">
-        <p class="pink-title">Summary of Roles</p>
-      </section>
-      <div class="info-panel-wrapper width-full">
-        <section class="info-panel special-padding">
-          <div class="roles-content" set:html={summaryHTML}></div>
-        </section>
-      </div>
-
-      <!-- ADMIN -->
-      <section class="pink-panel spacing-above">
-        <p class="pink-title">Admin Team</p>
-      </section>
-      <div class="info-panel-wrapper width-full">
-        <section class="info-panel special-padding">
-          <div class="roles-content" set:html={adminHTML}></div>
-        </section>
-      </div>
-
-      <!-- PROJECTS -->
-      <section class="pink-panel spacing-above">
-        <p class="pink-title">Projects Team</p>
-      </section>
-      <div class="info-panel-wrapper width-full">
-        <section class="info-panel special-padding">
-          <div class="roles-content" set:html={projectsHTML}></div>
-        </section>
-      </div>
-
-      <!-- MARKETING -->
-      <section class="pink-panel spacing-above">
-        <p class="pink-title">Marketing Team</p>
-      </section>
-      <div class="info-panel-wrapper width-full">
-        <section class="info-panel special-padding">
-          <div class="roles-content" set:html={marketingHTML}></div>
-        </section>
-      </div>
-
-      <!-- EVENTS -->
-      <section class="pink-panel spacing-above">
-        <p class="pink-title">Events Team</p>
-      </section>
-      <div class="info-panel-wrapper width-full">
-        <section class="info-panel special-padding">
-          <div class="roles-content" set:html={eventsHTML}></div>
-        </section>
-      </div>
-
-      <!-- OTHER -->
-      <section class="pink-panel spacing-above">
-        <p class="pink-title">Other Supporting Roles</p>
-      </section>
-      <div class="info-panel-wrapper width-full">
-        <section class="info-panel special-padding">
-          <div class="roles-content" set:html={otherHTML}></div>
-        </section>
-      </div>
-
-    </div>
 
     <Footer />
   </body>

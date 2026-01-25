@@ -1,57 +1,35 @@
 ---
-import Button from "@/components/Button.astro"
 import "@/styles/components/footer.css"
 ---
 
 <footer class="site-footer">
   <div class="footer-inner">
 
+    <!-- LEFT column (logo) -->
     <div class="footer-left">
-      <div class="footer-left-inner">
-      
-        <!-- NAVIGATE -->
-        <div class="footer-column">
-          <h4>Navigate</h4>
-          <ul>
-            <li><a href="/about">About</a></li>
-            <li><a href="/learn">Learn</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/events">Events</a></li>
-            <li><a href="/contact">Connect</a></li>
-          </ul>
-        </div>
-
-        <!-- CONTACT -->
-        <div class="footer-column">
-          <h4>Contact</h4>
-          <p>
-            <a href="mailto:qut-aiml@outlook.com">
-              qut-aiml@outlook.com
-            </a>
-          </p>
-
-          <h4 class="mt">Visit</h4>
-          <p>QUT Gardens Point</p>
-          <p>2 George St, QLD 4000</p>
-        </div>
-      </div>
-    </div>  
-
-    <!-- SOCIAL / RIGHT -->
-    <div class="footer-right">
-      <div class="footer-social">
-        <Button path="https://discord.gg/tUDGrrNPf7" icon="tabler:brand-discord" />
-        <Button path="https://github.com/qut-aiml" icon="tabler:brand-github" />
-        <Button path="https://www.instagram.com/qut_aiml/" icon="tabler:brand-instagram" />
-        <Button path="https://www.linkedin.com/company/qut-aiml/" icon="tabler:brand-linkedin" />
-        <Button path="https://www.tiktok.com/@qut_aiml" icon="tabler:brand-tiktok" />
-      </div>
-
+      <img
+        src="/src/logos/logo-full.svg"
+        alt="QUT AI & ML Society Logo"
+        class="footer-logo"
+      />
       <p class="copyright">
-        © 2025 QUT AI & ML Society
+        © 2026 QUT AI & ML Society
       </p>
+    </div>
+
+    <!-- RIGHT column (links) -->
+    <div class="footer-right">
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/events">Events</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/learn">Learn</a></li>
+          <li><a href="/partners">Partners</a></li>
+          <li><a href="/contact">Connect</a></li>
+        </ul>
+      </nav>
     </div>
 
   </div>
 </footer>
-

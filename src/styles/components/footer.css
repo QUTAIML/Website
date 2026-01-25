@@ -1,14 +1,9 @@
-/* ===============================
-   FOOTER BASE
-================================ */
-
 .site-footer {
   position: relative;
   overflow: hidden;
   color: #fff;
   margin-top: auto;
 
-  /* Frosted glass effect */
   background: rgba(10, 10, 10, 0.8);
   backdrop-filter: blur(12px) saturate(120%);
   -webkit-backdrop-filter: blur(12px) saturate(120%);
@@ -16,212 +11,77 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-
-/* ===============================
-   INNER LAYOUT
-================================ */
-
+/* Desktop: two columns */
 .footer-inner {
+  display: flex;
+  flex-direction: row;       /* desktop: horizontal columns */
+  align-items: center;       /* vertical centering */
+  justify-content: space-between;
+  padding: 2rem 2.5rem;
+  width: 100%;
+}
+
+.footer-left,
+.footer-right {
+  flex: 1;                   /* each takes 50% of width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* center content horizontally in column */
+}
+
+.footer-logo {
+  width: 300px;
+  max-width: 400px;
+}
+
+.footer-nav {
   display: grid;
-  grid-template-columns: 1fr 1.5fr; /* left + right */
+  grid-template-columns: repeat(2, auto); /* desktop: two columns */
+  gap: 1rem;                              /* horizontal gap between link columns */
+  text-align: center;
 }
 
-.footer-left-inner {
-  padding-left: 5rem; /* add padding only inside the left half */
-  display: flex;       /* optional: align columns horizontally */
-  gap: 4rem;           /* spacing between columns */
-}
-
-
-/* Right-align the social icons and copyright */
-.footer-right .footer-social,
-.footer-right .copyright {
-  margin-left: auto;
-  display: flex; /* ensures flex behavior for the icons */
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 4rem;
-}
-
-/* Optional: add spacing between social icons and copyright */
-.footer-right .copyright {
-  margin-top: 0.2rem; 
-  padding-bottom: 1.5rem;
-}
-
-/* ===============================
-   COLUMNS
-================================ */
-
-.footer-column {
-  padding-top: 3rem;
-  padding-bottom: 2rem;
-}
-
-.footer-column h4 {
-  color: var(--color-primary);
-  font-size: 1.1rem;
-  margin-bottom: 0.25rem;
-}
-
-.footer-column ul {
+.footer-nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: contents; /* allow li to participate in grid directly */
 }
 
-.footer-column li {
-  margin-bottom: 0.10rem;
+.footer-nav li {
+  margin-bottom: 0.25rem;  /* vertical spacing between links */
 }
 
-.footer-column a {
+.footer-nav a {
   color: #fff;
   text-decoration: none;
-  font-weight: 500;
+  opacity: 0.85;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-/* 🔒 prevent dark hover */
-.footer-column a:hover {
+.footer-nav a:hover {
   color: var(--color-primary);
-  opacity: 0.7;
+  opacity: 1;
 }
 
-.footer-column p {
-  margin: 0.15rem 0;
-  color: #e5e5e5;
-}
-
-.footer-column .mt {
-  margin-top: 1.2rem;
-}
-
-
-/* ===============================
-   RIGHT SECTION WITH IMAGE BACKGROUND
-================================ */
-
-.footer-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  overflow: hidden; /* clip anything outside */
-}
-
-/* Background image overlay */
-.footer-right::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 150%;
-  background-image: url('/background-rubric.png');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.7;
-  z-index: 1;
-  transform: translateY(-25%);
-}
-
-/* Ensure content stays above background */
-.footer-right > * {
-  position: relative;
-  z-index: 2;
-}
-
-
-
-/* ===============================
-   SOCIAL ICONS
-================================ */
-
-.footer-social {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.footer-social a {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-}
-
-.footer-social a:hover {
-  border-color: #fff;
-}
-
-.footer-social svg {
-  width: 24px;
-  height: 24px;
-  fill: #fff;
-}
-
-/* ===============================
-   COPYRIGHT
-================================ */
-
-.copyright {
-  font-size: 0.9rem;
-  color: #ddd;
-}
-
-/* ===============================
-   SHAPE (RIGHT ONLY)
-================================ */
-
-
-
-/* ===============================
-   RESPONSIVE
-================================ */
-
-@media (max-width: 900px) {
-
-  /* Stack left columns vertically without gap */
-  .footer-left-inner {
-    flex-direction: column;
-    padding-left: 1.5rem;   /* keep some horizontal padding */
-    gap: 1rem;                 /* remove vertical gap */
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  /* Remove padding inside columns */
-  .footer-left-inner .footer-column {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
+/* Mobile: vertical stacking, links in one column */
+@media (max-width: 768px) {
   .footer-inner {
-    grid-template-columns: 1fr; /* stack left + right */
+    flex-direction: column;
+    gap: 1.5rem;           /* vertical space between logo and links */
+    padding: 1.5rem 1.25rem;
   }
 
-  .footer-right {
-    align-items: center;
-    justify-content: center;
+  .footer-logo {
+    width: 220px;
   }
 
-  .footer-social {
-    flex-wrap: wrap;       /* allow icons to wrap */
-    gap: 0.75rem;          /* spacing between icons */
-    justify-content: center; /* center horizontally */
-    padding-top: 1rem;
-    padding-left: 5rem;
+  .footer-nav {
+    grid-template-columns: 1fr; /* links stacked in one column */
+    gap: 0.25rem;               /* smaller spacing between links */
   }
 
-  .footer-right .footer-social,
-  .footer-right .copyright {
-    justify-content: center;
-  }
-
-  .footer-social a {
-    flex: 0 1 calc(33.33% - 0.5rem); /* 3 icons per row */
+  .footer-nav a {
+    font-size: 0.95rem;
   }
 }

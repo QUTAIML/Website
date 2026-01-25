@@ -1,0 +1,40 @@
+/* -------------------------------------------------- */
+/* Layout spacing                                      */
+/* -------------------------------------------------- */
+.top-space {
+  margin-top: 10rem;
+}
+
+.spacing-above {
+  margin-top: 4em;
+}
+
+.spacing-below {
+  margin-bottom: 6rem;
+}
+
+.full-space {
+  width: 100%;
+}
+
+.thick-line-behind {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  width: 100vw;
+  transform: translate(-50%, -50%);
+  height: 2.5cm;
+  background-color: var(--color-secondary);
+  z-index: -1;
+}
+
+/* Link inside the top notice/info panel */
+.roles-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.roles-link:hover {
+  text-decoration: underline;
+}

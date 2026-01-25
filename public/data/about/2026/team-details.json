@@ -14,10 +14,10 @@
       { "role": "Projects Director", "name": "Jaidyn Snabel", "image": "Jaidyn.png" },
       { "role": "Projects Manager", "name": "Nhu Hieu Nguyen", "image": "Hieu.png" },
       { "role": "Projects Officer", "name": "Rajinder Singh", "image": "Rajinder.png" },
-      { "role": "Projects Officer", "name": "Sishou Zhou", "image": "Anonymous.png" },
-      { "role": "Projects Officer", "name": "Rattanakpanha Chea", "image": "Anonymous.png" },
-      { "role": "Projects Officer", "name": "Dhairya Shah", "image": "Anonymous.png" },
-      { "role": "Projects Officer", "name": "Aayush Kaflle", "image": "Anonymous.png" }
+      { "role": "Projects Officer", "name": "Sishou Zhou", "image": "Sishou.png" },
+      { "role": "Projects Officer", "name": "Rattanakpanha Chea", "image": "Panha.png" },
+      { "role": "Projects Officer", "name": "Aayush Kaflle", "image": "Aayush.png" },
+      { "role": "Projects Officer", "name": "Dhairya Shah", "image": "Anonymous.png" }
     ]
   },
   {
@@ -25,14 +25,14 @@
     "items": [
       { "role": "Marketing Director", "name": "Amos Wat", "image": "Amos.png" },
       { "role": "Social Media Manager", "name": "Venis Patel", "image": "Venis.png" },
-      { "role": "Reels & Video Officer", "name": "Ash Khatri", "image": "Anonymous.png" },
-      { "role": "Graphic Designer", "name": "Shreeya Patel", "image": "Anonymous.png" }
+      { "role": "Reels & Video Officer", "name": "Ash Khatri", "image": "Ash.png" },
+      { "role": "Graphic Designer", "name": "Shreeya Patel", "image": "Shreeya.png" }
     ]
   },
   {
     "title": "Events Team",
     "items": [
-      { "role": "Events Director", "name": "Jonathan Lim", "image": "Anonymous.png" },
+      { "role": "Events Director", "name": "Jonathan Lim", "image": "Jonathan.png" },
       { "role": "Activities Facilitator", "name": "Rahul Nair", "image": "Anonymous.png" }
     ]
   },

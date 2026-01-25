@@ -1,0 +1,101 @@
+.info-panel {
+margin-bottom: 2rem;;
+}
+
+.info-panel h3 {
+margin-top: 0;
+margin-bottom: 15px;
+font-size: 30px;
+}
+
+.info-panel p {
+margin: 0;
+line-height: 1.6;
+}
+
+.link-primary {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.link-primary:hover {
+  opacity: 0.8;
+}
+
+
+
+
+/* Tooltips */
+.footer-larger .tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.footer-larger .tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #222;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.footer-larger .tooltip:hover::after {
+  opacity: 1;
+}
+
+
+
+/* Tooltips & Socials */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%; /* above the element */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #111;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  font-size: 0.75rem;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  margin-left: 3rem; /* remove left margin */
+}
+
+
+.footer-larger Button {
+  font-size: 1.5rem; /* adjust icon/button size */
+}
+
+/* Optional: Section for social links */
+.socials-section {
+  padding: 2rem 0;
+}

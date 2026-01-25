@@ -13,7 +13,7 @@
 }
 
 .contact-space {
-  margin-top: 2rem;
+  margin-top: 4rem;
 }
 
 .contact-bottom-space {
@@ -249,6 +249,25 @@
   opacity: 0.5;
 }
 
+/* Social media icons wrapper */
+.footer-social .tooltip > * {
+  border: 2px solid #FF00E6; /* pink border */
+  border-radius: 50%;         /* circle */
+  padding: 0.6rem;            /* space around the icon */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.footer-social .tooltip > *:hover {
+  background-color: #FF00E6;
+  color: black;
+  transform: scale(1.1); /* subtle zoom on hover */
+}
+
+
 
 
 
@@ -294,5 +313,6 @@
     font-size: 1.25rem; /* scale down on mobile */
   }
 }
+
 
 

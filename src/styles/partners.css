@@ -28,6 +28,64 @@
   margin-bottom: 20vh;
 }
 
+.sponsor-wrapper {
+  width: 100%;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  margin-top: 1rem;   
+  margin-bottom: 6rem;
+}
+
+.sponsor-logo {
+  width: 38%;
+  max-width: 100%;
+  height: auto;
+  display: inline-block; /* keeps it centered in wrapper */
+}
+
+
+/* Modal backdrop */
+.photo-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.90);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  flex-direction: column;
+}
+
+/* Modal image */
+.photo-modal-content {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 12px;
+}
+
+/* Close button */
+.photo-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Prevent background scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Clickable image */
+.sponsor-clickable {
+  cursor: pointer;
+}
+
+
+
 /* MOBILE: show arrows side by side above the team grid */
 @media (max-width: 768px) {
   

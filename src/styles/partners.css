@@ -89,6 +89,14 @@ body.modal-open {
 /* MOBILE: show arrows side by side above the team grid */
 @media (max-width: 768px) {
   
+
+  .sponsor-logo {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: inline-block; /* keeps it centered in wrapper */
+  }
+
   .top-space {
     padding-top: 6rem;
   }

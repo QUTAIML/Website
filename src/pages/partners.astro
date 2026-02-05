@@ -23,9 +23,114 @@ import Footer from "@/components/Footer.astro";
         <p class="pink-title">Our Partners</p>
       </section>
 
+      <div class="info-panel-wrapper">
+        <div class="thick-line-small"></div>      
+        <section class="info-panel">
+          <p>Our sponsors are the select organisations that form an exclusive partnership with the QUT AI & ML Society.
+            They provide critical support, helping us deliver high-impact initiatives, workshops, and events for our members. 
+            Sponsorship comes with a deeper engagement, reflecting a strategic collaboration with our society’s mission.</p>
+        </section>
+      </div>
+
       <div class="sponsor-wrapper">
         <img src="/data/sponsors/NTI.png" alt="NTI Logo" class="sponsor-logo sponsor-clickable" />
       </div>
+
+
+
+      <section class="pink-panel">
+        <p class="pink-title">Our Supporters</p>
+      </section>
+
+      <div class="info-panel-wrapper vacant-space">
+        <div class="thick-line-small"></div>      
+        <section class="info-panel">
+          <p>
+            Our supporters are valued organisations who champion the QUT AI & ML Society and contribute to member experiences in meaningful ways. 
+            While this group is smaller and curated, the support is more general and flexible, helping provide direct access to opportunities, insights, 
+            and resources that enhance our community.
+          </p>
+        </section>
+      </div>
+
+  
+
+
+      <div class="info-panel-wrapper">
+        <section class="info-panel history-box">
+          <div class="team-split static-layout equal-height">
+
+            {/* LEFT: Image */}
+            <div class="team-photo-large">
+              <div class="image-wrapper" style="position: relative;">
+                <div class="loader" id="loader-microsoft">
+                  <div class="spinner"></div>
+                </div>
+                <img
+                  src="/data/supporters/Microsoft.png"
+                  alt="Microsoft"
+                  class="team-hero"
+                  id="teamHero-microsoft"
+                  onload="document.getElementById('loader-microsoft').style.display='none'"
+                  style="display: block;"
+                />
+              </div>
+            </div>
+
+            {/* RIGHT: Text */}
+            <aside class="yearbook">
+              <h3 class="company-title">Microsoft</h3>
+              <p class="company-description">
+                Microsoft is a global technology company known for its software, cloud computing, and AI innovations. The company develops tools and platforms that empower individuals, businesses, and organisations worldwide to achieve more through technology.
+              </p>
+            </aside>
+
+          </div>
+        </section>
+      </div>
+
+      <div class="info-panel-wrapper">
+        <section class="info-panel history-box">
+          <div class="team-split static-layout equal-height">
+
+            {/* LEFT: Image */}
+            <div class="team-photo-large">
+              <div class="image-wrapper" style="position: relative;">
+                <div class="loader" id="loader-acs">
+                  <div class="spinner"></div>
+                </div>
+                <img
+                  src="/data/supporters/ACS.png"
+                  alt="Australian Computing Society"
+                  class="team-hero"
+                  id="teamHero-acs"
+                  onload="document.getElementById('loader-acs').style.display='none'"
+                  style="display: block;"
+                />
+              </div>
+            </div>
+
+            {/* RIGHT: Text */}
+            <aside class="yearbook">
+              <h3 class="company-title">Australian Computing Society</h3>
+              <p class="company-description">
+                The Australian Computing Society (ACS) is Australia’s leading professional association for IT practitioners. ACS advocates for excellence, professional development, and ethical practice across the technology sector, connecting members and advancing knowledge in computing.
+              </p>
+            </aside>
+
+          </div>
+        </section>
+      </div>
+
+
+      <div class="info-panel-wrapper">
+          <div class="thick-line-small"></div>      
+          <section class="info-panel">
+            <p>We're still finalising our partnerships for 2026</p>
+            <p>Stay tuned to see the incoming organisations sponsoring QUT AI & ML Society.</p>
+          </section>
+        </div>
+
 
       <!-- Modal -->
       <div id="sponsorModal" class="photo-modal">
@@ -33,13 +138,6 @@ import Footer from "@/components/Footer.astro";
         <img id="sponsorModalImg" class="photo-modal-content" />
       </div>
 
-      <div class="info-panel-wrapper">
-        <div class="thick-line-behind"></div>      
-        <section class="info-panel">
-          <p>We're still finalising our partnerships for 2026</p>
-          <p>Stay tuned to see the incoming organisations sponsoring QUT AI & ML Society.</p>
-        </section>
-      </div>
     </div>
 
     <Footer />

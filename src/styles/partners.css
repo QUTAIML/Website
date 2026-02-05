@@ -20,12 +20,26 @@
 }
 
 
+.thick-line-small {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw; /* full viewport */
+  max-width: 100vw;
+  transform: translate(-50%, -50%); /* center horizontally and vertically */
+  height: 1.2cm;
+  background-color: var(--color-secondary);
+  z-index: -1;
+}
+
+
+
 .top-space {
   padding-top: 10rem;
 }
 
 .vacant-space {
-  margin-bottom: 20vh;
+  margin-bottom: 3rem;
 }
 
 .sponsor-wrapper {
@@ -83,6 +97,201 @@ body.modal-open {
 .sponsor-clickable {
   cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+
+
+/* ---------------- Layout ---------------- */
+.info-panel.history-box {
+  display: flex;
+  gap: 2.5rem;
+  align-items: stretch;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  max-height: 525px; /* optional max height */
+  padding: 2rem; /* increased padding for content */
+  box-sizing: border-box; /* ensure padding is included */
+  background-color: #222; /* optional: makes text readability better */
+  border-radius: 12px; /* optional rounded corners */
+}
+
+.team-split.static-layout {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  gap: 2rem;
+  width: 100%;
+  align-items: stretch; /* ensure both columns are full height */
+}
+
+/* ---------------- LEFT: Text ---------------- */
+.yearbook {
+  overflow-y: auto;
+  max-height: 100%;
+  padding: 0 0.5rem; /* keep text away from edges */
+}
+
+.company-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.company-description {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #fff;
+}
+
+/* ---------------- RIGHT: Image ---------------- */
+.team-photo-large {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* vertically center logo */
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center; /* horizontally center logo */
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 1rem; /* optional padding inside image wrapper */
+}
+
+.team-hero {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+}
+
+/* ---------------- Loader ---------------- */
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinner {
+  border: 4px solid rgba(0,0,0,0.1);
+  border-left-color: #555;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------------- Placeholder ---------------- */
+.team-placeholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 900px) {
+  .team-split.static-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .yearbook {
+    max-height: none;
+    overflow-y: visible;
+  }
+  
+  .team-photo-large {
+    padding: 0;
+    width: 100%;
+    height: auto;
+    order: 2;
+  }
+  
+  .image-wrapper,
+  .team-hero {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+
+
+/* ---------------- Responsive: Mobile Fix ---------------- */
+@media (max-width: 900px) {
+  .team-split.static-layout {
+    grid-template-columns: 1fr; /* stack text and logo vertically */
+    gap: 1.5rem;
+  }
+
+  .info-panel.history-box {
+    max-height: none;   /* allow full height so logos can show */
+    padding: 1.5rem;    /* optional padding */
+  }
+
+  .yearbook {
+    max-height: none;
+    overflow-y: visible; /* allow text to expand naturally */
+  }
+
+  .team-photo-large {
+    width: 100%;
+    height: auto;        /* auto height for logo */
+    padding: 0;
+    order: 2;            /* move logo below text */
+  }
+
+  .image-wrapper {
+    width: 100%;
+    height: auto;        /* ensure logo fully shows */
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .team-hero {
+    width: auto;         /* allow full natural width */
+    max-width: 80%;      /* constrain slightly to avoid overflow */
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;      /* center horizontally */
+  }
+}
+
+
+
 
 
 

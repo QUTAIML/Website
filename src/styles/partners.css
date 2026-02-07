@@ -55,8 +55,13 @@
   max-width: 100%;
   height: auto;
   display: inline-block; /* keeps it centered in wrapper */
+  transition: transform 0.4s ease; /* smooth animation */
 }
 
+.sponsor-logo:hover {
+  transform: scale(1.02); /* enlarge by 5% */
+  cursor: pointer; /* optional: indicates clickable */
+}
 
 /* Modal backdrop */
 .photo-modal {
@@ -198,6 +203,28 @@ body.modal-open {
   height: 40px;
   animation: spin 1s linear infinite;
 }
+
+
+
+
+
+.view-details-link {
+  color: var(--color-primary);
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.view-details-link:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
 
 @keyframes spin {
   to { transform: rotate(360deg); }

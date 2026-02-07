@@ -32,8 +32,11 @@ import Footer from "@/components/Footer.astro";
         </section>
       </div>
 
+
       <div class="sponsor-wrapper">
-        <img src="/data/sponsors/NTI.png" alt="NTI Logo" class="sponsor-logo sponsor-clickable" />
+        <a href="https://www.nti.com.au" target="_blank" rel="noopener noreferrer">
+          <img src="/data/sponsors/NTI.png" alt="NTI Logo" class="sponsor-logo" />
+        </a>
       </div>
 
 
@@ -83,7 +86,11 @@ import Footer from "@/components/Footer.astro";
               <p class="company-description">
                 Microsoft is a global technology company known for its software, cloud computing, and AI innovations. The company develops tools and platforms that empower individuals, businesses, and organisations worldwide to achieve more through technology.
               </p>
+              <a href="https://www.microsoft.com" target="_blank" rel="noopener noreferrer" class="view-details-link">
+                View more details here
+              </a>
             </aside>
+
 
           </div>
         </section>
@@ -116,6 +123,9 @@ import Footer from "@/components/Footer.astro";
               <p class="company-description">
                 The Australian Computing Society (ACS) is Australia’s leading professional association for IT practitioners. ACS advocates for excellence, professional development, and ethical practice across the technology sector, connecting members and advancing knowledge in tech.
               </p>
+              <a href="https://www.acs.org.au" target="_blank" rel="noopener noreferrer" class="view-details-link">
+                View more details here
+              </a>
             </aside>
 
           </div>
@@ -145,28 +155,3 @@ import Footer from "@/components/Footer.astro";
 </html>
 
 
-
-<script>
-  const img = document.querySelector('.sponsor-clickable');
-  const modal = document.getElementById('sponsorModal');
-  const modalImg = document.getElementById('sponsorModalImg');
-  const closeBtn = document.getElementById('sponsorModalClose');
-
-  img.onclick = () => {
-    modal.style.display = 'flex';
-    modalImg.src = img.src;
-    document.body.classList.add('modal-open');
-  };
-
-  closeBtn.onclick = () => {
-    modal.style.display = 'none';
-    document.body.classList.remove('modal-open');
-  };
-
-  modal.onclick = (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-      document.body.classList.remove('modal-open');
-    }
-  };
-</script>

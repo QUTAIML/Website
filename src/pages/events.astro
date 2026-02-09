@@ -264,26 +264,44 @@ const featuredEvents = eventsBySemester
             {eventsBySemester.map((ev) => {
               const type = ev.type ?? ev.category ?? "Other";
               return (
-
-                <article class="event-card" data-semester={ev.semesterId} data-category={ev.category} data-type={ev.type ?? ev.category ?? "Other"} data-title={ev.title.toLowerCase()} data-date={ev.date}>
-                  <a href={ev.rubric && ev.rubric.trim() !== "" ? ev.rubric : `/events/${ev.semesterId}/${ev.slug}`}>
-                    <div class="card-media">
-                      {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                    </div>
-                    <div class="card-body">
-                      <h3 class="card-title">{ev.title}</h3>
-                      <div class="card-divider"></div>
-                      <time class="card-date">{ev.dateLabel}</time>
-                      <p class="card-description">{ev.excerpt}</p>
-
-                      {ev.rubric && ev.rubric.trim() !== "" && (
+                <article
+                  class="event-card"
+                  data-semester={ev.semesterId}
+                  data-category={ev.category}
+                  data-type={ev.type ?? ev.category ?? "Other"}
+                  data-title={ev.title.toLowerCase()}
+                  data-date={ev.date}
+                >
+                  {ev.rubric && ev.rubric.trim() !== "" ? (
+                    <a href={ev.rubric}>
+                      <div class="card-media">
+                        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                      </div>
+                      <div class="card-body">
+                        <h3 class="card-title">{ev.title}</h3>
+                        <div class="card-divider"></div>
+                        <time class="card-date">{ev.dateLabel}</time>
+                        <p class="card-description">{ev.excerpt}</p>
                         <div class="card-footer">
                           <span class="card-view-more">View more →</span>
                         </div>
-                      )}
+                      </div>
+                    </a>
+                  ) : (
+                    <div>
+                      <div class="card-media">
+                        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                      </div>
+                      <div class="card-body">
+                        <h3 class="card-title">{ev.title}</h3>
+                        <div class="card-divider"></div>
+                        <time class="card-date">{ev.dateLabel}</time>
+                        <p class="card-description">{ev.excerpt}</p>
+                      </div>
                     </div>
-                  </a>
+                  )}
                 </article>
+
 
               );
             })}

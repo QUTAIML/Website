@@ -488,7 +488,7 @@ function renderPage(scrollToTop = false) {
   filteredCards.slice(start, end).forEach(card => (card.style.display = ''));
 
   if (scrollToTop && filteredCards[start]) {
-    const offset = 850; // px above the first event
+    const offset = 400;
     const topPosition =
       filteredCards[start].getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top: topPosition, behavior: 'smooth' });

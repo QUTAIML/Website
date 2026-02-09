@@ -6,25 +6,7 @@
   "category": "Social",
   "excerpt": "Join us for the QUT AI & ML Society Welcome Night! Meet our members, discover workshops, projects, and enjoy games, activities, and free pizza!",
   "image": "social-night.jpg",
-
   "featured": true,
   "isCollab": false,
-
-  "description": "Come and get to know what the QUT AI & ML Society is all about. Meet our members, find out what we have planned for the year, and see how you can get involved in our workshops, projects, and fun socials. Meet like-minded students and future collaborators, have fun with games and activities, connect, relax, and belong in our growing community. And yes… free pizza!",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": false,
-    "link": "",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "social-night.jpg", "alt": "Welcome Night event photo" }
-  ]
+  "rubric": "https://campus.hellorubric.com/?eid=51186"
 }

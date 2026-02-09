@@ -6,25 +6,6 @@
   "category": "Meeting",
   "excerpt": "Join us for the QUT AI & ML Society’s Inaugural General Meeting! Help shape the future of our club and meet fellow members.",
   "image": "meeting.jpg",
-
   "featured": false,
-  "isCollab": false,
-
-  "description": "Our inaugural general meeting marks the official launch of our club. We'll be affiliating with the Faculty of Science and the Guild, as well as ratifying our executive body. This is a key opportunity to get involved, meet fellow members, and help shape the future of the club—all from the comfort of your own space via Zoom. RSVP via the link in our bio to receive the Zoom link on the day. Stay connected and follow us @qut_ams for updates on all upcoming events.",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": false,
-    "link": "",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "meeting.jpg", "alt": "Inaugural General Meeting" }
-  ]
+  "isCollab": false
 }

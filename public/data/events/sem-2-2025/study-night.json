@@ -6,25 +6,7 @@
   "category": "Study",
   "excerpt": "Join QUT AI & ML Society for Study Night! Focus, collaborate, and prepare for assessments in a relaxed, supportive environment.",
   "image": "projects-night-4.jpg",
-
   "featured": false,
   "isCollab": false,
-
-  "description": "Need a space to focus, catch up on assignments, or just take a break with friends? Study Night is a relaxed, no-pressure evening designed for getting things done in good company. Enjoy a chilled environment with lo-fi beats, bring your own work – assessments, revision, side projects – and connect with peers while you work. Bring your laptop, your focus (or your procrastination energy), and settle in for a productive yet social night.",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": false,
-    "link": "",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "projects-night-4.jpg", "alt": "Study Night photo" }
-  ]
+  "rubric": ""
 }

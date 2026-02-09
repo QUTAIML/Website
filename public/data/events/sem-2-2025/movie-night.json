@@ -6,30 +6,7 @@
   "category": "Social",
   "excerpt": "Join us for Movie Night to watch The Dark Knight and enjoy a relaxed evening with fellow members.",
   "image": "social-night-1.jpg",
-
   "featured": false,
   "isCollab": true,
-
-  "description": "Get ready for a relaxed night of cinema and snacks! We’re screening The Dark Knight, one of the greatest superhero films of all time. Enjoy popcorn, hang out with fellow members, and participate in a post-movie chat. Come hang out, meet new people, and enjoy a legendary movie night on campus.",
-
-  "schedule": [
-    { "time": "5:45 PM", "activity": "Arrival & Snacks" },
-    { "time": "6:10 PM – 8:45 PM", "activity": "Movie Screening" },
-    { "time": "8:45 PM – 9:00 PM", "activity": "Post-Movie Chat & Wrap-Up" }
-  ],
-
-  "speakers": [],
-
-  "registration": {
-    "required": true,
-    "link": "https://campus.hellorubric.com/?eid=40841",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "social-night-1.jpg", "alt": "Movie Night event photo" }
-  ]
+  "rubric": ""
 }

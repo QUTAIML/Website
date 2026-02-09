@@ -6,28 +6,7 @@
   "category": "Projects",
   "excerpt": "Discover what you can build at QUT AI & ML Society Project Night! Explore projects, learn hands-on, and collaborate with peers.",
   "image": "projects-night-1.jpg",
-
   "featured": false,
   "isCollab": false,
-
-  "description": "Curious about how AI and machine learning actually work in practice? Our Project Nights are the perfect place to start. Whether you're just beginning or already confident with AI tools, you'll get the chance to build real projects, explore powerful ML techniques, and learn by doing alongside other students who are just as excited as you are. Choose from beginner, intermediate, or advanced projects, pair up, share skills, and support each other. Gain hands-on experience and boost your confidence. Build cool things from linear regression to transformers. No STEM or coding background required – just bring your curiosity and energy and start building your AI journey with us!",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": false,
-    "link": "",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "projects-night-1.jpg", "alt": "Projects Night photo 1" },
-    { "src": "projects-night-2.jpg", "alt": "Projects Night photo 2" },
-    { "src": "projects-night-3.jpg", "alt": "Projects Night photo 3" },
-    { "src": "projects-night-4.jpg", "alt": "Projects Night photo 4" }
-  ]
+  "rubric": ""
 }

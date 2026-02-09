@@ -6,25 +6,7 @@
   "category": "Meeting",
   "excerpt": "Join us for the Special General Meeting! Elect new executive members, affiliate with the Faculty, and help shape the future of our society.",
   "image": "meeting.jpg",
-
   "featured": false,
   "isCollab": false,
-
-  "description": "We’re running a Special General Meeting (SGM) to help shape where our society is headed and make sure we’re giving you the best experience possible. Elect new leadership positions: Projects Officer x3, Marketing Officer x1, Events Officer x1, General Executive x1. Approve motions to affiliate with the Faculty of Science and Faculty of Engineering. After the meeting, there will be a quick intro to our projects so you can see what we’re working on and how to get involved. Everyone’s welcome, whether you’re keen to run for a role, have your say, or just see what we’re about. Come hang out, share your ideas, and help shape our future!",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": false,
-    "link": "",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "meeting.jpg", "alt": "Special General Meeting photo" }
-  ]
+  "rubric": ""
 }

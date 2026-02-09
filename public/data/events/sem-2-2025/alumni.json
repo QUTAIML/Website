@@ -6,32 +6,6 @@
   "category": "Industry",
   "excerpt": "Hear from alumni about their experiences in AI and their career journeys, and gain valuable insights for your own path.",
   "image": "industry-night-1.jpg",
-
   "featured": false,
-  "isCollab": false,
-
-  "description": "Join us for an inspiring industry speaker event where alumni from Code Network, Women in Tech, and BANDS share their experiences in AI, lessons learned throughout their careers, and insights on navigating professional and personal growth. Hear how past students launched their tech journeys, discover the skills that shaped their careers, explore their vision for the future of AI, ML, and data, and connect with alumni, peers, and student societies. Submit your questions ahead of time and come ready to learn, connect, and be inspired by the next generation of tech leaders.",
-
-  "schedule": [],
-
-  "speakers": [
-    { "name": "Drayko Medlyn", "role": "Associate Cloud Engineer, Former Code Network President, Bachelor of IT (Comp Sci)" },
-    { "name": "Hebe Bickham", "role": "ACS Young Tech Ambassador, Former Women in Tech Vice President, Bachelor of IT (Comp Sci)" },
-    { "name": "Mazhar Huq", "role": "Former BANDS Events Officer, Bachelor of IT (Info Systems)" }
-  ],
-
-  "registration": {
-    "required": false,
-    "link": "",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "industry-night-1.jpg", "alt": "Industry Speaker Event photo 1" },
-    { "src": "industry-night-2.jpg", "alt": "Industry Speaker Event photo 2" },
-    { "src": "industry-night-3.jpg", "alt": "Industry Speaker Event photo 3" }
-  ]
+  "isCollab": false
 }

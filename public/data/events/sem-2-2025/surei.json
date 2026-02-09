@@ -6,25 +6,7 @@
   "category": "Projects",
   "excerpt": "Join SUREI to explore innovative robotics, engineering, and IT projects, showcase your work, and network with students, academics, and industry leaders!",
   "image": "projects-night-1.jpg",
-
   "featured": false,
   "isCollab": true,
-
-  "description": "SUREI is a project showcase where undergraduate students present their work in robotics, engineering, and IT. Compete for amazing prizes: 1st place $300, 2nd place $200, 3rd place $100, and People’s Choice LEGO prize. Network with industry leaders, showcase your projects, and gain inspiration from peers and professionals alike. Tickets available here: https://events.humanitix.com/symposium-of-undergraduate-robotics-and-electrical-engineering",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": true,
-    "link": "https://events.humanitix.com/symposium-of-undergraduate-robotics-and-electrical-engineering",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "projects-night-1.jpg", "alt": "SUREI event photo" }
-  ]
+  "rubric": ""
 }

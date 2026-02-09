@@ -1,6 +1,6 @@
 ---
 import "@/styles/global.css";
-import "@/styles/events/events.css";
+import "@/styles/events.css";
 import Navigation from "@/components/Navigation.astro";
 import Footer from "@/components/Footer.astro";
 
@@ -66,7 +66,14 @@ const semesters = Object.entries(semestersMap).map(([id, events]) => ({
 // ----------------------------------------------------
 const eventsBySemester = semesters
   .map(s => s.events.map(ev => ({ ...ev, semesterId: s.id })))
-  .flat();
+  .flat()
+  .sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    dateA.setHours(0, 0, 0, 0);
+    dateB.setHours(0, 0, 0, 0);
+    return dateA - dateB; // earliest → latest
+  });
 
 // ----------------------------------------------------
 // Step 5: Determine dynamic types for filtering
@@ -257,15 +264,9 @@ const featuredEvents = eventsBySemester
             {eventsBySemester.map((ev) => {
               const type = ev.type ?? ev.category ?? "Other";
               return (
-                <article
-                  class="event-card"
-                  data-semester={ev.semesterId}
-                  data-category={ev.category}
-                  data-type={type}
-                  data-title={ev.title.toLowerCase()}
-                  data-date={ev.date}
-                >
-                  <a href={`/events/${ev.semesterId}/${ev.slug}`}>
+
+                <article class="event-card" data-semester={ev.semesterId} data-category={ev.category} data-type={ev.type ?? ev.category ?? "Other"} data-title={ev.title.toLowerCase()} data-date={ev.date}>
+                  <a href={ev.rubric && ev.rubric.trim() !== "" ? ev.rubric : `/events/${ev.semesterId}/${ev.slug}`}>
                     <div class="card-media">
                       {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
                     </div>
@@ -274,12 +275,16 @@ const featuredEvents = eventsBySemester
                       <div class="card-divider"></div>
                       <time class="card-date">{ev.dateLabel}</time>
                       <p class="card-description">{ev.excerpt}</p>
-                      <div class="card-footer">
-                        <span class="card-view-more">View more →</span>
-                      </div>
+
+                      {ev.rubric && ev.rubric.trim() !== "" && (
+                        <div class="card-footer">
+                          <span class="card-view-more">View more →</span>
+                        </div>
+                      )}
                     </div>
                   </a>
                 </article>
+
               );
             })}
           </section>

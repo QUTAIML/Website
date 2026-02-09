@@ -6,34 +6,7 @@
   "category": "Projects/Social/Industry/Meeting",
   "excerpt": "Join us for the QUT AI & ML Society Welcome Night! Meet our members, discover workshops, projects, and enjoy games, activities, and free pizza!",
   "image": "welcome-night.jpg",
-
   "featured": true,
   "isCollab": false,
-
-  "description": "Come and get to know what the QUT AI & ML Society is all about. Meet our members, find out what we have planned for the year, and see how you can get involved in our workshops, projects, and fun socials. Meet like-minded students and future collaborators, have fun with games and activities, connect, relax, and belong in our growing community. And yes… free pizza! 🍕🎉",
-
-  "schedule": [
-    { "time": "5:30 PM", "activity": "Welcome & Introductions" },
-    { "time": "5:45 PM", "activity": "Club Overview & Plans for the Year" },
-    { "time": "6:15 PM", "activity": "Games & Activities" },
-    { "time": "6:45 PM", "activity": "Networking & Pizza" },
-    { "time": "7:30 PM", "activity": "Event Close" }
-  ],
-
-  "speakers": [
-    { "name": "Alex Johnson", "role": "Club President" },
-    { "name": "Priya Singh", "role": "AI Workshop Lead" }
-  ],
-
-  "registration": {
-    "required": true,
-    "link": "https://qutmlsociety.com/welcome-night-register",
-    "capacity": 100,
-    "price": "Free"
-  },
-
-  "gallery": [
-    { "src": "welcome-night-1.jpg", "alt": "Students chatting at Welcome Night" },
-    { "src": "welcome-night-2.jpg", "alt": "Pizza and networking tables" }
-  ]
+  "rubric": "https://campus.hellorubric.com/?s=11397"
 }

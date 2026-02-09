@@ -6,25 +6,6 @@
   "category": "Social",
   "excerpt": "Join us for the Neon Party to meet members from other clubs, dance, and enjoy a vibrant night out!",
   "image": "social-night-1.jpg",
-
   "featured": false,
-  "isCollab": true,
-
-  "description": "Come to the Clubs Exchange: Neon Party for a night of music, dancing, and socializing! Meet members from other clubs, enjoy a lively neon-themed atmosphere, and have fun with your friends. Secure your spot and register now!",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": true,
-    "link": "https://campus.hellorubric.com/?eid=38324",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "social-night-1.jpg", "alt": "Neon Party event photo" }
-  ]
+  "isCollab": true
 }

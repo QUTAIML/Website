@@ -6,26 +6,6 @@
   "category": "Meeting",
   "excerpt": "Join us for the AGM to review the year, hear executive reports, and re-elect all club positions. Have your say and shape the future of QUT AMS! 🚀",
   "image": "meeting.jpg",
-
   "featured": false,
-  "isCollab": false,
-
-  "description": "The Annual General Meeting (AGM) is one of the most important events of the year for QUT AMS. Hear annual reports from the executive team, participate in the election of the 2026 Executive Team, and have the opportunity to ask questions, share ideas, and get involved. Make sure you’ve signed up as a member to vote or apply for a position. Come help shape the future of AMS! 🚀",
-
-  "schedule": [],
-
-  "speakers": [],
-
-  "registration": {
-    "required": false,
-    "link": "",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "meeting.jpg", "alt": "Annual General Meeting" }
-  ]
+  "isCollab": false
 }

@@ -294,7 +294,7 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 400px);
+  grid-template-columns: repeat(auto-fit, 360px);
   gap: 1.5rem;
   padding: 1rem;
   justify-content: center;

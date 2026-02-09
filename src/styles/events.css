@@ -1,0 +1,688 @@
+.events-space {
+    padding-top: 10rem;
+}
+
+.info-panel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.thick-line-behind {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw; /* full viewport */
+  max-width: 100vw;
+  transform: translate(-50%, -50%); /* center horizontally and vertically */
+  height: 2.5cm;
+  background-color: var(--color-secondary);
+  z-index: -1;
+}
+
+
+/* Reduce top spacing */
+.featured-events-space {
+  margin-top: 5rem !important;
+}
+
+
+
+
+/* === SEARCH BAR STYLING === */
+.search-wrapper {
+  flex: 1;
+  min-width: 220px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  background: #1e1e1e;
+  border-radius: 999px;
+  padding: 0 1rem;
+
+  border: 3px solid var(--color-primary);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.35);
+}
+
+.search-wrapper:focus-within {
+  box-shadow:
+    0 0 0 3px rgba(106, 255, 77, 0.25),
+    inset 0 0 0 1px rgba(0,0,0,0.35);
+}
+
+.search-wrapper input {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  color: #eaeaea;
+  font-size: 1rem;
+}
+
+.search-wrapper input::placeholder {
+  color: #8b8b8b;
+}
+
+/* Search icon */
+.search-icon {
+  width: 20px;
+  height: 20px;
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  fill: none;
+}
+
+/* === CATEGORY SORT (PILL STYLE) === */
+.type-filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* "Sort by:" green pill */
+.type-filter-label {
+  background: var(--color-primary);
+  color: #1f0f1b;
+  font-weight: 700;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+/* Dark container pill */
+.type-filter-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  background: #1f1f1f;
+  border-radius: 999px;
+  padding: 0.35rem;
+}
+
+/* Individual buttons */
+.type-filter-pill .type-btn {
+  background: transparent;
+  border: none;
+  color: #e6e6e6;
+  font-size: 0.95rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* Hover ONLY applies when NOT active */
+.type-filter-pill .type-btn:not(.active):hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Selected (active) category stays gray */
+.type-filter-pill .type-btn.active {
+  background: #333333;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: default;
+}
+
+.type-filter-pill .type-btn.pill-selected:hover {
+  background: #333333;
+}
+
+
+/* === FILTERS POPOVER === */
+.filters-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 260px;
+  z-index: 40;
+  display: none;
+
+  background: #1f1f1f;
+  border-radius: 14px;
+  padding: 0.9rem;
+
+  border: 3px solid var(--color--primary);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+.filters-popover-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* Groups */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.filter-group label {
+  font-size: 0.8rem;
+  color: #bdbdbd;
+  font-weight: 500;
+}
+
+/* Selects */
+.filter-group select {
+  background: #2a2a2a;
+  color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #333;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--color--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color--primary) 35%, transparent);
+}
+
+/* Actions */
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--color--primary);
+  color: #0f1f0f;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #e6e6e6;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #333;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+
+
+
+
+
+
+
+
+/* === FILTER BUTTON === */
+.filters-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary); /* pink button */
+  border-radius: 999px; /* circular */
+  padding: 0.6rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* Funnel Icon */
+.filters-toggle-icon {
+  width: 16px;
+  height: 16px;
+  fill: #000;
+  stroke: none;
+  transition: opacity 0.2s ease; /* smooth opacity change */
+}
+
+
+/* === DROPDOWN === */
+.filters-dropdown {
+  position: absolute;
+  top: 100%; /* directly below button */
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.5rem; /* small gap */
+  background: #1f1f1f;
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  min-width: 120px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  display: none; /* hidden by default */
+  z-index: 1000;
+}
+
+/* Show dropdown when button is expanded */
+.filters-toggle-btn[aria-expanded="true"] + .filters-dropdown {
+  display: block;
+}
+
+/* Dropdown items */
+.filter-item {
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.filter-item:hover {
+  background: #333;
+}
+
+
+
+
+
+
+
+
+
+.hidden-type {
+  display: none;
+}
+
+
+.key-content {
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-bottom: 5rem;
+    width: 100%;
+}
+
+
+/* === EVENTS GRID === */
+/* Panel wrapper that creates the dark grey division */
+.events-panel {
+  position: relative;
+  padding: 1rem; /* shorthand for padding-top, right, bottom, left */
+  display: flex; /* make it a flex container */
+  justify-content: center; /* centers items horizontally */
+  align-items: center; /* centers items vertically */
+  max-width: 100%;
+  width: 100%;
+}
+
+
+/* The dark grey background block behind the grid */
+.events-panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0.5rem;                   /* small offset from top of wrapper */
+  bottom: 0.5rem;                /* small offset from bottom of wrapper */
+  background: #272727;           /* dark grey color (adjust as needed) */
+  border-radius: 12px;           /* rounded corners to match cards */
+  z-index: 0;                    /* sits behind the grid */
+  box-shadow: 8px 8px 0 #1B1B1B;
+}
+
+/* Ensure the grid and cards sit above the panel */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 360px); 
+    gap: 1.5rem;
+    padding: 1rem;
+    width: auto;             /* let the grid shrink to fit content */
+    justify-content: center; /* center items if fewer than a full row */
+    max-width: 1200px;       /* optional: prevent grid from stretching too wide */
+}
+
+.pink-panel,
+.events-controls {
+  display: block; /* ensures they stack vertically */
+  margin-bottom: 0.5rem;
+}
+
+.controls-row {
+  display:flex;
+  gap:1rem;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+/* === EVENT CARD === */
+.event-card {
+  background: #000; /* black background */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 2;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Link wrapper */
+.event-card a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Card media */
+.card-media {
+  height: 140px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.9rem;
+  background: #111;
+}
+
+/* Card body */
+.card-body {
+  padding: 1rem;
+  color: #fff;
+}
+
+/* Title */
+.card-title {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+/* Divider line under title */
+.card-divider {
+  margin: 0.25rem 0;
+  height: 1px;
+  background: #FF8BF4; /* pink color directly */
+  width: 100%;
+}
+
+/* Date under divider */
+.card-date {
+  display: block;
+  font-size: 0.85rem;
+  color: #fff;
+  margin-bottom: 0.6rem;
+}
+
+/* Description */
+.card-description {
+  margin: 0.6rem 0 1rem;
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+/* Footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* "View more" link */
+.card-view-more {
+  font-weight: 600;
+  color: #FF8BF4; /* pink */
+  cursor: pointer;
+}
+
+
+
+
+
+
+/* Wrapper for search + pills + dropdown */
+.search-filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap; /* allows wrapping for mobile */
+  width: 100%;
+}
+
+/* Desktop: pills visible */
+.type-filter-pill {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* Desktop dropdown button */
+.filters-wrapper {
+  position: relative;
+}
+
+
+.hidden-type {
+  display: none; /* only show on mobile */
+}
+
+
+
+
+
+
+/* === MOBILE RESPONSIVE LAYOUT === */
+@media (max-width: 768px) {
+
+  .featured-events-space {
+    margin-top: 4rem !important;
+  }
+  
+  .events-space {
+    padding-top: 6rem;
+  }
+
+  /* Hide desktop type pills and label completely */
+  .type-filter-pill,
+  .type-filter-label {
+    display: none;
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* Controls row: stack sections vertically */
+  .controls-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  /* MOBILE SEARCH + FILTER BUTTON WRAPPER */
+  .mobile-search-filter {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    align-items: center;
+  }
+
+  /* Search bar adjustments for mobile */
+  .mobile-search-filter .search-wrapper {
+    flex: 1;              /* take all available width */
+    min-width: 0;         /* allow shrinking */
+    height: 44px;         /* standard mobile height */
+    padding: 0 0.8rem;
+  }
+
+  .mobile-search-filter .search-wrapper input {
+    font-size: 0.95rem;
+  }
+
+  /* Filter button stays next to search */
+  .mobile-search-filter .filters-toggle-btn {
+    flex-shrink: 0;
+  }
+
+  /* Hide the type pills wrapper entirely */
+  .type-filter-wrapper {
+    display: none;
+  }
+
+
+    /* MAIN EVENTS GRID FIX */
+  .events-panel .events-grid {
+    grid-template-columns: 1fr;   /* full-width column */
+    width: 100%;                  /* fill screen */
+    max-width: 100%;              /* prevent overflow */
+    padding: 0.75rem;             /* optional tighter padding */
+  }
+
+  /* Ensure cards stretch properly */
+  .events-panel .event-card {
+    width: 100%;
+  }
+
+  /* Events panel padding */
+  .events-panel {
+    padding: 1rem;
+  }
+
+  /* Key content margins */
+  .key-content {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Optional: shrink search bar slightly if needed */
+  .search-wrapper {
+    height: 44px;
+    padding: 0.5rem 0.8rem;
+  }
+
+  /* Ensure search input is readable */
+  .search-wrapper input {
+    font-size: 0.95rem;
+  }
+
+  /* Filters popover adjustments */
+  .filters-popover {
+    right: 0;
+    left: auto;
+    width: 90%;
+    max-width: 300px;
+  }
+
+  /* Hide pills on mobile */
+  .type-filter-pill,
+  .type-filter-label {
+    display: none;
+  }
+
+  /* Stack search + filter button in a row */
+  .search-filter-wrapper {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .search-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .filters-wrapper {
+    flex-shrink: 0;
+  }
+
+  /* Popover width for mobile */
+  .filters-popover {
+    width: 90%;
+    max-width: 300px;
+    right: 0;
+    left: auto;
+  }
+
+  .hidden-type {
+    display: grid;
+  }
+  
+}
+
+
+
+#sort-filter-group {
+  transition: all 0.2s ease;
+}
+#sort-filter-group[style*="display: none"] {
+  height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+
+
+
+/* === PAGINATION BUTTONS === */
+#events-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+#events-pagination button.pagination-btn {
+  background: #1f1f1f; /* dark grey */
+  border: 1px solid #333 !important;
+  border-radius: 999px !important;
+  padding: 0.5rem 1rem !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+#events-pagination button.pagination-btn:hover:not(:disabled) {
+  background: rgba(255, 139, 244, 0.15) !important;
+  color: #FF8BF4 !important;
+}
+
+#events-pagination button.pagination-btn:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+
+/* Force active state */
+#events-pagination button.pagination-btn.active {
+  background: #FF8BF4 !important; /* pink background */
+  color: #1f0f1b !important;      /* dark text */
+  border: none !important;
+}

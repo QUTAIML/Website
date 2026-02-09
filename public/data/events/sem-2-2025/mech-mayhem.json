@@ -6,25 +6,6 @@
   "category": "Industry",
   "excerpt": "Join Mech Mayhem 2025! Test your robotics and mechanical creations, explore STEM showcases, and connect with fellow innovators.",
   "image": "projects-night-1.jpg",
-
   "featured": false,
-  "isCollab": true,
-
-  "description": "Mech Mayhem is a hands-on robotics and engineering challenge where high-school and university teams compete head-to-head in mini robotics battles. Explore space and tech showcases, AI demos, and innovative engineering projects. Hear lightning talks from researchers, industry mentors, and innovators. Connect with clubs, careers, and cutting-edge STEM opportunities. Whether you’re competing, exploring, or getting inspired, this is your launchpad for STEM innovation!",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": true,
-    "link": "https://campus.hellorubric.com/?eid=42304",
-    "capacity": null,
-    "price": "Free",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "projects-night-1.jpg", "alt": "Mech Mayhem event photo" }
-  ]
+  "isCollab": true
 }

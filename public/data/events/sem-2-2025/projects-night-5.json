@@ -6,28 +6,7 @@
   "category": "Projects",
   "excerpt": "Join QUT AI & ML Society for Projects Night! Collaborate, showcase ideas, and build AI/ML projects with fellow members.",
   "image": "projects-night-3.jpg",
-
   "featured": false,
   "isCollab": false,
-
-  "description": "Project Night is where ideas evolve into real-world projects. The evening starts with a lightning talk covering the latest in AI, including: Gemini Diffusion (AI-generated visuals and smart tools), AlphaEvolve (AI-driven digital evolution), and Nano Banana (compact high-performance AI hardware). Afterwards, dive into hands-on building: work on projects at any level, team up, share knowledge, grow your AI/ML skills, and build exciting projects from simple models like Pokémon Identification to advanced AI tools like Action Recognition. Bring your laptop, curiosity, and energy – let’s make something awesome together!",
-
-  "schedule": [],
-  "speakers": [],
-
-  "registration": {
-    "required": false,
-    "link": "",
-    "capacity": null,
-    "price": "",
-    "opens": null,
-    "closes": null
-  },
-
-  "gallery": [
-    { "src": "projects-night-1.jpg", "alt": "Projects Night photo 1" },
-    { "src": "projects-night-2.jpg", "alt": "Projects Night photo 2" },
-    { "src": "projects-night-3.jpg", "alt": "Projects Night photo 3" },
-    { "src": "projects-night-4.jpg", "alt": "Projects Night photo 4" }
-  ]
+  "rubric": ""
 }

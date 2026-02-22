@@ -141,53 +141,6 @@ if (allTypesSet.size > 1) {
         </section>
       </div>
 
-      <!-- CURRENT PROJECTS -->
-      <section class="pink-panel current-projects-space">
-        <p class="pink-title">Current Projects ({latestSemester.label})</p>
-      </section>
-
-      {currentProjects.length === 0 ? (
-        <div class="info-panel-wrapper full-width-panel">
-          <section class="info-panel">
-            Latest project is still to be confirmed at this stage
-          </section>
-        </div>
-      ) : (
-        <section class="projects-panel current-projects-panel">
-          <section id="current-projects-grid" class="projects-grid">
-            {currentProjects.map(ev => {
-              const type = ev.type ?? ev.category ?? "Other";
-              return (
-                <article
-                  class="project-card"
-                  data-semester={ev.semesterId}
-                  data-category={ev.category}
-                  data-type={type}
-                  data-title={ev.title.toLowerCase()}
-                >
-                  <a href={ev.github} target="_blank" rel="noopener noreferrer">
-                    <div class="card-media">
-                      {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                    </div>
-
-                    <div class="card-body">
-                      <h3 class="card-title">{ev.title}</h3>
-                      <div class="card-divider"></div>
-                      <time class="card-date">{ev.dateLabel}</time>
-                      <p class="card-description">{ev.excerpt}</p>
-                      <div class="card-footer">
-                        <span class="card-view-more">View on GitHub →</span>
-                      </div>
-                    </div>
-                  </a>
-                </article>
-              );
-            })}
-          </section>
-        </section>
-      )}
-
-
       <section class="pink-panel past-projects-space">
         <p class="pink-title">Previous Projects</p>
       </section>

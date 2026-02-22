@@ -35,7 +35,7 @@
 /* === Layout === */
 .team-split.static-layout {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 34% 66%;
   gap: 2.5rem;
   width: 100%;
   align-items: start;
@@ -70,7 +70,7 @@
 }
 
 .role-cell {
-  width: 36%;
+  width: 45%;
   color: var(--color-primary);
   font-family: var(--font-heading);
   font-weight: 700;
@@ -137,12 +137,14 @@
 /* === Constrain info boxes === */
 .info-panel.history-box {
   margin-bottom: 3rem;
-  max-height: 525px; /* max height of each box */
+  max-height: 630px; /* max height of each box */
   display: flex;
   flex-direction: row;
   gap: 2.5rem;
   align-items: stretch; /* children fill container height */
   overflow: hidden; /* prevent overflow */
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 /* === Responsive === */

@@ -1,5 +1,12 @@
 [
   {
+    "title": "Academic Champions",
+    "items": [
+      { "role": "FoS Academic Champion", "name": "Timothy Chappell", "image": "Timothy.png" },
+      { "role": "FoE Academic Champion", "name": "Simon Denman", "image": "Simon.png" }
+    ]
+  },
+  {
     "title": "Admin Team",
     "items": [
       { "role": "President", "name": "Zac Knight", "image": "Zac.png" },
@@ -23,8 +30,7 @@
   {
     "title": "Marketing Team",
     "items": [
-      { "role": "Marketing Director", "name": "Amos Wat", "image": "Amos.png" },
-      { "role": "Social Media Manager", "name": "Venis Patel", "image": "Venis.png" },
+      { "role": "Marketing Director", "name": "Venis Patel", "image": "Venis.png" },
       { "role": "Reels & Video Officer", "name": "Ash Khatri", "image": "Ash.png" },
       { "role": "Graphic Designer", "name": "Shreeya Patel", "image": "Shreeya.png" }
     ]

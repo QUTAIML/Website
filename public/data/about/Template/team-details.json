@@ -1,5 +1,12 @@
 [
   {
+    "title": "Academic Champions",
+    "items": [
+      { "role": "FoS", "name": "Timothy Chappell", "image": "" },
+      { "role": "FoE", "name": "Simon Denman", "image": "" }
+    ]
+  },
+  {
     "title": "Admin Team",
     "items": [
       { "role": "President", "name": "John Doe", "image": "Anonymous.png" },

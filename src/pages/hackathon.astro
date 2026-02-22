@@ -1,0 +1,103 @@
+---
+import "@/styles/global.css";
+import Navigation from "@/components/Navigation.astro";
+import Footer from "@/components/Footer.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Hackathon | QUT AI & ML Society</title>
+  </head>
+  <body class="background-dots">
+    <Navigation />
+
+    <div class="content-wrapper" style="padding-top: 10rem; padding-bottom: 8rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; gap: 2rem;">
+
+      <section class="pink-panel">
+        <p class="pink-title">2026 Hackathon</p>
+      </section>
+
+      <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: #fff; margin: 0;">
+        Stay Tuned for More Updates
+      </h1>
+
+      <p style="color: #aaa; font-size: 1.1rem; margin: 0;">
+        The countdown to <strong style="color: #fff;">April 10th, 2026</strong> has begun.
+      </p>
+
+      <!-- COUNTDOWN -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem;">
+        <span style="font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: #888;">Countdown to Hackathon Day</span>
+        <div id="countdown" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;"></div>
+      </div>
+
+    </div>
+
+    <Footer />
+  </body>
+</html>
+
+<script>
+  const target = new Date("2026-04-10T09:00:00");
+  const container = document.getElementById("countdown");
+
+  const units = [
+    { id: "cd-days",    label: "Days" },
+    { id: "cd-hours",   label: "Hours" },
+    { id: "cd-minutes", label: "Minutes" },
+    { id: "cd-seconds", label: "Seconds" },
+  ];
+
+  units.forEach(({ id, label }) => {
+    const wrap = document.createElement("div");
+    wrap.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:0.4rem;";
+
+    const box = document.createElement("div");
+    box.style.cssText = `
+      background:#111;
+      border:2px solid rgba(255,139,244,0.35);
+      border-radius:14px;
+      padding:1rem 1.4rem;
+      min-width:85px;
+      text-align:center;
+    `;
+
+    const num = document.createElement("span");
+    num.id = id;
+    num.textContent = "--";
+    num.style.cssText = "font-size:2.5rem;font-weight:900;color:#fff;display:block;font-variant-numeric:tabular-nums;";
+
+    const lbl = document.createElement("span");
+    lbl.textContent = label;
+    lbl.style.cssText = "font-size:0.72rem;color:#888;letter-spacing:0.1em;text-transform:uppercase;";
+
+    box.appendChild(num);
+    wrap.appendChild(box);
+    wrap.appendChild(lbl);
+    container.appendChild(wrap);
+  });
+
+  function pad(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  function tick() {
+    const diff = target.getTime() - new Date().getTime();
+    if (diff <= 0) {
+      ["cd-days","cd-hours","cd-minutes","cd-seconds"].forEach(id => {
+        document.getElementById(id).textContent = "00";
+      });
+      return;
+    }
+    document.getElementById("cd-days").textContent    = pad(Math.floor(diff / 86400000));
+    document.getElementById("cd-hours").textContent   = pad(Math.floor(diff / 3600000) % 24);
+    document.getElementById("cd-minutes").textContent = pad(Math.floor(diff / 60000) % 60);
+    document.getElementById("cd-seconds").textContent = pad(Math.floor(diff / 1000) % 60);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>

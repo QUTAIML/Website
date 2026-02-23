@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import "@/styles/hackathon.css";
 import Navigation from "@/components/Navigation.astro";
 import Footer from "@/components/Footer.astro";
 ---
@@ -9,55 +10,50 @@ import Footer from "@/components/Footer.astro";
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
-    <title>Hackathon | QUT AI & ML Society</title>
+    <title>QUT AI & ML Society</title>
   </head>
   <body class="background-dots">
     <Navigation />
 
-    <div class="content-wrapper" style="padding-top: 10rem; padding-bottom: 8rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; gap: 2rem;">
-
+    <div class="content-wrapper">
       <section class="pink-panel">
         <p class="pink-title">2026 Hackathon</p>
       </section>
 
-      <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: #fff; margin: 0;">
+      <h1 class="hero-title">
         Stay Tuned for More Updates
       </h1>
 
-      <p style="color: #aaa; font-size: 1.1rem; margin: 0;">
-        The countdown to <strong style="color: #fff;">April 10th, 2026</strong> has begun.
+      <p class="hero-subtitle">
+        The countdown to <strong>April 10th, 2026</strong> has begun.
       </p>
 
       <!-- COUNTDOWN -->
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem;">
-        <span style="font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: #888;">Countdown to Hackathon Day</span>
-        <div id="countdown" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;"></div>
+      <div class="countdown-container">
+        <span class="countdown-label">Countdown to Hackathon Day</span>
+        <div id="countdown" class="countdown-grid"></div>
       </div>
 
-      <!-- TICKET BUTTON -->
-      <a
-        href="https://campus.hellorubric.com/?eid=51059"
-        target="_blank"
-        rel="noopener"
-        style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--color-primary);color:#1f0f1b;font-weight:800;font-size:1rem;padding:0.85rem 2rem;border-radius:999px;text-decoration:none;margin-top:0.5rem;transition:filter 0.2s ease,transform 0.15s ease;"
-        onmouseover="this.style.filter='brightness(1.08)';this.style.transform='translateY(-2px)'"
-        onmouseout="this.style.filter='';this.style.transform=''"
-      >
-        🎟 Get Your Tickets
-      </a>
+      <!-- ACTION BUTTONS -->
+      <div class="action-buttons">
+        <a
+          href="https://campus.hellorubric.com/?eid=51059"
+          target="_blank"
+          rel="noopener"
+          class="action-button"
+        >
+          🎟 Get Your Tickets
+        </a>
 
-      <!-- Hackathon Rules -->
-      <a
-        href="https://github.com/QUT-AIML/Code-of-Conduct/blob/main/AIML%20Hackathon%20Rules%20%26%20FAQs.md"
-        target="_blank"
-        rel="noopener"
-        style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--color-primary);color:#1f0f1b;font-weight:800;font-size:1rem;padding:0.85rem 2rem;border-radius:999px;text-decoration:none;margin-top:0.5rem;transition:filter 0.2s ease,transform 0.15s ease;"
-        onmouseover="this.style.filter='brightness(1.08)';this.style.transform='translateY(-2px)'"
-        onmouseout="this.style.filter='';this.style.transform=''"
-      >
-        📋 Hackathon Rules
-      </a>
-
+        <a
+          href="https://github.com/QUT-AIML/Code-of-Conduct/blob/main/AIML%20Hackathon%20Rules%20%26%20FAQs.md"
+          target="_blank"
+          rel="noopener"
+          class="action-button"
+        >
+          📋 Hackathon Rules
+        </a>
+      </div>
     </div>
 
     <Footer />
@@ -69,34 +65,27 @@ import Footer from "@/components/Footer.astro";
   const container = document.getElementById("countdown");
 
   const units = [
-    { id: "cd-days",    label: "Days" },
-    { id: "cd-hours",   label: "Hours" },
+    { id: "cd-days", label: "Days" },
+    { id: "cd-hours", label: "Hours" },
     { id: "cd-minutes", label: "Minutes" },
     { id: "cd-seconds", label: "Seconds" },
   ];
 
   units.forEach(({ id, label }) => {
     const wrap = document.createElement("div");
-    wrap.style.cssText = "display:flex;flex-direction:column;align-items:center;gap:0.4rem;";
+    wrap.className = "countdown-item";
 
     const box = document.createElement("div");
-    box.style.cssText = `
-      background:#111;
-      border:2px solid rgba(255,139,244,0.35);
-      border-radius:14px;
-      padding:1rem 1.4rem;
-      min-width:85px;
-      text-align:center;
-    `;
+    box.className = "countdown-box";
 
     const num = document.createElement("span");
     num.id = id;
     num.textContent = "--";
-    num.style.cssText = "font-size:2.5rem;font-weight:900;color:#fff;display:block;font-variant-numeric:tabular-nums;";
+    num.className = "countdown-number";
 
     const lbl = document.createElement("span");
     lbl.textContent = label;
-    lbl.style.cssText = "font-size:0.72rem;color:#888;letter-spacing:0.1em;text-transform:uppercase;";
+    lbl.className = "countdown-text";
 
     box.appendChild(num);
     wrap.appendChild(box);

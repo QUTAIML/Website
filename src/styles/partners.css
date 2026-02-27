@@ -209,7 +209,7 @@ body.modal-open {
 
 
 .view-details-link {
-  color: var(--color-primary);
+  color: #949494;
   font-weight: bold;
   display: inline-block;
   margin-top: 0.5rem;

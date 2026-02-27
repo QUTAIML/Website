@@ -99,14 +99,20 @@ const today = new Date();
 today.setHours(0, 0, 0, 0);
 
 const featuredEvents = eventsBySemester
-  .filter(ev => ev.featured)
+  .filter(ev => ev.featured === true)
   .filter(ev => {
     const eventDate = new Date(ev.date);
-    eventDate.setHours(0, 0, 0, 0);
+    eventDate.setHours(0, 0, 0, 0); // normalize to local midnight
     return eventDate >= today;
+  })
+  .sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    dateA.setHours(0, 0, 0, 0);
+    dateB.setHours(0, 0, 0, 0);
+    return dateA - dateB; // earliest upcoming first
   });
 ---
-
 
 
 <html lang="en">

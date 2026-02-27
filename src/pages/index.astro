@@ -47,7 +47,11 @@ const today = new Date();
 today.setHours(0, 0, 0, 0);
 
 const upcomingEvents = eventsBySemester
-  .filter(ev => new Date(ev.date) >= today)
+  .filter(ev => {
+    const eventDate = new Date(ev.date);
+    eventDate.setHours(0, 0, 0, 0); // normalize to local midnight
+    return eventDate >= today;
+  })
   .sort((a, b) => new Date(a.date) - new Date(b.date))
   .slice(0, 3);
 ---

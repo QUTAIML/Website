@@ -146,6 +146,15 @@
   width: 100%;
 }
 
+.button-outline-pink {
+  display: inline-block; /* prevents full width expansion */
+}
+
+.linktree-space {
+  margin: 2rem 0; /* spacing above and below button */
+}
+
+
 
 /* Tooltips */
 .footer-larger .tooltip {
@@ -227,7 +236,7 @@
 
 /* Button styling */
 .button-outline-pink {
-  display: block;     
+  display: inline-block;   /* ← change this */
   margin: 0.5rem 3rem;  
   padding: 0.75rem 1.5rem;
   font-size: 1.25rem;

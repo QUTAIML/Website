@@ -6,7 +6,7 @@
   "category": "Projects",
   "excerpt": "Join QUT AI & ML Society for Project Nights! Collaborate, showcase ideas, and build AI/ML projects with fellow members.",
   "image": "projects-night-1.jpg",
-  "featured": true,
+  "featured": false,
   "isCollab": false,
   "rubric": "https://campus.hellorubric.com/?eid=51257"
 }

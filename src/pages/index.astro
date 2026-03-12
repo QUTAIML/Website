@@ -48,11 +48,16 @@ today.setHours(0, 0, 0, 0);
 
 const upcomingEvents = eventsBySemester
   .filter(ev => {
-    const eventDate = new Date(ev.date);
-    eventDate.setHours(0, 0, 0, 0); // normalize to local midnight
+    const [year, month, day] = ev.date.split("-").map(Number);
+    const eventDate = new Date(year, month - 1, day);
+    eventDate.setHours(0, 0, 0, 0);
     return eventDate >= today;
   })
-  .sort((a, b) => new Date(a.date) - new Date(b.date))
+  .sort((a, b) => {
+    const [ay, am, ad] = a.date.split("-").map(Number);
+    const [by, bm, bd] = b.date.split("-").map(Number);
+    return new Date(ay, am - 1, ad) - new Date(by, bm - 1, bd);
+  })
   .slice(0, 3);
 ---
 

@@ -255,6 +255,11 @@
   z-index: 0;
 }
 
+#events-search,
+#type-select-pop,
+#semester-select-pop {
+  display: none !important;
+}
 
 /* ================================
    HOMEPAGE – UPCOMING EVENTS
@@ -264,17 +269,15 @@
 /* Events grid */
 .events-panel {
   position: relative;
-  margin-top: 0.5rem;
-  margin-left: 3rem;
-  margin-right: 3rem;
-  margin-bottom: 5rem;
-  padding: 1rem; /* shorthand for padding-top, right, bottom, left */
-  display: flex; /* make it a flex container */
-  justify-content: center; /* centers items horizontally */
-  align-items: center; /* centers items vertically */
+  margin: 0.5rem 3rem 5rem; /* shorthand for top, sides, bottom */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;  /* keep stacked layout for mobile */
+  justify-content: flex-start; /* aligns cards to the top instead of centering */
+  align-items: center;     /* keeps the grid centered horizontally */
   max-width: 100%;
-  flex-direction: column; /* optional: stacks items vertically */
 }
+
 
 /* The dark grey background block behind the grid */
 .events-panel::before {
@@ -290,27 +293,25 @@
   box-shadow: 8px 8px 0 #1B1B1B;
 }
 
- .events-grid {
-  position: relative;
-  z-index: 1;
+.events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, 360px);
   gap: 1.5rem;
-  padding: 1rem;
   justify-content: center;
-  max-width: 1200px;       
-} 
-
-
+  max-width: 1200px;
+  position: relative;
+  z-index: 1;
+  padding: 1rem; /* ← remove this */
+}
 
 
 @media (max-width: 768px) {
   .events-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
-    padding: 0.5rem;
   }
 }
+
 
 /* Event card */
 

@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Bachelors",
+    "items": [
+      { "name": "Bachelor of Information Technology (Artificial Intelligence)"},
+      { "name": "Bachelor of Data Science (Artificial Intelligence and Machine Learning)"},
+      { "name": "Coming Soon - Bachelor of Engineering (Machine Learning Systems)"}
+    ]
+  },
+  {
+    "title": "Masters",
+    "items": [
+      { "name": "Master of Artificial Intelligence" },
+      { "name": "Master of Robotics and Artificial Intelligence"}
+    ]
+  },
+  {
+    "title": "Relevant Courses",
+    "items": [
+      { "name": "Bachelor of Information Technology (Computer Science)"},
+      { "name": "Bachelor of Information Technology (Software Development)"},
+      { "name": "Bachelor of Data Science (Data & Decision Analytics)"},
+      { "name": "Bachelor of Engineering (Computer and Software Systems)"},
+      { "name": "Bachelor of Engineering (Mechatronics)"},
+      { "name": "Master of Information Technology (All majors)" },
+      { "name": "Master of Data Science (All majors)"}
+    ]
+  }
+]

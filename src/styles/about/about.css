@@ -31,6 +31,11 @@
   width: 80%;
 }
 
+.objective-space {
+  margin-top: 4rem;
+}
+
+
 .header-section {
   width: 80vw;
 
@@ -303,6 +308,159 @@
 
 
 
+
+
+
+
+/* DEGREE SECTION */
+.degree-section {
+  margin-top: 6rem;
+  width: 100%;
+}
+
+.pink-panel-flex-degree {
+  display: flex;
+  justify-content: center; /* only title for degrees */
+  align-items: center;
+  margin: 2rem 3rem 1rem 3rem;
+  padding: 0.5rem 2rem;
+  border-radius: 10px;
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.degree-grid-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.degree-row {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.degree-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.degree-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #272727;
+  border-radius: 16px;
+  padding: 1.5rem;
+  flex: 1 1 45%;
+  color: white;
+  text-align: center;
+  box-shadow: 8px 8px 0 #1B1B1B;
+}
+
+.degree-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* SIDE BARS FOR DEGREES */
+.side-bar-degree {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.side-bar-degree.left-degree {
+  border-radius: 0 30px 30px 0;
+}
+
+.side-bar-degree.right-degree {
+  border-radius: 30px 0 0 30px;
+}
+
+/* ARROWS FOR DEGREES */
+.carousel-arrow-degree {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  color: black;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-arrow-degree:hover {
+  transform: scale(1.1);
+}
+
+/* DOTS */
+.degree-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.degree-dot.active {
+  background: var(--color-secondary);
+  transform: scale(1.3);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .degree-row {
+    flex-direction: column;
+  }
+
+  .degree-card {
+    flex: 1 1 100%;
+  }
+
+  .degree-arrows-mobile-panel {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 90%;
+    margin: 1rem auto 3rem auto;
+    padding: 1rem 1.5rem;
+    background-color: var(--color-secondary);
+    border-radius: 20px;
+  }
+
+  .side-bar-degree {
+    display: none;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .team-card.empty-card {
   box-shadow: none;
   pointer-events: none;
@@ -549,6 +707,8 @@
 .carousel-arrow:hover {
   transform: scale(1.1);
 }
+
+
 
 
 

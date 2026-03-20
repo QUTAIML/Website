@@ -129,10 +129,10 @@ const degreesForClient = degreeData.map(section => ({
       
     <!-- DEGREES -->
     <section class="degree-section">
-      <!-- Pink panel header -->
-      <div class="pink-panel-flex-degree">
+
+      <section class="pink-panel-flex">
         <p class="pink-title">Relevant Degrees</p>
-      </div>
+      </section>
 
       <!-- Section title below -->
       <div class="content-wrapper centered-box">
@@ -146,7 +146,7 @@ const degreesForClient = degreeData.map(section => ({
       <!-- Carousel grid -->
       <div class="degree-grid-wrapper">
         <div class="degree-row">
-          <div class="side-bar-degree left-degree">
+          <div class="side-bar left">
             <button class="carousel-arrow-degree left-degree">‹</button>
           </div>
 
@@ -156,7 +156,7 @@ const degreesForClient = degreeData.map(section => ({
             data-teams={JSON.stringify(degreesForClient)}
           ></div>
 
-          <div class="side-bar-degree right-degree">
+          <div class="side-bar right">
             <button class="carousel-arrow-degree right-degree">›</button>
           </div>
         </div>
@@ -166,8 +166,8 @@ const degreesForClient = degreeData.map(section => ({
 
       <!-- Mobile arrows above the grid -->
       <div class="degree-arrows-mobile-panel">
-        <button class="carousel-arrow-degree left-degree">‹</button>
-        <button class="carousel-arrow-degree right-degree">›</button>
+        <button class="carousel-arrow left">‹</button>
+        <button class="carousel-arrow right">›</button>
       </div>
     </section>
 
@@ -319,19 +319,27 @@ const degreesForClient = degreeData.map(section => ({
     
     
 
-
+    
+    
+    
     <script>
-  // ===== TEAM CAROUSEL =====
+document.addEventListener("DOMContentLoaded", () => {
+  /* =========================
+     TEAM CAROUSEL
+  ========================= */
   const teamGrid = document.getElementById("team-grid");
   const teamTitle = document.getElementById("team-title");
   const teamDots = document.getElementById("team-dots");
+
   const teamLeftArrow = document.querySelector(".team-section .carousel-arrow.left");
   const teamRightArrow = document.querySelector(".team-section .carousel-arrow.right");
-  const teamMobileLeft = document.querySelector(".team-arrows-mobile-panel .left");
-  const teamMobileRight = document.querySelector(".team-arrows-mobile-panel .right");
+
+  const teamMobileLeft = document.querySelector(".team-arrows-mobile-panel .carousel-arrow.left");
+  const teamMobileRight = document.querySelector(".team-arrows-mobile-panel .carousel-arrow.right");
 
   const teams = JSON.parse(teamGrid.dataset.teams);
   const TEAM_AUTO_DELAY = 7000;
+
   let teamPageSize = window.innerWidth <= 768 ? 2 : 4;
   let teamPages = [];
   let teamIndex = 0;
@@ -374,14 +382,16 @@ const degreesForClient = degreeData.map(section => ({
     const emptySlots = teamPageSize - page.items.length;
     for (let i = 0; i < emptySlots; i++) {
       const emptyCard = document.createElement("div");
-      emptyCard.className = "team-card";
+      emptyCard.className = "team-card empty-card";
       emptyCard.innerHTML = `<div class="team-photo"></div><div class="team-info"></div>`;
       teamGrid.appendChild(emptyCard);
     }
 
+    // arrows visibility
     teamLeftArrow.style.visibility = index === 0 ? "hidden" : "visible";
     teamRightArrow.style.visibility = index === teamPages.length - 1 ? "hidden" : "visible";
 
+    // dots
     teamDots.innerHTML = "";
     teamPages.forEach((_, i) => {
       const dot = document.createElement("span");
@@ -391,26 +401,17 @@ const degreesForClient = degreeData.map(section => ({
     });
   }
 
-  function nextTeamPage() {
-    teamIndex = (teamIndex + 1) % teamPages.length;
-    renderTeamPage(teamIndex);
-  }
+  function nextTeamPage() { teamIndex = (teamIndex + 1) % teamPages.length; renderTeamPage(teamIndex); }
+  function prevTeamPage() { teamIndex = (teamIndex - 1 + teamPages.length) % teamPages.length; renderTeamPage(teamIndex); }
+  function resetTeamAuto() { clearInterval(teamAutoTimer); teamAutoTimer = setInterval(nextTeamPage, TEAM_AUTO_DELAY); }
 
-  function prevTeamPage() {
-    teamIndex = (teamIndex - 1 + teamPages.length) % teamPages.length;
-    renderTeamPage(teamIndex);
-  }
-
-  function resetTeamAuto() {
-    clearInterval(teamAutoTimer);
-    teamAutoTimer = setInterval(nextTeamPage, TEAM_AUTO_DELAY);
-  }
-
+  // attach arrows
   teamLeftArrow.onclick = () => { prevTeamPage(); resetTeamAuto(); };
   teamRightArrow.onclick = () => { nextTeamPage(); resetTeamAuto(); };
   teamMobileLeft?.addEventListener("click", () => { prevTeamPage(); resetTeamAuto(); });
   teamMobileRight?.addEventListener("click", () => { nextTeamPage(); resetTeamAuto(); });
 
+  // responsive resize
   window.addEventListener("resize", () => {
     const newSize = window.innerWidth <= 768 ? 2 : 4;
     if (newSize !== teamPageSize) {
@@ -425,10 +426,15 @@ const degreesForClient = degreeData.map(section => ({
   resetTeamAuto();
   renderTeamPage(0);
 
-  // ===== DEGREES CAROUSEL =====
+
+  /* =========================
+     DEGREES CAROUSEL
+  ========================= */
   const degreesGrid = document.getElementById("degrees-grid");
   const degreesDots = document.getElementById("degrees-dots");
+  const degreeTitleElem = document.getElementById("degree-title");
   const degreesData = JSON.parse(degreesGrid.dataset.teams);
+
   let degreesPages = [];
   let degreesIndex = 0;
   let degreePageSize = window.innerWidth <= 768 ? 2 : 4;
@@ -448,6 +454,9 @@ const degreesForClient = degreeData.map(section => ({
 
   function renderDegreePage(index) {
     const page = degreesPages[index];
+    degreeTitleElem.textContent =
+      page.pageIndex > 0 ? `${page.title} – Continued` : page.title;
+
     degreesGrid.innerHTML = "";
     page.items.forEach(item => {
       const card = document.createElement("div");
@@ -472,14 +481,32 @@ const degreesForClient = degreeData.map(section => ({
     });
   }
 
-  document.querySelector(".side-bar-degree.left-degree button")?.addEventListener("click", () => {
+  // arrow selectors
+  const degreeLeft = document.querySelector(".carousel-arrow-degree.left-degree");
+  const degreeRight = document.querySelector(".carousel-arrow-degree.right-degree");
+
+  degreeLeft?.addEventListener("click", () => {
     degreesIndex = (degreesIndex - 1 + degreesPages.length) % degreesPages.length;
     renderDegreePage(degreesIndex);
   });
 
-  document.querySelector(".side-bar-degree.right-degree button")?.addEventListener("click", () => {
+  degreeRight?.addEventListener("click", () => {
     degreesIndex = (degreesIndex + 1) % degreesPages.length;
     renderDegreePage(degreesIndex);
+  });
+
+  // mobile arrows
+  document.querySelectorAll(".degree-arrows-mobile-panel .left").forEach(btn => {
+    btn.addEventListener("click", () => {
+      degreesIndex = (degreesIndex - 1 + degreesPages.length) % degreesPages.length;
+      renderDegreePage(degreesIndex);
+    });
+  });
+  document.querySelectorAll(".degree-arrows-mobile-panel .right").forEach(btn => {
+    btn.addEventListener("click", () => {
+      degreesIndex = (degreesIndex + 1) % degreesPages.length;
+      renderDegreePage(degreesIndex);
+    });
   });
 
   window.addEventListener("resize", () => {
@@ -494,4 +521,5 @@ const degreesForClient = degreeData.map(section => ({
 
   buildDegreePages();
   renderDegreePage(0);
+});
 </script>

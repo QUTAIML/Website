@@ -447,61 +447,6 @@
 }
 
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .degree-row {
-    flex-direction: column;
-  }
-
-  .degree-card {
-    flex: 1 1 100%;
-  }
-
-  /* Wrap the arrows in a flex row */
-  .degree-arrows-mobile {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .degree-arrows-mobile-wrapper {
-    display: none; /* hidden by default, only show on mobile */
-    width: 90%; /* slightly smaller than full width */
-    margin: 1rem auto; /* outside margin */
-    padding: 0.75rem 1rem; /* inside padding */
-    border: 2px solid var(--color-secondary); /* pink border */
-    border-radius: 16px;
-    background-color: #1b1b1b; /* optional: dark background like sidebar */
-    box-sizing: border-box;
-  }
-
-    /* Mobile: pink panel around arrows */
-  .degree-arrows-mobile-panel {
-    display: flex;
-    justify-content: center;  /* buttons side by side */
-    gap: 1rem;                /* space between buttons */
-    width: 90%;               /* smaller than full width for margin around */
-    margin: 1rem auto;        /* margin on top/bottom and center horizontally */
-    margin-bottom: 3rem;
-    padding: 1rem 1.5rem;     /* inner padding */
-    background-color: var(--color-secondary); /* pink border */
-    border-radius: 20px;      /* rounded corners */
-    box-sizing: border-box;   /* include padding in width */
-  }
-
-
-  .side-bar-degree {
-    display: none;
-  }
-}
-
-
-
-
-
-
 
 
 
@@ -894,6 +839,13 @@
     grid-template-columns: 1fr;
   }
 
+
+  .degree-grid-wrapper {
+    padding-bottom: 0rem;
+  }
+
+
+
   .team-grid-wrapper {
     padding-bottom: 0rem;
   }
@@ -959,6 +911,59 @@
     border-radius: 20px;      /* rounded corners */
     box-sizing: border-box;   /* include padding in width */
   }
+
+
+
+
+    .degree-row {
+    flex-direction: column;
+  }
+
+    /* Team card */
+  .degree-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  /* Wrap the arrows in a flex row */
+  .degree-arrows-mobile {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .degree-arrows-mobile-wrapper {
+    display: none; /* hidden by default, only show on mobile */
+    width: 90%; /* slightly smaller than full width */
+    margin: 1rem auto; /* outside margin */
+    padding: 0.75rem 1rem; /* inside padding */
+    border: 2px solid var(--color-secondary); /* pink border */
+    border-radius: 16px;
+    background-color: #1b1b1b; /* optional: dark background like sidebar */
+    box-sizing: border-box;
+  }
+
+   .degree-arrows-mobile-panel {
+    display: flex;             /* make it visible on mobile */
+    justify-content: center;   /* center the arrows */
+    gap: 1rem;                 /* spacing between arrows */
+    width: 90%;                /* optional width */
+    margin: 1rem auto 3rem auto; /* top, bottom, horizontal centering */
+    padding: 1rem 1.5rem;
+    background-color: var(--color-secondary); /* match the panel color */
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+
+  .side-bar-degree {
+    display: none;
+  }
+
+
+
+
 
 
   /* Ensure arrows maintain original style */

@@ -31,6 +31,11 @@
   width: 80%;
 }
 
+.objective-space {
+  margin-top: 4rem;
+}
+
+
 .header-section {
   width: 80vw;
 
@@ -303,6 +308,159 @@
 
 
 
+
+
+
+
+/* DEGREE SECTION */
+.degree-section {
+  margin-top: 6rem;
+  width: 100%;
+}
+
+.pink-panel-flex-degree {
+  display: flex;
+  justify-content: center; /* only title for degrees */
+  align-items: center;
+  margin: 2rem 3rem 1rem 3rem;
+  padding: 0.5rem 2rem;
+  border-radius: 10px;
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.degree-grid-wrapper {
+  width: 100%;
+}
+
+.degree-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+
+
+.degree-grid {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.degree-grid.fade-out {
+  opacity: 0;
+}
+
+.degree-grid.fade-in {
+  opacity: 1;
+}
+
+.degree-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #272727;
+  border-radius: 16px;
+  padding: 1.5rem;
+  flex: 1 1 45%;
+  color: white;
+  text-align: center;
+  box-shadow: 8px 8px 0 #1B1B1B;
+  transition: opacity 0.6s ease;
+  min-height: 150px; 
+}
+
+
+.degree-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* SIDE BARS FOR DEGREES */
+.side-bar-degree {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-secondary);
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.side-bar-degree.left-degree,
+.side-bar-degree.right-degree {
+  flex: 0 0 12%;
+  height: 100px;
+}
+
+
+.side-bar-degree.left-degree {
+  border-radius: 0 30px 30px 0;
+}
+
+.side-bar-degree.right-degree {
+  border-radius: 30px 0 0 30px;
+}
+
+/* ARROWS FOR DEGREES */
+.carousel-arrow-degree {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  color: black;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-arrow-degree:hover {
+  transform: scale(1.1);
+}
+
+/* DOTS */
+.degree-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.degree-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #666;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.degree-dot.active {
+  background: var(--color-secondary); /* pink */
+  transform: scale(1.3);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .team-card.empty-card {
   box-shadow: none;
   pointer-events: none;
@@ -555,6 +713,8 @@
 
 
 
+
+
 /* ===============================
    TEAM DOTS
 ================================ */
@@ -592,6 +752,13 @@
 .team-arrows-mobile-panel {
   display: none;
 }
+
+
+
+.degree-arrows-mobile-panel {
+  display: none;
+}
+
 
 
 
@@ -672,6 +839,13 @@
     grid-template-columns: 1fr;
   }
 
+
+  .degree-grid-wrapper {
+    padding-bottom: 0rem;
+  }
+
+
+
   .team-grid-wrapper {
     padding-bottom: 0rem;
   }
@@ -737,6 +911,59 @@
     border-radius: 20px;      /* rounded corners */
     box-sizing: border-box;   /* include padding in width */
   }
+
+
+
+
+    .degree-row {
+    flex-direction: column;
+  }
+
+    /* Team card */
+  .degree-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  /* Wrap the arrows in a flex row */
+  .degree-arrows-mobile {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .degree-arrows-mobile-wrapper {
+    display: none; /* hidden by default, only show on mobile */
+    width: 90%; /* slightly smaller than full width */
+    margin: 1rem auto; /* outside margin */
+    padding: 0.75rem 1rem; /* inside padding */
+    border: 2px solid var(--color-secondary); /* pink border */
+    border-radius: 16px;
+    background-color: #1b1b1b; /* optional: dark background like sidebar */
+    box-sizing: border-box;
+  }
+
+   .degree-arrows-mobile-panel {
+    display: flex;             /* make it visible on mobile */
+    justify-content: center;   /* center the arrows */
+    gap: 1rem;                 /* spacing between arrows */
+    width: 90%;                /* optional width */
+    margin: 1rem auto 3rem auto; /* top, bottom, horizontal centering */
+    padding: 1rem 1.5rem;
+    background-color: var(--color-secondary); /* match the panel color */
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+
+  .side-bar-degree {
+    display: none;
+  }
+
+
+
+
 
 
   /* Ensure arrows maintain original style */

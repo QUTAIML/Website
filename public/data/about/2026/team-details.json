@@ -10,8 +10,8 @@
     "title": "Admin Team",
     "items": [
       { "role": "President", "name": "Zac Knight", "image": "Zac.png" },
-      { "role": "Vice President", "name": "Iwan Kaczmar-Donaghue", "image": "Iwan.png" },
-      { "role": "Secretary", "name": "Jackson Riding", "image": "Jackson.png" },
+      { "role": "Vice President", "name": "Jackson Riding", "image": "Jackson.png" },
+      { "role": "Secretary", "name": "Leonora Van De Sande", "image": "Leonora.png" },
       { "role": "Treasurer", "name": "Declan Whitty", "image": "Declan.png" }
     ]
   },
@@ -22,35 +22,33 @@
       { "role": "Projects Manager", "name": "Nhu Hieu Nguyen", "image": "Hieu.png" },
       { "role": "Projects Officer", "name": "Rajinder Singh", "image": "Rajinder.png" },
       { "role": "Projects Officer", "name": "Rattanakpanha Chea", "image": "Panha.png" },
-      { "role": "Projects Officer", "name": "Dhairya Shah", "image": "Anonymous.png" },
-      { "role": "Projects Officer", "name": "Aayush Kafle", "image": "Aayush.png" },
-      { "role": "Projects Officer", "name": "Kevin Nguyen", "image": "Anonymous.png" },
-      { "role": "Projects Officer", "name": "Dan-Chi Nguyen", "image": "Anonymous.png" }
+      { "role": "Projects Officer", "name": "Dhairya Shah", "image": "Dhairya.png" },
+      { "role": "Projects Officer", "name": "Kevin Nguyen", "image": "Kevin.png" },
+      { "role": "Projects Officer", "name": "Dan-Chi Nguyen", "image": "Danchi.png" }
+    ]
+  },
+  {
+    "title": "Education Team",
+    "items": [
+      { "role": "Education Director", "name": "Liam Collins", "image": "Liam.png" },
+      { "role": "Education Officer", "name": "Rahul Nair", "image": "Rahul.png" },
+      { "role": "Education Officer", "name": "Jonathan Lim", "image": "Jonathan.png" }
+    ]
+  },
+  {
+    "title": "Industry Team",
+    "items": [
+      { "role": "Industry Director", "name": "Amit Suthram", "image": "Amit.png" }
     ]
   },
   {
     "title": "Marketing Team",
     "items": [
       { "role": "Marketing Director", "name": "Venis Patel", "image": "Venis.png" },
-      { "role": "Reels & Video Officer", "name": "Thineesha Bhanura Karunanayake", "image": "Anonymous.png" },
-      { "role": "Reels & Video Officer", "name": "Anay Venugopal", "image": "Anonymous.png" },
-      { "role": "Graphic Designer", "name": "Shreeya Patel", "image": "Shreeya.png" }
-    ]
-  },
-  {
-    "title": "Events Team",
-    "items": [
-      { "role": "Events Director", "name": "Jonathan Lim", "image": "Jonathan.png" },
-      { "role": "Activities Facilitator", "name": "Rahul Nair", "image": "Anonymous.png" },
-      { "role": "Activities Facilitator", "name": "Chrisjol Dsouza", "image": "Anonymous.png" },
-      { "role": "Activities Facilitator", "name": "Emily Barros", "image": "Anonymous.png" }
-    ]
-  },
-  {
-    "title": "Support Team",
-    "items": [
-      { "role": "Industry Director", "name": "Amit Suthram", "image": "Amit.png" },
-      { "role": "Collaboration & Engagement Director", "name": "Leonora Van De Sande", "image": "Leonora.png" }
+      { "role": "Social Media Manager", "name": "Chrisjol Dsouza", "image": "Chris.png" },
+      { "role": "Graphic Designer", "name": "Shreeya Patel", "image": "Shreeya.png" },
+      { "role": "Reels & Video Officer", "name": "Thineesha Bhanura Karunanayake", "image": "Bhanura.png" },
+      { "role": "Reels & Video Officer", "name": "Anay Venugopal", "image": "Anay.png" }
     ]
   }
 ]

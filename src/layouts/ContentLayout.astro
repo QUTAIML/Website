@@ -1,0 +1,39 @@
+---
+// ContentLayout.astro
+// Layout for content pages (about, contact, etc.)
+// Differs from BaseLayout in that it wraps content in a <div> rather than <main>,
+// matching the existing about/contact page structure.
+
+import "@/styles/global.css";
+import Navigation from "@/components/Navigation.astro";
+import Footer from "@/components/Footer.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "QUT AI & ML Society",
+  description = "The QUT AI & ML Society is a student-led community exploring artificial intelligence and machine learning.",
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <slot name="head" />
+  </head>
+  <body class="background-dots">
+    <Navigation />
+    <div>
+      <slot />
+    </div>
+    <Footer />
+    <slot name="scripts" />
+  </body>
+</html>

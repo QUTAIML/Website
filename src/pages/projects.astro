@@ -1,187 +1,160 @@
 ---
-import "@/styles/global.css";
 import "@/styles/projects.css";
-import Navigation from "@/components/Navigation.astro";
-import Footer from "@/components/Footer.astro";
-
+import ContentLayout from "@/layouts/ContentLayout.astro";
 import {
   semesters,
   latestSemester,
-  currentProjects,
   pastProjects,
-  types
+  types,
 } from "@/scripts/projects/projects-loader";
 ---
 
+<ContentLayout>
+  <div class="content-wrapper top-projects-space">
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta
-      name="description"
-      content="The QUT AI & ML Society is a student-led community exploring artificial intelligence and machine learning."
-    />
-    <title>QUT AI & ML Society</title>
-    <link rel="stylesheet" href="/styles/global.css" />
-    <link rel="stylesheet" href="/styles/projects/projects.css" />
-  </head>
-
-  <body class="background-dots">
-    <Navigation />
-
-    <div class="content-wrapper top-projects-space">
-      <!-- ABOUT -->
-      <section class="pink-panel">
-        <p class="pink-title">Club Projects</p>
+    <!-- ABOUT -->
+    <section class="pink-panel">
+      <p class="pink-title">Club Projects</p>
+    </section>
+    <div class="info-panel-wrapper">
+      <div class="thick-line-behind"></div>
+      <section class="info-panel">
+        The QUT AI & ML Society runs collaborative projects that bring students, researchers, and industry partners together to build practical AI and machine learning solutions.
+        Projects range from developer tools and data-driven apps to research prototypes and everyday innovations, with clear roles for contributors at every skill level.
+        We pair hands-on work with mentorship, workshops, and hackathons to help members learn, share code, and grow their portfolios while applying AI responsibly.
+        Join to contribute, learn from peers, and help shape projects that make a real impact.
       </section>
+    </div>
 
-      <div class="info-panel-wrapper">
-        <div class="thick-line-behind"></div>
-        <section class="info-panel">
-          The QUT AI & ML Society runs collaborative projects that bring students, researchers, and industry partners together to build practical AI and machine‑learning solutions. 
-          Projects range from developer tools and data‑driven apps to research prototypes and everyday innovations, with clear roles for contributors at every skill level. 
-          We pair hands‑on work with mentorship, workshops, and hackathons to help members learn, share code, and grow their portfolios while applying AI responsibly. 
-          Join to contribute, learn from peers, and help shape projects that make a real impact.
-        </section>
-      </div>
+    <!-- PREVIOUS PROJECTS -->
+    <section class="pink-panel past-projects-space">
+      <p class="pink-title">Previous Projects</p>
+    </section>
+    <div class="key-content">
+      <div class="projects-controls">
+        <div class="controls-row">
 
-      <section class="pink-panel past-projects-space">
-        <p class="pink-title">Previous Projects</p>
-      </section>
-
-      <div class="key-content">
-        <div class="projects-controls">
-          <div class="controls-row">
-
-            <!-- MOBILE SEARCH + FILTER WRAPPER -->
-            <div class="mobile-search-filter">
-              <div class="search-wrapper">
-                <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" />
-                  <line x1="16.65" y1="16.65" x2="21" y2="21" />
-                </svg>
-                <input
-                  id="projects-search"
-                  type="search"
-                  placeholder="Search projects"
-                  aria-label="Search projects"
-                />
-              </div>
-            </div>
-
-            <!-- DESKTOP TYPE FILTERS -->
-            <span class="type-filter-label">Sort by:</span>
-            <div class="type-scroll-wrapper">
-              <button class="type-scroll-btn left" aria-label="Scroll left">‹</button>
-
-              <div id="type-filters" class="type-filter-pill scrollable">
-                {types.map(t => (
-                  <button
-                    class={`type-btn ${t === "All" ? "active" : ""}`}
-                    data-type={t}
-                    type="button"
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-
-              <button class="type-scroll-btn right" aria-label="Scroll right">›</button>
-            </div>
-
-
-            <button id="filters-toggle" aria-haspopup="true" aria-expanded="false" type="button" class="filters-toggle-btn">
-              <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
+          <!-- Search -->
+          <div class="mobile-search-filter">
+            <div class="search-wrapper">
+              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="16.65" y1="16.65" x2="21" y2="21" />
               </svg>
-            </button>
+              <input
+                id="projects-search"
+                type="search"
+                placeholder="Search projects"
+                aria-label="Search projects"
+              />
+            </div>
+          </div>
 
-            <!-- FILTER POPOVER -->
-            <div class="type-filter-wrapper" style="margin-left:auto; position:relative;">
-              <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
-                <div class="filters-popover-content">
+          <!-- Desktop type pills -->
+          <span class="type-filter-label">Sort by:</span>
+          <div class="type-scroll-wrapper">
+            <button class="type-scroll-btn left" aria-label="Scroll left">‹</button>
+            <div id="type-filters" class="type-filter-pill scrollable">
+              {types.map(t => (
+                <button
+                  class={`type-btn ${t === "All" ? "active" : ""}`}
+                  data-type={t}
+                  type="button"
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+            <button class="type-scroll-btn right" aria-label="Scroll right">›</button>
+          </div>
 
-                  <div class="filter-group">
-                    <label for="semester-select-pop">Semester</label>
-                    <select id="semester-select-pop">
-                      <option value="all" selected>All past semesters</option>
-                      {semesters.filter(s => s.id !== latestSemester?.id).map(s => (
-                        <option value={s.id}>{s.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div class="filter-group filter-type">
-                    <label for="type-select-pop">Type</label>
-                    <select id="type-select-pop">
-                      {types.map(t => (
-                        <option value={t}>{t}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div class="filter-group">
-                    <label for="sort-select-pop">Sort data</label>
-                    <select id="sort-select-pop">
-                      <option value="" selected>None</option>
-                      <option value="title-asc">Title Ascending</option>
-                      <option value="title-desc">Title Descending</option>
-                    </select>
-                  </div>
+          <!-- Filter toggle + popover -->
+          <button
+            id="filters-toggle"
+            aria-haspopup="true"
+            aria-expanded="false"
+            type="button"
+            class="filters-toggle-btn"
+          >
+            <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
+            </svg>
+          </button>
+          <div class="type-filter-wrapper" style="margin-left:auto; position:relative;">
+            <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
+              <div class="filters-popover-content">
+                <div class="filter-group">
+                  <label for="semester-select-pop">Semester</label>
+                  <select id="semester-select-pop">
+                    <option value="all" selected>All past semesters</option>
+                    {semesters.filter(s => s.id !== latestSemester?.id).map(s => (
+                      <option value={s.id}>{s.label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div class="filter-group filter-type">
+                  <label for="type-select-pop">Type</label>
+                  <select id="type-select-pop">
+                    {types.map(t => (
+                      <option value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="sort-select-pop">Sort data</label>
+                  <select id="sort-select-pop">
+                    <option value="" selected>None</option>
+                    <option value="title-asc">Title Ascending</option>
+                    <option value="title-desc">Title Descending</option>
+                  </select>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
-
-        <section class="projects-panel">
-
-          <div id="type-filters" class="desktop-type-filters">
-
-            <section id="projects-grid" class="projects-grid">
-              {pastProjects.map((ev) => {
-                const type = ev.type ?? ev.category ?? "Other";
-                return (
-                  <article
-                    class="project-card"
-                    data-semester={ev.semesterId}
-                    data-category={ev.category}
-                    data-type={type}
-                    data-title={ev.title.toLowerCase()}
-                  >
-                    <a href={ev.github} target="_blank" rel="noopener noreferrer">
-                      <div class="card-media">
-                        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                      </div>
-
-                      <div class="card-body">
-                        <h3 class="card-title">{ev.title}</h3>
-                        <div class="card-divider"></div>
-                        <time class="card-date">{ev.dateLabel}</time>
-                        <p class="card-description">{ev.excerpt}</p>
-                        <div class="card-footer">
-                          <span class="card-view-more">View on GitHub →</span>
-                        </div>
-                      </div>
-                    </a>
-                  </article>
-                );
-              })}
-            </section>
-
-          </div>
-        </section>
-
-        <!-- Pagination container -->
-        <div id="projects-pagination"></div>
-
       </div>
+
+      <section class="projects-panel">
+        <div class="desktop-type-filters">
+          <section id="projects-grid" class="projects-grid">
+            {pastProjects.map(ev => {
+              const type = ev.type ?? ev.category ?? "Other";
+              return (
+                <article
+                  class="project-card"
+                  data-semester={ev.semesterId}
+                  data-category={ev.category}
+                  data-type={type}
+                  data-title={ev.title.toLowerCase()}
+                >
+                  <a href={ev.github} target="_blank" rel="noopener noreferrer">
+                    <div class="card-media">
+                      {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                    </div>
+                    <div class="card-body">
+                      <h3 class="card-title">{ev.title}</h3>
+                      <div class="card-divider"></div>
+                      <time class="card-date">{ev.dateLabel}</time>
+                      <p class="card-description">{ev.excerpt}</p>
+                      <div class="card-footer">
+                        <span class="card-view-more">View on GitHub →</span>
+                      </div>
+                    </div>
+                  </a>
+                </article>
+              );
+            })}
+          </section>
+        </div>
+      </section>
+
+      <div id="projects-pagination"></div>
     </div>
 
-    <Footer />
-    </body>
-    </html>
-    
+  </div>
+
+  <Fragment slot="scripts">
     <script type="module" src="/src/scripts/projects/projects-script.js"></script>
+  </Fragment>
+</ContentLayout>

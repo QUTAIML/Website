@@ -1,64 +1,46 @@
 ---
-import "@/styles/global.css";
 import "@/styles/events.css";
-
-import Navigation from "@/components/Navigation.astro";
-import Footer from "@/components/Footer.astro";
-
+import ContentLayout from "@/layouts/ContentLayout.astro";
 import { loadEventsData } from "@/scripts/events/events-loader";
 
-const {
-  semesters,
-  eventsBySemester,
-  types,
-  featuredEvents,
-} = loadEventsData();
+const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta
-      name="description"
-      content="The QUT AI & ML Society is a student-led community exploring artificial intelligence and machine learning."
-    />
-    <title>QUT AI & ML Society</title>
-  </head>
+<ContentLayout>
+  <div class="content-wrapper events-space">
 
-  <body class="background-dots">
-    <Navigation />
-
-    <div class="content-wrapper events-space">
-      
-      <!-- ABOUT -->
-      <section class="pink-panel">
-        <p class="pink-title">Our Events</p>
+    <!-- ABOUT -->
+    <section class="pink-panel">
+      <p class="pink-title">Our Events</p>
+    </section>
+    <div class="info-panel-wrapper">
+      <div class="thick-line-behind"></div>
+      <section class="info-panel">
+        The QUT AI & ML Society hosts engaging events designed to connect, inspire, and empower students at all experience levels.
+        From hands-on workshops and AI-focused project nights to industry talks and social meetups, our events provide opportunities to learn, experiment, and grow in a collaborative environment.
+        Members can gain insights from alumni and industry professionals, showcase their skills, and build meaningful connections with peers, researchers, and leaders in AI and machine learning.
+        Join us to participate in events that spark creativity, foster collaboration, and help shape the future of AI innovation.
       </section>
+    </div>
 
-      <div class="info-panel-wrapper">
-        <div class="thick-line-behind"></div>
-        <section class="info-panel">
-            The QUT AI & ML Society hosts engaging events designed to connect, inspire, and empower students at all experience levels.  
-            From hands-on workshops and AI-focused project nights to industry talks and social meetups, our events provide opportunities to learn, experiment, and grow in a collaborative environment.  
-            Members can gain insights from alumni and industry professionals, showcase their skills, and build meaningful connections with peers, researchers, and leaders in AI and machine learning.  
-            Join us to participate in events that spark creativity, foster collaboration, and help shape the future of AI innovation.
+    <!-- FEATURED EVENTS -->
+    {featuredEvents.length > 0 && (
+      <>
+        <section class="pink-panel featured-events-space">
+          <p class="pink-title">Featured Events</p>
         </section>
-      </div>
-
-      {featuredEvents.length > 0 && (
-        <>
-          <section class="pink-panel featured-events-space">
-            <p class="pink-title">Featured Events</p>
-          </section>
-
         <div class="key-content">
-
           <section class="events-panel">
             <section class="events-grid">
               {featuredEvents.map(ev => (
-                <article class="event-card" data-semester={ev.semesterId} data-category={ev.category} data-type={ev.type ?? ev.category ?? "Other"} data-title={ev.title.toLowerCase()} data-date={ev.date}>
+                <article
+                  class="event-card"
+                  data-semester={ev.semesterId}
+                  data-category={ev.category}
+                  data-type={ev.type ?? ev.category ?? "Other"}
+                  data-title={ev.title.toLowerCase()}
+                  data-date={ev.date}
+                >
                   <a href={`/events/${ev.semesterId}/${ev.slug}`}>
                     <div class="card-media">
                       {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
@@ -76,155 +58,148 @@ const {
                 </article>
               ))}
             </section>
-            </div>
           </section>
-        </>
-      )}
+        </div>
+      </>
+    )}
 
-      <section class="pink-panel above-spacing">
-        <p class="pink-title">What's on at QUT AIML</p>
-      </section>
+    <!-- ALL EVENTS -->
+    <section class="pink-panel above-spacing">
+      <p class="pink-title">What's on at QUT AIML</p>
+    </section>
+    <div class="key-content">
+      <section class="events-controls">
+        <div class="controls-row">
+          <div class="search-filter-wrapper">
 
-      <div class="key-content">
-        <section class="events-controls">
-          <div class="controls-row">
+            <!-- Search bar -->
+            <div class="search-wrapper">
+              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="16.65" y1="16.65" x2="21" y2="21" />
+              </svg>
+              <input
+                id="events-search"
+                type="search"
+                placeholder="Search"
+                aria-label="Search events"
+              />
+            </div>
 
-            <div class="search-filter-wrapper">
-              <!-- Search bar -->
-              <div class="search-wrapper">
-                <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" />
-                  <line x1="16.65" y1="16.65" x2="21" y2="21" />
-                </svg>
-                <input
-                  id="events-search"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search events"
-                />
-              </div>
-
-              <!-- Desktop type pills -->
-              <span class="type-filter-label">Sort by:</span>
-              <div id="type-filters" class="type-filter-pill">
-                {types.map((t) => (
-                  <button
-                    class={`type-btn ${t === "All" ? "active" : ""}`}
-                    data-type={t}
-                    type="button"
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-
-              <!-- Filter dropdown button -->
-              <div class="filters-wrapper">
-                <button id="filters-toggle" aria-haspopup="true" aria-expanded="false" type="button" class="filters-toggle-btn">
-                  <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
-                  </svg>
+            <!-- Desktop type pills -->
+            <span class="type-filter-label">Sort by:</span>
+            <div id="type-filters" class="type-filter-pill">
+              {types.map(t => (
+                <button
+                  class={`type-btn ${t === "All" ? "active" : ""}`}
+                  data-type={t}
+                  type="button"
+                >
+                  {t}
                 </button>
+              ))}
+            </div>
 
-                <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
-                  <div class="filters-popover-content">
-                    <div class="filter-group">
-                      <label for="semester-select-pop">Semester</label>
-                      <select id="semester-select-pop">
-                        <option value="all" selected>All semesters</option>
-                        {semesters.map(s => (
-                          <option value={s.id}>{s.label}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <!-- THIS WILL BE VISIBLE ONLY ON MOBILE -->
-                    <div class="filter-group hidden-type">
-                      <label for="type-select-pop">Type</label>
-                      <select id="type-select-pop">
-                        {types.map(t => (
-                          <option value={t}>{t}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div class="filter-group" id="sort-filter-group">
-                      <label for="sort-select-pop">Past/Future</label>
-                      <select id="sort-select-pop">
-                        <option value="upcoming" selected>Upcoming events</option>
-                        <option value="past">Past events</option>
-                      </select>
-                    </div>
-
+            <!-- Filter dropdown -->
+            <div class="filters-wrapper">
+              <button
+                id="filters-toggle"
+                aria-haspopup="true"
+                aria-expanded="false"
+                type="button"
+                class="filters-toggle-btn"
+              >
+                <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
+                </svg>
+              </button>
+              <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
+                <div class="filters-popover-content">
+                  <div class="filter-group">
+                    <label for="semester-select-pop">Semester</label>
+                    <select id="semester-select-pop">
+                      <option value="all" selected>All semesters</option>
+                      {semesters.map(s => (
+                        <option value={s.id}>{s.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <!-- Mobile only -->
+                  <div class="filter-group hidden-type">
+                    <label for="type-select-pop">Type</label>
+                    <select id="type-select-pop">
+                      {types.map(t => (
+                        <option value={t}>{t}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div class="filter-group" id="sort-filter-group">
+                    <label for="sort-select-pop">Past/Future</label>
+                    <select id="sort-select-pop">
+                      <option value="upcoming" selected>Upcoming events</option>
+                      <option value="past">Past events</option>
+                    </select>
                   </div>
                 </div>
               </div>
-
             </div>
+
           </div>
+        </div>
+      </section>
 
-        </section>
-
-        <section class="events-panel">
-          <section id="events-grid" class="events-grid">
-            {eventsBySemester.map((ev) => {
-              const type = ev.type ?? ev.category ?? "Other";
-              return (
-                <article
-                  class="event-card"
-                  data-semester={ev.semesterId}
-                  data-category={ev.category}
-                  data-type={ev.type ?? ev.category ?? "Other"}
-                  data-title={ev.title.toLowerCase()}
-                  data-date={ev.date}
-                >
-                  {ev.rubric && ev.rubric.trim() !== "" ? (
-                    <a href={ev.rubric}>
-                      <div class="card-media">
-                        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                      </div>
-                      <div class="card-body">
-                        <h3 class="card-title">{ev.title}</h3>
-                        <div class="card-divider"></div>
-                        <time class="card-date">{ev.dateLabel}</time>
-                        <p class="card-description">{ev.excerpt}</p>
-                        <div class="card-footer">
-                          <span class="card-view-more">View more →</span>
-                        </div>
-                      </div>
-                    </a>
-                  ) : (
-                    <div>
-                      <div class="card-media">
-                        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                      </div>
-                      <div class="card-body">
-                        <h3 class="card-title">{ev.title}</h3>
-                        <div class="card-divider"></div>
-                        <time class="card-date">{ev.dateLabel}</time>
-                        <p class="card-description">{ev.excerpt}</p>
-                      </div>
+      <section class="events-panel">
+        <section id="events-grid" class="events-grid">
+          {eventsBySemester.map(ev => (
+            <article
+              class="event-card"
+              data-semester={ev.semesterId}
+              data-category={ev.category}
+              data-type={ev.type ?? ev.category ?? "Other"}
+              data-title={ev.title.toLowerCase()}
+              data-date={ev.date}
+            >
+              {ev.rubric && ev.rubric.trim() !== "" ? (
+                <a href={ev.rubric}>
+                  <div class="card-media">
+                    {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                  </div>
+                  <div class="card-body">
+                    <h3 class="card-title">{ev.title}</h3>
+                    <div class="card-divider"></div>
+                    <time class="card-date">{ev.dateLabel}</time>
+                    <p class="card-description">{ev.excerpt}</p>
+                    <div class="card-footer">
+                      <span class="card-view-more">View more →</span>
                     </div>
-                  )}
-                </article>
-
-
-              );
-            })}
-          </section>
+                  </div>
+                </a>
+              ) : (
+                <div>
+                  <div class="card-media">
+                    {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                  </div>
+                  <div class="card-body">
+                    <h3 class="card-title">{ev.title}</h3>
+                    <div class="card-divider"></div>
+                    <time class="card-date">{ev.dateLabel}</time>
+                    <p class="card-description">{ev.excerpt}</p>
+                  </div>
+                </div>
+              )}
+            </article>
+          ))}
         </section>
+      </section>
 
-          <!-- Pagination container -->
-        <div id="events-pagination"></div>
-
-      </div>
+      <div id="events-pagination"></div>
     </div>
 
-    <Footer />
-  </body>
-  </html>
+  </div>
 
-    
-<script>
-  import "@/scripts/events/events-script.js";
-</script>
+  <Fragment slot="scripts">
+    <script>
+      import "@/scripts/events/events-script.js";
+    </script>
+  </Fragment>
+</ContentLayout>

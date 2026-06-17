@@ -1,65 +1,48 @@
 ---
-import "@/styles/global.css";
 import "@/styles/hackathon.css";
-import Navigation from "@/components/Navigation.astro";
-import Footer from "@/components/Footer.astro";
+import ContentLayout from "@/layouts/ContentLayout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <title>QUT AI & ML Society</title>
-  </head>
-  <body class="background-dots">
-    <Navigation />
+<ContentLayout title="Brains & Bots Hackathon | QUT AI & ML Society">
+  <div class="content-wrapper">
+    <section class="pink-panel">
+      <p class="pink-title">Brains & Bots Hackathon</p>
+    </section>
+    <h1 class="hero-title">Stay Tuned for More Updates</h1>
+    <p class="hero-subtitle">
+      The countdown to <strong>August 7th, 2026</strong> has begun.
+    </p>
 
-    <div class="content-wrapper">
-      <section class="pink-panel">
-        <p class="pink-title">Brains & Bots Hackathon</p>
-      </section>
-
-      <h1 class="hero-title">
-        Stay Tuned for More Updates
-      </h1>
-
-      <p class="hero-subtitle">
-        The countdown to <strong>August 7th, 2026</strong> has begun.
-      </p>
-
-      <!-- COUNTDOWN -->
-      <div class="countdown-container">
-        <span class="countdown-label">Countdown to Hackathon Day</span>
-        <div id="countdown" class="countdown-grid"></div>
-      </div>
-
-      <!-- ACTION BUTTONS -->
-      <div class="action-buttons">
-        <a
-          href="https://campus.hellorubric.com/?eid=64213"
-          target="_blank"
-          rel="noopener"
-          class="action-button"
-        >
-          Get Your Tickets
-        </a>
-
-        <!-- <a
-          href="https://github.com/QUT-AIML/Code-of-Conduct/blob/main/AIML%20Hackathon%20Rules%20%26%20FAQs.md"
-          target="_blank"
-          rel="noopener"
-          class="action-button"
-        >
-          Hackathon Rules
-        </a> -->
-      </div>
+    <!-- COUNTDOWN -->
+    <div class="countdown-container">
+      <span class="countdown-label">Countdown to Hackathon Day</span>
+      <div id="countdown" class="countdown-grid"></div>
     </div>
 
-    <Footer />
-  </body>
-</html>
+    <!-- ACTION BUTTONS -->
+    <div class="action-buttons">
+      <a
+        href="https://campus.hellorubric.com/?eid=64213"
+        target="_blank"
+        rel="noopener"
+        class="action-button"
+      >
+        Get Your Tickets
+      </a>
+      <!-- <a
+        href="https://github.com/QUT-AIML/Code-of-Conduct/blob/main/AIML%20Hackathon%20Rules%20%26%20FAQs.md"
+        target="_blank"
+        rel="noopener"
+        class="action-button"
+      >
+        Hackathon Rules
+      </a> -->
+    </div>
+  </div>
 
-<script>
-  import "@/scripts/hackathon/hackathon-script.js";
-</script>
+  <Fragment slot="scripts">
+    <script>
+      import "@/scripts/hackathon/hackathon-script.js";
+    </script>
+  </Fragment>
+</ContentLayout>

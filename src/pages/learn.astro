@@ -1,147 +1,150 @@
 ---
-import "@/styles/global.css";
 import "@/styles/learn/learn.css";
-import Navigation from "@/components/Navigation.astro";
-import Footer from "@/components/Footer.astro";
-
+import ContentLayout from "@/layouts/ContentLayout.astro";
 import {
   learnings,
   categories,
   featuredLearnings,
   formatDate,
 } from "@/scripts/learn/learn-loader.js";
-
 ---
 
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width" />
-  <meta name="description" content="The QUT AI & ML Society is a student-led community exploring artificial intelligence and machine learning." />
-  <title>QUT AI & ML Society</title>
-</head>
-
-<body class="background-dots">
-  <Navigation />
-
+<ContentLayout>
   <div class="content-wrapper learning-space">
 
     <!-- ABOUT -->
     <section class="pink-panel">
       <p class="pink-title">Explore & Learn</p>
     </section>
-
     <div class="info-panel-wrapper">
       <div class="thick-line-behind"></div>
       <section class="info-panel">
-        The QUT AI & ML Society provides members with diverse learning opportunities to explore artificial intelligence and machine learning at every level.  
-        Through workshops, tutorials, technical collaborations, and guided tutorials, members can build practical skills, strengthen their portfolios, and gain hands-on experience with real-world AI tools and techniques.  
-        Learn from experts, collaborate on structured learning programs, and access resources that make complex concepts approachable.  
-        Whether you’re just starting out or expanding your expertise, our learning initiatives help you grow, experiment, and apply AI responsibly.
+        The QUT AI & ML Society provides members with diverse learning opportunities to explore artificial intelligence and machine learning at every level.
+        Through workshops, tutorials, technical collaborations, and guided tutorials, members can build practical skills, strengthen their portfolios, and gain hands-on experience with real-world AI tools and techniques.
+        Learn from experts, collaborate on structured learning programs, and access resources that make complex concepts approachable.
+        Whether you're just starting out or expanding your expertise, our learning initiatives help you grow, experiment, and apply AI responsibly.
       </section>
     </div>
 
-    <!-- Featured Learnings -->
+    <!-- FEATURED LEARNING -->
     {featuredLearnings.length > 0 && (
       <>
         <section class="pink-panel featured-learning-space">
           <p class="pink-title">Featured Learning</p>
         </section>
-
         <div class="key-content">
-            <section class="learning-panel">
-              <section class="learning-grid">
-                {featuredLearnings.map(ev => (
-                  <article class="learn-card" data-category={ev.category} data-title={ev.title} data-date={ev.date} data-slug={ev.slug}>
-                    <a href={`/learn/${ev.slug}`}>
-                      <div class="card-media">
-                        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+          <section class="learning-panel">
+            <section class="learning-grid">
+              {featuredLearnings.map(ev => (
+                <article
+                  class="learn-card"
+                  data-category={ev.category}
+                  data-title={ev.title}
+                  data-date={ev.date}
+                  data-slug={ev.slug}
+                >
+                  <a href={`/learn/${ev.slug}`}>
+                    <div class="card-media">
+                      {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                    </div>
+                    <div class="card-body">
+                      <h3 class="card-title">{ev.title}</h3>
+                      <div class="card-divider"></div>
+                      <time class="card-date">{formatDate(ev.date)}</time>
+                      <p class="card-description">{ev.description}</p>
+                      <div class="card-footer">
+                        <span class="card-view-more">View more →</span>
                       </div>
-                      <div class="card-body">
-                        <h3 class="card-title">{ev.title}</h3>
-                        <div class="card-divider"></div>
-                        <time class="card-date">{formatDate(ev.date)}</time>
-                        <p class="card-description">{ev.description}</p>
-                        <div class="card-footer">
-                          <span class="card-view-more">View more →</span>
-                        </div>
-                      </div>
-                    </a>
-                  </article>
-                ))}
-              </section>
-            </section>       
-          </div>  
+                    </div>
+                  </a>
+                </article>
+              ))}
+            </section>
+          </section>
+        </div>
       </>
     )}
 
-    <!-- All Learnings -->
+    <!-- ALL LEARNING RESOURCES -->
     <section class="pink-panel panel-topspace">
       <p class="pink-title">All Learning Resources</p>
     </section>
-
     <div class="key-content">
       <section class="learning-controls">
         <div class="controls-row">
+
+          <!-- Search -->
           <div class="search-wrapper">
             <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="11" cy="11" r="7" />
               <line x1="16.65" y1="16.65" x2="21" y2="21" />
             </svg>
-            <input id="learning-search" type="search" placeholder="Search" aria-label="Search learning" />
+            <input
+              id="learning-search"
+              type="search"
+              placeholder="Search"
+              aria-label="Search learning"
+            />
           </div>
 
+          <!-- Category pills -->
           <div class="type-filter-wrapper">
             <span class="type-filter-label">Category:</span>
             <div id="type-filters" class="type-filter-pill">
               {categories.map(c => (
-                <button class={`type-btn ${c === "All" ? "active" : ""}`} data-category={c} type="button">{c}</button>
+                <button
+                  class={`type-btn ${c === "All" ? "active" : ""}`}
+                  data-category={c}
+                  type="button"
+                >
+                  {c}
+                </button>
               ))}
             </div>
           </div>
 
-          <!-- FILTER POPOVER -->
-            <div class="filters-wrapper">
-              <button
-                id="filters-toggle"
-                aria-haspopup="true"
-                aria-expanded="false"
-                type="button"
-                class="filters-toggle-btn"
-              >
-                <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24">
-                  <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
-                </svg>
-              </button>
-
-              <div
-                id="filters-popover"
-                role="dialog"
-                aria-modal="false"
-                class="filters-popover"
-              >
-                <div class="filters-popover-content">
-                  <div class="filter-group">
-                    <label for="sort-select-pop">Sort</label>
-                    <select id="sort-select-pop">
-                      <option value="none">None</option>
-                      <option value="title-asc">Title A–Z</option>
-                      <option value="title-desc">Title Z–A</option>
-                      <option value="date-asc">Date Earliest → Latest</option>
-                      <option value="date-desc">Date Latest → Earliest</option>
-                    </select>
-                  </div>
+          <!-- Filter popover -->
+          <div class="filters-wrapper">
+            <button
+              id="filters-toggle"
+              aria-haspopup="true"
+              aria-expanded="false"
+              type="button"
+              class="filters-toggle-btn"
+            >
+              <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24">
+                <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
+              </svg>
+            </button>
+            <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
+              <div class="filters-popover-content">
+                <div class="filter-group">
+                  <label for="sort-select-pop">Sort</label>
+                  <select id="sort-select-pop">
+                    <option value="none">None</option>
+                    <option value="title-asc">Title A to Z</option>
+                    <option value="title-desc">Title Z to A</option>
+                    <option value="date-asc">Date Earliest to Latest</option>
+                    <option value="date-desc">Date Latest to Earliest</option>
+                  </select>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-        
-        <section class="learning-panel">
+
+        </div>
+      </section>
+
+      <section class="learning-panel">
         <section id="learning-grid" class="learning-grid">
           {learnings.map(ev => (
-            <article class="learn-card" data-category={ev.category} data-title={ev.title} data-date={ev.date} data-slug={ev.slug}>
+            <article
+              class="learn-card"
+              data-category={ev.category}
+              data-title={ev.title}
+              data-date={ev.date}
+              data-slug={ev.slug}
+            >
               <a href={`/learn/${ev.slug}`}>
                 <div class="card-media">
                   {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
@@ -149,7 +152,7 @@ import {
                 <div class="card-body">
                   <h3 class="card-title">{ev.title}</h3>
                   <div class="card-divider"></div>
-                    <time class="card-date">{formatDate(ev.date)}</time>
+                  <time class="card-date">{formatDate(ev.date)}</time>
                   <p class="card-description">{ev.description}</p>
                   <div class="card-footer">
                     <span class="card-view-more">View more →</span>
@@ -160,16 +163,15 @@ import {
           ))}
         </section>
       </section>
-      
-      <div id="learning-pagination"></div>
 
+      <div id="learning-pagination"></div>
     </div>
+
   </div>
 
-  <Footer />
-</body>
-</html>
-
-<script type="module">
-  import "/src/scripts/learn/learn-script.js";
-</script>
+  <Fragment slot="scripts">
+    <script type="module">
+      import "/src/scripts/learn/learn-script.js";
+    </script>
+  </Fragment>
+</ContentLayout>

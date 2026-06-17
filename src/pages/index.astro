@@ -1,15 +1,14 @@
 ---
 import "@/styles/home.css";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 import { upcomingEvents } from "@/scripts/index/home-loader";
 ---
 
 <BaseLayout>
-  <Fragment slot="head">
-    <!-- Any home-page-specific head tags can go here if needed -->
-  </Fragment>
-
   <div>
+
     <!-- HERO -->
     <div class="header-section">
       <div class="header-spacing">
@@ -27,36 +26,28 @@ import { upcomingEvents } from "@/scripts/index/home-loader";
 
     <!-- WELCOME -->
     <div class="content-wrapper large-space">
-      <section class="pink-panel">
-        <p class="pink-title">Welcome to QUT AIML</p>
-      </section>
-      <div class="info-panel-wrapper">
-        <div class="thick-line-behind"></div>
-        <section class="info-panel">
-          <p class="section-content">
-            Where students come together to explore, experiment, and innovate in the world of AI and ML.
-          </p>
-          <p class="section-content section-space">
-            Join the QUT AI & ML Society as we host hands-on workshops, competitions, and industry-sponsored
-            events designed to challenge your skills and spark your creativity.
-          </p>
-          <p class="section-content section-space">
-            Ready to take your AI journey to the next level? Let's learn, build, and innovate together.
-          </p>
-        </section>
-      </div>
+      <SectionHeader title="Welcome to QUT AIML" />
+      <InfoPanel>
+        <p class="section-content">
+          Where students come together to explore, experiment, and innovate in the world of AI and ML.
+        </p>
+        <p class="section-content section-space">
+          Join the QUT AI & ML Society as we host hands-on workshops, competitions, and industry-sponsored
+          events designed to challenge your skills and spark your creativity.
+        </p>
+        <p class="section-content section-space">
+          Ready to take your AI journey to the next level? Let's learn, build, and innovate together.
+        </p>
+      </InfoPanel>
     </div>
 
     <!-- TOOLKIT -->
     <div class="content-wrapper large-space">
-      <section class="pink-panel">
-        <p class="pink-title">Machine Learning Engineer's Toolkit</p>
-      </section>
+      <SectionHeader title="Machine Learning Engineer's Toolkit" />
       <section class="toolkit-section">
         <div class="toolkit-inner">
           <div class="toolkit-grid">
             <div class="toolkit-line-behind"></div>
-
             <div class="toolkit-column">
               <div class="toolkit-header-card">Programming Languages</div>
               <article class="toolkit-card">
@@ -72,7 +63,6 @@ import { upcomingEvents } from "@/scripts/index/home-loader";
                 </ul>
               </article>
             </div>
-
             <div class="toolkit-column">
               <div class="toolkit-header-card">Essential Tools</div>
               <article class="toolkit-card">
@@ -84,7 +74,6 @@ import { upcomingEvents } from "@/scripts/index/home-loader";
                 </ul>
               </article>
             </div>
-
             <div class="toolkit-column">
               <div class="toolkit-header-card">AI & ML Tips</div>
               <article class="toolkit-card">
@@ -96,16 +85,13 @@ import { upcomingEvents } from "@/scripts/index/home-loader";
                 </ul>
               </article>
             </div>
-
           </div>
         </div>
       </section>
     </div>
 
     <!-- UPCOMING EVENTS -->
-    <section class="pink-panel">
-      <p class="pink-title">Upcoming Events</p>
-    </section>
+    <SectionHeader title="Upcoming Events" />
     <section class="events-panel">
       {upcomingEvents.length > 0 ? (
         <div id="upcoming-events-grid" class="events-grid">
@@ -160,6 +146,7 @@ import { upcomingEvents } from "@/scripts/index/home-loader";
         </div>
       )}
     </section>
+
   </div>
 
   <Fragment slot="scripts">

@@ -1,25 +1,24 @@
 ---
 import "@/styles/partners.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 ---
 
 <ContentLayout description="QUT AI & ML Society Sponsors Page">
   <div class="content-wrapper top-space vacant-space">
 
     <!-- SPONSORS -->
-    <section class="pink-panel">
-      <p class="pink-title">Our Sponsors</p>
-    </section>
-    <div class="info-panel-wrapper">
-      <div class="thick-line-small"></div>
-      <section class="info-panel">
-        <p>
-          Our sponsors are the select organisations that form an exclusive partnership with the QUT AI & ML Society.
-          They provide critical support, helping us deliver high-impact initiatives, workshops, and events for our members.
-          Sponsorship comes with a deeper engagement, reflecting a strategic collaboration with our society's mission.
-        </p>
-      </section>
-    </div>
+    <SectionHeader title="Our Sponsors" />
+
+    <InfoPanel lineStyle="small">
+      <p>
+        Our sponsors are the select organisations that form an exclusive partnership with the QUT AI & ML Society.
+        They provide critical support, helping us deliver high-impact initiatives, workshops, and events for our members.
+        Sponsorship comes with a deeper engagement, reflecting a strategic collaboration with our society's mission.
+      </p>
+    </InfoPanel>
+
     <div class="sponsor-wrapper">
       <a href="https://www.nti.com.au" target="_blank" rel="noopener noreferrer">
         <img src="/data/sponsors/NTI.png" alt="NTI Logo" class="sponsor-logo" />
@@ -27,19 +26,15 @@ import ContentLayout from "@/layouts/ContentLayout.astro";
     </div>
 
     <!-- SUPPORTERS -->
-    <section class="pink-panel">
-      <p class="pink-title">Our Supporters</p>
-    </section>
-    <div class="info-panel-wrapper vacant-space">
-      <div class="thick-line-small"></div>
-      <section class="info-panel">
-        <p>
-          Our supporters are valued organisations who champion the QUT AI & ML Society and contribute to member experiences in meaningful ways.
-          While this group is smaller and curated, the support is more general and flexible, helping provide direct access to opportunities, insights,
-          and resources that enhance our community.
-        </p>
-      </section>
-    </div>
+    <SectionHeader title="Our Supporters" />
+
+    <InfoPanel lineStyle="small">
+      <p>
+        Our supporters are valued organisations who champion the QUT AI & ML Society and contribute to member experiences in meaningful ways.
+        While this group is smaller and curated, the support is more general and flexible, helping provide direct access to opportunities, insights,
+        and resources that enhance our community.
+      </p>
+    </InfoPanel>
 
     <!-- Microsoft -->
     <div class="info-panel-wrapper">
@@ -60,12 +55,18 @@ import ContentLayout from "@/layouts/ContentLayout.astro";
               />
             </div>
           </div>
+
           <aside class="yearbook">
             <h3 class="company-title">Microsoft</h3>
             <p class="company-description">
               Microsoft is a global technology company known for its software, cloud computing, and AI innovations. The company develops tools and platforms that empower individuals, businesses, and organisations worldwide to achieve more through technology.
             </p>
-            <a href="https://www.microsoft.com" target="_blank" rel="noopener noreferrer" class="view-details-link">
+            <a
+              href="https://www.microsoft.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="view-details-link"
+            >
               View more details here
             </a>
           </aside>
@@ -92,12 +93,18 @@ import ContentLayout from "@/layouts/ContentLayout.astro";
               />
             </div>
           </div>
+
           <aside class="yearbook">
             <h3 class="company-title">Australian Computing Society</h3>
             <p class="company-description">
               The Australian Computing Society (ACS) is Australia's leading professional association for IT practitioners. ACS advocates for excellence, professional development, and ethical practice across the technology sector, connecting members and advancing knowledge in tech.
             </p>
-            <a href="https://www.acs.org.au" target="_blank" rel="noopener noreferrer" class="view-details-link">
+            <a
+              href="https://www.acs.org.au"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="view-details-link"
+            >
               View more details here
             </a>
           </aside>
@@ -106,13 +113,10 @@ import ContentLayout from "@/layouts/ContentLayout.astro";
     </div>
 
     <!-- COMING SOON -->
-    <div class="info-panel-wrapper">
-      <div class="thick-line-small"></div>
-      <section class="info-panel">
-        <p>We're still finalising our partnerships for 2026</p>
-        <p>Stay tuned to see the incoming organisations sponsoring QUT AI & ML Society.</p>
-      </section>
-    </div>
+    <InfoPanel lineStyle="small">
+      <p>We're still finalising our partnerships for 2026</p>
+      <p>Stay tuned to see the incoming organisations sponsoring QUT AI & ML Society.</p>
+    </InfoPanel>
 
     <!-- Modal -->
     <div id="sponsorModal" class="photo-modal">

@@ -1,6 +1,8 @@
 ---
 import "@/styles/about/about.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 import { loadAboutData } from "@/scripts/about/exec-data";
 
 const { teamsForClient, degreesForClient } = loadAboutData();
@@ -10,19 +12,14 @@ const { teamsForClient, degreesForClient } = loadAboutData();
   <div class="content-wrapper about-space">
 
     <!-- ABOUT -->
-    <section class="pink-panel">
-      <p class="pink-title">About QUT AIML</p>
-    </section>
-    <div class="info-panel-wrapper">
-      <div class="thick-line-behind"></div>
-      <section class="info-panel">
-        The QUT AI & ML Society is Queensland's largest university society dedicated to artificial intelligence and machine learning.
-        AIML is a student-led community for students across Engineering, IT, Data Science, Business, and other disciplines.
-        Whether you are new to AI or already building projects, AIML gives you clear ways to get involved.
-        Through hackathons, competitions, industry events, and project nights, we help members turn their interest into practical experience.
-        With project topics ranging from regression and clustering to transformers and large language models, AIML gives members a place to gain experience and contribute to meaningful technical work.
-      </section>
-    </div>
+    <SectionHeader title="About QUT AIML" />
+    <InfoPanel>
+      The QUT AI & ML Society is Queensland's largest university society dedicated to artificial intelligence and machine learning.
+      AIML is a student-led community for students across Engineering, IT, Data Science, Business, and other disciplines.
+      Whether you are new to AI or already building projects, AIML gives you clear ways to get involved.
+      Through hackathons, competitions, industry events, and project nights, we help members turn their interest into practical experience.
+      With project topics ranging from regression and clustering to transformers and large language models, AIML gives members a place to gain experience and contribute to meaningful technical work.
+    </InfoPanel>
 
     <div class="content-wrapper objective-space">
 
@@ -96,9 +93,7 @@ const { teamsForClient, degreesForClient } = loadAboutData();
 
       <!-- USEFUL RESOURCES -->
       <div class="content-wrapper">
-        <section class="pink-panel resources-header">
-          <p class="pink-title">Useful Resources</p>
-        </section>
+        <SectionHeader title="Useful Resources" class="resources-header" />
         <section class="resources-section">
           <div class="team-grid-wrapper small-bottom-spacing">
             <div class="team-row">
@@ -173,9 +168,7 @@ const { teamsForClient, degreesForClient } = loadAboutData();
 
       <!-- EXECUTIVE BODY -->
       <div class="content-wrapper">
-        <section class="pink-panel resources-header">
-          <p class="pink-title">The Executive Body</p>
-        </section>
+        <SectionHeader title="The Executive Body" class="resources-header" />
         <section class="resources-section">
           <div class="team-grid-wrapper bottom-spacing">
             <div class="team-row">

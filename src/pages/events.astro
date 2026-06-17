@@ -1,6 +1,8 @@
 ---
 import "@/styles/events.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 import { loadEventsData } from "@/scripts/events/events-loader";
 
 const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
@@ -10,25 +12,18 @@ const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
   <div class="content-wrapper events-space">
 
     <!-- ABOUT -->
-    <section class="pink-panel">
-      <p class="pink-title">Our Events</p>
-    </section>
-    <div class="info-panel-wrapper">
-      <div class="thick-line-behind"></div>
-      <section class="info-panel">
-        The QUT AI & ML Society hosts engaging events designed to connect, inspire, and empower students at all experience levels.
-        From hands-on workshops and AI-focused project nights to industry talks and social meetups, our events provide opportunities to learn, experiment, and grow in a collaborative environment.
-        Members can gain insights from alumni and industry professionals, showcase their skills, and build meaningful connections with peers, researchers, and leaders in AI and machine learning.
-        Join us to participate in events that spark creativity, foster collaboration, and help shape the future of AI innovation.
-      </section>
-    </div>
+    <SectionHeader title="Our Events" />
+    <InfoPanel>
+      The QUT AI & ML Society hosts engaging events designed to connect, inspire, and empower students at all experience levels.
+      From hands-on workshops and AI-focused project nights to industry talks and social meetups, our events provide opportunities to learn, experiment, and grow in a collaborative environment.
+      Members can gain insights from alumni and industry professionals, showcase their skills, and build meaningful connections with peers, researchers, and leaders in AI and machine learning.
+      Join us to participate in events that spark creativity, foster collaboration, and help shape the future of AI innovation.
+    </InfoPanel>
 
     <!-- FEATURED EVENTS -->
     {featuredEvents.length > 0 && (
       <>
-        <section class="pink-panel featured-events-space">
-          <p class="pink-title">Featured Events</p>
-        </section>
+        <SectionHeader title="Featured Events" class="featured-events-space" />
         <div class="key-content">
           <section class="events-panel">
             <section class="events-grid">
@@ -64,9 +59,7 @@ const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
     )}
 
     <!-- ALL EVENTS -->
-    <section class="pink-panel above-spacing">
-      <p class="pink-title">What's on at QUT AIML</p>
-    </section>
+    <SectionHeader title="What's on at QUT AIML" class="above-spacing" />
     <div class="key-content">
       <section class="events-controls">
         <div class="controls-row">

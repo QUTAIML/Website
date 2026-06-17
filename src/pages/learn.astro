@@ -1,6 +1,8 @@
 ---
 import "@/styles/learn/learn.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 import {
   learnings,
   categories,
@@ -13,25 +15,23 @@ import {
   <div class="content-wrapper learning-space">
 
     <!-- ABOUT -->
-    <section class="pink-panel">
-      <p class="pink-title">Explore & Learn</p>
-    </section>
-    <div class="info-panel-wrapper">
-      <div class="thick-line-behind"></div>
-      <section class="info-panel">
-        The QUT AI & ML Society provides members with diverse learning opportunities to explore artificial intelligence and machine learning at every level.
-        Through workshops, tutorials, technical collaborations, and guided tutorials, members can build practical skills, strengthen their portfolios, and gain hands-on experience with real-world AI tools and techniques.
-        Learn from experts, collaborate on structured learning programs, and access resources that make complex concepts approachable.
-        Whether you're just starting out or expanding your expertise, our learning initiatives help you grow, experiment, and apply AI responsibly.
-      </section>
-    </div>
+    <SectionHeader title="Explore & Learn" />
+
+    <InfoPanel>
+      The QUT AI & ML Society provides members with diverse learning opportunities to explore artificial intelligence and machine learning at every level.
+      Through workshops, tutorials, technical collaborations, and guided tutorials, members can build practical skills, strengthen their portfolios, and gain hands-on experience with real-world AI tools and techniques.
+      Learn from experts, collaborate on structured learning programs, and access resources that make complex concepts approachable.
+      Whether you're just starting out or expanding your expertise, our learning initiatives help you grow, experiment, and apply AI responsibly.
+    </InfoPanel>
 
     <!-- FEATURED LEARNING -->
     {featuredLearnings.length > 0 && (
       <>
-        <section class="pink-panel featured-learning-space">
-          <p class="pink-title">Featured Learning</p>
-        </section>
+        <SectionHeader
+          title="Featured Learning"
+          class="featured-learning-space"
+        />
+
         <div class="key-content">
           <section class="learning-panel">
             <section class="learning-grid">
@@ -45,13 +45,19 @@ import {
                 >
                   <a href={`/learn/${ev.slug}`}>
                     <div class="card-media">
-                      {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                      {ev.image ? (
+                        <img src={ev.image} alt={ev.title} />
+                      ) : (
+                        <div class="no-image">No image</div>
+                      )}
                     </div>
+
                     <div class="card-body">
                       <h3 class="card-title">{ev.title}</h3>
                       <div class="card-divider"></div>
                       <time class="card-date">{formatDate(ev.date)}</time>
                       <p class="card-description">{ev.description}</p>
+
                       <div class="card-footer">
                         <span class="card-view-more">View more →</span>
                       </div>
@@ -66,9 +72,11 @@ import {
     )}
 
     <!-- ALL LEARNING RESOURCES -->
-    <section class="pink-panel panel-topspace">
-      <p class="pink-title">All Learning Resources</p>
-    </section>
+    <SectionHeader
+      title="All Learning Resources"
+      class="panel-topspace"
+    />
+
     <div class="key-content">
       <section class="learning-controls">
         <div class="controls-row">
@@ -79,6 +87,7 @@ import {
               <circle cx="11" cy="11" r="7" />
               <line x1="16.65" y1="16.65" x2="21" y2="21" />
             </svg>
+
             <input
               id="learning-search"
               type="search"
@@ -90,6 +99,7 @@ import {
           <!-- Category pills -->
           <div class="type-filter-wrapper">
             <span class="type-filter-label">Category:</span>
+
             <div id="type-filters" class="type-filter-pill">
               {categories.map(c => (
                 <button
@@ -112,14 +122,26 @@ import {
               type="button"
               class="filters-toggle-btn"
             >
-              <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24">
-                <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
+              <svg
+                class="filters-toggle-icon"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+              >
+                <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z" />
               </svg>
             </button>
-            <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
+
+            <div
+              id="filters-popover"
+              role="dialog"
+              aria-modal="false"
+              class="filters-popover"
+            >
               <div class="filters-popover-content">
                 <div class="filter-group">
                   <label for="sort-select-pop">Sort</label>
+
                   <select id="sort-select-pop">
                     <option value="none">None</option>
                     <option value="title-asc">Title A to Z</option>
@@ -147,13 +169,19 @@ import {
             >
               <a href={`/learn/${ev.slug}`}>
                 <div class="card-media">
-                  {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                  {ev.image ? (
+                    <img src={ev.image} alt={ev.title} />
+                  ) : (
+                    <div class="no-image">No image</div>
+                  )}
                 </div>
+
                 <div class="card-body">
                   <h3 class="card-title">{ev.title}</h3>
                   <div class="card-divider"></div>
                   <time class="card-date">{formatDate(ev.date)}</time>
                   <p class="card-description">{ev.description}</p>
+
                   <div class="card-footer">
                     <span class="card-view-more">View more →</span>
                   </div>

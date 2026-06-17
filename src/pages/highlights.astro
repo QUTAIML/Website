@@ -1,13 +1,13 @@
 ---
 import "@/styles/highlights.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 ---
 
 <ContentLayout description="QUT AI & ML Society Sponsors Page">
   <div class="content-wrapper top-space centered">
-    <section class="pink-panel">
-      <p class="pink-title">What we do</p>
-    </section>
+    <SectionHeader title="What we do" />
   </div>
 
   <div class="wwd-layout">
@@ -46,56 +46,44 @@ import ContentLayout from "@/layouts/ContentLayout.astro";
   <div class="content-wrapper vacant-space">
 
     <!-- WEEKLY EVENTS -->
-    <section class="pink-panel">
-      <p class="pink-title">Weekly Events</p>
-    </section>
-    <div class="info-panel-wrapper">
-      <section class="info-panel">
-        <p>
-          Throughout the semester, we host weekly events at QUT's Gardens Point campus,
-          bringing together students from all backgrounds and experience levels.
-        </p>
-        <p>
-          These sessions range from technical workshops and coding challenges to relaxed
-          social events designed to help members connect and collaborate.
-        </p>
-      </section>
-    </div>
+    <SectionHeader title="Weekly Events" />
+    <InfoPanel showLine={false}>
+      <p>
+        Throughout the semester, we host weekly events at QUT's Gardens Point campus,
+        bringing together students from all backgrounds and experience levels.
+      </p>
+      <p>
+        These sessions range from technical workshops and coding challenges to relaxed
+        social events designed to help members connect and collaborate.
+      </p>
+    </InfoPanel>
 
     <!-- INDUSTRY TALKS -->
-    <section class="pink-panel">
-      <p class="pink-title">Industry Talks</p>
-    </section>
-    <div class="info-panel-wrapper">
-      <section class="info-panel">
-        <p>
-          Our industry talks feature professionals from leading organisations who share
-          real-world insights into modern software development, enterprise systems, and
-          applied machine learning.
-        </p>
-        <p>
-          Past speakers have covered topics such as software engineering best practices,
-          modernising enterprise tech stacks, and deploying machine learning solutions at scale.
-        </p>
-      </section>
-    </div>
+    <SectionHeader title="Industry Talks" />
+    <InfoPanel showLine={false}>
+      <p>
+        Our industry talks feature professionals from leading organisations who share
+        real-world insights into modern software development, enterprise systems, and
+        applied machine learning.
+      </p>
+      <p>
+        Past speakers have covered topics such as software engineering best practices,
+        modernising enterprise tech stacks, and deploying machine learning solutions at scale.
+      </p>
+    </InfoPanel>
 
     <!-- TECHNICAL & SOCIAL BALANCE -->
-    <section class="pink-panel">
-      <p class="pink-title">Technical & Social Balance</p>
-    </section>
-    <div class="info-panel-wrapper">
-      <section class="info-panel">
-        <p>
-          Our events are designed to be both insightful and accessible, catering to first-year
-          students, final-year students, and industry professionals alike.
-        </p>
-        <p>
-          By balancing deep technical content with inclusive social experiences, we create an
-          environment where members can learn, grow, and feel part of a supportive community.
-        </p>
-      </section>
-    </div>
+    <SectionHeader title="Technical & Social Balance" />
+    <InfoPanel showLine={false}>
+      <p>
+        Our events are designed to be both insightful and accessible, catering to first-year
+        students, final-year students, and industry professionals alike.
+      </p>
+      <p>
+        By balancing deep technical content with inclusive social experiences, we create an
+        environment where members can learn, grow, and feel part of a supportive community.
+      </p>
+    </InfoPanel>
 
   </div>
 </ContentLayout>

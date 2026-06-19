@@ -1,0 +1,15 @@
+---
+// SectionHeader.astro
+// Renders the recurring pink panel title used across all pages.
+
+interface Props {
+  title: string;
+  class?: string;
+}
+
+const { title, class: className } = Astro.props;
+---
+
+<section class={`pink-panel${className ? ` ${className}` : ""}`}>
+  <p class="pink-title">{title}</p>
+</section>

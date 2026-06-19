@@ -1,0 +1,42 @@
+---
+// BaseLayout.astro
+// Shared shell for every page on the site.
+// Pass `title` and optionally `description` as props.
+// Each page drops its own CSS import and script tag in via slots.
+
+import "@/styles/global.css";
+import Navigation from "@/components/Navigation.astro";
+import Footer from "@/components/Footer.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "QUT AI & ML Society",
+  description = "The QUT AI & ML Society is a student-led community exploring AI and ML through events, workshops, and collaboration.",
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <!-- Page-level <style> or extra <link> tags go here -->
+    <slot name="head" />
+  </head>
+  <body class="background-dots">
+    <Navigation />
+    <main class="main-container">
+      <!-- Page body content goes here -->
+      <slot />
+    </main>
+    <Footer />
+    <!-- Page-level <script> tags go here -->
+    <slot name="scripts" />
+  </body>
+</html>

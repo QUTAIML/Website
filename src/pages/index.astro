@@ -1,225 +1,157 @@
 ---
-import "@/styles/global.css";
 import "@/styles/home.css";
-import Navigation from "@/components/Navigation.astro";
-import Footer from "@/components/Footer.astro";
-
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 import { upcomingEvents } from "@/scripts/index/home-loader";
 ---
 
+<BaseLayout>
+  <div>
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="description" content="The QUT AI & ML Society is a student-led community exploring AI and ML through events, workshops, and collaboration." />
-    <title>QUT AI & ML Society</title>
-  </head>
-  <body class="background-dots">
-    <Navigation />
+    <!-- HERO -->
+    <div class="header-section">
+      <div class="header-spacing">
+        <img src="/Logo-Full.svg" alt="Main Logo" class="site-logo" />
+        <div class="pink-divider"></div>
+      </div>
+      <div class="content-wrapper centered-box">
+        <section class="minimal-padding-panel">
+          <p class="section-content">
+            Empowering the Future through AI & Machine Learning
+          </p>
+        </section>
+      </div>
+    </div>
 
-    <main class="main-container">
-      <div>
-        <div class="header-section">
-			<div class="header-spacing">
-				<img src="/Logo-Full.svg" alt="Main Logo" class="site-logo" />
-				<div class="pink-divider"></div>
-		  	</div>
+    <!-- WELCOME -->
+    <div class="content-wrapper large-space">
+      <SectionHeader title="Welcome to QUT AIML" />
+      <InfoPanel>
+        <p class="section-content">
+          Where students come together to explore, experiment, and innovate in the world of AI and ML.
+        </p>
+        <p class="section-content section-space">
+          Join the QUT AI & ML Society as we host hands-on workshops, competitions, and industry-sponsored
+          events designed to challenge your skills and spark your creativity.
+        </p>
+        <p class="section-content section-space">
+          Ready to take your AI journey to the next level? Let's learn, build, and innovate together.
+        </p>
+      </InfoPanel>
+    </div>
 
-          <div class="content-wrapper centered-box">
-            <section class="minimal-padding-panel">
-              <p class="section-content">
-                Empowering the Future through AI & Machine Learning
-              </p>
-            </section>
+    <!-- TOOLKIT -->
+    <div class="content-wrapper large-space">
+      <SectionHeader title="Machine Learning Engineer's Toolkit" />
+      <section class="toolkit-section">
+        <div class="toolkit-inner">
+          <div class="toolkit-grid">
+            <div class="toolkit-line-behind"></div>
+            <div class="toolkit-column">
+              <div class="toolkit-header-card">Programming Languages</div>
+              <article class="toolkit-card">
+                <ul class="card-list">
+                  <li><strong>Python</strong> — Core language for AI, ML, and data science.</li>
+                  <li>
+                    Learn Python for ML:
+                    <a href="https://www.freecodecamp.org/learn" target="_blank" rel="noopener">
+                      freeCodeCamp Python
+                    </a>
+                  </li>
+                  <li>Scientific computing & ML libraries: NumPy, Pandas, PyTorch, TensorFlow</li>
+                </ul>
+              </article>
+            </div>
+            <div class="toolkit-column">
+              <div class="toolkit-header-card">Essential Tools</div>
+              <article class="toolkit-card">
+                <ul class="card-list">
+                  <li><strong>Jupyter Notebooks</strong> — Interactive experiments & visualisation.</li>
+                  <li><strong>Google Colab</strong> — Free GPUs, zero setup, perfect for ML.</li>
+                  <li><strong>PyCharm</strong> — Professional Python IDE for larger projects.</li>
+                  <li><strong>VS Code</strong> — Lightweight editor with strong ML extensions.</li>
+                </ul>
+              </article>
+            </div>
+            <div class="toolkit-column">
+              <div class="toolkit-header-card">AI & ML Tips</div>
+              <article class="toolkit-card">
+                <ul class="card-list">
+                  <li>Start simple — baseline models beat complex ones done poorly.</li>
+                  <li>Visualise your data before training any model.</li>
+                  <li>Track experiments (metrics, params, datasets).</li>
+                  <li>Learn the math intuition, not just the APIs.</li>
+                </ul>
+              </article>
+            </div>
           </div>
         </div>
+      </section>
+    </div>
 
-			<div class="content-wrapper large-space">
-				<section class="pink-panel">
-					<p class="pink-title">Welcome to QUT AIML</p>
-				</section>
+    <!-- UPCOMING EVENTS -->
+    <SectionHeader title="Upcoming Events" />
+    <section class="events-panel">
+      {upcomingEvents.length > 0 ? (
+        <div id="upcoming-events-grid" class="events-grid">
+          {upcomingEvents.map(ev => (
+            <article
+              class="event-card"
+              data-semester={ev.semesterId}
+              data-category={ev.category}
+              data-type={ev.type ?? ev.category ?? "Other"}
+              data-title={ev.title.toLowerCase()}
+              data-date={ev.date}
+            >
+              {ev.rubric && ev.rubric.trim() !== "" ? (
+                <a href={ev.rubric}>
+                  <div class="card-media">
+                    {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                  </div>
+                  <div class="card-body">
+                    <h3 class="card-title">{ev.title}</h3>
+                    <div class="card-divider"></div>
+                    <time class="card-date">{ev.dateLabel}</time>
+                    <p class="card-description">{ev.excerpt}</p>
+                    <div class="card-footer">
+                      <span class="card-view-more">View more →</span>
+                    </div>
+                  </div>
+                </a>
+              ) : (
+                <div>
+                  <div class="card-media">
+                    {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+                  </div>
+                  <div class="card-body">
+                    <h3 class="card-title">{ev.title}</h3>
+                    <div class="card-divider"></div>
+                    <time class="card-date">{ev.dateLabel}</time>
+                    <p class="card-description">{ev.excerpt}</p>
+                  </div>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="no-events-state">
+          <p class="no-events-title">No upcoming events right now</p>
+          <p class="no-events-text">
+            We're working on new workshops, talks, and projects.
+            <br />
+            Follow us or join our community to be the first to know.
+          </p>
+        </div>
+      )}
+    </section>
 
-				<div class="info-panel-wrapper">
-					<div class="thick-line-behind"></div>
-					<section class="info-panel">
-					<p class="section-content">
-						Where students come together to explore, experiment, and innovate in the world of AI and ML. 
-					</p>
-					<p class="section-content section-space">
-						Join the QUT AI & ML Society as we host hands-on workshops, competitions, and industry-sponsored events designed to challenge your skills and spark your creativity.
-					</p>
-					<p class="section-content section-space">
-						Ready to take your AI journey to the next level? Let’s learn, build, and innovate together.
-					</p>
-					</section>
-				</div>
-			</div>
+  </div>
 
-
-			<div class="content-wrapper large-space">
-				<!-- Section header -->
-				<section class="pink-panel">
-				<p class="pink-title">Machine Learning Engineer's Toolkit</p>
-				</section>
-
-				<section class="toolkit-section">
-				<div class="toolkit-inner">
-
-					<div class="toolkit-grid">
-						<div class="toolkit-line-behind"></div>
-
-
-						<!-- COLUMN 1 -->
-						<div class="toolkit-column">
-							<div class="toolkit-header-card">
-							Programming Languages
-							</div>
-
-							<article class="toolkit-card">
-							<ul class="card-list">
-								<li>
-								<strong>Python</strong> — Core language for AI, ML, and data science.
-								</li>
-								<li>
-								Learn Python for ML:
-								<a href="https://www.freecodecamp.org/learn" target="_blank" rel="noopener">
-									freeCodeCamp Python
-								</a>
-								</li>
-								<li>
-								Scientific computing & ML libraries:
-								NumPy, Pandas, PyTorch, TensorFlow
-								</li>
-							</ul>
-							</article>
-						</div>
-
-						<!-- COLUMN 2 -->
-						<div class="toolkit-column">
-							<div class="toolkit-header-card">
-							Essential Tools
-							</div>
-
-							<article class="toolkit-card">
-							<ul class="card-list">
-								<li>
-								<strong>Jupyter Notebooks</strong> — Interactive experiments & visualisation.
-								</li>
-								<li>
-								<strong>Google Colab</strong> — Free GPUs, zero setup, perfect for ML.
-								</li>
-								<li>
-								<strong>PyCharm</strong> — Professional Python IDE for larger projects.
-								</li>
-								<li>
-								<strong>VS Code</strong> — Lightweight editor with strong ML extensions.
-								</li>
-							</ul>
-							</article>
-						</div>
-
-						<!-- COLUMN 3 -->
-						<div class="toolkit-column">
-							<div class="toolkit-header-card">
-							AI & ML Tips
-							</div>
-
-							<article class="toolkit-card">
-							<ul class="card-list">
-								<li>
-								Start simple — baseline models beat complex ones done poorly.
-								</li>
-								<li>
-								Visualise your data before training any model.
-								</li>
-								<li>
-								Track experiments (metrics, params, datasets).
-								</li>
-								<li>
-								Learn the math intuition, not just the APIs.
-								</li>
-							</ul>
-							</article>
-						</div>
-
-					</div>
-				</div>
-				</section>
-
-			</div>
-
-
-			<section class="pink-panel">
-			<p class="pink-title">Upcoming Events</p>
-			</section>
-
-			<section class="events-panel">
-				{upcomingEvents.length > 0 ? (
-					<div id="upcoming-events-grid" class="events-grid">
-					{upcomingEvents.map(ev => {
-						const type = ev.type ?? ev.category ?? "Other";
-						return (
-							<article
-							class="event-card"
-							data-semester={ev.semesterId}
-							data-category={ev.category}
-							data-type={ev.type ?? ev.category ?? "Other"}
-							data-title={ev.title.toLowerCase()}
-							data-date={ev.date}
-							>
-							{ev.rubric && ev.rubric.trim() !== "" ? (
-								<a href={ev.rubric}>
-								<div class="card-media">
-									{ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-								</div>
-								<div class="card-body">
-									<h3 class="card-title">{ev.title}</h3>
-									<div class="card-divider"></div>
-									<time class="card-date">{ev.dateLabel}</time>
-									<p class="card-description">{ev.excerpt}</p>
-									<div class="card-footer">
-									<span class="card-view-more">View more →</span>
-									</div>
-								</div>
-								</a>
-							) : (
-								<div>
-								<div class="card-media">
-									{ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-								</div>
-								<div class="card-body">
-									<h3 class="card-title">{ev.title}</h3>
-									<div class="card-divider"></div>
-									<time class="card-date">{ev.dateLabel}</time>
-									<p class="card-description">{ev.excerpt}</p>
-								</div>
-								</div>
-							)}
-							</article>
-						);
-					})}
-					</div>
-				) : (
-					<div class="no-events-state">
-					<p class="no-events-title">No upcoming events right now</p>
-					<p class="no-events-text">
-						We’re working on new workshops, talks, and projects.
-						<br />
-						Follow us or join our community to be the first to know.
-					</p>
-					</div>
-				)}
-				</section>
-
-      </div>
-    </main>
-
-    <Footer />
-  </body>
-</html>
-
-<script type="module">
-  import "/src/scripts/home/home-script.js";
-</script>
+  <Fragment slot="scripts">
+    <script type="module">
+      import "/src/scripts/home/home-script.js";
+    </script>
+  </Fragment>
+</BaseLayout>

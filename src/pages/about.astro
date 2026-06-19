@@ -1,100 +1,67 @@
 ---
-import "@/styles/global.css";
 import "@/styles/about/about.css";
-
-import Navigation from "@/components/Navigation.astro";
-import Footer from "@/components/Footer.astro";
-
+import ContentLayout from "@/layouts/ContentLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 import { loadAboutData } from "@/scripts/about/exec-data";
 
-const {
-  teamsForClient,
-  degreesForClient,
-} = loadAboutData();
+const { teamsForClient, degreesForClient } = loadAboutData();
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta
-      name="description"
-      content="The QUT AI & ML Society is a student-led community exploring artificial intelligence and machine learning."
-    />
-    <title>QUT AI & ML Society</title>
-  </head>
+<ContentLayout>
+  <div class="content-wrapper about-space">
 
-  <body class="background-dots">
-    <Navigation />
+    <!-- ABOUT -->
+    <SectionHeader title="About QUT AIML" />
+    <InfoPanel>
+      The QUT AI & ML Society is Queensland's largest university society dedicated to artificial intelligence and machine learning.
+      AIML is a student-led community for students across Engineering, IT, Data Science, Business, and other disciplines.
+      Whether you are new to AI or already building projects, AIML gives you clear ways to get involved.
+      Through hackathons, competitions, industry events, and project nights, we help members turn their interest into practical experience.
+      With project topics ranging from regression and clustering to transformers and large language models, AIML gives members a place to gain experience and contribute to meaningful technical work.
+    </InfoPanel>
 
-    <div class="content-wrapper about-space">
-      <!-- ABOUT -->
-      <section class="pink-panel">
-        <p class="pink-title">About QUT AIML</p>
-      </section>
+    <div class="content-wrapper objective-space">
 
-      <div class="info-panel-wrapper">
-        <div class="thick-line-behind"></div>			
-        <section class="info-panel">
-          The QUT AI & ML Society is Queensland’s largest university society dedicated to artificial intelligence and machine learning. 
-          AIML is a student-led community for students across Engineering, IT, Data Science, Business, and other disciplines. 
-          Whether you are new to AI or already building projects, AIML gives you clear ways to get involved. 
-          Through hackathons, competitions, industry events, and project nights, we help members turn their interest into practical experience.
-          With project topics ranging from regression and clustering to transformers and large language models, AIML gives members a place to gain experience and contribute to meaningful technical work.
-        </section>
-      </div>
-
-      <div class="content-wrapper objective-space">
-
-        <!-- OBJECTIVES -->
-        <div class="objectives-wrapper">
-          <div class="thick-line-behind"></div>
-
-          <section class="objectives-section">
-            <div class="objectives-inner">
-              <div class="objectives-header">
-                <span class="banner left"></span>
-                <h2>OUR<br /><span>OBJECTIVES</span></h2>
-                <span class="banner right"></span>
+      <!-- OBJECTIVES -->
+      <div class="objectives-wrapper">
+        <div class="thick-line-behind"></div>
+        <section class="objectives-section">
+          <div class="objectives-inner">
+            <div class="objectives-header">
+              <span class="banner left"></span>
+              <h2>OUR<br /><span>OBJECTIVES</span></h2>
+              <span class="banner right"></span>
+            </div>
+            <div class="objectives-cards">
+              <div class="objective-item">
+                <div class="objective-number">1</div>
+                <div class="objective-card">
+                  <p>Gain insights and guidance from alumni, professionals, and leaders in the AI and ML industry.</p>
+                </div>
               </div>
-
-              <div class="objectives-cards">
-                <div class="objective-item">
-                  <div class="objective-number">1</div>
-                  <div class="objective-card">
-                    <p>Gain insights and guidance from alumni, professionals, and leaders in the AI and ML industry.</p>
-                  </div>
+              <div class="objective-item">
+                <div class="objective-number">2</div>
+                <div class="objective-card">
+                  <p>Collaborate, experiment, and build impactful projects focused on artificial intelligence and machine learning.</p>
                 </div>
-
-                <div class="objective-item">
-                  <div class="objective-number">2</div>
-                  <div class="objective-card">
-                    <p>Collaborate, experiment, and build impactful projects focused on artificial intelligence and machine learning.</p>
-                  </div>
-                </div>
-
-                <div class="objective-item">
-                  <div class="objective-number">3</div>
-                  <div class="objective-card">
-                    <p>Connect and network with students, researchers, and professionals in the AI, ML, and broader tech community.</p>
-                  </div>
+              </div>
+              <div class="objective-item">
+                <div class="objective-number">3</div>
+                <div class="objective-card">
+                  <p>Connect and network with students, researchers, and professionals in the AI, ML, and broader tech community.</p>
                 </div>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
+      </div>
 
-
-        
       <!-- DEGREES -->
       <section class="degree-section">
-
         <section class="pink-panel-flex">
           <p class="pink-title">Relevant Degrees</p>
         </section>
-
-        <!-- Section title below -->
         <div class="content-wrapper centered-box">
           <section class="minimal-padding-panel spacing-top">
             <p class="section-content">
@@ -102,51 +69,35 @@ const {
             </p>
           </section>
         </div>
-
-        <!-- Carousel grid -->
         <div class="degree-grid-wrapper">
           <div class="degree-row">
             <div class="side-bar left">
               <button class="carousel-arrow-degree left-degree">‹</button>
             </div>
-
             <div
               class="degree-grid"
               id="degrees-grid"
               data-teams={JSON.stringify(degreesForClient)}
             ></div>
-
             <div class="side-bar right">
               <button class="carousel-arrow-degree right-degree">›</button>
             </div>
           </div>
-
           <div class="degree-dots" id="degrees-dots"></div>
         </div>
-
-        <!-- Mobile arrows above the grid -->
         <div class="degree-arrows-mobile-panel">
           <button class="carousel-arrow left">‹</button>
           <button class="carousel-arrow right">›</button>
         </div>
       </section>
 
-
-
+      <!-- USEFUL RESOURCES -->
       <div class="content-wrapper">
-
-        <!-- RESOURCES -->
-        <section class="pink-panel resources-header">
-          <p class="pink-title">Useful Resources</p>
-        </section>
-
+        <SectionHeader title="Useful Resources" class="resources-header" />
         <section class="resources-section">
-
-          <!-- Cards grid -->
           <div class="team-grid-wrapper small-bottom-spacing">
             <div class="team-row">
               <div class="team-grid resources-grid">
-
                 <div class="team-card resource-card">
                   <div class="team-info">
                     <h3>Frequently Asked Questions</h3>
@@ -154,7 +105,6 @@ const {
                     <a href="/about/faq" class="resource-link">View more</a>
                   </div>
                 </div>
-
                 <div class="team-card resource-card">
                   <div class="team-info">
                     <h3>Our Community</h3>
@@ -162,7 +112,6 @@ const {
                     <a href="/about/community" class="resource-link">View more</a>
                   </div>
                 </div>
-
                 <div class="team-card resource-card">
                   <div class="team-info">
                     <h3>Constitution</h3>
@@ -170,7 +119,6 @@ const {
                     <a href="https://github.com/QUT-AIML/Constitution/blob/main/Role-Descriptions.md" class="resource-link">View more</a>
                   </div>
                 </div>
-
                 <div class="team-card resource-card">
                   <div class="team-info">
                     <h3>Code of Conduct</h3>
@@ -184,66 +132,47 @@ const {
         </section>
       </div>
 
-        <!-- TEAM -->
-        <section class="team-section">
-          <!-- Pink panel header + button on same row -->
-          <div class="pink-panel-flex">
-            <p class="pink-title">Meet the Team</p>
-          </div>
-
-          <!-- Team name below -->
-          <div class="content-wrapper centered-box">
-            <section class="minimal-padding-panel spacing-top">
-              <p class="section-content">
-                <div id="team-title" class="team-name"></div>
-              </p>
-            </section>
-          </div>
-
-          <!-- Team carousel grid -->
-          <div class="team-grid-wrapper">
-            <div class="team-row">
-              <div class="side-bar left">
-                <button class="carousel-arrow left">‹</button>
-              </div>
-
-              <div
-                class="team-grid"
-                id="team-grid"
-                data-teams={JSON.stringify(teamsForClient)}
-              ></div>
-
-              <div class="side-bar right">
-                <button class="carousel-arrow right">›</button>
-              </div>
+      <!-- TEAM -->
+      <section class="team-section">
+        <div class="pink-panel-flex">
+          <p class="pink-title">Meet the Team</p>
+        </div>
+        <div class="content-wrapper centered-box">
+          <section class="minimal-padding-panel spacing-top">
+            <p class="section-content">
+              <div id="team-title" class="team-name"></div>
+            </p>
+          </section>
+        </div>
+        <div class="team-grid-wrapper">
+          <div class="team-row">
+            <div class="side-bar left">
+              <button class="carousel-arrow left">‹</button>
             </div>
-
-            <div class="team-dots" id="team-dots"></div>
+            <div
+              class="team-grid"
+              id="team-grid"
+              data-teams={JSON.stringify(teamsForClient)}
+            ></div>
+            <div class="side-bar right">
+              <button class="carousel-arrow right">›</button>
+            </div>
           </div>
+          <div class="team-dots" id="team-dots"></div>
+        </div>
+        <div class="team-arrows-mobile-panel">
+          <button class="carousel-arrow left">‹</button>
+          <button class="carousel-arrow right">›</button>
+        </div>
+      </section>
 
-          <!-- Mobile arrow wrapper above the grid -->    
-          <div class="team-arrows-mobile-panel">
-            <button class="carousel-arrow left">‹</button>
-            <button class="carousel-arrow right">›</button>
-          </div>
-
-        </section>
-
-
+      <!-- EXECUTIVE BODY -->
       <div class="content-wrapper">
-
-        <!-- RESOURCES -->
-        <section class="pink-panel resources-header">
-          <p class="pink-title">The Executive Body</p>
-        </section>
-
+        <SectionHeader title="The Executive Body" class="resources-header" />
         <section class="resources-section">
-
-          <!-- Cards grid -->
           <div class="team-grid-wrapper bottom-spacing">
             <div class="team-row">
               <div class="team-grid resources-grid">
-
                 <div class="team-card resource-card">
                   <div class="team-info">
                     <h3>How to become an Executive</h3>
@@ -251,7 +180,6 @@ const {
                     <a href="/about/exec-application" class="resource-link">View more</a>
                   </div>
                 </div>
-
                 <div class="team-card resource-card">
                   <div class="team-info">
                     <h3>Our History</h3>
@@ -259,21 +187,18 @@ const {
                     <a href="/about/history" class="resource-link">View more</a>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
         </section>
       </div>
+
     </div>
-    <Footer />
-    </div>
-  </body>
-</html>
+  </div>
 
-<script type="module">
-  import "/src/scripts/about/about-script.js";
-</script>
-
-
-  
+  <Fragment slot="scripts">
+    <script type="module">
+      import "/src/scripts/about/about-script.js";
+    </script>
+  </Fragment>
+</ContentLayout>

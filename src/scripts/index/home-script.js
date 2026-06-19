@@ -219,4 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   applyFilters();
+
+
 });
+

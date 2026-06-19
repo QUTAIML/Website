@@ -1,0 +1,72 @@
+---
+interface Props {
+  title: string;
+
+  sectionClass: string;
+
+  gridClass: string;
+  gridId: string;
+
+  dotsClass: string;
+  dotsId: string;
+
+  titleId: string;
+  titleClass: string;
+
+  data: unknown;
+}
+
+const {
+  title,
+
+  sectionClass,
+
+  gridClass,
+  gridId,
+
+  dotsClass,
+  dotsId,
+
+  titleId,
+  titleClass,
+
+  data,
+} = Astro.props;
+---
+
+<section class={sectionClass}>
+  <section class="pink-panel-flex">
+    <p class="pink-title">{title}</p>
+  </section>
+
+  <div class="content-wrapper centered-box">
+    <section class="minimal-padding-panel spacing-top">
+      <div id={titleId} class={titleClass}></div>
+    </section>
+  </div>
+
+  <div class={`${gridClass}-wrapper`}>
+    <div class="team-row">
+      <div class="side-bar left">
+        <button class="carousel-arrow left">‹</button>
+      </div>
+
+      <div
+        class={gridClass}
+        id={gridId}
+        data-teams={JSON.stringify(data)}
+      ></div>
+
+      <div class="side-bar right">
+        <button class="carousel-arrow right">›</button>
+      </div>
+    </div>
+
+    <div class={dotsClass} id={dotsId}></div>
+  </div>
+
+  <div class="team-arrows-mobile-panel">
+    <button class="carousel-arrow left">‹</button>
+    <button class="carousel-arrow right">›</button>
+  </div>
+</section>

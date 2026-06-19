@@ -1,124 +1,89 @@
 ---
-import "@/styles/global.css";
 import "@/styles/highlights.css";
-import Navigation from "@/components/Navigation.astro";
-import Footer from "@/components/Footer.astro";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import InfoPanel from "@/components/InfoPanel.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="description" content="QUT AI & ML Society Sponsors Page" />
-    <title>QUT AI & ML Society</title>
-  </head>
+<ContentLayout description="QUT AI & ML Society Sponsors Page">
+  <div class="content-wrapper top-space centered">
+    <SectionHeader title="What we do" />
+  </div>
 
-  <body class="background-dots">
-    <Navigation />
-
-      <div class="content-wrapper top-space centered">
-
-        <section class="pink-panel">
-          <p class="pink-title">What we do</p>
-        </section>
+  <div class="wwd-layout">
+    <!-- Row 1 -->
+    <div class="wwd-row-wrapper">
+      <div class="bar left-bar row-1"></div>
+      <div class="wwd-row">
+        <div class="wwd-item">Weekly Events</div>
+        <div class="wwd-item">700+ Instagram Followers</div>
+        <div class="wwd-item">Industry Networking</div>
+        <div class="wwd-item">Practical Workshops</div>
       </div>
-
-      <div class="wwd-layout">
-
-        <!-- Row 1 -->
-        <div class="wwd-row-wrapper">
-          <div class="bar left-bar row-1"></div>
-          <div class="wwd-row">
-            <div class="wwd-item">Weekly Events</div>
-            <div class="wwd-item">700+ Instagram Followers</div>
-            <div class="wwd-item">Industry Networking</div>
-            <div class="wwd-item">Practical Workshops</div>
-          </div>
-          <div class="bar right-bar row-1"></div>
-        </div>
-
-        <!-- Row 2 -->
-        <div class="wwd-row-wrapper">
-          <div class="bar left-bar row-2"></div>
-          <div class="wwd-row">
-            <div class="wwd-item">Cross-club Collaboration</div>
-            <div class="wwd-item">Mentorship</div>
-            <div class="wwd-item">Major events</div>
-          </div>
-          <div class="bar right-bar row-2"></div>
-        </div>
-
-        <!-- Row 3 -->
-        <div class="wwd-row-wrapper">
-          <div class="bar left-bar row-3"></div>
-          <div class="wwd-row">
-            <div class="wwd-item">Regular Social Events</div>
-            <div class="wwd-item">Student-led Projects</div>
-          </div>
-          <div class="bar right-bar row-3"></div>
-        </div>
+      <div class="bar right-bar row-1"></div>
     </div>
-
-
-    <div class="content-wrapper vacant-space">
-      <!-- WEEKLY EVENTS -->
-      <section class="pink-panel">
-        <p class="pink-title">Weekly Events</p>
-      </section>
-
-      <div class="info-panel-wrapper">
-        <section class="info-panel">
-          <p>
-            Throughout the semester, we host weekly events at QUT’s Gardens Point campus,
-            bringing together students from all backgrounds and experience levels.
-          </p>
-          <p>
-            These sessions range from technical workshops and coding challenges to relaxed
-            social events designed to help members connect and collaborate.
-          </p>
-        </section>
+    <!-- Row 2 -->
+    <div class="wwd-row-wrapper">
+      <div class="bar left-bar row-2"></div>
+      <div class="wwd-row">
+        <div class="wwd-item">Cross-club Collaboration</div>
+        <div class="wwd-item">Mentorship</div>
+        <div class="wwd-item">Major events</div>
       </div>
-
-      <!-- INDUSTRY TALKS -->
-      <section class="pink-panel">
-        <p class="pink-title">Industry Talks</p>
-      </section>
-
-      <div class="info-panel-wrapper">
-        <section class="info-panel">
-          <p>
-            Our industry talks feature professionals from leading organisations who share
-            real-world insights into modern software development, enterprise systems, and
-            applied machine learning.
-          </p>
-          <p>
-            Past speakers have covered topics such as software engineering best practices,
-            modernising enterprise tech stacks, and deploying machine learning solutions at scale.
-          </p>
-        </section>
-      </div>
-
-      <!-- TECHNICAL & SOCIAL BALANCE -->
-      <section class="pink-panel">
-        <p class="pink-title">Technical & Social Balance</p>
-      </section>
-
-      <div class="info-panel-wrapper">
-        <section class="info-panel">
-          <p>
-            Our events are designed to be both insightful and accessible, catering to first-year
-            students, final-year students, and industry professionals alike.
-          </p>
-          <p>
-            By balancing deep technical content with inclusive social experiences, we create an
-            environment where members can learn, grow, and feel part of a supportive community.
-          </p>
-        </section>
-      </div>
+      <div class="bar right-bar row-2"></div>
     </div>
+    <!-- Row 3 -->
+    <div class="wwd-row-wrapper">
+      <div class="bar left-bar row-3"></div>
+      <div class="wwd-row">
+        <div class="wwd-item">Regular Social Events</div>
+        <div class="wwd-item">Student-led Projects</div>
+      </div>
+      <div class="bar right-bar row-3"></div>
+    </div>
+  </div>
 
+  <div class="content-wrapper vacant-space">
 
-    <Footer />
-  </body>
-</html>
+    <!-- WEEKLY EVENTS -->
+    <SectionHeader title="Weekly Events" />
+    <InfoPanel showLine={false}>
+      <p>
+        Throughout the semester, we host weekly events at QUT's Gardens Point campus,
+        bringing together students from all backgrounds and experience levels.
+      </p>
+      <p>
+        These sessions range from technical workshops and coding challenges to relaxed
+        social events designed to help members connect and collaborate.
+      </p>
+    </InfoPanel>
+
+    <!-- INDUSTRY TALKS -->
+    <SectionHeader title="Industry Talks" />
+    <InfoPanel showLine={false}>
+      <p>
+        Our industry talks feature professionals from leading organisations who share
+        real-world insights into modern software development, enterprise systems, and
+        applied machine learning.
+      </p>
+      <p>
+        Past speakers have covered topics such as software engineering best practices,
+        modernising enterprise tech stacks, and deploying machine learning solutions at scale.
+      </p>
+    </InfoPanel>
+
+    <!-- TECHNICAL & SOCIAL BALANCE -->
+    <SectionHeader title="Technical & Social Balance" />
+    <InfoPanel showLine={false}>
+      <p>
+        Our events are designed to be both insightful and accessible, catering to first-year
+        students, final-year students, and industry professionals alike.
+      </p>
+      <p>
+        By balancing deep technical content with inclusive social experiences, we create an
+        environment where members can learn, grow, and feel part of a supportive community.
+      </p>
+    </InfoPanel>
+
+  </div>
+</ContentLayout>

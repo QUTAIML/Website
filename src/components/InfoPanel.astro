@@ -1,0 +1,21 @@
+---
+// InfoPanel.astro
+// Renders the recurring info panel wrapper used across all pages.
+// Set showLine={false} to omit the decorative thick line (default: true).
+
+interface Props {
+  showLine?: boolean;
+  lineStyle?: "behind" | "small";
+}
+
+const { showLine = true, lineStyle = "behind" } = Astro.props;
+
+const lineClass = lineStyle === "small" ? "thick-line-small" : "thick-line-behind";
+---
+
+<div class="info-panel-wrapper">
+  {showLine && <div class={lineClass}></div>}
+  <section class="info-panel">
+    <slot />
+  </section>
+</div>

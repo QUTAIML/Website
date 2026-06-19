@@ -4,6 +4,7 @@ import ContentLayout from "@/layouts/ContentLayout.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
 import InfoPanel from "@/components/InfoPanel.astro";
 import { loadEventsData } from "@/scripts/events/events-loader";
+import EventCard from "@/components/EventCard.astro";
 
 const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
 ---
@@ -21,6 +22,7 @@ const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
     </InfoPanel>
 
     <!-- FEATURED EVENTS -->
+     
     {featuredEvents.length > 0 && (
       <>
         <SectionHeader title="Featured Events" class="featured-events-space" />
@@ -28,29 +30,7 @@ const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
           <section class="events-panel">
             <section class="events-grid">
               {featuredEvents.map(ev => (
-                <article
-                  class="event-card"
-                  data-semester={ev.semesterId}
-                  data-category={ev.category}
-                  data-type={ev.type ?? ev.category ?? "Other"}
-                  data-title={ev.title.toLowerCase()}
-                  data-date={ev.date}
-                >
-                  <a href={`/events/${ev.semesterId}/${ev.slug}`}>
-                    <div class="card-media">
-                      {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                    </div>
-                    <div class="card-body">
-                      <h3 class="card-title">{ev.title}</h3>
-                      <div class="card-divider"></div>
-                      <time class="card-date">{ev.dateLabel}</time>
-                      <p class="card-description">{ev.excerpt}</p>
-                      <div class="card-footer">
-                        <span class="card-view-more">View more →</span>
-                      </div>
-                    </div>
-                  </a>
-                </article>
+                <EventCard ev={ev} href={`/events/${ev.semesterId}/${ev.slug}`} />
               ))}
             </section>
           </section>
@@ -144,43 +124,7 @@ const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
       <section class="events-panel">
         <section id="events-grid" class="events-grid">
           {eventsBySemester.map(ev => (
-            <article
-              class="event-card"
-              data-semester={ev.semesterId}
-              data-category={ev.category}
-              data-type={ev.type ?? ev.category ?? "Other"}
-              data-title={ev.title.toLowerCase()}
-              data-date={ev.date}
-            >
-              {ev.rubric && ev.rubric.trim() !== "" ? (
-                <a href={ev.rubric}>
-                  <div class="card-media">
-                    {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                  </div>
-                  <div class="card-body">
-                    <h3 class="card-title">{ev.title}</h3>
-                    <div class="card-divider"></div>
-                    <time class="card-date">{ev.dateLabel}</time>
-                    <p class="card-description">{ev.excerpt}</p>
-                    <div class="card-footer">
-                      <span class="card-view-more">View more →</span>
-                    </div>
-                  </div>
-                </a>
-              ) : (
-                <div>
-                  <div class="card-media">
-                    {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                  </div>
-                  <div class="card-body">
-                    <h3 class="card-title">{ev.title}</h3>
-                    <div class="card-divider"></div>
-                    <time class="card-date">{ev.dateLabel}</time>
-                    <p class="card-description">{ev.excerpt}</p>
-                  </div>
-                </div>
-              )}
-            </article>
+            <EventCard ev={ev} href={ev.rubric || null} />
           ))}
         </section>
       </section>

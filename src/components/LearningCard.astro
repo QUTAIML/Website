@@ -1,0 +1,49 @@
+---
+import { formatDate } from "@/scripts/learn/learn-loader.js";
+
+const { item, href } = Astro.props;
+---
+
+<article
+  class="learning-card"
+  data-category={item.category}
+  data-title={item.title}
+  data-date={item.date}
+  data-slug={item.slug}
+>
+  <a href={href}>
+    <div class="card-media">
+      {item.image ? (
+        <img src={item.image} alt={item.title} />
+      ) : (
+        <div class="no-image">No image</div>
+      )}
+    </div>
+
+    <div class="card-body">
+      <h3 class="card-title">{item.title}</h3>
+
+      {item.level && (
+        <span class="learning-level">{item.level}</span>
+      )}
+
+      <div class="card-divider"></div>
+
+      <time class="card-date">{formatDate(item.date)}</time>
+
+      <p class="card-description">{item.description}</p>
+
+      {item.tags?.length > 0 && (
+        <div class="tag-row">
+          {item.tags.map(tag => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )}
+
+      <div class="card-footer">
+        <span class="card-view-more">View more →</span>
+      </div>
+    </div>
+  </a>
+</article>

@@ -3,8 +3,6 @@ import "@/styles/about/about.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
 import InfoPanel from "@/components/InfoPanel.astro";
-import ResourceCard from "@/components/ResourceCard.astro";
-import ResourceSection from "@/components/ResourceSection.astro";
 import { loadAboutData } from "@/scripts/about/exec-data";
 
 const { teamsForClient, degreesForClient } = loadAboutData();
@@ -35,7 +33,6 @@ const { teamsForClient, degreesForClient } = loadAboutData();
               <h2>OUR<br /><span>OBJECTIVES</span></h2>
               <span class="banner right"></span>
             </div>
-
             <div class="objectives-cards">
               <div class="objective-item">
                 <div class="objective-number">1</div>
@@ -43,14 +40,12 @@ const { teamsForClient, degreesForClient } = loadAboutData();
                   <p>Gain insights and guidance from alumni, professionals, and leaders in the AI and ML industry.</p>
                 </div>
               </div>
-
               <div class="objective-item">
                 <div class="objective-number">2</div>
                 <div class="objective-card">
                   <p>Collaborate, experiment, and build impactful projects focused on artificial intelligence and machine learning.</p>
                 </div>
               </div>
-
               <div class="objective-item">
                 <div class="objective-number">3</div>
                 <div class="objective-card">
@@ -58,7 +53,6 @@ const { teamsForClient, degreesForClient } = loadAboutData();
                 </div>
               </div>
             </div>
-
           </div>
         </section>
       </div>
@@ -68,7 +62,6 @@ const { teamsForClient, degreesForClient } = loadAboutData();
         <section class="pink-panel-flex">
           <p class="pink-title">Relevant Degrees</p>
         </section>
-
         <div class="content-wrapper centered-box">
           <section class="minimal-padding-panel spacing-top">
             <p class="section-content">
@@ -76,23 +69,22 @@ const { teamsForClient, degreesForClient } = loadAboutData();
             </p>
           </section>
         </div>
-
         <div class="degree-grid-wrapper">
           <div class="degree-row">
             <div class="side-bar left">
               <button class="carousel-arrow-degree left-degree">‹</button>
             </div>
-
-            <div class="degree-grid" id="degrees-grid" data-teams={JSON.stringify(degreesForClient)}></div>
-
+            <div
+              class="degree-grid"
+              id="degrees-grid"
+              data-teams={JSON.stringify(degreesForClient)}
+            ></div>
             <div class="side-bar right">
               <button class="carousel-arrow-degree right-degree">›</button>
             </div>
           </div>
-
           <div class="degree-dots" id="degrees-dots"></div>
         </div>
-
         <div class="degree-arrows-mobile-panel">
           <button class="carousel-arrow left">‹</button>
           <button class="carousel-arrow right">›</button>
@@ -100,38 +92,51 @@ const { teamsForClient, degreesForClient } = loadAboutData();
       </section>
 
       <!-- USEFUL RESOURCES -->
-      <ResourceSection title="Useful Resources" class="small-bottom-spacing">
-        <ResourceCard
-          title="Frequently Asked Questions"
-          description="Answers to common questions about membership, events, and involvement."
-          href="/about/faq"
-        />
-
-        <ResourceCard
-          title="Our Community"
-          description="Learn about our culture, values, and what makes AIML special."
-          href="/about/community"
-        />
-
-        <ResourceCard
-          title="Constitution"
-          description="Our governing document outlining structure, roles, and processes."
-          href="https://github.com/QUT-AIML/Constitution/blob/main/Role-Descriptions.md"
-        />
-
-        <ResourceCard
-          title="Code of Conduct"
-          description="Guidelines to ensure a safe, inclusive, and respectful community."
-          href="https://github.com/QUT-AIML/Code-of-Conduct"
-        />
-      </ResourceSection>
+      <div class="content-wrapper">
+        <SectionHeader title="Useful Resources" class="resources-header" />
+        <section class="resources-section">
+          <div class="team-grid-wrapper small-bottom-spacing">
+            <div class="team-row">
+              <div class="team-grid resources-grid">
+                <div class="team-card resource-card">
+                  <div class="team-info">
+                    <h3>Frequently Asked Questions</h3>
+                    <p>Answers to common questions about membership, events, and involvement.</p>
+                    <a href="/about/faq" class="resource-link">View more</a>
+                  </div>
+                </div>
+                <div class="team-card resource-card">
+                  <div class="team-info">
+                    <h3>Our Community</h3>
+                    <p>Learn about our culture, values, and what makes AIML special.</p>
+                    <a href="/about/community" class="resource-link">View more</a>
+                  </div>
+                </div>
+                <div class="team-card resource-card">
+                  <div class="team-info">
+                    <h3>Constitution</h3>
+                    <p>Our governing document outlining structure, roles, and processes.</p>
+                    <a href="https://github.com/QUT-AIML/Constitution/blob/main/Role-Descriptions.md" class="resource-link">View more</a>
+                  </div>
+                </div>
+                <div class="team-card resource-card">
+                  <div class="team-info">
+                    <h3>Code of Conduct</h3>
+                    <p>Guidelines to ensure a safe, inclusive, and respectful community.</p>
+                    <a href="https://github.com/QUT-AIML/Code-of-Conduct" class="resource-link">View more</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <!-- TEAM -->
       <section class="team-section">
         <div class="pink-panel-flex">
           <p class="pink-title">Meet the Team</p>
         </div>
-
         <div class="content-wrapper centered-box">
           <section class="minimal-padding-panel spacing-top">
             <p class="section-content">
@@ -139,23 +144,22 @@ const { teamsForClient, degreesForClient } = loadAboutData();
             </p>
           </section>
         </div>
-
         <div class="team-grid-wrapper">
           <div class="team-row">
             <div class="side-bar left">
               <button class="carousel-arrow left">‹</button>
             </div>
-
-            <div class="team-grid" id="team-grid" data-teams={JSON.stringify(teamsForClient)}></div>
-
+            <div
+              class="team-grid"
+              id="team-grid"
+              data-teams={JSON.stringify(teamsForClient)}
+            ></div>
             <div class="side-bar right">
               <button class="carousel-arrow right">›</button>
             </div>
           </div>
-
           <div class="team-dots" id="team-dots"></div>
         </div>
-
         <div class="team-arrows-mobile-panel">
           <button class="carousel-arrow left">‹</button>
           <button class="carousel-arrow right">›</button>
@@ -163,19 +167,31 @@ const { teamsForClient, degreesForClient } = loadAboutData();
       </section>
 
       <!-- EXECUTIVE BODY -->
-      <ResourceSection title="The Executive Body" class="bottom-spacing">
-        <ResourceCard
-          title="How to become an Executive"
-          description="Learn about the application process, expectations, and responsibilities of AIML executives."
-          href="/about/exec-application"
-        />
-
-        <ResourceCard
-          title="Our History"
-          description="Learn about the teams that have shaped our club over the years."
-          href="/about/history"
-        />
-      </ResourceSection>
+      <div class="content-wrapper">
+        <SectionHeader title="The Executive Body" class="resources-header" />
+        <section class="resources-section">
+          <div class="team-grid-wrapper bottom-spacing">
+            <div class="team-row">
+              <div class="team-grid resources-grid">
+                <div class="team-card resource-card">
+                  <div class="team-info">
+                    <h3>How to become an Executive</h3>
+                    <p>Learn about the application process, expectations, and responsibilities of AIML executives.</p>
+                    <a href="/about/exec-application" class="resource-link">View more</a>
+                  </div>
+                </div>
+                <div class="team-card resource-card">
+                  <div class="team-info">
+                    <h3>Our History</h3>
+                    <p>Learn about the teams that have shaped our club over the years.</p>
+                    <a href="/about/history" class="resource-link">View more</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
     </div>
   </div>

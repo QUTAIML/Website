@@ -4,15 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================
      TEAM CAROUSEL
   ========================= */
+
+  const teamSection = document.querySelector(".team-section");
+
   const teamGrid = document.getElementById("team-grid");
   const teamTitle = document.getElementById("team-title");
   const teamDots = document.getElementById("team-dots");
 
-  const teamLeftArrow = document.querySelector(".team-section .carousel-arrow.left");
-  const teamRightArrow = document.querySelector(".team-section .carousel-arrow.right");
+  const teamLeftArrow = teamSection.querySelector(".side-bar.left .carousel-arrow");
+  const teamRightArrow = teamSection.querySelector(".side-bar.right .carousel-arrow");
 
-  const teamMobileLeft = document.querySelector(".team-arrows-mobile-panel .carousel-arrow.left");
-  const teamMobileRight = document.querySelector(".team-arrows-mobile-panel .carousel-arrow.right");
+  const teamMobileLeft = teamSection.querySelector(".team-arrows-mobile-panel .left");
+  const teamMobileRight = teamSection.querySelector(".team-arrows-mobile-panel .right");
 
   const teams = JSON.parse(teamGrid.dataset.teams);
   const TEAM_AUTO_DELAY = 7000;
@@ -24,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function buildTeamPages() {
     teamPages = [];
+
     teams.forEach(team => {
       for (let i = 0; i < team.items.length; i += teamPageSize) {
         teamPages.push({
@@ -47,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     page.items.forEach(member => {
       const card = document.createElement("div");
-
       card.className = "team-card";
 
       card.innerHTML = `
@@ -69,12 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let i = 0; i < emptySlots; i++) {
       const emptyCard = document.createElement("div");
-
       emptyCard.className = "team-card empty-card";
-
-      emptyCard.innerHTML =
-        `<div class="team-photo"></div><div class="team-info"></div>`;
-
+      emptyCard.innerHTML = `<div class="team-photo"></div><div class="team-info"></div>`;
       teamGrid.appendChild(emptyCard);
     }
 
@@ -82,19 +81,13 @@ document.addEventListener("DOMContentLoaded", () => {
       index === 0 ? "hidden" : "visible";
 
     teamRightArrow.style.visibility =
-      index === teamPages.length - 1
-        ? "hidden"
-        : "visible";
+      index === teamPages.length - 1 ? "hidden" : "visible";
 
     teamDots.innerHTML = "";
 
     teamPages.forEach((_, i) => {
       const dot = document.createElement("span");
-
-      dot.className =
-        i === index
-          ? "team-dot active"
-          : "team-dot";
+      dot.className = i === index ? "team-dot active" : "team-dot";
 
       dot.onclick = () => {
         teamIndex = i;
@@ -113,19 +106,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function prevTeamPage() {
     teamIndex =
-      (teamIndex - 1 + teamPages.length) %
-      teamPages.length;
+      (teamIndex - 1 + teamPages.length) % teamPages.length;
 
     renderTeamPage(teamIndex);
   }
 
   function resetTeamAuto() {
     clearInterval(teamAutoTimer);
-
-    teamAutoTimer = setInterval(
-      nextTeamPage,
-      TEAM_AUTO_DELAY
-    );
+    teamAutoTimer = setInterval(nextTeamPage, TEAM_AUTO_DELAY);
   }
 
   teamLeftArrow.onclick = () => {
@@ -149,8 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.addEventListener("resize", () => {
-    const newSize =
-      window.innerWidth <= 768 ? 2 : 4;
+    const newSize = window.innerWidth <= 768 ? 2 : 4;
 
     if (newSize !== teamPageSize) {
       teamPageSize = newSize;
@@ -169,38 +156,26 @@ document.addEventListener("DOMContentLoaded", () => {
      DEGREES CAROUSEL
   ========================= */
 
-  const degreesGrid =
-    document.getElementById("degrees-grid");
+  const degreeSection = document.querySelector(".degree-section");
 
-  const degreesDots =
-    document.getElementById("degrees-dots");
+  const degreesGrid = document.getElementById("degrees-grid");
+  const degreesDots = document.getElementById("degrees-dots");
+  const degreeTitleElem = document.getElementById("degree-title");
 
-  const degreeTitleElem =
-    document.getElementById("degree-title");
-
-  const degreesData =
-    JSON.parse(degreesGrid.dataset.teams);
+  const degreesData = JSON.parse(degreesGrid.dataset.teams);
 
   let degreesPages = [];
   let degreesIndex = 0;
-  let degreePageSize =
-    window.innerWidth <= 768 ? 2 : 4;
+  let degreePageSize = window.innerWidth <= 768 ? 2 : 4;
 
   function buildDegreePages() {
     degreesPages = [];
 
     degreesData.forEach(section => {
-      for (
-        let i = 0;
-        i < section.items.length;
-        i += degreePageSize
-      ) {
+      for (let i = 0; i < section.items.length; i += degreePageSize) {
         degreesPages.push({
           title: section.title,
-          items: section.items.slice(
-            i,
-            i + degreePageSize
-          ),
+          items: section.items.slice(i, i + degreePageSize),
           pageIndex: i / degreePageSize,
         });
       }
@@ -219,24 +194,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     page.items.forEach(item => {
       const card = document.createElement("div");
-
       card.className = "degree-card";
-
       card.innerHTML = `<h3>${item.name}</h3>`;
-
       degreesGrid.appendChild(card);
     });
 
-    const emptySlots =
-      degreePageSize - page.items.length;
+    const emptySlots = degreePageSize - page.items.length;
 
     for (let i = 0; i < emptySlots; i++) {
-      const emptyCard =
-        document.createElement("div");
-
-      emptyCard.className =
-        "degree-card empty-card";
-
+      const emptyCard = document.createElement("div");
+      emptyCard.className = "degree-card empty-card";
       degreesGrid.appendChild(emptyCard);
     }
 
@@ -244,11 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     degreesPages.forEach((_, i) => {
       const dot = document.createElement("span");
-
-      dot.className =
-        i === index
-          ? "degree-dot active"
-          : "degree-dot";
+      dot.className = i === index ? "degree-dot active" : "degree-dot";
 
       dot.onclick = () => {
         degreesIndex = i;
@@ -259,63 +222,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const degreeLeft =
-    document.querySelector(
-      ".carousel-arrow-degree.left-degree"
-    );
+  const degreeLeft = degreeSection.querySelector(".left-degree");
+  const degreeRight = degreeSection.querySelector(".right-degree");
 
-  const degreeRight =
-    document.querySelector(
-      ".carousel-arrow-degree.right-degree"
-    );
+  const degreeMobileLeftBtns =
+    degreeSection.querySelectorAll(".degree-arrows-mobile-panel .left");
+
+  const degreeMobileRightBtns =
+    degreeSection.querySelectorAll(".degree-arrows-mobile-panel .right");
 
   degreeLeft?.addEventListener("click", () => {
     degreesIndex =
-      (degreesIndex - 1 + degreesPages.length) %
-      degreesPages.length;
+      (degreesIndex - 1 + degreesPages.length) % degreesPages.length;
 
     renderDegreePage(degreesIndex);
   });
 
   degreeRight?.addEventListener("click", () => {
     degreesIndex =
-      (degreesIndex + 1) %
-      degreesPages.length;
+      (degreesIndex + 1) % degreesPages.length;
 
     renderDegreePage(degreesIndex);
   });
 
-  document
-    .querySelectorAll(
-      ".degree-arrows-mobile-panel .left"
-    )
-    .forEach(btn => {
-      btn.addEventListener("click", () => {
-        degreesIndex =
-          (degreesIndex - 1 + degreesPages.length) %
-          degreesPages.length;
+  degreeMobileLeftBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      degreesIndex =
+        (degreesIndex - 1 + degreesPages.length) % degreesPages.length;
 
-        renderDegreePage(degreesIndex);
-      });
+      renderDegreePage(degreesIndex);
     });
+  });
 
-  document
-    .querySelectorAll(
-      ".degree-arrows-mobile-panel .right"
-    )
-    .forEach(btn => {
-      btn.addEventListener("click", () => {
-        degreesIndex =
-          (degreesIndex + 1) %
-          degreesPages.length;
+  degreeMobileRightBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      degreesIndex =
+        (degreesIndex + 1) % degreesPages.length;
 
-        renderDegreePage(degreesIndex);
-      });
+      renderDegreePage(degreesIndex);
     });
+  });
 
   window.addEventListener("resize", () => {
-    const newSize =
-      window.innerWidth <= 768 ? 2 : 4;
+    const newSize = window.innerWidth <= 768 ? 2 : 4;
 
     if (newSize !== degreePageSize) {
       degreePageSize = newSize;

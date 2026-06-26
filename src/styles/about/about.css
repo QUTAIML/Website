@@ -380,31 +380,6 @@
   font-size: 1.2rem;
 }
 
-/* SIDE BARS FOR DEGREES */
-.side-bar-degree {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--color-secondary);
-  height: 100px;
-  flex-shrink: 0;
-}
-
-.side-bar-degree.left-degree,
-.side-bar-degree.right-degree {
-  flex: 0 0 12%;
-  height: 100px;
-}
-
-
-.side-bar-degree.left-degree {
-  border-radius: 0 30px 30px 0;
-}
-
-.side-bar-degree.right-degree {
-  border-radius: 30px 0 0 30px;
-}
-
 /* ARROWS FOR DEGREES */
 .carousel-arrow-degree {
   width: 40px;
@@ -485,9 +460,9 @@
 
 .team-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
-  gap: 0; /* optional, margin handled by side bars */
+  gap: 0;
 }
 
 .team-fancy {
@@ -510,7 +485,7 @@
   justify-content: center;
   align-items: center;
   background-color: var(--color-secondary);
-  height: 100px;   /* fixed height so visible */
+  height: 220px;
   flex-shrink: 0;
   margin-left: 15px;
   margin-right: 15px;
@@ -518,8 +493,8 @@
 
 .side-bar.left,
 .side-bar.right {
-  flex: 0 0 12%; /* fixed 15% width, don't shrink */
-  height: 100px;
+  flex: 0 0 12%;
+  height: 220px;
   display: flex;
   justify-content: center;
   align-items: center;

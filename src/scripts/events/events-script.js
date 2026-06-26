@@ -2,7 +2,9 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  
+  const noEventsState = document.getElementById('no-events-state'); // ADD THIS
+  console.log('noEventsState:', noEventsState); // ADD THIS
+
   const searchInput = document.getElementById('events-search');
   const grid = document.getElementById('events-grid');
   let paginationContainer = document.getElementById('events-pagination');
@@ -170,25 +172,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-function renderPage(scrollToTop = false) {
-  const isMobile = window.innerWidth < 768;
-  const EVENTS_PER_PAGE_MOBILE = 3;
-  const perPage = isMobile ? EVENTS_PER_PAGE_MOBILE : EVENTS_PER_PAGE;
+  function renderPage(scrollToTop = false) {
+    const isMobile = window.innerWidth < 768;
+    const EVENTS_PER_PAGE_MOBILE = 3;
+    const perPage = isMobile ? EVENTS_PER_PAGE_MOBILE : EVENTS_PER_PAGE;
 
-  const start = (currentPage - 1) * perPage;
-  const end = start + perPage;
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage;
 
-  getCards().forEach(card => (card.style.display = 'none'));
-  filteredCards.slice(start, end).forEach(card => (card.style.display = ''));
+    getCards().forEach(card => (card.style.display = 'none'));
+    filteredCards.slice(start, end).forEach(card => (card.style.display = ''));
 
-  if (scrollToTop && filteredCards[start]) {
-    const offset = 400;
-    const topPosition =
-      filteredCards[start].getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top: topPosition, behavior: 'smooth' });
+    // Toggle the dark panel and empty state
+    noEventsState.style.display = filteredCards.length === 0 ? 'block' : 'none';
+
+    if (scrollToTop && filteredCards[start]) {
+      const offset = 400;
+      const topPosition =
+        filteredCards[start].getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: topPosition, behavior: 'smooth' });
+    }
   }
-}
-
 
 
   function renderPagination() {

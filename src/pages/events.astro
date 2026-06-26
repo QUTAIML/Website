@@ -127,6 +127,14 @@ const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
             <EventCard ev={ev} href={ev.rubric || null} />
           ))}
         </section>
+        <div id="no-events-state" class="no-events-state" style="display: none;">
+          <p class="no-events-title">No upcoming events right now</p>
+          <p class="no-events-text">
+            We're working on new workshops, talks, and projects.
+            <br />
+            Follow us or join our community to be the first to know.
+          </p>
+        </div>
       </section>
 
       <div id="events-pagination"></div>

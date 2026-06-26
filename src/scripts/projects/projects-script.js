@@ -37,11 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let filteredCards = [];
   let typeButtons = [];
 
-  function getCards() {
-
-    const cards = Array.from(pastGrid.querySelectorAll(".project-card"));
-    console.log("Card types:", cards.map(c => c.dataset.type));
-  
+  function getCards() {  
     return Array.from(
       pastGrid.querySelectorAll(".project-card")
     );
@@ -59,8 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     typeButtons = Array.from(
       typePillContainer.querySelectorAll(".type-btn")
     );
-
-    console.log("Type buttons found:", typeButtons.length); // <-- add this
 
     typeButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -83,11 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function applyFilters() {
-
-    console.log("Cards found:", getCards().length);
-    console.log("Selected type:", getSelectedType());
-    console.log("Current semester:", currentSemester);
-
     const query =
       searchInput.value.trim().toLowerCase();
 

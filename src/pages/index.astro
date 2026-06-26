@@ -9,30 +9,34 @@ import { upcomingEvents } from "@/scripts/index/home-loader";
 <BaseLayout>
   <div>
 
-    <!-- HERO -->
-    <div class="header-section">
-      <div class="header-spacing">
-        <img src="/Logo-Full.svg" alt="Main Logo" class="site-logo" />
-        <div class="pink-divider"></div>
-      </div>
-      <div class="content-wrapper centered-box">
-        <section class="minimal-padding-panel">
-          <p class="section-content">
-            Empowering the Future through AI & Machine Learning
-          </p>
-        </section>
+    <!-- HERO CAROUSEL -->
+     
+    <div class="hero-carousel">
+      <!-- Add as many slides as you like -->
+      <div class="hero-slide active" style="background-image: url('/data/home/1.png')"></div>
+      <div class="hero-slide" style="background-image: url('/data/home/2.png')"></div>
+      <div class="hero-slide" style="background-image: url('/data/home/3.JPG')"></div>
+      <div class="hero-slide" style="background-image: url('/data/home/4.png')"></div>
+
+      <!-- Dot indicators -->
+      <div class="hero-dots">
+        <span class="hero-dot active" data-index="0"></span>
+        <span class="hero-dot" data-index="1"></span>
+        <span class="hero-dot" data-index="2"></span>
+        <span class="hero-dot" data-index="3"></span>
       </div>
     </div>
 
+
     <!-- WELCOME -->
     <div class="content-wrapper large-space">
-      <SectionHeader title="Welcome to QUT AIML" />
+      <SectionHeader title="Welcome to the QUT AI & ML Society" />
       <InfoPanel>
         <p class="section-content">
           Where students come together to explore, experiment, and innovate in the world of AI and ML.
         </p>
         <p class="section-content section-space">
-          Join the QUT AI & ML Society as we host hands-on workshops, competitions, and industry-sponsored
+          Join the QUT AI & ML Society (AIML) as we host hands-on workshops, competitions, and industry-sponsored
           events designed to challenge your skills and spark your creativity.
         </p>
         <p class="section-content section-space">
@@ -153,5 +157,34 @@ import { upcomingEvents } from "@/scripts/index/home-loader";
     <script type="module">
       import "/src/scripts/home/home-script.js";
     </script>
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", function () {
+        var slides = Array.from(document.querySelectorAll(".hero-slide"));
+        var dots   = Array.from(document.querySelectorAll(".hero-dot"));
+        if (slides.length === 0) return;
+
+        var current = 0;
+        var timer;
+
+        function goTo(index) {
+          slides[current].classList.remove("active");
+          if (dots[current]) dots[current].classList.remove("active");
+          current = (index + slides.length) % slides.length;
+          slides[current].classList.add("active");
+          if (dots[current]) dots[current].classList.add("active");
+        }
+
+        function startAuto() { timer = setInterval(function () { goTo(current + 1); }, 5000); }
+        function resetAuto() { clearInterval(timer); startAuto(); }
+
+        dots.forEach(function (dot, i) {
+          dot.addEventListener("click", function () { goTo(i); resetAuto(); });
+        });
+
+        startAuto();
+      });
+    </script>
   </Fragment>
+
+
 </BaseLayout>

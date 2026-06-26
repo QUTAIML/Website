@@ -1,4 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  const slides = Array.from(document.querySelectorAll(".hero-slide"));
+  const dots   = Array.from(document.querySelectorAll(".hero-dot"));
+
+  if (slides.length > 0) {
+    let current = 0;
+    let timer;
+
+    function goTo(index) {
+      slides[current].classList.remove("active");
+      if (dots[current]) dots[current].classList.remove("active");
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add("active");
+      if (dots[current]) dots[current].classList.add("active");
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    function startAuto() {
+      timer = setInterval(next, 5000);
+    }
+
+    function resetAuto() {
+      clearInterval(timer);
+      startAuto();
+    }
+
+    document.querySelector(".hero-arrow-right")
+      ?.addEventListener("click", () => { next(); resetAuto(); });
+    document.querySelector(".hero-arrow-left")
+      ?.addEventListener("click", () => { prev(); resetAuto(); });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => { goTo(i); resetAuto(); });
+    });
+
+    startAuto();
+  }
+
+
+
   const eventsGrid = document.getElementById("upcoming-events-grid");
 
   if (!eventsGrid) return;

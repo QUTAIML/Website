@@ -68,13 +68,17 @@ document.addEventListener("DOMContentLoaded", () => {
       teamGrid.appendChild(card);
     });
 
-    const emptySlots = teamPageSize - page.items.length;
+    const pagesForThisTeam = teamPages.filter(p => p.teamTitle === page.teamTitle);
+    const isLastPageOfTeam = page.pageIndex === pagesForThisTeam.length - 1;
 
-    for (let i = 0; i < emptySlots; i++) {
-      const emptyCard = document.createElement("div");
-      emptyCard.className = "team-card empty-card";
-      emptyCard.innerHTML = `<div class="team-photo"></div><div class="team-info"></div>`;
-      teamGrid.appendChild(emptyCard);
+    if (!isLastPageOfTeam) {
+      const emptySlots = teamPageSize - page.items.length;
+      for (let i = 0; i < emptySlots; i++) {
+        const emptyCard = document.createElement("div");
+        emptyCard.className = "team-card empty-card";
+        emptyCard.innerHTML = `<div class="team-photo"></div><div class="team-info"></div>`;
+        teamGrid.appendChild(emptyCard);
+      }
     }
 
     teamLeftArrow.style.visibility =
@@ -199,12 +203,17 @@ document.addEventListener("DOMContentLoaded", () => {
       degreesGrid.appendChild(card);
     });
 
-    const emptySlots = degreePageSize - page.items.length;
+    const pagesForThisTeam = teamPages.filter(p => p.teamTitle === page.teamTitle);
+    const isLastPageOfTeam = page.pageIndex === pagesForThisTeam.length - 1;
 
-    for (let i = 0; i < emptySlots; i++) {
-      const emptyCard = document.createElement("div");
-      emptyCard.className = "degree-card empty-card";
-      degreesGrid.appendChild(emptyCard);
+    if (!isLastPageOfTeam) {
+      const emptySlots = teamPageSize - page.items.length;
+      for (let i = 0; i < emptySlots; i++) {
+        const emptyCard = document.createElement("div");
+        emptyCard.className = "team-card empty-card";
+        emptyCard.innerHTML = `<div class="team-photo"></div><div class="team-info"></div>`;
+        teamGrid.appendChild(emptyCard);
+      }
     }
 
     degreesDots.innerHTML = "";

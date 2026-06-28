@@ -3,5 +3,5 @@
   "category": "Clustering",
   "excerpt": "Group customers based on purchasing behavior and demographics using clustering techniques.",
   "image": "customer-groups.png",
-  "github": "https://github.com/QUT-AIML/Clustering/blob/main/Customer%20Groups/Customer_Segmentation_using_K_Means_Clustering.ipynb"
+  "github": "https://github.com/QUTAIML/Clustering/blob/main/Customer%20Groups/Customer_Segmentation_using_K_Means_Clustering.ipynb"
 }

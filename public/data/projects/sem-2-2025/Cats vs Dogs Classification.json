@@ -3,5 +3,5 @@
   "category": "CNN",
   "excerpt": "Binary image classification to distinguish between cats and dogs using CNNs.",
   "image": "cats-vs-dogs-classification.jpeg",
-  "github": "https://github.com/QUT-AIML/Convolutional-Neural-Networks/blob/main/Cats%20vs%20Dogs/Cats_vs_Dogs.ipynb"
+  "github": "https://github.com/QUTAIML/Convolutional-Neural-Networks/blob/main/Cats%20vs%20Dogs/Cats_vs_Dogs.ipynb"
 }

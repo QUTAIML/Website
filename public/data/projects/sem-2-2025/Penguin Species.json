@@ -3,5 +3,5 @@
   "category": "Clustering",
   "excerpt": "Cluster penguin species based on physical characteristics using unsupervised learning.",
   "image": "penguin-species.jpg",
-  "github": "https://github.com/QUT-AIML/Clustering/blob/main/Penguin%20Species/Biological_Grouping_of_Penguins_using_K_Means_Clustering.ipynb"
+  "github": "https://github.com/QUTAIML/Clustering/blob/main/Penguin%20Species/Biological_Grouping_of_Penguins_using_K_Means_Clustering.ipynb"
 }

@@ -3,5 +3,5 @@
   "category": "Logistic Regression",
   "excerpt": "Predict asteroid characteristics and classify them using logistic regression.",
   "image": "asteroid-hazard-predictor.jpg",
-  "github": "https://github.com/QUT-AIML/Logistic-Regression/blob/main/Asteriod%20Hazard%20Predictor/AsteroidHazardPredictor.ipynb"
+  "github": "https://github.com/QUTAIML/Logistic-Regression/blob/main/Asteriod%20Hazard%20Predictor/AsteroidHazardPredictor.ipynb"
 }

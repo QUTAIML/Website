@@ -3,5 +3,5 @@
   "category": "Transformers",
   "excerpt": "Classify different types of human actions from video or text using Transformer models.",
   "image": "action-recognition.jpeg",
-  "github": "https://github.com/QUT-AIML/Transformers/blob/main/Action_Recognition/CNN_Transformer_Action_Recognition.ipynb"
+  "github": "https://github.com/QUTAIML/Transformers/blob/main/Action_Recognition/CNN_Transformer_Action_Recognition.ipynb"
 }

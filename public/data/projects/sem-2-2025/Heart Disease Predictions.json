@@ -3,5 +3,5 @@
   "category": "Logistic Regression",
   "excerpt": "Predict the presence of heart disease based on patient medical data using logistic regression.",
   "image": "heart-disease-predictions.jpeg",
-  "github": "https://github.com/QUT-AIML/Logistic-Regression/blob/main/Heart%20Disease%20Prediction/Predictive%20Modeling%20for%2010-Year%20Cardiovascular%20Risk.ipynb"
+  "github": "https://github.com/QUTAIML/Logistic-Regression/blob/main/Heart%20Disease%20Prediction/Predictive%20Modeling%20for%2010-Year%20Cardiovascular%20Risk.ipynb"
 }

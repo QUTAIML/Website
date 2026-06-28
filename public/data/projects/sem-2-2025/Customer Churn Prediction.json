@@ -3,5 +3,5 @@
   "category": "Random Forest",
   "excerpt": "Predict customer churn using ensemble learning and Random Forest models.",
   "image": "customer-churn-prediction.png",
-  "github": "https://github.com/QUT-AIML/Random-Forests/blob/main/Customer%20Churn/Customer%20Churn.ipynb"
+  "github": "https://github.com/QUTAIML/Random-Forests/blob/main/Customer%20Churn/Customer%20Churn.ipynb"
 }

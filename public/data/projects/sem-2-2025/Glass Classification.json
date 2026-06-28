@@ -3,5 +3,5 @@
   "category": "K-Nearest Neighbours",
   "excerpt": "Classify types of glass based on chemical composition using KNN.",
   "image": "glass-classification.jpeg",
-  "github": "https://github.com/QUT-AIML/K-Nearest-Neighbours/tree/main/Glass%20Classification"
+  "github": "https://github.com/QUTAIML/K-Nearest-Neighbours/tree/main/Glass%20Classification"
 }

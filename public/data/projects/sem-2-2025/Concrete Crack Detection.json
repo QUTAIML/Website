@@ -3,5 +3,5 @@
   "category": "CNN",
   "excerpt": "Detect cracks in concrete structures using CNN-based image classification.",
   "image": "concrete-crack-detection.jpg",
-  "github": "https://github.com/QUT-AIML/Convolutional-Neural-Networks/blob/main/Concrete%20Cracks/Concrete_Crack_Detection.ipynb"
+  "github": "https://github.com/QUTAIML/Convolutional-Neural-Networks/blob/main/Concrete%20Cracks/Concrete_Crack_Detection.ipynb"
 }

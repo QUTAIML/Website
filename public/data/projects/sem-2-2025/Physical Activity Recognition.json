@@ -3,5 +3,5 @@
   "category": "K-Nearest Neighbours",
   "excerpt": "Classify different types of physical activity from sensor data using KNN.",
   "image": "physical-activity-recognition.jpeg",
-  "github": "https://github.com/QUT-AIML/K-Nearest-Neighbours/blob/main/Physical%20Activity/KNN%20–%20Human%20Activity%20Recognition.ipynb"
+  "github": "https://github.com/QUTAIML/K-Nearest-Neighbours/blob/main/Physical%20Activity/KNN%20–%20Human%20Activity%20Recognition.ipynb"
 }

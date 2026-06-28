@@ -3,5 +3,5 @@
   "category": "LLM",
   "excerpt": "Generates quizzes automatically from textbooks using LLM",
   "image": "quiz-master.jpg",
-  "github": "https://github.com/QUT-AIML/LLM/blob/main/AI_QuizMaster/Quiz_Master_from_Text_Book.ipynb"
+  "github": "https://github.com/QUTAIML/LLM/blob/main/AI_QuizMaster/Quiz_Master_from_Text_Book.ipynb"
 }

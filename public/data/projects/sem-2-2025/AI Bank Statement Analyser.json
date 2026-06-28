@@ -3,5 +3,5 @@
   "category": "LLM",
   "excerpt": "Demonstrates how an LLM can extract insights and structured data from bank statements",
   "image": "ai-bank-statement-analyser.jpeg",
-  "github": "https://github.com/QUT-AIML/LLM/blob/main/AI%20Bank%20Statement%20Analyzer/AI_Bank_Statement_Analyzer.ipynb"
+  "github": "https://github.com/QUTAIML/LLM/blob/main/AI%20Bank%20Statement%20Analyzer/AI_Bank_Statement_Analyzer.ipynb"
 }

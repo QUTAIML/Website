@@ -3,5 +3,5 @@
   "category": "Reinforcement Learning",
   "excerpt": "Train an agent to play the classic Nokia Snake game using reinforcement learning.",
   "image": "snake-game-agent.png",
-  "github": "https://github.com/QUT-AIML/Reinforcement-Learning/blob/main/Snake%20Game/Snake_Game.ipynb"
+  "github": "https://github.com/QUTAIML/Reinforcement-Learning/blob/main/Snake%20Game/Snake_Game.ipynb"
 }

@@ -3,5 +3,5 @@
   "category": "Reinforcement Learning",
   "excerpt": "This project applies Deep Q-Learning to enable Q-Learning in large or continuous state spaces.",
   "image": "deep-q-learning.png",
-  "github": "https://github.com/QUT-AIML/Reinforcement-Learning/blob/main/Deep-Q%20Learning/Deep_Q_Learning.ipynb"
+  "github": "https://github.com/QUTAIML/Reinforcement-Learning/blob/main/Deep-Q%20Learning/Deep_Q_Learning.ipynb"
 }

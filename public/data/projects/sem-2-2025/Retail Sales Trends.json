@@ -3,5 +3,5 @@
   "category": "Linear Regression",
   "excerpt": "Predict future retail sales based on historical data using linear regression.",
   "image": "retail-sales.png",
-  "github": "https://github.com/QUT-AIML/Linear-Regression/blob/main/Retail%20Sales%20Trends/Retail%20Sales%20Trends.ipynb"
+  "github": "https://github.com/QUTAIML/Linear-Regression/blob/main/Retail%20Sales%20Trends/Retail%20Sales%20Trends.ipynb"
 }

@@ -46,3 +46,21 @@ Create a self-contained React component in `src/components/sandbox/`, add it to
 `SandboxSection.tsx`, and use the shared classes in `sandbox.css`. Heavy
 libraries should be dynamically imported inside the component so the Projects
 page stays light until a visitor scrolls to the sandbox.
+
+### Neural network lab
+
+The Decision Boundary Playground is a browser-only TensorFlow.js lab. Beginner
+view keeps the dataset, learning-rate, optimiser, train/test split, and
+play/pause/step/reset controls visible. Advanced view adds per-layer widths,
+activation, noise, schedule and comparison controls, loss and simplified
+gradient-path views, binary precision/recall/F1 and confusion counts, custom
+click-to-add data, challenge presets, and a share-link action. In custom mode,
+click the boundary canvas for class 0 and Shift-click for class 1. All values
+are kept locally in the browser.
+
+### Maze pathfinding lab
+
+The maze card replaces the former block-stacking planner. It generates solvable
+mazes locally, supports keyboard and touch/manual navigation, and animates BFS,
+DFS, Dijkstra, or A* over the same maze for direct state-exploration and path
+length comparisons.

@@ -25,7 +25,8 @@ import {
       Join to contribute, learn from peers, and help shape projects that make a real impact.
     </InfoPanel>
 
-    <SandboxSection client:visible />
+    <!-- The section hydrates immediately; model-heavy demos still lazy-load their libraries. -->
+    <SandboxSection client:load />
 
     <!-- PREVIOUS PROJECTS -->
     <SectionHeader title="Previous Projects" class="past-projects-space" />

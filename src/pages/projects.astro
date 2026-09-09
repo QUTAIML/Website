@@ -3,6 +3,7 @@ import "@/styles/projects.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
 import InfoPanel from "@/components/InfoPanel.astro";
+import SandboxSection from "@/components/sandbox/SandboxSection";
 import {
   semesters,
   latestSemester,
@@ -23,6 +24,8 @@ import {
       We pair hands-on work with mentorship, workshops, and hackathons to help members learn, share code, and grow their portfolios while applying AI responsibly.
       Join to contribute, learn from peers, and help shape projects that make a real impact.
     </InfoPanel>
+
+    <SandboxSection client:visible />
 
     <!-- PREVIOUS PROJECTS -->
     <SectionHeader title="Previous Projects" class="past-projects-space" />

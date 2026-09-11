@@ -1,4 +1,5 @@
 ---
+import ExternalArrow from "@/components/ExternalArrow.astro";
 const { ev, href } = Astro.props;
 const eventType = ev.type ?? ev.category ?? "Event";
 ---
@@ -24,7 +25,7 @@ const eventType = ev.type ?? ev.category ?? "Event";
         </div>
         <h3 class="card-title">{ev.title}</h3>
         <p class="card-description">{ev.excerpt}</p>
-        <div class="card-footer"><span class="card-view-more">Explore event <b aria-hidden="true">↗</b></span></div>
+        <div class="card-footer"><span class="card-view-more">Explore event <ExternalArrow /></span></div>
       </div>
     </a>
   ) : (

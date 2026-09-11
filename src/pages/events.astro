@@ -1,5 +1,6 @@
 ---
 import "@/styles/events.css";
+import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import { loadEventsData } from "@/scripts/events/events-loader";
 import EventCard from "@/components/EventCard.astro";
@@ -169,7 +170,7 @@ const latestEventDate = [...eventsBySemester].sort((a, b) => new Date(b.date).ge
               <div id="no-events-state" class="no-events-state" style="display: none;">
                 <p class="no-events-title">Nothing scheduled here yet</p>
                 <p class="no-events-text">New workshops, talks, and project sessions will appear here when they are announced.</p>
-                <a href="/contact">Stay connected <span aria-hidden="true">↗</span></a>
+                <a href="/contact">Stay connected <ExternalArrow /></a>
               </div>
             </section>
 

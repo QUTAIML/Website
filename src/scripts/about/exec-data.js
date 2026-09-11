@@ -36,6 +36,9 @@ export function loadAboutData() {
       .filter(member => member.showOnAbout !== false)
       .map(member => ({
       ...member,
+      // Semester markers stay in the historical record, but are not part of
+      // the current-team display name.
+      name: member.name.replace(/\s*\(S\d+\)$/, ""),
       image: member.image
         ? `/data/about/${latestTeamFile.year}/exec-photos/${member.image}`
         : null,

@@ -24,7 +24,10 @@
       { "role": "Projects Officer", "name": "Rajinder Singh", "image": "Rajinder.png", "linkedin": "https://www.linkedin.com/in/rajinders7/" },
       { "role": "Projects Officer", "name": "Rattanakpanha Chea", "image": "Panha.png", "linkedin": "https://www.linkedin.com/in/rattanakpanha-chea/" },
       { "role": "Projects Officer", "name": "Dhairya Shah", "image": "Dhairya.png", "linkedin": "https://www.linkedin.com/in/dhairya-shah-0b414b358/" },
-      { "role": "Projects Officer", "name": "Kevin Nguyen", "image": "Kevin.png", "linkedin": "https://www.linkedin.com/in/kevin-nguyen-6641bb209/" }
+      { "role": "Projects Officer", "name": "Kevin Nguyen", "image": "Kevin.png", "linkedin": "https://www.linkedin.com/in/kevin-nguyen-6641bb209/" },
+      { "role": "Projects Officer", "name": "Danchi Nguyen (S1)", "image": "Anonymous.png", "showOnAbout": false },
+      { "role": "Projects Officer", "name": "Tripti Kaur (S2)", "image": "Anonymous.png" },
+      { "role": "Projects Officer", "name": "April Shao (S2)", "image": "Anonymous.png" }
     ]
   },
   {

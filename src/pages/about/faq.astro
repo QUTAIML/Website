@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import ExternalArrow from "@/components/ExternalArrow.astro";
 import "@/styles/about/faq.css";
 import Navigation from "@/components/Navigation.astro";
 import Footer from "@/components/Footer.astro";
@@ -16,9 +17,9 @@ const questions = [
 <html lang="en"><head><meta charset="utf-8" /><link rel="icon" type="image/svg+xml" href="/favicon.svg" /><meta name="viewport" content="width=device-width" /><meta name="description" content="QUT AI & ML Society FAQ Page" /><title>FAQ | QUT AI & ML Society</title></head>
   <body class="background-dots"><Navigation />
     <main class="faq-page"><section class="faq-hero"><div class="faq-shell"><p>ANSWERS, WITHOUT THE HUNT</p><h1>Frequently asked<br /><span>questions.</span></h1><p>Everything you need to know about getting involved with the QUT AI &amp; ML Society.</p></div></section>
-      <section class="faq-join"><div class="faq-shell"><div><p>MEMBERSHIP</p><h2>Ready to<br /><span>join in?</span></h2></div><div><p>If you’re a QUT student interested in AI, machine learning, or data science, becoming a member is easy. Joining gives you access to events, workshops, project nights, and networking opportunities with industry professionals and fellow students.</p><a href="https://campus.hellorubric.com/?tab=memberships&s=11397" target="_blank" rel="noopener noreferrer">Become a member <b aria-hidden="true">↗</b></a></div></div></section>
-      <section class="faq-list"><div class="faq-shell"><p class="faq-list-kicker">THE BASICS</p><div>{questions.map((question, index) => <article><span>{String(index + 1).padStart(2, "0")}</span><div><h2>{question.title}</h2><p>{question.body}</p></div><b aria-hidden="true">↗</b></article>)}</div></div></section>
-      <section class="faq-footer"><div class="faq-shell"><p>STILL HAVE A QUESTION?</p><div><a href="https://discord.gg/CqkUzVVkXX" target="_blank" rel="noopener noreferrer">Discord ↗</a><a href="https://github.com/qut-aiml" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.instagram.com/qut_aiml/" target="_blank" rel="noopener noreferrer">Instagram ↗</a><a href="https://www.linkedin.com/company/qut-aiml/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div></div></section>
+      <section class="faq-join"><div class="faq-shell"><div><p>MEMBERSHIP</p><h2>Ready to<br /><span>join in?</span></h2></div><div><p>If you’re a QUT student interested in AI, machine learning, or data science, becoming a member is easy. Joining gives you access to events, workshops, project nights, and networking opportunities with industry professionals and fellow students.</p><a href="https://campus.hellorubric.com/?tab=memberships&s=11397" target="_blank" rel="noopener noreferrer">Become a member <ExternalArrow /></a></div></div></section>
+      <section class="faq-list"><div class="faq-shell"><p class="faq-list-kicker">THE BASICS</p><div>{questions.map((question, index) => <article><span>{String(index + 1).padStart(2, "0")}</span><div><h2>{question.title}</h2><p>{question.body}</p></div><ExternalArrow /></article>)}</div></div></section>
+      <section class="faq-footer"><div class="faq-shell"><p>STILL HAVE A QUESTION?</p><div><a href="https://discord.gg/CqkUzVVkXX" target="_blank" rel="noopener noreferrer">Discord <ExternalArrow /></a><a href="https://github.com/qut-aiml" target="_blank" rel="noopener noreferrer">GitHub <ExternalArrow /></a><a href="https://www.instagram.com/qut_aiml/" target="_blank" rel="noopener noreferrer">Instagram <ExternalArrow /></a><a href="https://www.linkedin.com/company/qut-aiml/" target="_blank" rel="noopener noreferrer">LinkedIn <ExternalArrow /></a></div></div></section>
     </main><Footer />
   </body>
 </html>

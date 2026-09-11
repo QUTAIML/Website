@@ -1,5 +1,6 @@
 ---
 import "@/styles/projects.css";
+import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import SandboxSection from "@/components/sandbox/SandboxSection";
 import {
@@ -163,7 +164,7 @@ const archiveLabel = latestSemester?.label ?? "Project archive";
                         <p class="card-description">{project.excerpt}</p>
                         <div class="card-footer">
                           <time class="card-date">{project.dateLabel}</time>
-                          <span class="card-view-more">Open project ↗</span>
+                          <span class="card-view-more">Open project <ExternalArrow /></span>
                         </div>
                       </div>
                     </a>

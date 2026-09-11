@@ -1,5 +1,6 @@
 ---
 import "@/styles/contact.css";
+import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 
 const socials = [
@@ -40,7 +41,7 @@ const socials = [
         </div>
         <div class="connect-hero-copy">
           <p>Questions, ideas, project updates, and new opportunities all start with a conversation.</p>
-          <a href="https://discord.gg/CqkUzVVkXX" target="_blank" rel="noopener noreferrer">Join the Discord <span aria-hidden="true">↗</span></a>
+          <a href="https://discord.gg/CqkUzVVkXX" target="_blank" rel="noopener noreferrer">Join the Discord <ExternalArrow /></a>
         </div>
       </div>
     </section>
@@ -64,7 +65,7 @@ const socials = [
                 <h3>{social.name}</h3>
                 <p>{social.copy}</p>
               </div>
-              <strong>{social.action} <span aria-hidden="true">↗</span></strong>
+              <strong>{social.action} <ExternalArrow /></strong>
             </a>
           ))}
         </div>
@@ -79,7 +80,7 @@ const socials = [
         </div>
         <div class="connect-direct-card">
           <p>For a question, collaboration idea, or partnership conversation, send a note to the AIML team.</p>
-          <a href="mailto:qut-aiml@outlook.com">Email the team <span aria-hidden="true">↗</span></a>
+          <a href="mailto:qut-aiml@outlook.com">Email the team <ExternalArrow /></a>
           <small>We will reply as soon as we can.</small>
         </div>
       </div>

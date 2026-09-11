@@ -1,190 +1,76 @@
 ---
 import "@/styles/home.css";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import SectionHeader from "@/components/SectionHeader.astro";
-import InfoPanel from "@/components/InfoPanel.astro";
-import { upcomingEvents } from "@/scripts/index/home-loader";
+
+const projectEntryCount = Object.keys(import.meta.glob("/public/data/projects/*/*.json", { eager: true })).length;
+const eventRecordCount = Object.keys(import.meta.glob("/public/data/events/*/*.json", { eager: true })).length;
+
 ---
 
-<BaseLayout>
-  <div>
-
-    <!-- HERO CAROUSEL -->
-     
-    <div class="hero-carousel">
-      <!-- Add as many slides as you like -->
-      <div class="hero-slide active" style="background-image: url('/data/home/1.png')"></div>
-      <div class="hero-slide" style="background-image: url('/data/home/2.png')"></div>
-      <div class="hero-slide" style="background-image: url('/data/home/3.JPG')"></div>
-      <div class="hero-slide" style="background-image: url('/data/home/4.png')"></div>
-
-      <!-- Dot indicators -->
-      <div class="hero-dots">
-        <span class="hero-dot active" data-index="0"></span>
-        <span class="hero-dot" data-index="1"></span>
-        <span class="hero-dot" data-index="2"></span>
-        <span class="hero-dot" data-index="3"></span>
+<BaseLayout
+  title="QUT AI & ML Society | Build the future with us"
+  description="Queensland's largest university society dedicated to artificial intelligence and machine learning."
+>
+  <div class="aiml-home">
+    <section class="aiml-hero node-surface" aria-labelledby="home-title">
+      <svg class="node-map hero-node-map" viewBox="0 0 1200 700" aria-hidden="true">
+        <path d="M-40 525 140 426l128 58 154-207 149 69 128-181 163 78 170-123 161 94" />
+        <path d="m140 426 43-220 239 71 149-129 75 198 236 6 109 173" />
+        <g><circle cx="140" cy="426" r="5"/><circle cx="268" cy="484" r="5"/><circle cx="422" cy="277" r="6"/><circle cx="571" cy="346" r="5"/><circle cx="699" cy="165" r="6"/><circle cx="862" cy="243" r="5"/><circle cx="1032" cy="120" r="5"/><circle cx="183" cy="206" r="4"/><circle cx="646" cy="346" r="4"/><circle cx="882" cy="352" r="5"/></g>
+      </svg>
+      <div class="hero-glow hero-glow-one"></div><div class="hero-glow hero-glow-two"></div>
+      <div class="aiml-shell hero-content">
+        <p class="kicker">QUT AI &amp; ML SOCIETY</p>
+        <h1 id="home-title">Build the future<br /><span>with AIML.</span></h1>
+        <p class="hero-lede">Queensland’s largest university society dedicated to artificial intelligence and machine learning. Learn, collaborate, and turn ambitious ideas into practical work.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://campus.hellorubric.com/?tab=memberships&s=11397">Join AIML <span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="/projects">Explore projects <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-proof" aria-label="AIML archive highlights">
+          <div><strong>{projectEntryCount}</strong><span>project entries</span></div>
+          <div><strong>{eventRecordCount}</strong><span>event records</span></div>
+          <div><strong>3</strong><span>active supporters</span></div>
+        </div>
       </div>
-    </div>
-
-
-    <!-- WELCOME -->
-    <div class="content-wrapper large-space">
-      <SectionHeader title="Welcome to the QUT AI & ML Society" />
-      <InfoPanel>
-        <p class="section-content">
-          Where students come together to explore, experiment, and innovate in the world of AI and ML.
-        </p>
-        <p class="section-content section-space">
-          Join the QUT AI & ML Society (AIML) as we host hands-on workshops, competitions, and industry-sponsored
-          events designed to challenge your skills and spark your creativity.
-        </p>
-        <p class="section-content section-space">
-          Ready to take your AI journey to the next level? Let's learn, build, and innovate together.
-        </p>
-      </InfoPanel>
-    </div>
-
-    <!-- TOOLKIT -->
-    <div class="content-wrapper large-space">
-      <SectionHeader title="Machine Learning Engineer's Toolkit" />
-      <section class="toolkit-section">
-        <div class="toolkit-inner">
-          <div class="toolkit-grid">
-            <div class="toolkit-line-behind"></div>
-            <div class="toolkit-column">
-              <div class="toolkit-header-card">Programming Languages</div>
-              <article class="toolkit-card">
-                <ul class="card-list">
-                  <li><strong>Python</strong> — Core language for AI, ML, and data science.</li>
-                  <li>
-                    Learn Python for ML:
-                    <a href="https://www.freecodecamp.org/learn" target="_blank" rel="noopener">
-                      freeCodeCamp Python
-                    </a>
-                  </li>
-                  <li>Scientific computing & ML libraries: NumPy, Pandas, PyTorch, TensorFlow</li>
-                </ul>
-              </article>
-            </div>
-            <div class="toolkit-column">
-              <div class="toolkit-header-card">Essential Tools</div>
-              <article class="toolkit-card">
-                <ul class="card-list">
-                  <li><strong>Jupyter Notebooks</strong> — Interactive experiments & visualisation.</li>
-                  <li><strong>Google Colab</strong> — Free GPUs, zero setup, perfect for ML.</li>
-                  <li><strong>PyCharm</strong> — Professional Python IDE for larger projects.</li>
-                  <li><strong>VS Code</strong> — Lightweight editor with strong ML extensions.</li>
-                </ul>
-              </article>
-            </div>
-            <div class="toolkit-column">
-              <div class="toolkit-header-card">AI & ML Tips</div>
-              <article class="toolkit-card">
-                <ul class="card-list">
-                  <li>Start simple — baseline models beat complex ones done poorly.</li>
-                  <li>Visualise your data before training any model.</li>
-                  <li>Track experiments (metrics, params, datasets).</li>
-                  <li>Learn the math intuition, not just the APIs.</li>
-                </ul>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- UPCOMING EVENTS -->
-    <SectionHeader title="Upcoming Events" />
-    <section class="events-panel">
-      {upcomingEvents.length > 0 ? (
-        <div id="upcoming-events-grid" class="events-grid">
-          {upcomingEvents.map(ev => (
-            <article
-              class="event-card"
-              data-semester={ev.semesterId}
-              data-category={ev.category}
-              data-type={ev.type ?? ev.category ?? "Other"}
-              data-title={ev.title.toLowerCase()}
-              data-date={ev.date}
-            >
-              {ev.rubric && ev.rubric.trim() !== "" ? (
-                <a href={ev.rubric}>
-                  <div class="card-media">
-                    {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                  </div>
-                  <div class="card-body">
-                    <h3 class="card-title">{ev.title}</h3>
-                    <div class="card-divider"></div>
-                    <time class="card-date">{ev.dateLabel}</time>
-                    <p class="card-description">{ev.excerpt}</p>
-                    <div class="card-footer">
-                      <span class="card-view-more">View more →</span>
-                    </div>
-                  </div>
-                </a>
-              ) : (
-                <div>
-                  <div class="card-media">
-                    {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                  </div>
-                  <div class="card-body">
-                    <h3 class="card-title">{ev.title}</h3>
-                    <div class="card-divider"></div>
-                    <time class="card-date">{ev.dateLabel}</time>
-                    <p class="card-description">{ev.excerpt}</p>
-                  </div>
-                </div>
-              )}
-            </article>
-          ))}
-        </div>
-      ) : (
-        <div class="no-events-state">
-          <p class="no-events-title">No upcoming events right now</p>
-          <p class="no-events-text">
-            We're working on new workshops, talks, and projects.
-            <br />
-            Follow us or join our community to be the first to know.
-          </p>
-        </div>
-      )}
     </section>
 
+    <section class="member-value section-dark node-surface" aria-labelledby="value-title">
+      <div class="aiml-shell">
+        <div class="section-heading split-heading"><div><p class="kicker">WHAT YOU CAN DO HERE</p><h2 id="value-title">A community built<br />for <span>doing.</span></h2></div><p>There is no single route into AI. AIML creates practical ways to find your people, develop your skills, and make something worth showing.</p></div>
+        <div class="value-grid">
+          <article class="value-card"><span class="value-icon" aria-hidden="true">⌘</span><h3>Build projects</h3><p>Join teams working across regression, vision, transformers, LLMs, and more. Add meaningful work to your portfolio.</p><a href="/projects">Explore projects <span aria-hidden="true">→</span></a></article>
+          <article class="value-card value-card-accent"><span class="value-icon" aria-hidden="true">✦</span><h3>Take on challenges</h3><p>Put your thinking into practice through project nights, competitions, and the Brains &amp; Bots Hackathon.</p><a href="/hackathon">Meet Brains &amp; Bots <span aria-hidden="true">→</span></a></article>
+          <article class="value-card"><span class="value-icon" aria-hidden="true">◌</span><h3>Meet the field</h3><p>Hear from alumni, researchers, and industry professionals while growing a network that lasts beyond university.</p><a href="/events">See upcoming events <span aria-hidden="true">→</span></a></article>
+          <article class="value-card"><span class="value-icon" aria-hidden="true">↗</span><h3>Keep learning</h3><p>Move from curiosity to confidence with peer support, hands on workshops, and a community happy to share what it knows.</p><a href="/about">How AIML works <span aria-hidden="true">→</span></a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="credibility-section" aria-labelledby="credibility-title">
+      <div class="aiml-shell"><div class="section-heading"><p class="kicker">WHY JOIN AIML</p><h2 id="credibility-title">Make your interest<br />in AI <span>practical.</span></h2></div>
+        <div class="credibility-promises"><div><b aria-hidden="true">01</b><p><strong>Designed for every starting point.</strong> Bring your curiosity, whether you are new to code or ready to lead a build.</p></div><div><b aria-hidden="true">02</b><p><strong>Grounded in real experience.</strong> Learn through active projects, events, and conversations with people in the field.</p></div><div><b aria-hidden="true">03</b><p><strong>Made for connection.</strong> Meet peers across Engineering, IT, Data Science, Business, and beyond.</p></div></div>
+        <div class="archive-stats"><article><span>PROJECT ARCHIVE</span><strong>{projectEntryCount}</strong><p>student project entries spanning classic ML to modern AI.</p></article><article><span>EVENT ARCHIVE</span><strong>{eventRecordCount}</strong><p>recorded workshops, project nights, socials, and industry events.</p></article><article><span>COMMUNITY NETWORK</span><strong>4</strong><p>ways to keep in touch across Discord, GitHub, Instagram, and LinkedIn.</p></article></div>
+      </div>
+    </section>
+
+    <section class="opportunities-section section-dark node-surface" aria-labelledby="opportunities-title">
+      <div class="aiml-shell opportunities-layout"><div class="opportunities-copy"><p class="kicker">MAKE THE MOST OF IT</p><h2 id="opportunities-title">Your next<br /><span>opportunity</span><br />is here.</h2><p>Take the first step, then choose where it leads. AIML is a place to start small, grow quickly, and build toward the work you want to do.</p><a class="button button-secondary" href="/events">Find an event <span aria-hidden="true">→</span></a></div>
+        <div class="opportunity-stack"><a class="opportunity-block opportunity-projects" href="/projects"><span>01 / PROJECT TEAMS</span><h3>Build something with people who care.</h3><p>Contribute to hands-on work and share it with the wider community.</p><b aria-hidden="true">↗</b></a><a class="opportunity-block opportunity-hackathon" href="/hackathon"><span>02 / BRAINS &amp; BOTS</span><h3>Make a weekend count.</h3><p>Challenge yourself at our flagship AI-focused hackathon.</p><b aria-hidden="true">↗</b></a><a class="opportunity-block opportunity-partners" href="/partners"><span>03 / INDUSTRY CONNECTION</span><h3>See where AI can take you.</h3><p>Discover insights and pathways with AIML’s supporters.</p><b aria-hidden="true">↗</b></a></div>
+      </div>
+    </section>
+
+    <section class="photo-band" aria-labelledby="moments-title">
+      <div class="aiml-shell photo-band-heading"><div><p class="kicker">COMMUNITY IN ACTION</p><h2 id="moments-title">Moments from<br /><span>the AIML archive.</span></h2></div><p>Real events, real rooms, and the work that brings the QUT AI &amp; ML Society together.</p></div>
+      <div class="photo-story-grid">
+        <figure class="photo-story photo-story-projects"><img src="/data/hackathon/AIML%20Hackathon%202026/1.jpeg" alt="AIML Hackathon participants gathered together" /><figcaption><p>AIML HACKATHON</p><h3>A few days of building</h3><span>Teams turned ideas into working prototypes.</span></figcaption></figure>
+        <figure class="photo-story photo-story-welcome"><img src="/data/events/sem-1-2026/images/social-night.jpg" alt="Students at AIML's first Welcome Night" /><figcaption><p>OUR FIRST WELCOME NIGHT</p><h3>Semester 1, 2025</h3><span>The social launch that brought the AIML community together.</span></figcaption></figure>
+        <figure class="photo-story photo-story-industry"><img src="/data/events/sem-1-2026/images/AIML%20x%20BANDS%20industry%20night/1.jpeg" alt="Attendees at the AIML and BANDS Industry Night" /><figcaption><p>AIML × BANDS</p><h3>Industry Night</h3><span>Career conversations and industry connection.</span></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="partners-home" aria-labelledby="partners-title"><div class="aiml-shell"><div class="section-heading partners-heading"><div><p class="kicker">BACKING THE COMMUNITY</p><h2 id="partners-title">Our sponsors<br />and <span>supporters.</span></h2></div><a href="/partners">Meet our partners <span aria-hidden="true">→</span></a></div><p class="partners-home-lede">AIML’s partners help turn student curiosity into workshops, projects, industry insight, and meaningful opportunities across the community.</p><div class="partner-home-grid"><a class="partner-home-card partner-home-nti" href="https://www.nti.com.au" target="_blank" rel="noopener noreferrer"><div class="partner-home-logo"><img src="/data/sponsors/NTI.png" alt="NTI" /></div><div><span>FOUNDING SPONSOR</span><h3>NTI</h3><p>Supporting the next generation of people building thoughtful, real-world technology.</p><b>Visit NTI ↗</b></div></a><a class="partner-home-card" href="https://www.microsoft.com" target="_blank" rel="noopener noreferrer"><div class="partner-home-logo"><img src="/data/supporters/Microsoft.png" alt="Microsoft" /></div><div><span>GLOBAL TECHNOLOGY</span><h3>Microsoft</h3><p>Cloud, software, and AI tools that empower people and organisations to achieve more.</p><b>Explore Microsoft ↗</b></div></a><a class="partner-home-card" href="https://www.acs.org.au" target="_blank" rel="noopener noreferrer"><div class="partner-home-logo"><img src="/data/supporters/ACS.png" alt="Australian Computing Society" /></div><div><span>PROFESSIONAL COMMUNITY</span><h3>Australian Computing Society</h3><p>Advancing skills, ethics, and connection across Australia’s technology community.</p><b>Explore ACS ↗</b></div></a></div><div class="partner-home-impact" aria-label="Partnership impact"><div><b>01</b><p>Hands-on workshops<br />and events</p></div><div><b>02</b><p>Member insight<br />and mentorship</p></div><div><b>03</b><p>Industry pathways<br />and connection</p></div></div></div></section>
+
+    <section class="community-section section-dark node-surface" aria-labelledby="community-title"><div class="aiml-shell"><div class="community-intro"><div class="community-copy"><p class="kicker">STAY IN THE LOOP</p><h2 id="community-title">Find your<br /><span>community.</span></h2><p>Questions, ideas, project updates, and new opportunities. Join the places where the AIML community keeps moving.</p><a class="button button-primary" href="https://discord.gg/CqkUzVVkXX" target="_blank" rel="noopener noreferrer">Join the Discord <span aria-hidden="true">↗</span></a></div><figure class="community-image"><img src="/data/events/sem-1-2026/images/social-night.jpg" alt="Students at a QUT AIML community event" /><figcaption><span>WELCOME NIGHT</span><strong>QUT AIML community</strong></figcaption></figure></div><div class="social-grid"><a href="https://discord.gg/CqkUzVVkXX" target="_blank" rel="noopener noreferrer"><span class="social-icon" aria-hidden="true">◉</span><div><small>COMMUNITY CHAT</small><h3>Discord</h3></div><b>Join us ↗</b></a><a href="https://github.com/qut-aiml" target="_blank" rel="noopener noreferrer"><span class="social-icon" aria-hidden="true">&lt;/&gt;</span><div><small>OPEN SOURCE</small><h3>GitHub</h3></div><b>Follow us ↗</b></a><a href="https://www.instagram.com/qut_aiml/" target="_blank" rel="noopener noreferrer"><span class="social-icon" aria-hidden="true">◎</span><div><small>BEHIND THE SCENES</small><h3>Instagram</h3></div><b>Follow us ↗</b></a><a href="https://www.linkedin.com/company/qut-aiml/" target="_blank" rel="noopener noreferrer"><span class="social-icon" aria-hidden="true">in</span><div><small>PROFESSIONAL NETWORK</small><h3>LinkedIn</h3></div><b>Follow us ↗</b></a></div></div></section>
   </div>
-
-  <Fragment slot="scripts">
-    <script type="module">
-      import "/src/scripts/home/home-script.js";
-    </script>
-    <script is:inline>
-      document.addEventListener("DOMContentLoaded", function () {
-        var slides = Array.from(document.querySelectorAll(".hero-slide"));
-        var dots   = Array.from(document.querySelectorAll(".hero-dot"));
-        if (slides.length === 0) return;
-
-        var current = 0;
-        var timer;
-
-        function goTo(index) {
-          slides[current].classList.remove("active");
-          if (dots[current]) dots[current].classList.remove("active");
-          current = (index + slides.length) % slides.length;
-          slides[current].classList.add("active");
-          if (dots[current]) dots[current].classList.add("active");
-        }
-
-        function startAuto() { timer = setInterval(function () { goTo(current + 1); }, 5000); }
-        function resetAuto() { clearInterval(timer); startAuto(); }
-
-        dots.forEach(function (dot, i) {
-          dot.addEventListener("click", function () { goTo(i); resetAuto(); });
-        });
-
-        startAuto();
-      });
-    </script>
-  </Fragment>
-
-
 </BaseLayout>

@@ -3,202 +3,128 @@ import "@/styles/about/about.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
 import InfoPanel from "@/components/InfoPanel.astro";
+import { Icon } from "astro-icon/components";
 import { loadAboutData } from "@/scripts/about/exec-data";
 
-const { teamsForClient, degreesForClient } = loadAboutData();
+const { teamsForClient: rawTeamsForClient, degreesForClient } = loadAboutData();
+// Keep the executive portfolio groups together, then present Academic Champions last.
+const teamsForClient = [...rawTeamsForClient].sort((a, b) => {
+  if (a.title === "Academic Champions") return 1;
+  if (b.title === "Academic Champions") return -1;
+  return 0;
+});
+const coreDegreeGroups = degreesForClient.filter(group => group.title !== "Other Relevant Courses");
+const otherDegreeGroup = degreesForClient.find(group => group.title === "Other Relevant Courses");
+const teamFiles = import.meta.glob("/public/data/about/*/team-details.json", { eager: true });
+const journey = Object.entries(teamFiles)
+  .map(([path, file]) => {
+    const folder = path.split("/").at(-2) ?? "";
+    const year = Number.parseInt(folder, 10);
+    const groups = file.default;
+    return { year, people: groups.reduce((total, group) => total + group.items.length, 0) };
+  })
+  .filter(entry => Number.isInteger(entry.year))
+  .sort((a, b) => a.year - b.year);
+const currentTeam = journey.at(-1);
+const journeyMilestones = [
+  { year: "2025", label: "FOUNDATIONS", title: "AIML begins", detail: `AIML is founded, with ${journey[0]?.people ?? 0} people recorded in the founding executive team data.` },
+  {
+    year: "2026",
+    label: "A YEAR OF ACTION",
+    title: "Leadership in action",
+    detail: "A year shaped by the collective work of the AIML executive team.",
+    highlights: [
+      "Leadership recognition through the President of the Year award",
+      "AIML Hackathon with more than 115 participants",
+      "Flagship industry networking event with QUT BANDS",
+      "AgentCamp at QUT with Global AI Community and Google Developer Group"
+    ]
+  }
+];
+const featuredJourneyMilestone = {
+  label: "2026 / AIML EXECUTIVE TEAM",
+  title: "Built by a team that delivers.",
+  detail: "From practical projects to major events, the team behind AIML turns shared ambition into opportunities for QUT students."
+};
 ---
 
-<ContentLayout>
-  <div class="content-wrapper about-space">
-
-    <!-- ABOUT -->
-    <SectionHeader title="About QUT AIML" />
-    <InfoPanel>
-      The QUT AI & ML Society is Queensland's largest university society dedicated to artificial intelligence and machine learning.
-      AIML is a student-led community for students across Engineering, IT, Data Science, Business, and other disciplines.
-      Whether you are new to AI or already building projects, AIML gives you clear ways to get involved.
-      Through hackathons, competitions, industry events, and project nights, we help members turn their interest into practical experience.
-      With project topics ranging from regression and clustering to transformers and large language models, AIML gives members a place to gain experience and contribute to meaningful technical work.
-    </InfoPanel>
-
-    <div class="content-wrapper objective-space">
-
-      <!-- OBJECTIVES -->
-      <div class="objectives-wrapper">
-        <div class="thick-line-behind"></div>
-        <section class="objectives-section">
-          <div class="objectives-inner">
-            <div class="objectives-header">
-              <span class="banner left"></span>
-              <h2>OUR<br /><span>OBJECTIVES</span></h2>
-              <span class="banner right"></span>
-            </div>
-            <div class="objectives-cards">
-              <div class="objective-item">
-                <div class="objective-number">1</div>
-                <div class="objective-card">
-                  <p>Gain insights and guidance from alumni, professionals, and leaders in the AI and ML industry.</p>
-                </div>
-              </div>
-              <div class="objective-item">
-                <div class="objective-number">2</div>
-                <div class="objective-card">
-                  <p>Collaborate, experiment, and build impactful projects focused on artificial intelligence and machine learning.</p>
-                </div>
-              </div>
-              <div class="objective-item">
-                <div class="objective-number">3</div>
-                <div class="objective-card">
-                  <p>Connect and network with students, researchers, and professionals in the AI, ML, and broader tech community.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+<ContentLayout title="About QUT AIML | QUT AI & ML Society">
+  <div class="about-page">
+    <section class="about-hero" aria-labelledby="about-title">
+      <img src="/data/about/about-hero.png" alt="QUT AIML community" />
+      <div class="about-hero-overlay"></div>
+      <div class="about-shell about-hero-content">
+        <p class="about-kicker">ABOUT QUT AIML</p>
+        <h1 id="about-title">About QUT AIML.<br /><span>Curiosity into craft.</span></h1>
+        <p>The QUT AI &amp; ML Society is <mark>Queensland's largest university society dedicated to artificial intelligence and machine learning.</mark> AIML is a <mark class="soft-highlight">student led community</mark> for students across Engineering, IT, Data Science, Business, and other disciplines.</p>
       </div>
+    </section>
 
-      <!-- DEGREES -->
-      <section class="degree-section">
-        <section class="pink-panel-flex">
-          <p class="pink-title">Relevant Degrees</p>
-        </section>
-        <div class="content-wrapper centered-box">
-          <section class="minimal-padding-panel spacing-top">
-            <p class="section-content">
-              <div id="degree-title" class="degree-name"></div>
-            </p>
-          </section>
-        </div>
-        <div class="degree-grid-wrapper">
-          <div class="degree-row">
-            <div class="side-bar left">
-              <button class="carousel-arrow-degree left-degree">‹</button>
-            </div>
-            <div
-              class="degree-grid"
-              id="degrees-grid"
-              data-teams={JSON.stringify(degreesForClient)}
-            ></div>
-            <div class="side-bar right">
-              <button class="carousel-arrow-degree right-degree">›</button>
-            </div>
-          </div>
-          <div class="degree-dots" id="degrees-dots"></div>
-        </div>
-        <div class="degree-arrows-mobile-panel">
-          <button class="carousel-arrow left">‹</button>
-          <button class="carousel-arrow right">›</button>
-        </div>
-      </section>
-
-      <!-- USEFUL RESOURCES -->
-      <div class="content-wrapper">
-        <SectionHeader title="Useful Resources" class="resources-header" />
-        <section class="resources-section">
-          <div class="team-grid-wrapper small-bottom-spacing">
-            <div class="team-row">
-              <div class="team-grid resources-grid">
-                <div class="team-card resource-card">
-                  <div class="team-info">
-                    <h3>Frequently Asked Questions</h3>
-                    <p>Answers to common questions about membership, events, and involvement.</p>
-                    <a href="/about/faq" class="resource-link">View more</a>
-                  </div>
-                </div>
-                <div class="team-card resource-card">
-                  <div class="team-info">
-                    <h3>Our Community</h3>
-                    <p>Learn about our culture, values, and what makes AIML special.</p>
-                    <a href="/about/community" class="resource-link">View more</a>
-                  </div>
-                </div>
-                <div class="team-card resource-card">
-                  <div class="team-info">
-                    <h3>Constitution</h3>
-                    <p>Our governing document outlining structure, roles, and processes.</p>
-                    <a href="https://github.com/QUT-AIML/Constitution/blob/main/Role-Descriptions.md" class="resource-link">View more</a>
-                  </div>
-                </div>
-                <div class="team-card resource-card">
-                  <div class="team-info">
-                    <h3>Code of Conduct</h3>
-                    <p>Guidelines to ensure a safe, inclusive, and respectful community.</p>
-                    <a href="https://github.com/QUT-AIML/Code-of-Conduct" class="resource-link">View more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+    <section class="about-mission" aria-labelledby="mission-title">
+      <div class="about-shell mission-layout">
+        <div class="mission-copy"><p class="about-kicker">OUR MISSION</p><h2 id="mission-title">Learn together.<br /><span>Build with purpose.</span></h2><p>Whether you are new to AI or already building projects, AIML gives you clear ways to get involved. Through hackathons, competitions, industry events, and project nights, we help members turn their interest into practical experience.</p><a href="/events">Find your next event <span aria-hidden="true">→</span></a></div>
+        <figure class="mission-image"><img src="/data/events/sem-1-2026/images/projects-night-1.jpg" alt="QUT AIML members collaborating at a projects night" /><figcaption>Learning by doing</figcaption></figure>
       </div>
+    </section>
 
-      <!-- TEAM -->
-      <section class="team-section">
-        <div class="pink-panel-flex">
-          <p class="pink-title">Meet the Team</p>
-        </div>
-        <div class="content-wrapper centered-box">
-          <section class="minimal-padding-panel spacing-top">
-            <p class="section-content">
-              <div id="team-title" class="team-name"></div>
-            </p>
-          </section>
-        </div>
-        <div class="team-grid-wrapper">
-          <div class="team-row">
-            <div class="side-bar left">
-              <button class="carousel-arrow left">‹</button>
-            </div>
-            <div
-              class="team-grid"
-              id="team-grid"
-              data-teams={JSON.stringify(teamsForClient)}
-            ></div>
-            <div class="side-bar right">
-              <button class="carousel-arrow right">›</button>
-            </div>
-          </div>
-          <div class="team-dots" id="team-dots"></div>
-        </div>
-        <div class="team-arrows-mobile-panel">
-          <button class="carousel-arrow left">‹</button>
-          <button class="carousel-arrow right">›</button>
-        </div>
-      </section>
+    <section class="about-values" aria-labelledby="values-title"><div class="about-shell"><div class="values-heading"><div><p class="about-kicker">OUR OBJECTIVES</p><h2 id="values-title">The values behind<br /><span>what we do.</span></h2></div><p>Three practical commitments shape the AIML experience.</p></div><div class="values-row"><article><Icon name="tabler:bulb" aria-hidden="true" /><h3>Learn from the field</h3><p>Gain insights and guidance from alumni, professionals, and leaders in the AI and ML industry.</p></article><article><Icon name="tabler:tool" aria-hidden="true" /><h3>Build together</h3><p>Collaborate, experiment, and build impactful projects focused on artificial intelligence and machine learning.</p></article><article><Icon name="tabler:users" aria-hidden="true" /><h3>Grow your network</h3><p>Connect and network with students, researchers, and professionals in the AI, ML, and broader tech community.</p></article></div></div></section>
 
-      <!-- EXECUTIVE BODY -->
-      <div class="content-wrapper">
-        <SectionHeader title="The Executive Body" class="resources-header" />
-        <section class="resources-section">
-          <div class="team-grid-wrapper bottom-spacing">
-            <div class="team-row">
-              <div class="team-grid resources-grid">
-                <div class="team-card resource-card">
-                  <div class="team-info">
-                    <h3>How to become an Executive</h3>
-                    <p>Learn about the application process, expectations, and responsibilities of AIML executives.</p>
-                    <a href="/about/exec-application" class="resource-link">View more</a>
-                  </div>
-                </div>
-                <div class="team-card resource-card">
-                  <div class="team-info">
-                    <h3>Our History</h3>
-                    <p>Learn about the teams that have shaped our club over the years.</p>
-                    <a href="/about/history" class="resource-link">View more</a>
-                  </div>
-                </div>
+    <section class="about-journey" aria-labelledby="journey-title">
+      <div class="about-shell">
+        <div class="journey-editorial-heading">
+          <p class="about-kicker">OUR JOURNEY</p>
+          <h2 id="journey-title">Growing with<br /><span>purpose.</span></h2>
+        </div>
+        <div class="journey-editorial-layout">
+          <ol class="journey-milestone-list">
+            {journeyMilestones.map(entry => <li>
+              <p class="journey-milestone-year">{entry.year}</p>
+              <div>
+                <small>{entry.label}</small>
+                <h3>{entry.title}</h3>
+                <p>{entry.detail}</p>
+                {entry.highlights && <ul>{entry.highlights.map(highlight => <li>{highlight}</li>)}</ul>}
               </div>
+            </li>)}
+          </ol>
+          <aside class="journey-feature">
+            <div class="journey-feature-copy">
+              <small>{featuredJourneyMilestone.label}</small>
+              <h3>{featuredJourneyMilestone.title}</h3>
+              <p>{featuredJourneyMilestone.detail}</p>
             </div>
-          </div>
-        </section>
+            <figure class="journey-feature-image">
+              <img src="/data/about/2026/team-photo.png" alt="QUT AIML executive team in 2026" loading="lazy" />
+            </figure>
+          </aside>
+        </div>
       </div>
+    </section>
 
-    </div>
+    <section class="about-now" aria-labelledby="now-title"><div class="about-shell"><div class="now-intro"><p class="about-kicker">WHERE WE ARE NOW</p><h2 id="now-title">AIML, by the<br /><span>numbers.</span></h2></div><div class="now-stats"><article><Icon name="tabler:users-group" aria-hidden="true" /><strong>275+</strong><p>active AIML members</p></article><article><Icon name="tabler:brand-instagram" aria-hidden="true" /><strong>900+</strong><p>Instagram followers</p></article><article><Icon name="tabler:brand-linkedin" aria-hidden="true" /><strong>875+</strong><p>LinkedIn followers</p></article><article><Icon name="tabler:brand-discord" aria-hidden="true" /><strong>525+</strong><p>Discord community members</p></article></div></div></section>
+
+    <section class="about-existing about-degrees" aria-labelledby="degrees-title">
+      <div class="about-shell">
+        <div class="existing-heading degree-heading"><div><p class="about-kicker">STUDY PATHWAYS</p><h2 id="degrees-title">Relevant <span>degrees.</span></h2></div><p>Explore the QUT pathways currently represented in the AIML community.</p></div>
+        <div class="degree-explorer">
+          {coreDegreeGroups.map((group, groupIndex) => <article class="degree-pathway">
+            <header><span class="degree-pathway-number">0{groupIndex + 1}</span><div><p>QUT PATHWAY</p><h3>{group.title}</h3></div><strong>{group.items.length} <small>{group.items.length === 1 ? "route" : "routes"}</small></strong></header>
+            <ol>{group.items.map((item, itemIndex) => <li class={item.name.startsWith("Coming Soon") ? "degree-route degree-route-coming" : "degree-route"}><span>{String(itemIndex + 1).padStart(2, "0")}</span><Icon name="tabler:arrow-up-right" aria-hidden="true" /><p>{item.name}</p>{item.name.startsWith("Coming Soon") && <em>Coming soon</em>}</li>)}</ol>
+          </article>)}
+          {otherDegreeGroup && <details class="degree-pathway degree-pathway-other">
+            <summary><span class="degree-pathway-number">03</span><div><p>MORE STUDY PATHWAYS</p><h3>Other relevant courses</h3></div><strong>{otherDegreeGroup.items.length} <small>courses</small></strong><Icon name="tabler:plus" aria-hidden="true" /></summary>
+            <ol>{otherDegreeGroup.items.map((item, itemIndex) => <li class="degree-route"><span>{String(itemIndex + 1).padStart(2, "0")}</span><Icon name="tabler:arrow-up-right" aria-hidden="true" /><p>{item.name}</p></li>)}</ol>
+          </details>}
+        </div>
+      </div>
+    </section>
+
+    <section class="about-existing about-resources"><div class="about-shell"><div class="existing-heading"><p class="about-kicker">KEEP EXPLORING</p><h2>Useful <span>resources.</span></h2></div><div class="resource-explorer"><a href="/about/faq" class="resource-panel resource-panel-feature"><Icon name="tabler:message-circle-question" aria-hidden="true" /><div><span>01 / START HERE</span><h3>Frequently Asked<br />Questions</h3><p>Answers to common questions about membership, events, and involvement.</p></div><b aria-hidden="true">↗</b></a><a href="/about/community" class="resource-panel"><Icon name="tabler:users-group" aria-hidden="true" /><div><span>02 / PEOPLE</span><h3>Our community</h3><p>Learn about our culture, values, and what makes AIML special.</p></div><b aria-hidden="true">↗</b></a><a href="https://github.com/QUT-AIML/Constitution/blob/main/Role-Descriptions.md" class="resource-panel"><Icon name="tabler:scale" aria-hidden="true" /><div><span>03 / GOVERNANCE</span><h3>Constitution</h3><p>Our governing document outlining structure, roles, and processes.</p></div><b aria-hidden="true">↗</b></a><a href="https://github.com/QUT-AIML/Code-of-Conduct" class="resource-panel"><Icon name="tabler:heart-handshake" aria-hidden="true" /><div><span>04 / STANDARDS</span><h3>Code of Conduct</h3><p>Guidelines to ensure a safe, inclusive, and respectful community.</p></div><b aria-hidden="true">↗</b></a></div></div></section>
+
+    <section class="about-existing about-team"><div class="about-shell"><div class="existing-heading"><p class="about-kicker">THE PEOPLE BEHIND AIML</p><h2>Meet the <span>team.</span></h2></div></div><section class="team-section"><div class="team-stage-heading"><span>TEAM FOCUS</span><div id="team-title" class="team-name" aria-live="polite"></div><p>Meet the executive portfolios behind AIML’s events, projects, industry connections, education, and community.</p></div><div class="team-grid-wrapper"><div class="team-row"><div class="side-bar left"><button class="carousel-arrow left" aria-label="Previous team group">‹</button></div><div class="team-grid" id="team-grid" data-teams={JSON.stringify(teamsForClient)}></div><div class="side-bar right"><button class="carousel-arrow right" aria-label="Next team group">›</button></div></div><div class="team-dots" id="team-dots" aria-label="Team group pages"></div></div></section></section>
+
+    <section class="about-existing about-executive"><div class="about-shell"><div class="existing-heading"><p class="about-kicker">GET INVOLVED</p><h2>The executive <span>body.</span></h2></div><div class="executive-gateway"><a href="/about/exec-application" class="executive-panel executive-panel-apply"><span>01 / JOIN THE TEAM</span><Icon name="tabler:rocket" aria-hidden="true" /><h3>How to become<br />an Executive</h3><p>Learn about the application process, expectations, and responsibilities of AIML executives.</p><b>Explore applications <i aria-hidden="true">→</i></b></a><a href="/about/history" class="executive-panel executive-panel-history"><span>02 / THE STORY SO FAR</span><Icon name="tabler:timeline-event" aria-hidden="true" /><h3>Our history</h3><p>Learn about the teams that have shaped our club over the years.</p><b>Meet past teams <i aria-hidden="true">→</i></b></a></div></div></section>
   </div>
 
-  <Fragment slot="scripts">
-    <script>
-      import "@/scripts/about/about-script.js";
-    </script>
-  </Fragment>
+  <Fragment slot="scripts"><script>import "@/scripts/about/about-script.js";</script></Fragment>
 </ContentLayout>

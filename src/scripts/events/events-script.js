@@ -2,8 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  const noEventsState = document.getElementById('no-events-state'); // ADD THIS
-  console.log('noEventsState:', noEventsState); // ADD THIS
+  const noEventsState = document.getElementById('no-events-state');
 
   const searchInput = document.getElementById('events-search');
   const grid = document.getElementById('events-grid');
@@ -21,20 +20,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const sortSelectPop = document.getElementById('sort-select-pop'); // Upcoming / Past
   const typeSelectPop = document.getElementById('type-select-pop'); // Mobile type
   const sortGroup = document.getElementById('sort-filter-group');
+  const archiveViewButton = document.getElementById('event-archive-view');
+  const calendarViewButton = document.getElementById('event-calendar-view');
+  const eventsPanel = document.querySelector('.events-panel');
+  const eventsCalendar = document.getElementById('events-calendar');
+  const calendarGrid = document.getElementById('calendar-grid');
+  const calendarMonthTitle = document.getElementById('calendar-month-title');
+  const calendarEmpty = document.getElementById('calendar-empty');
+  const calendarPrevious = document.getElementById('calendar-previous');
+  const calendarNext = document.getElementById('calendar-next');
 
   const EVENTS_PER_PAGE = 6;
 
   let currentPage = 1;
   let currentSemester = 'all';
-  let currentSort = 'upcoming';
+  const eventsPage = document.querySelector('.events-page');
+  let currentSort = eventsPage?.dataset.defaultView === 'past' ? 'past' : 'upcoming';
   let currentTitleSort = 'none';
   let currentType = 'All';
+  let currentView = 'archive';
+  const calendarStart = eventsPage?.dataset.calendarStart;
+  let calendarDate = calendarStart ? new Date(`${calendarStart}T12:00:00`) : new Date();
 
   let filteredCards = [];
   let typeButtons = [];
 
   const latestSemesterId =
     semesterSelectPop.options[1]?.value ?? null;
+
+  sortSelectPop.value = currentSort;
 
   function getCards() {
     return Array.from(grid.querySelectorAll('.event-card'));
@@ -144,10 +158,96 @@ document.addEventListener("DOMContentLoaded", () => {
     applySort();
     renderPage();
     renderPagination();
+    renderCalendar();
 
     if (window.innerWidth > 768) {
       renderTypeButtons(getTypesForFilteredCards());
     }
+  }
+
+  function localDate(dateString) {
+    return new Date(`${dateString}T12:00:00`);
+  }
+
+  function renderCalendar() {
+    if (!calendarGrid || !calendarMonthTitle || !calendarEmpty) return;
+
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth();
+    const monthName = calendarDate.toLocaleDateString('en-AU', { month: 'long', year: 'numeric' });
+    calendarMonthTitle.textContent = monthName;
+    calendarGrid.innerHTML = '';
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInPreviousMonth = new Date(year, month, 0).getDate();
+    const eventsByDay = new Map();
+
+    filteredCards.forEach((card) => {
+      const date = localDate(card.dataset.date);
+      if (date.getFullYear() !== year || date.getMonth() !== month) return;
+      const day = date.getDate();
+      const events = eventsByDay.get(day) ?? [];
+      events.push({
+        title: card.querySelector('.card-title')?.textContent.trim() ?? 'AIML event',
+        type: card.dataset.type ?? 'Event',
+      });
+      eventsByDay.set(day, events);
+    });
+
+    for (let index = 0; index < 42; index += 1) {
+      const dayOffset = index - firstDay + 1;
+      const day = document.createElement('div');
+      day.className = 'calendar-day';
+      let label;
+
+      if (dayOffset < 1) {
+        label = daysInPreviousMonth + dayOffset;
+        day.classList.add('outside-month');
+      } else if (dayOffset > daysInMonth) {
+        label = dayOffset - daysInMonth;
+        day.classList.add('outside-month');
+      } else {
+        label = dayOffset;
+        const events = eventsByDay.get(dayOffset) ?? [];
+        if (events.length) day.classList.add('has-event');
+        events.slice(0, 3).forEach((event) => {
+          const item = document.createElement('span');
+          item.className = 'calendar-event';
+          item.dataset.type = event.type;
+          item.textContent = event.title;
+          item.title = event.title;
+          day.appendChild(item);
+        });
+        if (events.length > 3) {
+          const more = document.createElement('span');
+          more.className = 'calendar-more';
+          more.textContent = `+${events.length - 3} more`;
+          day.appendChild(more);
+        }
+      }
+
+      const dateNumber = document.createElement('span');
+      dateNumber.className = 'calendar-date';
+      dateNumber.textContent = label;
+      day.prepend(dateNumber);
+      calendarGrid.appendChild(day);
+    }
+
+    calendarEmpty.hidden = eventsByDay.size !== 0;
+  }
+
+  function setView(view) {
+    currentView = view;
+    const showCalendar = view === 'calendar';
+    eventsPanel.hidden = showCalendar;
+    eventsCalendar.hidden = !showCalendar;
+    paginationContainer.hidden = showCalendar;
+    archiveViewButton.classList.toggle('active', !showCalendar);
+    calendarViewButton.classList.toggle('active', showCalendar);
+    archiveViewButton.setAttribute('aria-pressed', String(!showCalendar));
+    calendarViewButton.setAttribute('aria-pressed', String(showCalendar));
+    if (showCalendar) renderCalendar();
   }
 
   function applySort() {
@@ -267,6 +367,17 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeSelectPop) {
     typeSelectPop.addEventListener('change', applyFilters);
   }
+
+  archiveViewButton?.addEventListener('click', () => setView('archive'));
+  calendarViewButton?.addEventListener('click', () => setView('calendar'));
+  calendarPrevious?.addEventListener('click', () => {
+    calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1);
+    renderCalendar();
+  });
+  calendarNext?.addEventListener('click', () => {
+    calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1);
+    renderCalendar();
+  });
 
   filtersToggle.addEventListener('click', (e) => {
     e.stopPropagation();

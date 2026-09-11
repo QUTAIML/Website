@@ -1,145 +1,201 @@
 ---
 import "@/styles/events.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
-import SectionHeader from "@/components/SectionHeader.astro";
-import InfoPanel from "@/components/InfoPanel.astro";
 import { loadEventsData } from "@/scripts/events/events-loader";
 import EventCard from "@/components/EventCard.astro";
 
 const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
+const eventCount = eventsBySemester.length;
+const eventFormatCount = types.filter((type) => type !== "All").length;
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const hasUpcomingEvents = eventsBySemester.some((event) => new Date(event.date) >= today);
+const defaultView = hasUpcomingEvents ? "upcoming" : "past";
+const latestEventDate = [...eventsBySemester].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]?.date ?? "";
 ---
 
-<ContentLayout>
-  <div class="content-wrapper events-space">
-
-    <!-- ABOUT -->
-    <SectionHeader title="Our Events" />
-    <InfoPanel>
-      The QUT AI & ML Society hosts engaging events designed to connect, inspire, and empower students at all experience levels.
-      From hands-on workshops and AI-focused project nights to industry talks and social meetups, our events provide opportunities to learn, experiment, and grow in a collaborative environment.
-      Members can gain insights from alumni and industry professionals, showcase their skills, and build meaningful connections with peers, researchers, and leaders in AI and machine learning.
-      Join us to participate in events that spark creativity, foster collaboration, and help shape the future of AI innovation.
-    </InfoPanel>
-
-    <!-- FEATURED EVENTS -->
-     
-    {featuredEvents.length > 0 && (
-      <>
-        <SectionHeader title="Featured Events" class="featured-events-space" />
-        <div class="key-content">
-          <section class="events-panel">
-            <section class="events-grid">
-              {featuredEvents.map(ev => (
-                <EventCard ev={ev} href={`/events/${ev.semesterId}/${ev.slug}`} />
-              ))}
-            </section>
-          </section>
+<ContentLayout title="Events | QUT AI & ML Society">
+  <div class="events-page" data-default-view={defaultView} data-calendar-start={latestEventDate}>
+    <header class="events-hero">
+      <div class="events-shell events-hero-layout">
+        <div class="events-hero-copy">
+          <p class="events-kicker">QUT AI & ML SOCIETY</p>
+          <h1>Where ideas<br /><span>take shape.</span></h1>
+          <p class="events-hero-intro">
+            Workshops, project nights, industry conversations, and social sessions for students ready to turn curiosity into practice.
+          </p>
+          <div class="event-hero-facts" aria-label="Event archive summary">
+            <span><strong>{eventCount}</strong> event records</span>
+            <span><strong>{eventFormatCount}</strong> ways to get involved</span>
+          </div>
+          <a class="events-hero-link" href="#event-archive">Explore the archive <span aria-hidden="true">↘</span></a>
         </div>
-      </>
-    )}
 
-    <!-- ALL EVENTS -->
-    <SectionHeader title="What's on at QUT AIML" class="above-spacing" />
-    <div class="key-content">
-      <section class="events-controls">
-        <div class="controls-row">
-          <div class="search-filter-wrapper">
+        <figure class="events-hero-image">
+          <img src="/data/events/sem-1-2026/images/projects-night-1.jpg" alt="Students taking part in a QUT AIML event" />
+          <figcaption>
+            <span>QUT AIML IN ACTION</span>
+            <strong>Learn together. Build together.</strong>
+          </figcaption>
+        </figure>
+      </div>
+    </header>
 
-            <!-- Search bar -->
-            <div class="search-wrapper">
-              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="11" cy="11" r="7" />
-                <line x1="16.65" y1="16.65" x2="21" y2="21" />
-              </svg>
-              <input
-                id="events-search"
-                type="search"
-                placeholder="Search"
-                aria-label="Search events"
-              />
+    <main>
+      <section class="events-overview" aria-labelledby="events-overview-title">
+        <div class="events-shell">
+          <div class="events-overview-heading">
+            <p class="events-kicker">MORE THAN A CALENDAR</p>
+            <h2 id="events-overview-title">Make the work<br /><span>feel real.</span></h2>
+            <p>Every event is a chance to meet people, test an idea, and take your next step in AI.</p>
+          </div>
+          <div class="event-pillars">
+            <article>
+              <span>01</span>
+              <h3>Build</h3>
+              <p>Bring ideas to life at project nights, workshops, and practical sessions.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Meet</h3>
+              <p>Hear from industry guests, alumni, and students working across the field.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Challenge</h3>
+              <p>Take on hackathons, competitions, and shared problems with your community.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {featuredEvents.length > 0 && (
+        <section class="events-featured" aria-labelledby="featured-events-title">
+          <div class="events-shell">
+            <div class="section-split-heading">
+              <div>
+                <p class="events-kicker">COMING UP</p>
+                <h2 id="featured-events-title">Make space<br /><span>for what is next.</span></h2>
+              </div>
+              <p>Save your place, bring a friend, and join the next AIML session.</p>
             </div>
-
-            <!-- Desktop type pills -->
-            <span class="type-filter-label">Sort by:</span>
-            <div id="type-filters" class="type-filter-pill">
-              {types.map(t => (
-                <button
-                  class={`type-btn ${t === "All" ? "active" : ""}`}
-                  data-type={t}
-                  type="button"
-                >
-                  {t}
-                </button>
-              ))}
+            <div class="events-grid featured-events-grid">
+              {featuredEvents.map((event) => <EventCard ev={event} href={`/events/${event.semesterId}/${event.slug}`} />)}
             </div>
+          </div>
+        </section>
+      )}
 
-            <!-- Filter dropdown -->
-            <div class="filters-wrapper">
-              <button
-                id="filters-toggle"
-                aria-haspopup="true"
-                aria-expanded="false"
-                type="button"
-                class="filters-toggle-btn"
-              >
-                <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
-                </svg>
-              </button>
-              <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
-                <div class="filters-popover-content">
-                  <div class="filter-group">
-                    <label for="semester-select-pop">Semester</label>
-                    <select id="semester-select-pop">
-                      <option value="all" selected>All semesters</option>
-                      {semesters.map(s => (
-                        <option value={s.id}>{s.label}</option>
-                      ))}
-                    </select>
+      <section id="event-archive" class="events-archive" aria-labelledby="event-archive-title">
+        <div class="events-shell">
+          <div class="section-split-heading archive-heading">
+            <div>
+              <p class="events-kicker">EVENT ARCHIVE</p>
+              <h2 id="event-archive-title">Find your next<br /><span>room to learn.</span></h2>
+            </div>
+            <p>
+              {defaultView === "past"
+                ? "Explore the sessions, speakers, projects, and moments that have shaped AIML so far."
+                : "See what is coming up, then explore the sessions that have shaped AIML so far."}
+            </p>
+          </div>
+
+          <section class="events-browser" aria-label="Browse events">
+            <div class="events-controls">
+              <div class="controls-row">
+                <div class="search-filter-wrapper">
+                  <div class="search-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="11" cy="11" r="7" />
+                      <line x1="16.65" y1="16.65" x2="21" y2="21" />
+                    </svg>
+                    <input id="events-search" type="search" placeholder="Search the archive" aria-label="Search events" />
                   </div>
-                  <!-- Mobile only -->
-                  <div class="filter-group hidden-type">
-                    <label for="type-select-pop">Type</label>
-                    <select id="type-select-pop">
-                      {types.map(t => (
-                        <option value={t}>{t}</option>
-                      ))}
-                    </select>
+
+                  <span class="type-filter-label">Browse</span>
+                  <div id="type-filters" class="type-filter-pill">
+                    {types.map((type) => (
+                      <button class={`type-btn ${type === "All" ? "active" : ""}`} data-type={type} type="button">
+                        {type}
+                      </button>
+                    ))}
                   </div>
-                  <div class="filter-group" id="sort-filter-group">
-                    <label for="sort-select-pop">Past/Future</label>
-                    <select id="sort-select-pop">
-                      <option value="upcoming" selected>Upcoming events</option>
-                      <option value="past">Past events</option>
-                    </select>
+
+                  <div class="filters-wrapper">
+                    <button id="filters-toggle" aria-label="More event filters" aria-haspopup="true" aria-expanded="false" type="button" class="filters-toggle-btn">
+                      <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z" />
+                      </svg>
+                      <span>Filters</span>
+                    </button>
+                    <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
+                      <div class="filters-popover-content">
+                        <div class="filter-group">
+                          <label for="semester-select-pop">Semester</label>
+                          <select id="semester-select-pop">
+                            <option value="all" selected>All semesters</option>
+                            {semesters.map((semester) => <option value={semester.id}>{semester.label}</option>)}
+                          </select>
+                        </div>
+                        <div class="filter-group hidden-type">
+                          <label for="type-select-pop">Type</label>
+                          <select id="type-select-pop">
+                            {types.map((type) => <option value={type}>{type}</option>)}
+                          </select>
+                        </div>
+                        <div class="filter-group" id="sort-filter-group">
+                          <label for="sort-select-pop">Show</label>
+                          <select id="sort-select-pop">
+                            <option value="upcoming" selected={defaultView === "upcoming"}>Upcoming events</option>
+                            <option value="past" selected={defaultView === "past"}>Past events</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="event-view-toggle" role="group" aria-label="Choose event archive view">
+                    <button id="event-archive-view" class="active" type="button" aria-pressed="true">Archive</button>
+                    <button id="event-calendar-view" type="button" aria-pressed="false">Calendar</button>
                   </div>
                 </div>
               </div>
             </div>
 
-          </div>
+            <section class="events-panel">
+              <section id="events-grid" class="events-grid">
+                {eventsBySemester.map((event) => <EventCard ev={event} href={event.rubric || null} />)}
+              </section>
+              <div id="no-events-state" class="no-events-state" style="display: none;">
+                <p class="no-events-title">Nothing scheduled here yet</p>
+                <p class="no-events-text">New workshops, talks, and project sessions will appear here when they are announced.</p>
+                <a href="/contact">Stay connected <span aria-hidden="true">↗</span></a>
+              </div>
+            </section>
+
+            <section id="events-calendar" class="events-calendar" aria-label="Event calendar" hidden>
+              <div class="calendar-toolbar">
+                <div>
+                  <p class="calendar-kicker">EVENT CALENDAR</p>
+                  <h3 id="calendar-month-title"></h3>
+                </div>
+                <div class="calendar-actions">
+                  <button id="calendar-previous" type="button" aria-label="Show previous month">‹</button>
+                  <button id="calendar-next" type="button" aria-label="Show next month">›</button>
+                </div>
+              </div>
+              <div class="calendar-weekdays" aria-hidden="true">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+              </div>
+              <div id="calendar-grid" class="calendar-grid"></div>
+              <p id="calendar-empty" class="calendar-empty" hidden>No matching events in this month. Try another month or adjust the archive filters.</p>
+            </section>
+
+            <div id="events-pagination"></div>
+          </section>
         </div>
       </section>
-
-      <section class="events-panel">
-        <section id="events-grid" class="events-grid">
-          {eventsBySemester.map(ev => (
-            <EventCard ev={ev} href={ev.rubric || null} />
-          ))}
-        </section>
-        <div id="no-events-state" class="no-events-state" style="display: none;">
-          <p class="no-events-title">No upcoming events right now</p>
-          <p class="no-events-text">
-            We're working on new workshops, talks, and projects.
-            <br />
-            Follow us or join our community to be the first to know.
-          </p>
-        </div>
-      </section>
-
-      <div id="events-pagination"></div>
-    </div>
-
+    </main>
   </div>
 
   <Fragment slot="scripts">

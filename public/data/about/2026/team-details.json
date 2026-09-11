@@ -9,45 +9,45 @@
   {
     "title": "Admin Team",
     "items": [
-      { "role": "President", "name": "Zac Knight", "image": "Zac.png" },
-      { "role": "Vice President", "name": "Iwan Kaczmar-Donaghue (S1)", "image": "Iwan.png" },
-      { "role": "Vice President", "name": "Jackson Riding (S2)", "image": "Jackson.png" },
-      { "role": "Secretary", "name": "Leonora Van De Sande", "image": "Leonora.png" },
-      { "role": "Treasurer", "name": "Declan Whitty", "image": "Declan.png" }
+      { "role": "President", "name": "Zac Knight", "image": "Zac.png", "linkedin": "https://www.linkedin.com/in/zac-knight/" },
+      { "role": "Vice President", "name": "Iwan Kaczmar-Donaghue (S1)", "image": "Iwan.png", "showOnAbout": false, "linkedin": "https://www.linkedin.com/in/iwan-kaczmar-donaghue/" },
+      { "role": "Vice President", "name": "Jackson Riding (S2)", "image": "Jackson.png", "linkedin": "https://www.linkedin.com/in/jackson-riding/" },
+      { "role": "Secretary", "name": "Leonora Van De Sande", "image": "Leonora.png", "linkedin": "https://www.linkedin.com/in/leonora-van-de-sande/" },
+      { "role": "Treasurer", "name": "Declan Whitty", "image": "Declan.png", "linkedin": "https://www.linkedin.com/in/declan-whitty/" }
     ]
   },
   {
     "title": "Projects Team",
     "items": [
-      { "role": "Projects Director", "name": "Jaidyn Snabel", "image": "Jaidyn.png" },
-      { "role": "Projects Manager", "name": "Nhu Hieu Nguyen", "image": "Hieu.png" },
-      { "role": "Projects Officer", "name": "Rajinder Singh", "image": "Rajinder.png" },
-      { "role": "Projects Officer", "name": "Rattanakpanha Chea", "image": "Panha.png" },
-      { "role": "Projects Officer", "name": "Dhairya Shah", "image": "Dhairya.png" },
-      { "role": "Projects Officer", "name": "Kevin Nguyen", "image": "Kevin.png" }
+      { "role": "Projects Director", "name": "Jaidyn Snabel", "image": "Jaidyn.png", "linkedin": "https://www.linkedin.com/in/jaidyn-snabel/" },
+      { "role": "Projects Manager", "name": "Nhu Hieu Nguyen", "image": "Hieu.png", "linkedin": "https://www.linkedin.com/in/hieu-nguyen-3347a125b/" },
+      { "role": "Projects Officer", "name": "Rajinder Singh", "image": "Rajinder.png", "linkedin": "https://www.linkedin.com/in/rajinders7/" },
+      { "role": "Projects Officer", "name": "Rattanakpanha Chea", "image": "Panha.png", "linkedin": "https://www.linkedin.com/in/rattanakpanha-chea/" },
+      { "role": "Projects Officer", "name": "Dhairya Shah", "image": "Dhairya.png", "linkedin": "https://www.linkedin.com/in/dhairya-shah-0b414b358/" },
+      { "role": "Projects Officer", "name": "Kevin Nguyen", "image": "Kevin.png", "linkedin": "https://www.linkedin.com/in/kevin-nguyen-6641bb209/" }
     ]
   },
   {
     "title": "Education Team",
     "items": [
-      { "role": "Education Director", "name": "Liam Collins", "image": "Liam.png" },
-      { "role": "Education Officer", "name": "Rahul Nair", "image": "Rahul.png" },
-      { "role": "Education Officer", "name": "Jonathan Lim", "image": "Jonathan.png" }
+      { "role": "Education Director", "name": "Liam Collins", "image": "Liam.png", "linkedin": "https://www.linkedin.com/in/liamcollins-engineer/" },
+      { "role": "Education Officer", "name": "Rahul Nair", "image": "Rahul.png", "linkedin": "https://www.linkedin.com/in/rahul-n-a72550246/" },
+      { "role": "Education Officer", "name": "Jonathan Lim", "image": "Jonathan.png", "linkedin": "https://www.linkedin.com/in/limjo184/" }
     ]
   },
   {
     "title": "Industry Team",
     "items": [
-      { "role": "Industry Director", "name": "Amit Suthram", "image": "Amit.png" }
+      { "role": "Industry Director", "name": "Amit Suthram", "image": "Amit.png", "linkedin": "https://www.linkedin.com/in/amitsuthram1/" }
     ]
   },
   {
     "title": "Marketing Team",
     "items": [
-      { "role": "Marketing Director", "name": "Venis Patel", "image": "Venis.png" },
-      { "role": "Social Media Manager", "name": "Chrisjol Dsouza", "image": "Chris.png" },
-      { "role": "Graphic Designer", "name": "Shreeya Patel", "image": "Shreeya.png" },
-      { "role": "Reels & Video Officer", "name": "Anay Venugopal", "image": "Anay.png" }
+      { "role": "Marketing Director", "name": "Venis Patel", "image": "Venis.png", "linkedin": "https://www.linkedin.com/in/venis-patel-537975267/" },
+      { "role": "Social Media Manager", "name": "Chrisjol Dsouza", "image": "Chris.png", "linkedin": "https://www.linkedin.com/in/chrisjoldsouza/" },
+      { "role": "Graphic Designer", "name": "Shreeya Patel", "image": "Shreeya.png", "linkedin": "https://www.linkedin.com/in/shreeya-art/" },
+      { "role": "Reels & Video Officer", "name": "Anay Venugopal", "image": "Anay.png", "linkedin": "https://www.linkedin.com/in/anay-venugopal-72b8072a0/" }
     ]
   }
 ]

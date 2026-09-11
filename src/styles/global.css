@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Share+Tech&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@400;500;600;700&family=Share+Tech&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap');
 @import "tailwindcss";
 
@@ -8,6 +8,7 @@
   --color-background: #090909;
   --font-body: "Inter", sans-serif;
   --font-heading: "Share Tech", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
 }
 
 .background {
@@ -51,6 +52,15 @@
 * {
   font-family: var(--font-heading);
   color: var(--color-primary);
+}
+
+/* Keep page titles consistent and legible across every section. Navigation keeps
+   its own condensed treatment, while body copy remains Inter. */
+h1,
+h2 {
+  font-family: var(--font-display) !important;
+  font-weight: 700;
+  letter-spacing: -0.07em;
 }
 
 body {
@@ -119,6 +129,15 @@ h1 {
 h2 {
   font-size: 38px;
   font-weight: bold;
+}
+
+/* The legacy universal font-size rule above must not shrink inline headline emphasis. */
+h1 > span, h2 > span, h3 > span,
+h1 > em, h2 > em, h3 > em {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 
@@ -562,5 +581,3 @@ footer {
   height: 600px;
   visibility: visible;
 }
-
-

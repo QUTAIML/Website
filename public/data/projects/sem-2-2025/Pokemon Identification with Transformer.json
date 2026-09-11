@@ -1,7 +1,7 @@
 {
   "title": "Pokemon Identification with Vision Transformers",
   "category": "Transformers",
-  "excerpt": "A Vision Transformer model for classifying Pokémon images with train/validation splits and device-aware training.",
+  "excerpt": "A Vision Transformer model for classifying Pokémon images with train/validation splits and device aware training.",
   "image": "pokemon-identification-transformer.png",
   "github": "https://github.com/QUTAIML/Transformers/blob/main/Pokemon_Identification/Pokémon%20Identification%20using%20Vision%20Transformers.ipynb"
 }

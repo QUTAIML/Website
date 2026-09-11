@@ -9,7 +9,7 @@
   {
     "title": "Admin Team",
     "items": [
-      { "role": "President", "name": "John Doe", "image": "Anonymous.png" },
+      { "role": "President", "name": "John Doe", "image": "Anonymous.png", "showOnAbout": true, "linkedin": "" },
       { "role": "Vice President", "name": "John Doe", "image": "Anonymous.png" },
       { "role": "Secretary", "name": "John Doe", "image": "Anonymous.png" },
       { "role": "Treasurer", "name": "John Doe", "image": "Anonymous.png" }

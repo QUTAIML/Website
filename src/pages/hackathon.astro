@@ -3,46 +3,88 @@ import "@/styles/hackathon.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 ---
 
-<ContentLayout title="Brains & Bots Hackathon | QUT AI & ML Society">
-  <div class="content-wrapper">
-    <section class="pink-panel">
-      <p class="pink-title">Brains & Bots Hackathon</p>
-    </section>
-    <h1 class="hero-title">Stay Tuned for More Updates</h1>
-    <p class="hero-subtitle">
-      The countdown to <strong>August 7th, 2026</strong> has begun.
-    </p>
+<ContentLayout title="Hackathon Recaps | QUT AI & ML Society">
+  <div class="hackathon-page">
+    <header class="hackathon-hero" aria-labelledby="hackathon-title">
+      <div class="hackathon-shell"><p class="hackathon-kicker">QUT AI &amp; ML SOCIETY</p><h1 id="hackathon-title">Hackathons made<br /><span>to move ideas.</span></h1><p>This is where AIML celebrates its past hackathons. Details of the next hackathon will appear here once announced.</p></div>
+    </header>
 
-    <!-- COUNTDOWN -->
-    <div class="countdown-container">
-      <span class="countdown-label">Countdown to Hackathon Day</span>
-      <div id="countdown" class="countdown-grid"></div>
-    </div>
+    <!-- The countdown markup and script remain in src/scripts/hackathon for the next confirmed event. -->
+    <main class="hackathon-recaps">
+      <section class="hackathon-recap recap-aiml" aria-labelledby="aiml-recap-title">
+        <div class="hackathon-shell"><div class="recap-heading"><div><p class="hackathon-kicker">HACKATHON RECAP 01</p><h2 id="aiml-recap-title">The AIML<br /><span>Hackathon <span class="aiml-recap-year">2026</span></span></h2></div><p>A build sprint for practical ideas: teams turned everyday student and community challenges into working AI products.</p></div>
+          <div class="recap-stats" aria-label="AIML Hackathon key figures"><div><strong>115+</strong><span>participants</span></div><div><strong>20</strong><span>teams</span></div><div><strong>QUT’s biggest</strong><span>standalone student club hackathon to date</span></div></div>
+          <div class="recap-story"><div><p>The AIML Hackathon gave teams a few intense days to identify a problem, build a prototype, and pitch a solution with real world potential. The result was a wide range of ideas spanning study support, career planning, accessibility, mobility, and personal productivity.</p><p>Projects paired thoughtful user problems with technical experimentation: browser tools that make university information easier to navigate, AI assisted career planning, private local first study companions, and systems designed to make reporting and decision making faster.</p><p>What stood out was not only the ambition of the projects, but the way teams turned rough concepts into tangible demonstrations under pressure.</p></div>
+            <figure class="recap-photo"><img src="/data/hackathon/AIML%20Hackathon%202026/3.JPG" alt="AIML Hackathon teams presenting projects at the exhibition" /><figcaption>AIML Hackathon project exhibition</figcaption></figure>
+          </div>
+          <!-- These summaries are based on the submitted team repositories. Update them if teams amend their public project descriptions. -->
+          <section class="solution-showcase" aria-labelledby="aiml-solutions-title"><div class="solution-showcase-heading"><p class="hackathon-kicker">FROM THE BUILD FLOOR</p><h3 id="aiml-solutions-title">Ideas that became <span>working prototypes.</span></h3><p>Selected examples from the projects submitted during the hackathon.</p></div><div class="solution-grid"><article><span>01 / STUDY SUPPORT</span><h4>CanvAssist</h4><p>A Canvas companion that brings assignments, rubrics, grades, study materials, and planning into one clearer student workspace.</p></article><article><span>02 / CAREER PATHWAYS</span><h4>Course2Career</h4><p>A tool matching academic progress with job requirements to surface skill gaps, next semester choices, and useful learning resources.</p></article><article><span>03 / PERSONAL KNOWLEDGE</span><h4>Clarity</h4><p>An AI second brain for capturing notes, finding connections between ideas, and chatting with a personal knowledge base.</p></article><article><span>04 / EVERYDAY MOBILITY</span><h4>FuelFlow</h4><p>A refuelling planner combining fuel price data, route detours, and short term forecasting to help drivers decide when and where to fill up.</p></article><article><span>05 / ACCESSIBILITY</span><h4>Neurovox</h4><p>An eye tracking communication prototype with a gaze keyboard and language assisted reply suggestions for hands free interaction.</p></article><article><span>06 / FASTER REPORTING</span><h4>Roadify</h4><p>An AI supported vehicle incident reporting flow that guides photo capture and helps produce a data rich first report.</p></article></div></section>
+        </div>
+      </section>
 
-    <!-- ACTION BUTTONS -->
-    <div class="action-buttons">
-      <a
-        href="https://campus.hellorubric.com/?eid=64213"
-        target="_blank"
-        rel="noopener"
-        class="action-button"
-      >
-        Get Your Tickets
-      </a>
-      <!-- <a
-        href="https://github.com/QUT-AIML/Code-of-Conduct/blob/main/AIML%20Hackathon%20Rules%20%26%20FAQs.md"
-        target="_blank"
-        rel="noopener"
-        class="action-button"
-      >
-        Hackathon Rules
-      </a> -->
-    </div>
+      <section class="hackathon-recap recap-brains" aria-labelledby="brains-recap-title"><div class="hackathon-shell"><div class="recap-heading"><div><p class="hackathon-kicker">HACKATHON RECAP 02</p><h2 id="brains-recap-title">Brains &amp; Bots<br /><span>Hackathon.</span></h2></div><p>A three day hackathon centred on one challenge: disaster response.</p></div>
+        <div class="recap-stats" aria-label="Brains and Bots Hackathon key figures"><div><strong>60+</strong><span>participants</span></div><div><strong>13</strong><span>teams</span></div><div><strong>3</strong><span>days of building</span></div></div>
+        <div class="recap-story brains-story"><div><p>Brains &amp; Bots asked teams to focus on one real world challenge: disaster response. Over three days, teams built and refined prototypes before presenting how their ideas could help in high pressure situations.</p><p>Delivered with the QUT Robotics Club, the hackathon brought AI and machine learning together with robotics hardware. The brief encouraged practical systems that could speed up post disaster operations and help responders make faster, better informed decisions.</p><p>From early concepts to working demonstrations, teams had to balance technical thinking with the realities of the people and situations their solutions were designed to support.</p></div><figure class="recap-photo"><img src="/data/hackathon/brains-and-bots-hackathon/4.JPG" alt="Brains and Bots Hackathon Best Overall Award recipients with organisers" /><figcaption>Brains &amp; Bots Hackathon Best Overall Award</figcaption></figure></div>
+        <!-- Featured project descriptions are drawn from the teams' submitted repositories. These are not placement or award claims. -->
+        <section class="solution-showcase brains-solution-showcase" aria-labelledby="brains-solutions-title"><div class="solution-showcase-heading"><p class="hackathon-kicker">FEATURED TEAM SOLUTIONS</p><h3 id="brains-solutions-title">Ideas built for <span>the response.</span></h3><p>Six practical approaches to finding people, sharing information, and supporting responders in difficult conditions.</p></div><div class="solution-grid"><article><span>01 / POST BUSHFIRE SEARCH</span><h4>AshRovers</h4><p>A ground rover concept using camera sensing and AI detection to spot people and wildlife after a fire, while monitoring nearby conditions and obstacles.</p></article><article><span>02 / RECOVERY INTELLIGENCE</span><h4>ARGUS</h4><p>A disaster recovery sensor system that brings environmental readings and camera snapshots into a live operator dashboard.</p></article><article><span>03 / SOUND BASED SEARCH</span><h4>Banshees</h4><p>A microphone array concept designed to isolate human sounds, estimate their direction, and guide a robot toward people trapped under rubble.</p></article><article><span>04 / TRIAGE COMPANION</span><h4>DR.BOT</h4><p>A robot assisted reporting workflow that combines person detection with voice or gesture responses to send structured information to responders.</p></article><article><span>05 / INDOOR LOCATION</span><h4>LifeTrace</h4><p>A Wi Fi sensing prototype that uses ESP32 channel state information to estimate a person’s likely position and show it on a live heatmap.</p></article><article><span>06 / VOICE FIRST INTAKE</span><h4>SaveWise</h4><p>A voice guided emergency intake system that captures survivor information, asks follow up questions, and helps organise it for response teams.</p></article></div></section>
+      </div></section>
+      <section class="hackathon-photo-story" aria-labelledby="photo-story-title"><div class="hackathon-shell"><header class="photo-story-heading"><p class="hackathon-kicker">THE PHOTO STORY</p><h2 id="photo-story-title">Built in<br /><span>the room.</span></h2><p>A look back at the teams, prototypes, pitches, and people behind both hackathons.</p></header><section class="photo-story-set" aria-labelledby="aiml-gallery-title"><header><h3 id="aiml-gallery-title">AIML Hackathon 2026</h3><span>01 — 07</span></header><div class="photo-story-grid photo-story-grid-aiml"><figure><img src="/data/hackathon/AIML%20Hackathon%202026/1.jpeg" alt="AIML Hackathon participants gathered in the QUT atrium" loading="lazy" /><figcaption>01</figcaption></figure><figure><img src="/data/hackathon/AIML%20Hackathon%202026/2.jpeg" alt="AIML Hackathon participants working together" loading="lazy" /><figcaption>02</figcaption></figure><figure><img src="/data/hackathon/AIML%20Hackathon%202026/3.JPG" alt="AIML Hackathon teams presenting projects at the exhibition" loading="lazy" /><figcaption>03</figcaption></figure><figure><img src="/data/hackathon/AIML%20Hackathon%202026/4.JPG" alt="AIML Hackathon team with organisers after receiving recognition" loading="lazy" /><figcaption>04</figcaption></figure><figure><img src="/data/hackathon/AIML%20Hackathon%202026/5.JPG" alt="AIML Hackathon team collaborating around a laptop" loading="lazy" /><figcaption>05</figcaption></figure><figure><img src="/data/hackathon/AIML%20Hackathon%202026/6.JPG" alt="Mentors reviewing an AIML Hackathon team project" loading="lazy" /><figcaption>06</figcaption></figure><figure><img src="/data/hackathon/AIML%20Hackathon%202026/7.JPG" alt="AIML Hackathon team presenting their project" loading="lazy" /><figcaption>07</figcaption></figure></div></section><section class="photo-story-set photo-story-set-brains" aria-labelledby="brains-gallery-title"><header><h3 id="brains-gallery-title">Brains &amp; Bots Hackathon</h3><span>01 — 04</span></header><div class="photo-story-grid photo-story-grid-brains"><figure><img src="/data/hackathon/brains-and-bots-hackathon/1.jpeg" alt="Brains and Bots Hackathon participants gathered together" loading="lazy" /><figcaption>01</figcaption></figure><figure><img src="/data/hackathon/brains-and-bots-hackathon/2.jpeg" alt="Brains and Bots team working on hardware and software" loading="lazy" /><figcaption>02</figcaption></figure><figure><img src="/data/hackathon/brains-and-bots-hackathon/3.jpeg" alt="Brains and Bots team presenting their prototype" loading="lazy" /><figcaption>03</figcaption></figure><figure><img src="/data/hackathon/brains-and-bots-hackathon/4.JPG" alt="Brains and Bots Hackathon award recipients and organisers" loading="lazy" /><figcaption>04</figcaption></figure></div></section></div></section>
+    </main>
+    <dialog class="hackathon-lightbox" id="hackathon-lightbox" aria-label="Expanded hackathon photo"><button class="hackathon-lightbox-nav hackathon-lightbox-previous" type="button" aria-label="Previous photo">‹</button><img alt="" /><button class="hackathon-lightbox-nav hackathon-lightbox-next" type="button" aria-label="Next photo">›</button><button class="hackathon-lightbox-close" type="button" aria-label="Close full screen photo">×</button></dialog>
   </div>
 
-  <Fragment slot="scripts">
-    <script>
-      import "@/scripts/hackathon/hackathon-script.js";
-    </script>
-  </Fragment>
+  <script>
+    const lightbox = document.querySelector<HTMLDialogElement>("#hackathon-lightbox");
+    const lightboxImage = lightbox?.querySelector("img");
+    const closeButton = lightbox?.querySelector<HTMLButtonElement>(".hackathon-lightbox-close");
+    const previousButton = lightbox?.querySelector<HTMLButtonElement>(".hackathon-lightbox-previous");
+    const nextButton = lightbox?.querySelector<HTMLButtonElement>(".hackathon-lightbox-next");
+    const photos = document.querySelectorAll<HTMLImageElement>(".recap-photo img, .photo-story-grid img");
+    const galleryPhotos = Array.from(document.querySelectorAll<HTMLImageElement>(".photo-story-grid img"));
+    let activeGalleryPhotos: HTMLImageElement[] = [];
+    let activePhotoIndex = 0;
+
+    const showPhoto = (index: number) => {
+      if (!lightbox || !lightboxImage || !activeGalleryPhotos.length) return;
+      activePhotoIndex = (index + activeGalleryPhotos.length) % activeGalleryPhotos.length;
+      const photo = activeGalleryPhotos[activePhotoIndex];
+      lightboxImage.src = photo.currentSrc || photo.src;
+      lightboxImage.alt = photo.alt;
+    };
+
+    const openLightbox = (photo: HTMLImageElement) => {
+      const matchingGalleryPhoto = galleryPhotos.findIndex((galleryPhoto) => galleryPhoto.src === photo.src);
+      const selectedPhoto = matchingGalleryPhoto >= 0 ? galleryPhotos[matchingGalleryPhoto] : photo;
+      const gallery = selectedPhoto.closest(".photo-story-grid");
+      activeGalleryPhotos = gallery
+        ? Array.from(gallery.querySelectorAll<HTMLImageElement>("img"))
+        : [selectedPhoto];
+      showPhoto(activeGalleryPhotos.indexOf(selectedPhoto));
+      if (lightbox && !lightbox.open) lightbox.showModal();
+    };
+
+    photos.forEach((photo) => {
+      photo.tabIndex = 0;
+      photo.setAttribute("role", "button");
+      photo.setAttribute("aria-label", `View ${photo.alt} full screen`);
+      photo.addEventListener("click", () => openLightbox(photo));
+      photo.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openLightbox(photo);
+        }
+      });
+    });
+
+    closeButton?.addEventListener("click", () => lightbox?.close());
+    previousButton?.addEventListener("click", () => showPhoto(activePhotoIndex - 1));
+    nextButton?.addEventListener("click", () => showPhoto(activePhotoIndex + 1));
+    lightbox?.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") showPhoto(activePhotoIndex - 1);
+      if (event.key === "ArrowRight") showPhoto(activePhotoIndex + 1);
+    });
+    lightbox?.addEventListener("click", (event) => {
+      if (event.target === lightbox) lightbox.close();
+    });
+  </script>
 </ContentLayout>

@@ -32,12 +32,14 @@ export function loadAboutData() {
 
   const teamsForClient = latestTeamData.map(section => ({
     ...section,
-    items: section.items.map(member => ({
+    items: section.items
+      .filter(member => member.showOnAbout !== false)
+      .map(member => ({
       ...member,
       image: member.image
         ? `/data/about/${latestTeamFile.year}/exec-photos/${member.image}`
         : null,
-    })),
+      })),
   }));
 
   // =========================

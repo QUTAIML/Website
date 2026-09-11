@@ -1,7 +1,7 @@
 {
   "title": "Beginner's Guide to LLMs",
   "category": "LLM",
-  "excerpt": "A hands-on introduction for learning and experimenting with LLMs",
+  "excerpt": "A hands on introduction for learning and experimenting with LLMs",
   "image": "beginners-guide-to-llms.png",
   "github": "https://github.com/QUTAIML/LLM/blob/main/Beginners%20Guide%20to%20LLM/Beginners_Guide_LLM_on_Colab.ipynb"
 }

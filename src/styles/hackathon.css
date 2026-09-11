@@ -1,104 +1,80 @@
-.content-wrapper {
-  padding-top: 10rem;
-  padding-bottom: 8rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 80vh;
-  text-align: center;
-  gap: 2rem;
-}
+:root { --hack-pink: #ff00e6; --hack-soft-pink: #ff8bf4; --hack-black: #090909; --hack-panel: #1b181b; }
+.hackathon-page { background: var(--hack-black); color: #fff; min-height: 100vh; overflow: hidden; }.hackathon-shell { margin: 0 auto; max-width: 1220px; padding-left: 2.25rem; padding-right: 2.25rem; width: 100%; }.hackathon-page h1, .hackathon-page h2, .hackathon-page h3, .hackathon-page p, .hackathon-page span, .hackathon-page strong { font-family: var(--font-body); }.hackathon-page h1, .hackathon-page h2 { letter-spacing: -.075em; line-height: .9; }.hackathon-page h1 span, .hackathon-page h2 span { color: var(--hack-pink); }.hackathon-kicker { color: var(--hack-pink); font-size: .71rem; font-weight: 800; letter-spacing: .16em; margin: 0 0 1rem; }
+.hackathon-hero { background: radial-gradient(circle at 86% 18%, rgba(255,0,230,.34), transparent 30%), linear-gradient(125deg, #090909 12%, #1e091d); padding: 10rem 0 6rem; position: relative; }.hackathon-hero::after { background-image: radial-gradient(circle, rgba(255,139,244,.38) 1px, transparent 1.1px); background-size: 29px 29px; content: ""; inset: 0; opacity: .28; pointer-events: none; position: absolute; }.hackathon-hero .hackathon-shell { position: relative; z-index: 1; }.hackathon-hero h1 { font-size: clamp(4rem, 8vw, 7.8rem); font-weight: 850; margin: 0; }.hackathon-hero p:last-child { color: #ddd3dc; font-size: clamp(1rem, 1.5vw, 1.16rem); line-height: 1.65; margin: 2rem 0 0; max-width: 650px; }
+.hackathon-recap { padding: clamp(5rem, 9vw, 8.5rem) 0; }.recap-aiml { background: #0e0c0e; }.recap-brains { background: #f5f1f4; color: #211b20; }.recap-brains .hackathon-kicker { color: #a30093; }.recap-brains h2 span { color: #a30093; }.recap-heading { align-items: end; display: flex; gap: 3rem; justify-content: space-between; }.recap-heading h2 { color: inherit; font-size: clamp(3rem, 5.9vw, 6rem); font-weight: 850; margin: 0; }.recap-heading > p { color: #c9c0c8; line-height: 1.6; margin: 0; max-width: 350px; }.recap-brains .recap-heading > p { color: #655a63; }
+.recap-stats { display: grid; gap: 1px; grid-template-columns: 1fr 1fr 1.35fr; margin: 3.5rem 0 1.2rem; }.recap-stats div { background: #221d22; min-height: 180px; padding: 1.5rem; }.recap-stats div:nth-child(2) { background: var(--hack-pink); color: #230020; }.recap-stats div:nth-child(3) { background: #3a2538; }.recap-stats strong { color: inherit; display: block; font-size: clamp(3.1rem, 5vw, 5.4rem); font-weight: 850; letter-spacing: -.1em; line-height: 1; }.recap-stats div:nth-child(3) strong { font-size: clamp(1.75rem, 3vw, 3rem); letter-spacing: -.065em; }.recap-stats span { color: inherit; display: block; font-size: .78rem; line-height: 1.35; margin-top: .8rem; opacity: .82; }.recap-brains .recap-stats div { background: #e4dce2; }.recap-brains .recap-stats div:nth-child(2) { background: #a30093; color: #fff; }.recap-brains .recap-stats div:nth-child(3) { background: #1e1a1d; color: #fff; }
+.recap-story { align-items: stretch; display: grid; gap: 2.5rem; grid-template-columns: minmax(0,1.15fr) minmax(330px,.85fr); margin-top: 4rem; }.recap-story > div { align-self: center; }.recap-story p { color: #d8d0d6; font-size: 1rem; line-height: 1.7; margin: 0 0 1.25rem; }.recap-brains .recap-story p { color: #514851; }.recap-photo { background: #241f23; margin: 0; min-height: 390px; overflow: hidden; position: relative; }.recap-photo img { height: 100%; inset: 0; object-fit: cover; position: absolute; width: 100%; }.recap-photo::after { background: linear-gradient(0deg, rgba(7,7,7,.75), transparent 55%); content: ""; inset: 0; position: absolute; }.recap-photo figcaption { bottom: 1rem; color: #fff; font: 800 .67rem/1 var(--font-body); left: 1rem; letter-spacing: .12em; position: absolute; text-transform: uppercase; z-index: 1; }.recap-photo-placeholder { border: 1px dashed var(--hack-soft-pink); }
+.recap-gallery { display: grid; gap: 1rem; margin-top: 1rem; }.recap-gallery-aiml { grid-template-columns: repeat(4, minmax(0, 1fr)); }.recap-gallery-brains { grid-template-columns: repeat(2, minmax(0, 1fr)); }.recap-gallery figure { aspect-ratio: 1.45; background: #241f23; margin: 0; overflow: hidden; }.recap-gallery img { display: block; height: 100%; object-fit: cover; transition: transform .25s ease; width: 100%; }.recap-gallery figure:hover img { transform: scale(1.035); }
+.hackathon-photo-story { background: radial-gradient(circle at 84% 10%, rgba(255,0,230,.2), transparent 26%), #0a090a; border-top: 1px solid rgba(255,255,255,.14); padding: clamp(5rem, 10vw, 9rem) 0; }.photo-story-heading { align-items: end; display: grid; gap: 1.2rem 4rem; grid-template-columns: 1fr minmax(240px,.52fr); }.photo-story-heading .hackathon-kicker { grid-column: 1 / -1; margin: 0; }.photo-story-heading h2 { color: #fff; font-size: clamp(3rem, 6vw, 6.2rem); font-weight: 850; letter-spacing: -.05em; line-height: .92; margin: 0; }.photo-story-heading h2 span { color: var(--hack-pink); }.photo-story-heading > p { color: #d8d0d6; line-height: 1.65; margin: 0; max-width: 340px; }.photo-story-set { border-top: 1px solid rgba(255,255,255,.16); margin-top: 4.5rem; padding-top: 1.15rem; }.photo-story-set > header { align-items: center; display: flex; justify-content: space-between; margin-bottom: 1.25rem; }.photo-story-set h3 { color: #fff; font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 780; letter-spacing: -.04em; margin: 0; }.photo-story-set > header span { color: var(--hack-soft-pink); font-size: .7rem; font-weight: 800; letter-spacing: .12em; }.photo-story-grid { display: grid; gap: .8rem; grid-auto-rows: 10rem; grid-template-columns: repeat(12, minmax(0, 1fr)); }.photo-story-grid figure { background: #211b20; margin: 0; overflow: hidden; position: relative; }.photo-story-grid img { height: 100%; object-fit: cover; transition: filter .25s ease, transform .35s ease; width: 100%; }.photo-story-grid figure::after { background: linear-gradient(0deg, rgba(0,0,0,.52), transparent 38%); content: ""; inset: 0; pointer-events: none; position: absolute; }.photo-story-grid figcaption { bottom: .7rem; color: #fff; font: 800 .65rem/1 var(--font-body); left: .75rem; letter-spacing: .12em; position: absolute; z-index: 1; }.photo-story-grid figure:hover img { filter: saturate(1.1); transform: scale(1.04); }.photo-story-grid-aiml figure:nth-child(1), .photo-story-grid-brains figure:nth-child(1) { grid-column: span 7; grid-row: span 2; }.photo-story-grid-aiml figure:nth-child(2), .photo-story-grid-aiml figure:nth-child(3), .photo-story-grid-brains figure:nth-child(2), .photo-story-grid-brains figure:nth-child(3) { grid-column: span 5; }.photo-story-grid-aiml figure:nth-child(4), .photo-story-grid-aiml figure:nth-child(5), .photo-story-grid-aiml figure:nth-child(6) { grid-column: span 4; }.photo-story-grid-aiml figure:nth-child(7), .photo-story-grid-brains figure:nth-child(4) { grid-column: 1 / -1; }
+.recap-photo img, .photo-story-grid img { cursor: zoom-in; }.recap-photo img:focus-visible, .photo-story-grid img:focus-visible { outline: 3px solid var(--hack-pink); outline-offset: -3px; }.hackathon-lightbox { background: rgba(5,4,5,.98); border: 0; height: 100vh; margin: 0; max-height: none; max-width: none; padding: clamp(1.2rem, 3vw, 3rem); width: 100vw; }.hackathon-lightbox[open] { align-items: center; display: grid; justify-items: center; }.hackathon-lightbox::backdrop { background: rgba(0,0,0,.9); }.hackathon-lightbox img { height: 100%; max-height: calc(100vh - 4rem); max-width: 100%; object-fit: contain; width: 100%; }.hackathon-lightbox-close { background: var(--hack-pink); border: 0; border-radius: 50%; color: #250021; cursor: pointer; font-family: var(--font-body); font-size: 2rem; height: 2.8rem; line-height: 1; position: fixed; right: 1.25rem; top: 1.25rem; width: 2.8rem; z-index: 1; }.hackathon-lightbox-close:hover, .hackathon-lightbox-close:focus-visible { background: #fff; outline: 3px solid var(--hack-soft-pink); }
+.hackathon-lightbox-nav { align-items: center; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.35); border-radius: 50%; color: #fff; cursor: pointer; display: flex; font-family: var(--font-body); font-size: 3rem; height: 3.5rem; justify-content: center; line-height: 1; position: fixed; top: calc(50% - 1.75rem); width: 3.5rem; z-index: 1; }.hackathon-lightbox-previous { left: 1.25rem; }.hackathon-lightbox-next { right: 1.25rem; }.hackathon-lightbox-nav:hover, .hackathon-lightbox-nav:focus-visible { background: var(--hack-pink); border-color: var(--hack-pink); color: #250021; outline: 3px solid var(--hack-soft-pink); }
+.thanks-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3,1fr); margin-top: 4rem; }.thanks-grid article { background: var(--hack-panel); border: 1px solid rgba(255,255,255,.08); min-height: 180px; padding: 1.4rem; }.thanks-grid article:nth-child(4), .thanks-grid article:nth-child(5) { grid-column: span 2; }.thanks-grid h3 { color: var(--hack-soft-pink); font-size: .78rem; letter-spacing: .1em; line-height: 1.35; margin: 0 0 1rem; text-transform: uppercase; }.thanks-grid p { color: #d8d0d6; font-size: .9rem; line-height: 1.6; margin: 0; }.recap-brains .thanks-grid { grid-template-columns: repeat(3,1fr); }.recap-brains .thanks-grid article { background: #fff; border-color: #ded4dc; }.recap-brains .thanks-grid h3 { color: #a30093; }.recap-brains .thanks-grid p { color: #504750; }.recap-brains .thanks-grid article:nth-child(2) { grid-column: span 2; }
+/* Preserved countdown styles for the next confirmed hackathon announcement. */
+.countdown-container { align-items: center; display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }.countdown-label { color: #888; font-size: .8rem; letter-spacing: .15em; text-transform: uppercase; }.countdown-grid { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }.countdown-item { align-items: center; display: flex; flex-direction: column; gap: .4rem; }.countdown-box { background: #111; border: 2px solid rgba(255,139,244,.35); border-radius: 14px; min-width: 85px; padding: 1rem 1.4rem; text-align: center; }.countdown-number { color: #fff; display: block; font-size: 2.5rem; font-variant-numeric: tabular-nums; font-weight: 900; }.countdown-text { color: #888; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+@media (max-width: 760px) { .hackathon-shell { padding-left: 1.15rem; padding-right: 1.15rem; }.hackathon-hero { padding: 8rem 0 4rem; }.hackathon-hero h1 { font-size: clamp(3rem, 12vw, 4.5rem); overflow-wrap: anywhere; }.recap-heading { display: block; }.recap-heading > p { margin-top: 1.5rem; }.recap-stats, .thanks-grid, .recap-brains .thanks-grid, .recap-story { grid-template-columns: 1fr; }.recap-stats div { min-height: 140px; }.recap-story { gap: 1.5rem; margin-top: 2.5rem; }.recap-photo { min-height: 285px; }.thanks-grid { margin-top: 2.5rem; }.thanks-grid article, .thanks-grid article:nth-child(4), .thanks-grid article:nth-child(5), .recap-brains .thanks-grid article:nth-child(2) { grid-column: auto; min-height: 0; }.recap-close p { font-size: 1.04rem; } }
 
-.hero-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 900;
-  color: #fff;
-  margin: 0;
-}
+/* Keep highlighted headline lines at the same scale as their parent heading. */
+.hackathon-page h1 > span, .hackathon-page h2 > span { font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
 
-.hero-subtitle {
-  color: #aaa;
-  font-size: 1.1rem;
-  margin: 0;
-}
+/* Brains & Bots is a recap, not a light-mode section. */
+.recap-brains { background: radial-gradient(circle at 85% 18%, rgba(163,0,147,.28), transparent 31%), #171016; color: #fff; }.recap-brains .hackathon-kicker { color: var(--hack-pink); }.recap-brains h2 span { color: var(--hack-soft-pink); }.recap-brains .recap-heading > p, .recap-brains .recap-story p { color: #d8d0d6; }.recap-brains .recap-stats div { background: #2a212a; color: #fff; }.recap-brains .recap-stats div:nth-child(2) { background: #a30093; color: #fff; }.recap-brains .recap-stats div:nth-child(3) { background: #1e1a1d; color: #fff; }.recap-brains .thanks-grid article { background: #241d24; border-color: rgba(255,255,255,.12); }.recap-brains .thanks-grid h3 { color: var(--hack-soft-pink); }.recap-brains .thanks-grid p { color: #d8d0d6; }
 
-.countdown-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
+/* Recap editorial layout: solution work leads; acknowledgements remain available on demand. */
+.hackathon-page h1, .hackathon-page h2 { letter-spacing: -.042em; line-height: .96; }
+.recap-heading h2 { letter-spacing: -.042em; line-height: .94; }
 
-.countdown-label {
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #888;
-}
+#aiml-recap-title { font-size: clamp(3rem, 5vw, 5.4rem); }
+#aiml-recap-title > span { white-space: nowrap; }
 
-.countdown-grid {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
+@media (max-width: 760px) {
+  #aiml-recap-title { font-size: clamp(2.8rem, 10vw, 3.75rem); }
+  #aiml-recap-title > span { white-space: normal; }
 }
+.solution-showcase { border-top: 1px solid rgba(255,255,255,.16); margin-top: 4.5rem; padding-top: 2.25rem; }
+.solution-showcase-heading { align-items: end; display: grid; gap: 1.2rem 3rem; grid-template-columns: 1fr minmax(250px,.55fr); margin-bottom: 2rem; }
+.solution-showcase-heading .hackathon-kicker { grid-column: 1 / -1; margin-bottom: 0; }
+.solution-showcase-heading h3 { font-size: clamp(2rem,4vw,4rem); font-weight: 820; letter-spacing: -.045em; line-height: .98; margin: 0; }
+.solution-showcase-heading h3 span { color: var(--hack-pink); }
+.solution-showcase-heading > p:last-child { color: #d8d0d6; line-height: 1.6; margin: 0; }
+.solution-grid { display: grid; gap: 1px; grid-template-columns: repeat(3,1fr); }
+.solution-grid article { background: #201b20; min-height: 216px; padding: 1.45rem; transition: background .2s ease, transform .2s ease; }
+.solution-grid article:nth-child(2), .solution-grid article:nth-child(5) { background: #352033; }
+.solution-grid article:hover { background: #432440; transform: translateY(-4px); }
+.solution-grid span, .challenge-strip span { color: var(--hack-soft-pink); display: block; font-size: .67rem; font-weight: 800; letter-spacing: .12em; }
+.solution-grid h4 { color: #fff; font-size: 1.35rem; font-weight: 760; letter-spacing: -.025em; line-height: 1.1; margin: 2.25rem 0 .75rem; }
+.solution-grid p { color: #d8d0d6; font-size: .9rem; line-height: 1.58; margin: 0; }
+.challenge-strip { display: grid; gap: 1px; grid-template-columns: repeat(3,1fr); }
+.challenge-strip article { background: #241d24; min-height: 190px; padding: 1.4rem; }
+.challenge-strip article:nth-child(2) { background: #a30093; }
+.challenge-strip strong { color: #fff; display: block; font-size: 1.25rem; letter-spacing: -.025em; line-height: 1.1; margin: 2.3rem 0 .7rem; }
+.challenge-strip p { color: #d8d0d6; font-size: .9rem; line-height: 1.55; margin: 0; }
+.challenge-strip article:nth-child(2) span, .challenge-strip article:nth-child(2) p { color: #fff; }
+.recap-acknowledgements { border-bottom: 1px solid rgba(255,255,255,.16); border-top: 1px solid rgba(255,255,255,.16); margin-top: 4rem; padding: 1.25rem 0; }
+.recap-acknowledgements summary { align-items: center; cursor: pointer; display: flex; gap: 1rem; justify-content: space-between; list-style: none; }
+.recap-acknowledgements summary::-webkit-details-marker { display: none; }
+.recap-acknowledgements summary span { color: #fff; font-size: 1rem; font-weight: 760; }
+.recap-acknowledgements summary span::before { color: var(--hack-pink); content: "+ "; }
+.recap-acknowledgements[open] summary span::before { content: "− "; }
+.recap-acknowledgements summary small { color: #c9c0c8; font-size: .76rem; }
+.recap-acknowledgements .thanks-grid { margin-top: 1.5rem; }
 
-.countdown-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.countdown-box {
-  background: #111;
-  border: 2px solid rgba(255,139,244,0.35);
-  border-radius: 14px;
-  padding: 1rem 1.4rem;
-  min-width: 85px;
-  text-align: center;
-}
-
-.countdown-number {
-  font-size: 2.5rem;
-  font-weight: 900;
-  color: #fff;
-  display: block;
-  font-variant-numeric: tabular-nums;
-}
-
-.countdown-text {
-  font-size: 0.72rem;
-  color: #888;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 0.5rem;
-}
-
-.action-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--color-primary);
-  color: #1f0f1b;
-  font-weight: 800;
-  font-size: 1rem;
-  padding: 0.85rem 2rem;
-  border-radius: 999px;
-  text-decoration: none;
-  transition: filter 0.2s ease, transform 0.15s ease;
-}
-
-.action-button:hover {
-  filter: brightness(1.08);
-  transform: translateY(-2px);
+@media (max-width: 760px) {
+  .recap-stats, .thanks-grid, .recap-brains .thanks-grid, .recap-story, .solution-grid, .challenge-strip, .solution-showcase-heading { grid-template-columns: 1fr; }
+  .recap-gallery-aiml { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .recap-gallery-brains { grid-template-columns: 1fr; }
+  .photo-story-heading { grid-template-columns: 1fr; }
+  .photo-story-heading .hackathon-kicker { grid-column: auto; }
+  .photo-story-grid { grid-auto-rows: 15rem; grid-template-columns: 1fr; }
+  .photo-story-grid-aiml figure:nth-child(n), .photo-story-grid-brains figure:nth-child(n) { grid-column: auto; grid-row: auto; }
+  .solution-showcase { margin-top: 3rem; }
+  .solution-showcase-heading { margin-bottom: 1.5rem; }
+  .solution-showcase-heading .hackathon-kicker { grid-column: auto; }
+  .solution-grid article, .challenge-strip article { min-height: 0; }
+  .recap-acknowledgements { margin-top: 3rem; }
+  .recap-acknowledgements summary { align-items: flex-start; flex-direction: column; gap: .35rem; }
+  .hackathon-lightbox { align-content: center; gap: 1rem; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(0, 1fr) auto; padding: 4.5rem 1.2rem 1.2rem; }
+  .hackathon-lightbox img { grid-column: 1 / -1; grid-row: 1; height: auto; max-height: calc(100dvh - 10rem); }
+  .hackathon-lightbox-nav { height: 3.25rem; position: static; top: auto; width: 3.25rem; }
+  .hackathon-lightbox-previous { grid-column: 1; grid-row: 2; justify-self: start; left: auto; }
+  .hackathon-lightbox-next { grid-column: 2; grid-row: 2; justify-self: end; right: auto; }
 }

@@ -1,327 +1,207 @@
-/* ---------- MAIN CONTAINER ---------- */
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;        /* horizontally center content */
-  justify-content: flex-start; /* vertically align to top */
-  padding-top: 5rem;          /* adjust distance from top */
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-bottom: 5rem;
-  width: 100%;
-  box-sizing: border-box;
+.connect-page {
+  --connect-pink: #f000d5;
+  --connect-pink-soft: #ff8bf4;
+  --connect-muted: #c9c0ca;
+  overflow: hidden;
+  color: #fff;
+  background: #0a090a;
 }
 
-.contact-space {
-  margin-top: 4rem !important;
+.connect-shell {
+  width: min(1240px, calc(100% - 3rem));
+  margin: 0 auto;
 }
 
-.contact-bottom-space {
-  margin-bottom: 4rem !important;
-}
-
-/* ---------- LOGO SECTION ---------- */
-.logo-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  width: 100vw;
-}
-
-/* ---------- PINK DIVIDER ---------- */
-.pink-divider {
-  width: 60px;           /* length of the line */
-  height: 2px;           /* thickness of the line */
-  background-color: #A30093; /* bright pink */
-  margin: 1.5rem auto;     /* vertical spacing and center horizontally */
-  border-radius: 2px;    /* rounded edges */
-  width: 80%;
-}
-
-.header-section {
-  width: 80vw;
-
-  /* center the section itself */
-  margin-left: auto;
-  margin-right: auto;
-
-  /* center children */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-
-.centered-box {
-  display: flex;
-  justify-content: center; /* centers content horizontally */
-  align-items: center;     /* centers content vertically if height is set */
-  text-align: center;      /* optional: center text inside */
-  width: 100%;        
-}
-
-
-
-/* Flex row for pink panel + history button */
-.pink-panel-flex {
-  display: flex;
-  justify-content: space-between; /* header left, button right */
-  align-items: center;
-  margin: 2rem 3rem 1rem 3rem;
-  padding: 0.5rem 2rem;
-  border-radius: 10px;
-  background-color: var(--color-secondary);
-  color: white;
-  box-sizing: border-box;
-}
-
-.pink-panel-flex .pink-title {
-  font-size: 2rem;
-  font-weight: 900;
-}
-
-
-
-/* ---------- LOGO ---------- */
-.site-logo {
-    padding-top: 3rem;
-    display: block; /* ensures centering works reliably */
-    margin-left: auto;
-    margin-right: auto;    
-    width: 65vw; /* desktop default */
-    max-width: 80vw;
-}
-
-/* ---------- HERO HEADING ---------- */
-.hero-heading {
-  font-size: 1.2rem !important;
-}
-
-/* ---------- BUTTON GROUP ---------- */
-.button-group {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-/* ---------- PINK BUTTONS ---------- */
-.btn-outline-pink {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid #FF00E6; /* pink border */
-  color: #FF00E6;
-  text-decoration: none;
-  border-radius: 9999px; /* pill shape */
-  font-weight: 600;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.btn-outline-pink:hover {
-  background-color: #FF00E6;
-  color: black;
-}
-
-.about-space {
-    padding-top: 10rem;
-}
-
-.mini-about-space {
-    padding-top: 4rem;
-}
-
-
-
-
-/* ----------------------------- */
-/*           THICK LINE          */
-/* ----------------------------- */
-
-.info-panel-wrapper {
+.connect-hero,
+.connect-socials,
+.connect-direct {
   position: relative;
-  width: 100%;
+  isolation: isolate;
 }
 
-.button-outline-pink {
-  display: inline-block; /* prevents full width expansion */
-}
-
-.linktree-space {
-  margin: 2rem 0; /* spacing above and below button */
-}
-
-
-
-/* Tooltips */
-.footer-larger .tooltip {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.footer-larger .tooltip::after {
-  content: attr(data-tooltip);
+.connect-hero::before,
+.connect-socials::before {
+  content: "";
   position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #222;
-  color: #fff;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  border-radius: 0.25rem;
-  white-space: nowrap;
-  opacity: 0;
+  z-index: -1;
+  inset: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease-in-out;
+  opacity: 0.42;
+  background-image: radial-gradient(circle, rgba(240, 0, 213, 0.6) 1px, transparent 1.5px);
+  background-size: 34px 34px;
 }
 
-.footer-larger .tooltip:hover::after {
-  opacity: 1;
+.connect-hero {
+  padding: clamp(5rem, 11vw, 10rem) 0 clamp(4.5rem, 8vw, 8rem);
+  background:
+    radial-gradient(circle at 78% 6%, rgba(240, 0, 213, 0.2), transparent 24rem),
+    linear-gradient(115deg, #0a090a, #171017);
 }
 
-
-
-/* Tooltips & Socials */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
+.connect-hero-layout,
+.connect-direct-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.64fr);
+  gap: 3rem clamp(3rem, 10vw, 12rem);
+  align-items: end;
 }
 
-.tooltip::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 125%; /* above the element */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #111;
-  color: #fff;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  font-size: 0.75rem;
+.connect-kicker {
+  margin: 0 0 1.15rem;
+  color: var(--connect-pink);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1.3;
 }
 
-.tooltip:hover::after {
-  opacity: 1;
+.connect-hero h1,
+.connect-section-heading h2,
+.connect-direct h2 {
+  max-width: 10ch;
+  margin: 0;
+  font-family: var(--font-heading, inherit);
+  font-size: clamp(4.2rem, 8vw, 7.8rem);
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  line-height: 0.84;
 }
 
-.footer-social {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
-  margin-left: 3rem; /* remove left margin */
+.connect-hero h1 span,
+.connect-section-heading h2 span,
+.connect-direct h2 span { color: var(--connect-pink); }
+
+.connect-hero-copy {
+  max-width: 27rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-
-.footer-larger Button {
-  font-size: 1.5rem; /* adjust icon/button size */
+.connect-hero-copy p {
+  margin: 0 0 1.5rem;
+  color: #d9d0da;
+  font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+  line-height: 1.55;
 }
 
-/* Optional: Section for social links */
-.socials-section {
-  padding: 2rem 0;
-}
-
-
-
-
-/* Button styling */
-.button-outline-pink {
-  display: inline-block;   /* ← change this */
-  margin: 2rem 3rem;  
-  padding: 0.75rem 1.5rem;
-  font-size: 1.25rem;
-  border: 2px solid #FF00E6;
-  background-color: #FF00E6;
-  border-radius: 2rem;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  text-align: center;
-}
-
-.button-outline-pink:hover {
-  background-color: transparent;
-  color: #fff;
-}
-
-.button-outline-pink.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-/* Social media icons wrapper */
-.footer-social .tooltip > * {
-  border: 2px solid #FF00E6; /* pink border */
-  border-radius: 50%;         /* circle */
-  padding: 0.6rem;            /* space around the icon */
+.connect-hero-copy a,
+.connect-direct-card a {
   display: inline-flex;
+  gap: 0.5rem;
   align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease-in-out;
+  padding: 0.85rem 1.1rem;
+  border-radius: 999px;
+  background: var(--connect-pink);
+  color: #170413;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 170ms ease, box-shadow 170ms ease;
 }
 
-/* Hover effect */
-.footer-social .tooltip > *:hover {
-  background-color: #FF00E6;
-  color: black;
-  transform: scale(1.1); /* subtle zoom on hover */
+.connect-hero-copy a:hover,
+.connect-hero-copy a:focus-visible,
+.connect-direct-card a:hover,
+.connect-direct-card a:focus-visible {
+  box-shadow: 0 0.7rem 1.8rem rgba(240, 0, 213, 0.28);
+  transform: translateY(-2px);
 }
 
+.connect-socials { padding: clamp(5rem, 10vw, 9rem) 0; background: #151115; }
 
-
-
-
-
-
-
-
-/* MOBILE: show arrows side by side above the team grid */
-@media (max-width: 768px) {
-
-  .pink-panel-flex {
-    flex-direction: column;      /* stack items vertically */
-    align-items: center;         /* center horizontally */
-    gap: 1rem;                   /* space between text and button */
-  }
-
-  .pink-panel-flex .pink-title {
-    text-align: center;          /* center text */
-  }
-
-  .pink-panel-flex .history-button {
-    width: auto;                 /* allow button to size naturally */
-  }
-
-  .about-space {
-    padding-top: 6rem;
-  }
-
-  .mini-about-space {
-    padding-top: 6rem;
-  }
-
-  .footer-social {
-    justify-content: center; /* ensure centering */
-    margin-left: 0 !important;
-    padding: 0px !important;
-    margin-right: 0;
-    width: 100%; /* take full width */
-    flex-wrap: wrap; /* if buttons are too big */
-  }
-
-  .footer-larger Button {
-    font-size: 1.25rem; /* scale down on mobile */
-  }
+.connect-section-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  align-items: end;
+  margin-bottom: 3.4rem;
 }
 
+.connect-section-heading h2,
+.connect-direct h2 { font-size: clamp(3.6rem, 6.2vw, 6.4rem); }
+.connect-section-heading > p { max-width: 25rem; margin: 0 0 0.35rem; color: var(--connect-muted); font-size: 1.06rem; line-height: 1.55; }
 
+.connect-social-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
 
+.connect-social-card {
+  display: flex;
+  min-height: 24rem;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: #1d1a1e;
+  color: #fff;
+  text-decoration: none;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.connect-social-card:hover,
+.connect-social-card:focus-visible { background: #28222a; transform: translateY(-0.35rem); }
+.connect-social-featured { background: var(--connect-pink); color: #190513; }
+.connect-social-featured:hover,
+.connect-social-featured:focus-visible { background: #ff70e7; }
+
+.connect-social-icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: auto;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--connect-pink-soft);
+  font-size: 1.45rem;
+  font-weight: 800;
+}
+
+.connect-social-featured .connect-social-icon { color: #25001e; }
+.connect-social-card small { display: block; margin: 2rem 0 0.75rem; color: var(--connect-pink-soft); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.13em; }
+.connect-social-featured small { color: #3d1134; }
+.connect-social-card h3 { margin: 0 0 0.8rem; font-size: clamp(1.9rem, 3vw, 2.7rem); line-height: 0.95; }
+.connect-social-card p { margin: 0; color: var(--connect-muted); line-height: 1.55; }
+.connect-social-featured p { color: #4c1a42; }
+.connect-social-card strong { margin-top: 2rem; color: var(--connect-pink-soft); font-size: 0.9rem; }
+.connect-social-featured strong { color: #25001e; }
+
+.connect-direct {
+  padding: clamp(5rem, 10vw, 9rem) 0;
+  background:
+    radial-gradient(circle at 12% 85%, rgba(240, 0, 213, 0.22), transparent 26rem),
+    #0b090c;
+}
+
+.connect-direct-card {
+  padding: clamp(2rem, 4vw, 3.2rem);
+  border: 1px solid rgba(240, 0, 213, 0.6);
+  border-radius: 1rem 1rem 5rem 1rem;
+  background: #211723;
+}
+
+.connect-direct-card p { margin: 0 0 1.8rem; color: #e0d6e0; font-size: 1.15rem; line-height: 1.55; }
+.connect-direct-card small { display: block; margin-top: 1.1rem; color: #bfb2c0; }
+
+@media (max-width: 850px) {
+  .connect-hero-layout,
+  .connect-direct-layout,
+  .connect-section-heading { grid-template-columns: 1fr; display: grid; }
+  .connect-section-heading > p { margin: 0; }
+  .connect-social-grid { grid-template-columns: 1fr; }
+  .connect-social-card { min-height: 16rem; }
+  .connect-social-icon { margin-bottom: 0; }
+}
+
+@media (max-width: 650px) {
+  .connect-shell { width: min(100% - 2rem, 1240px); }
+  .connect-hero { padding-top: 4rem; }
+  .connect-hero h1,
+  .connect-section-heading h2,
+  .connect-direct h2 { font-size: clamp(3.5rem, 16vw, 5.2rem); }
+  .connect-section-heading { gap: 1.5rem; margin-bottom: 2rem; }
+  .connect-social-card { padding: 1.6rem; }
+}

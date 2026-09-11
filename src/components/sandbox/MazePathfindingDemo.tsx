@@ -1,27 +1,201 @@
 import { useEffect, useRef, useState } from "react";
-type Level = "small" | "medium" | "large"; type Cell = [number, number]; type Algorithm = "bfs" | "dfs" | "dijkstra" | "astar";
-type Search = { visited: Cell[]; path: Cell[] };
-const sizes: Record<Level, number> = { small: 25, medium: 39, large: 53 };
-const id = (cell: Cell) => `${cell?.[0] ?? -1},${cell?.[1] ?? -1}`; const same = (a?:Cell,b?:Cell) => !!a&&!!b&&a[0]===b[0]&&a[1]===b[1];
-const directions: Cell[] = [[1,0],[-1,0],[0,1],[0,-1]];
-function fixedMaze() { let seed=123456; return generate(25,()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}); }
-function generate(n:number, random=Math.random) { const maze=Array.from({length:n},()=>Array(n).fill(1)), stack:Cell[]=[[1,1]]; maze[1][1]=0; while(stack.length){const [r,c]=stack[stack.length-1], next=directions.map(([a,b])=>[r+a*2,c+b*2] as Cell).filter(([a,b])=>a>0&&b>0&&a<n-1&&b<n-1&&maze[a][b]); if(!next.length){stack.pop();continue}const [a,b]=next[Math.floor(random()*next.length)];maze[(r+a)/2][(c+b)/2]=0;maze[a][b]=0;stack.push([a,b]);}for(let r=1;r<n-1;r++)for(let c=1;c<n-1;c++){if(maze[r][c]!==1||random()>.18)continue;const vertical=maze[r-1][c]===0&&maze[r+1][c]===0,horizontal=maze[r][c-1]===0&&maze[r][c+1]===0;if(vertical||horizontal)maze[r][c]=0;}return maze; }
-function run(maze:number[][], start:Cell, goal:Cell, kind:Algorithm):Search { const open:{p:Cell;g:number}[]=[{p:start,g:0}], parent=new Map<string,string>(), seen=new Set<string>(), visited:Cell[]=[]; const valid=([r,c]:Cell)=>r>=0&&c>=0&&r<maze.length&&c<maze.length&&!maze[r][c]; while(open.length){if(kind==="dijkstra"||kind==="astar")open.sort((a,b)=>a.g+(kind==="astar"?Math.abs(a.p[0]-goal[0])+Math.abs(a.p[1]-goal[1]):0)-b.g-(kind==="astar"?Math.abs(b.p[0]-goal[0])+Math.abs(b.p[1]-goal[1]):0));const node=kind==="dfs"?open.pop()!:open.shift()!, key=id(node.p);if(seen.has(key))continue;seen.add(key);visited.push(node.p);if(same(node.p,goal)){const path:Cell[]=[];let cursor=key;while(cursor){const [r,c]=cursor.split(",").map(Number);path.unshift([r,c]);cursor=parent.get(cursor)||"";}return{visited,path};}directions.forEach(([r,c])=>{const next:[number,number]=[node.p[0]+r,node.p[1]+c], nextKey=id(next);if(valid(next)&&!seen.has(nextKey)){if(!parent.has(nextKey))parent.set(nextKey,key);open.push({p:next,g:node.g+1});}});}return{visited,path:[]}; }
-export default function MazePathfindingDemo(){const [level,setLevel]=useState<Level>("small"),[maze,setMaze]=useState(fixedMaze),[player,setPlayer]=useState<Cell>([1,1]),[moves,setMoves]=useState(0),[algorithm,setAlgorithm]=useState<Algorithm>("astar"),[speed,setSpeed]=useState(25),[frontier,setFrontier]=useState<Cell[]>([]),[visited,setVisited]=useState<Cell[]>([]),[path,setPath]=useState<Cell[]>([]),[result,setResult]=useState<{explored:number;length:number}|null>(null),[compare,setCompare]=useState<{name:string;explored:number;length:number}[]>([]),[message,setMessage]=useState("Use arrow keys, tap adjacent open cells, then let an algorithm explore the same maze."), timer=useRef<number>();const goal:Cell=[maze.length-2,maze.length-2]; const open=([r,c]:Cell)=>r>=0&&c>=0&&r<maze.length&&c<maze.length&&!maze[r][c];
- const newMaze=(next=level)=>{window.clearInterval(timer.current);const grid=generate(sizes[next]);setMaze(grid);setPlayer([1,1]);setMoves(0);setVisited([]);setFrontier([]);setPath([]);setResult(null);setCompare([]);setMessage("Fresh solvable maze ready.");};
- const move=(next:Cell)=>{if(Math.abs(next[0]-player[0])+Math.abs(next[1]-player[1])!==1||!open(next))return;setPlayer(next);setMoves(m=>m+1);if(same(next,goal))setMessage("You reached the goal! Now compare your route with an algorithm.");};
- useEffect(() => {
-   const onKeyDown = (event: KeyboardEvent) => {
-     const offsets: Record<string, Cell> = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] };
-     const offset = offsets[event.key];
-     if (!offset) return;
-     event.preventDefault();
-     move([player[0] + offset[0], player[1] + offset[1]]);
-   };
-   window.addEventListener("keydown", onKeyDown);
-   return () => window.removeEventListener("keydown", onKeyDown);
- });
- const animate=()=>{window.clearInterval(timer.current);const found=run(maze,[1,1],goal,algorithm);setVisited([]);setFrontier([]);setPath([]);setResult(null);let i=0;timer.current=window.setInterval(()=>{if(i>=found.visited.length){window.clearInterval(timer.current);setPath(found.path);const next={explored:found.visited.length,length:Math.max(0,found.path.length-1)};setResult(next);setCompare(rows=>[...rows.filter(r=>r.name!==algorithm),{name:algorithm,...next}]);setMessage(`${algorithm.toUpperCase()} finished. ${next.explored} states explored.`);return;}setVisited(old=>[...old,found.visited[i]]);setFrontier(found.visited.slice(i+1,i+5));i++;},Math.max(8,220-speed*2));};
- const pause=()=>{window.clearInterval(timer.current);setMessage("Animation paused. Choose Run search to restart this algorithm.");};
- const classes=(p:Cell)=>{const wall=maze[p?.[0]]?.[p?.[1]] ?? 1;return[same(p,goal)?"maze-goal":same(p,player)?"maze-player":path.some(x=>same(x,p))?"maze-path":frontier.some(x=>same(x,p))?"maze-frontier":visited.some(x=>same(x,p))?"maze-visited":wall?"maze-wall":"maze-open"].join(" ");};
- return <article className="sandbox-card maze-card"><div className="sandbox-card-copy"><span>PATHFINDING CHALLENGE</span><h3>Maze pathfinding lab</h3><p>Find the goal yourself, then watch real searches explore the identical maze.</p></div><div className="sandbox-controls"><label>Difficulty <select value={level} onChange={e=>{const next=e.target.value as Level;setLevel(next);newMaze(next)}}><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option></select></label><button type="button" onClick={()=>newMaze()}>New maze</button><label>Algorithm <select value={algorithm} onChange={e=>setAlgorithm(e.target.value as Algorithm)}><option value="bfs">Breadth first search</option><option value="dfs">Depth first search</option><option value="dijkstra">Dijkstra</option><option value="astar">A* · Manhattan</option></select></label><label>Speed <input type="range" min="1" max="100" value={speed} onChange={e=>setSpeed(+e.target.value)}/></label><button type="button" onClick={animate}>Run search</button><button type="button" onClick={pause}>Pause</button></div><div className="maze-grid" style={{gridTemplateColumns:`repeat(${maze.length}, 1fr)`}} aria-label="Interactive maze. Use arrow keys or select an adjacent open cell.">{maze.map((row,r)=>row.map((_,c)=><button key={`${r}-${c}`} type="button" className={classes([r,c])} onClick={()=>move([r,c])} aria-label={`Row ${r+1}, column ${c+1}`}>{same([r,c],player)?"P":same([r,c],goal)?"G":""}</button>))}</div><div className="metric-row"><b>Your moves: {moves}</b><b>States explored: {result?.explored??"–"}</b><b>Path length: {result?.length??"–"}</b></div><p className="sandbox-note" role="status">{message} {result&&moves?moves===result.length?"You matched the shortest route!":`${Math.max(0,moves-result.length)} moves over the algorithm.`:""}</p>{compare.length>1&&<p className="sandbox-note">Comparison: {compare.map(row=>`${row.name.toUpperCase()} ${row.explored} states / ${row.length} steps`).join(" · ")}</p>}</article>;}
+
+type Algorithm = "bfs" | "dijkstra" | "astar";
+type Traffic = "clear" | "busy";
+type Intersection = { id: string; x: number; y: number; column: number; row: number; label?: string };
+type Road = { from: string; to: string; cost: number; congested: boolean; arterial: boolean };
+type RouteResult = { visited: string[]; path: string[]; time: number };
+
+const columns = 12;
+const rows = 8;
+const nodeId = (column: number, row: number) => `i${column}-${row}`;
+
+const landmarkNames: Record<string, string> = {
+  [nodeId(0, 6)]: "Campus gate",
+  [nodeId(2, 2)]: "Library",
+  [nodeId(3, 6)]: "Garden walk",
+  [nodeId(5, 3)]: "Tech labs",
+  [nodeId(6, 5)]: "City plaza",
+  [nodeId(8, 1)]: "Station",
+  [nodeId(8, 6)]: "Riverside",
+  [nodeId(10, 3)]: "Market",
+  [nodeId(10, 6)]: "Museum",
+  [nodeId(11, 1)]: "Innovation hub",
+};
+
+const intersections: Intersection[] = Array.from({ length: rows * columns }, (_, index) => {
+  const column = index % columns;
+  const row = Math.floor(index / columns);
+  return {
+    id: nodeId(column, row),
+    column,
+    row,
+    x: 4 + (column / (columns - 1)) * 92,
+    y: 8 + (row / (rows - 1)) * 84,
+    label: landmarkNames[nodeId(column, row)],
+  };
+});
+
+const roads: Road[] = [];
+for (let row = 0; row < rows; row += 1) {
+  for (let column = 0; column < columns; column += 1) {
+    if (column < columns - 1) {
+      const arterial = row === 2 || row === 5;
+      roads.push({
+        from: nodeId(column, row), to: nodeId(column + 1, row),
+        cost: arterial ? 1 : 1 + ((column + row) % 3),
+        congested: arterial && column >= 3 && column <= 8,
+        arterial,
+      });
+    }
+    if (row < rows - 1) {
+      const arterial = column === 3 || column === 7 || column === 10;
+      roads.push({
+        from: nodeId(column, row), to: nodeId(column, row + 1),
+        cost: arterial ? 1 : 1 + ((column * 2 + row) % 3),
+        congested: arterial && row >= 1 && row <= 5,
+        arterial,
+      });
+    }
+  }
+}
+
+const startId = nodeId(0, 6);
+const goalId = nodeId(11, 1);
+const byId = Object.fromEntries(intersections.map((node) => [node.id, node]));
+const labelFor = (id: string) => byId[id].label ?? "City intersection";
+
+function roadBetween(from: string, to: string) {
+  return roads.find((road) => (road.from === from && road.to === to) || (road.from === to && road.to === from));
+}
+
+function roadCost(from: string, to: string, traffic: Traffic) {
+  const road = roadBetween(from, to);
+  return road ? road.cost * (traffic === "busy" && road.congested ? 3 : 1) : Infinity;
+}
+
+function neighbours(id: string, traffic: Traffic) {
+  return roads.flatMap((road) => {
+    if (road.from === id) return [{ id: road.to, cost: roadCost(road.from, road.to, traffic) }];
+    if (road.to === id) return [{ id: road.from, cost: roadCost(road.from, road.to, traffic) }];
+    return [];
+  });
+}
+
+function estimate(id: string) {
+  const node = byId[id];
+  const goal = byId[goalId];
+  return Math.abs(node.column - goal.column) + Math.abs(node.row - goal.row);
+}
+
+function routeTime(path: string[], traffic: Traffic) {
+  return path.slice(1).reduce((time, node, index) => time + roadCost(path[index], node, traffic), 0);
+}
+
+function search(algorithm: Algorithm, traffic: Traffic): RouteResult {
+  const open = [{ id: startId, rank: 0, driveTime: 0 }];
+  const best = new Map([[startId, 0]]);
+  const parent = new Map<string, string>();
+  const visited: string[] = [];
+
+  while (open.length) {
+    if (algorithm !== "bfs") open.sort((a, b) => a.rank + (algorithm === "astar" ? estimate(a.id) : 0) - b.rank - (algorithm === "astar" ? estimate(b.id) : 0));
+    const current = open.shift()!;
+    if (current.rank !== best.get(current.id)) continue;
+    visited.push(current.id);
+    if (current.id === goalId) {
+      const path = [goalId];
+      let cursor = goalId;
+      while (parent.has(cursor)) { cursor = parent.get(cursor)!; path.unshift(cursor); }
+      return { visited, path, time: routeTime(path, traffic) };
+    }
+    for (const next of neighbours(current.id, traffic)) {
+      const rank = current.rank + (algorithm === "bfs" ? 1 : next.cost);
+      if (rank < (best.get(next.id) ?? Infinity)) {
+        best.set(next.id, rank);
+        parent.set(next.id, current.id);
+        open.push({ id: next.id, rank, driveTime: current.driveTime + next.cost });
+      }
+    }
+  }
+  return { visited, path: [], time: 0 };
+}
+
+export default function MazePathfindingDemo() {
+  const [traffic, setTraffic] = useState<Traffic>("clear");
+  const [algorithm, setAlgorithm] = useState<Algorithm>("astar");
+  const [speed, setSpeed] = useState(64);
+  const [player, setPlayer] = useState(startId);
+  const [manualRoute, setManualRoute] = useState([startId]);
+  const [manualTime, setManualTime] = useState(0);
+  const [visited, setVisited] = useState<string[]>([]);
+  const [frontier, setFrontier] = useState<string[]>([]);
+  const [solution, setSolution] = useState<string[]>([]);
+  const [result, setResult] = useState<{ explored: number; time: number } | null>(null);
+  const [comparison, setComparison] = useState<Array<{ name: string; explored: number; time: number }>>([]);
+  const [message, setMessage] = useState("Start at Campus gate. Follow any connected road, then compare your route with a pathfinding algorithm.");
+  const timer = useRef<number>();
+
+  useEffect(() => () => window.clearInterval(timer.current), []);
+
+  const reset = (nextTraffic = traffic) => {
+    window.clearInterval(timer.current);
+    setPlayer(startId); setManualRoute([startId]); setManualTime(0); setVisited([]); setFrontier([]); setSolution([]); setResult(null); setComparison([]);
+    setMessage(nextTraffic === "busy" ? "Traffic is heavy on orange roads. Try to find a quicker detour through the city." : "Roads are clear. Plan your own route, then compare it with a search algorithm.");
+  };
+
+  const move = (next: string) => {
+    const cost = roadCost(player, next, traffic);
+    if (!Number.isFinite(cost)) { setMessage("Choose a junction connected to your current location."); return; }
+    setPlayer(next); setManualRoute((route) => [...route, next]); setManualTime((time) => time + cost);
+    if (next === goalId) setMessage("You reached Innovation hub. Now see whether the route planner can improve on your journey.");
+  };
+
+  const run = () => {
+    window.clearInterval(timer.current);
+    const found = search(algorithm, traffic);
+    setVisited([]); setFrontier([]); setSolution([]); setResult(null);
+    let index = 0;
+    const algorithmName = algorithm === "astar" ? "A star" : algorithm === "bfs" ? "Breadth first search" : "Dijkstra";
+    setMessage(`${algorithmName} is exploring the city road network.`);
+    timer.current = window.setInterval(() => {
+      if (index >= found.visited.length) {
+        window.clearInterval(timer.current);
+        setFrontier([]); setSolution(found.path);
+        const completed = { explored: found.visited.length, time: found.time };
+        setResult(completed);
+        setComparison((items) => [...items.filter((item) => item.name !== algorithm), { name: algorithm, ...completed }]);
+        setMessage(`Route found in ${completed.time} minutes after exploring ${completed.explored} junctions.`);
+        return;
+      }
+      setVisited((nodes) => [...nodes, found.visited[index]]);
+      setFrontier(found.visited.slice(index + 1, index + 7));
+      index += 1;
+    }, Math.max(18, 200 - speed * 1.75));
+  };
+
+  const pause = () => { window.clearInterval(timer.current); setMessage("Search paused. Run the search again to replay the route exploration."); };
+  const onPath = (from: string, to: string, route: string[]) => route.some((node, index) => index > 0 && ((route[index - 1] === from && node === to) || (route[index - 1] === to && node === from)));
+
+  return <article className="sandbox-card city-route-card">
+    <div className="sandbox-card-copy"><span>PATHFINDING IN PRACTICE</span><h3>City route planner</h3><p>Navigate a dense city road network yourself, then watch algorithms explore the same streets to find the fastest route.</p></div>
+    <div className="sandbox-controls">
+      <label>Traffic <select value={traffic} onChange={(event) => { const next = event.target.value as Traffic; setTraffic(next); reset(next); }} aria-label="Traffic conditions"><option value="clear">Clear roads</option><option value="busy">Heavy traffic</option></select></label>
+      <button type="button" onClick={() => reset()}>Reset journey</button>
+      <label>Algorithm <select value={algorithm} onChange={(event) => setAlgorithm(event.target.value as Algorithm)} aria-label="Pathfinding algorithm"><option value="bfs">Breadth first search</option><option value="dijkstra">Dijkstra fastest route</option><option value="astar">A star fastest route</option></select></label>
+      <label>Speed <input type="range" min="1" max="100" value={speed} onChange={(event) => setSpeed(+event.target.value)} aria-label="Search animation speed" /></label>
+      <button type="button" onClick={run}>Run search</button><button type="button" onClick={pause}>Pause</button>
+    </div>
+    <div className="city-map" aria-label="Dense city road map. Select a connected intersection to make your route.">
+      <svg className="city-roads" viewBox="0 0 100 100" aria-hidden="true">{roads.map((road) => {
+        const from = byId[road.from], to = byId[road.to]; const fastest = onPath(road.from, road.to, solution); const manual = onPath(road.from, road.to, manualRoute);
+        return <line key={`${road.from}-${road.to}`} x1={from.x} y1={from.y} x2={to.x} y2={to.y} className={`${road.arterial ? "road-arterial" : ""} ${road.congested && traffic === "busy" ? "road-congested" : ""} ${fastest ? "road-fastest" : ""} ${manual ? "road-manual" : ""}`} />;
+      })}</svg>
+      {intersections.map((node) => <button key={node.id} type="button" onClick={() => move(node.id)} className={`intersection ${node.id === player ? "intersection-player" : ""} ${node.id === startId ? "intersection-start" : ""} ${node.id === goalId ? "intersection-goal" : ""} ${visited.includes(node.id) ? "intersection-visited" : ""} ${frontier.includes(node.id) ? "intersection-frontier" : ""} ${solution.includes(node.id) ? "intersection-solution" : ""}`} style={{ left: `${node.x}%`, top: `${node.y}%` }} aria-label={`${labelFor(node.id)}${node.id === player ? ", current location" : ""}`}><span>{node.id === startId ? "S" : node.id === goalId ? "G" : ""}</span>{node.label && <small>{node.label}</small>}</button>)}
+    </div>
+    <div className="city-legend"><span><i className="legend-manual" /> Your route</span><span><i className="legend-congested" /> Heavy traffic</span><span><i className="legend-visited" /> Explored</span><span><i className="legend-fastest" /> Fastest route</span></div>
+    <div className="metric-row"><b>Your time: {manualTime || "None"}{manualTime ? " min" : ""}</b><b>Explored: {result?.explored ?? "None"}</b><b>Fastest: {result?.time ? `${result.time} min` : "None"}</b></div>
+    <p className="sandbox-note" role="status">{message} {result && manualTime ? manualTime === result.time ? "You matched the fastest route." : `The fastest route saves ${Math.max(0, manualTime - result.time)} minutes.` : ""}</p>
+    {comparison.length > 1 && <p className="sandbox-note">Comparison: {comparison.map((item) => `${item.name === "astar" ? "A star" : item.name === "bfs" ? "BFS" : "Dijkstra"} ${item.explored} junctions, ${item.time} min`).join(" · ")}</p>}
+  </article>;
+}

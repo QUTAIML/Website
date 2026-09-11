@@ -38,7 +38,7 @@ export default function DigitClassifier() {
         }
         tfRef.current = tf;
         modelRef.current = model;
-        setStatus("Draw a single digit (0–9)");
+        setStatus("Draw a single digit from 0 to 9");
       } catch (error) {
         console.error("Unable to load the AIML digit classifier", error);
         if (alive) setStatus("The digit model could not load. Please refresh or try a modern browser.");
@@ -57,7 +57,7 @@ export default function DigitClassifier() {
     const tf = tfRef.current;
     const model = modelRef.current;
     if (!canvas || !tf || !model) {
-      setStatus("Model is still loading — please try again in a moment.");
+      setStatus("Model is still loading. Please try again in a moment.");
       return;
     }
 
@@ -102,7 +102,7 @@ export default function DigitClassifier() {
 
   const start = (event: PointerEvent<HTMLCanvasElement>) => {
     if (!modelRef.current) {
-      setStatus("Model is still loading — please try again in a moment.");
+      setStatus("Model is still loading. Please try again in a moment.");
       return;
     }
     drawing.current = true;
@@ -133,7 +133,7 @@ export default function DigitClassifier() {
           <div className="digit-actions"><button type="button" onClick={clear}>Clear drawing</button><span role="status">{status}</span></div>
         </div>
         <div className="prediction-panel" aria-live="polite">
-          <p>Prediction</p><strong>{scores.some(Boolean) ? best : "–"}</strong>
+          <p>Prediction</p><strong>{scores.some(Boolean) ? best : "None"}</strong>
           {scores.map((score, digit) => <div className="confidence" key={digit}><span>{digit}</span><i><b style={{ width: `${Math.round(score * 100)}%` }} /></i><em>{Math.round(score * 100)}%</em></div>)}
         </div>
       </div>

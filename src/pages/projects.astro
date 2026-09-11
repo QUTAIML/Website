@@ -1,155 +1,186 @@
 ---
 import "@/styles/projects.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
-import SectionHeader from "@/components/SectionHeader.astro";
-import InfoPanel from "@/components/InfoPanel.astro";
 import SandboxSection from "@/components/sandbox/SandboxSection";
 import {
-  semesters,
   latestSemester,
   pastProjects,
   types,
 } from "@/scripts/projects/projects-loader";
+
+const projectCount = pastProjects.length;
+const categoryCount = types.filter((type) => type !== "All").length;
+const archiveLabel = latestSemester?.label ?? "Project archive";
 ---
 
-<ContentLayout>
-  <div class="content-wrapper top-projects-space">
+<ContentLayout title="Projects | QUT AI & ML Society">
+  <main class="projects-page">
+    <section class="projects-hero">
+      <div class="projects-shell projects-hero-layout">
+        <div class="projects-hero-copy">
+          <p class="projects-kicker">QUT AI & ML SOCIETY</p>
+          <h1>Turn curiosity<br />into <span>proof.</span></h1>
+          <p class="projects-intro">
+            Explore the work AIML members have built across machine learning, data, vision, language, and intelligent systems.
+          </p>
+          <div class="project-hero-facts" aria-label="Project archive highlights">
+            <span><strong>{projectCount}</strong> archived projects</span>
+            <span><strong>{categoryCount}</strong> fields to explore</span>
+          </div>
+          <a class="projects-hero-link" href="#project-archive">Explore the archive <span aria-hidden="true">↘</span></a>
+        </div>
 
-    <!-- ABOUT -->
-    <SectionHeader title="Club Projects" />
+        <figure class="projects-hero-image">
+          <img src="/data/projects/sem-2-2025/images/penguin-species.jpg" alt="A visualisation from an AIML clustering project" />
+          <figcaption>
+            <span>FEATURED ARCHIVE</span>
+            <strong>From first experiments to portfolio work.</strong>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
 
-    <InfoPanel>
-      The QUT AI & ML Society runs collaborative projects that bring students, researchers, and industry partners together to build practical AI and machine learning solutions.
-      Projects range from developer tools and data-driven apps to research prototypes and everyday innovations, with clear roles for contributors at every skill level.
-      We pair hands-on work with mentorship, workshops, and hackathons to help members learn, share code, and grow their portfolios while applying AI responsibly.
-      Join to contribute, learn from peers, and help shape projects that make a real impact.
-    </InfoPanel>
+    <!-- Keep the live activities near the top of the page so they remain easy to discover.
+         This is browser only because the demos create canvases and interactive state. -->
+    <SandboxSection client:only="react">
+      <section class="sandbox-loading" slot="fallback" aria-label="Loading ML Sandbox">
+        <p>LEARN BY DOING</p>
+        <h2>ML Sandbox</h2>
+        <span>Loading the interactive activities</span>
+      </section>
+    </SandboxSection>
 
-    <!-- The section hydrates immediately; model-heavy demos still lazy-load their libraries. -->
-    <SandboxSection client:load />
+    <section class="project-pathways" aria-labelledby="project-pathways-title">
+      <div class="projects-shell project-pathways-layout">
+        <div>
+          <p class="projects-kicker">MAKE IT REAL</p>
+          <h2 id="project-pathways-title">A place to start.<br /><span>A reason to keep going.</span></h2>
+        </div>
+        <p class="project-pathways-intro">Projects turn learning into something you can test, share, and continue building with people who care about the same questions.</p>
+      </div>
+      <div class="projects-shell project-pathway-cards">
+        <article>
+          <span>01</span>
+          <h3>Build together</h3>
+          <p>Join practical work across real machine learning topics and grow through doing.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Explore ideas</h3>
+          <p>Try methods, datasets, and approaches that make AI concepts feel tangible.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Show the work</h3>
+          <p>Browse the archive for projects, code, and ideas worth taking further.</p>
+        </article>
+      </div>
+    </section>
 
-    <!-- PREVIOUS PROJECTS -->
-    <SectionHeader title="Previous Projects" class="past-projects-space" />
+    <section id="project-archive" class="projects-archive" aria-labelledby="project-archive-title">
+      <div class="projects-shell projects-archive-heading">
+        <div>
+          <p class="projects-kicker">{archiveLabel.toUpperCase()}</p>
+          <h2 id="project-archive-title">Work worth<br /><span>showing.</span></h2>
+        </div>
+        <p>Search the archive by project type or title. Every card links to the project repository.</p>
+      </div>
 
-    <div class="key-content">
-      <div class="projects-controls">
-        <div class="controls-row">
+      <div class="projects-shell key-content">
+        <div class="projects-controls">
+          <div class="controls-row">
+            <div class="mobile-search-filter">
+              <div class="search-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="16.65" y1="16.65" x2="21" y2="21" />
+                </svg>
+                <input id="projects-search" type="search" placeholder="Search the project archive" aria-label="Search projects" />
+              </div>
+            </div>
 
-          <!-- Search -->
-          <div class="mobile-search-filter">
-            <div class="search-wrapper">
-              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="11" cy="11" r="7" />
-                <line x1="16.65" y1="16.65" x2="21" y2="21" />
+            <span class="type-filter-label">Browse:</span>
+            <div class="type-scroll-wrapper">
+              <button class="type-scroll-btn left" aria-label="Scroll project types left">‹</button>
+              <div id="type-filters" class="type-filter-pill scrollable">
+                {types.map((type) => (
+                  <button class={`type-btn ${type === "All" ? "active" : ""}`} data-type={type} type="button">
+                    {type}
+                  </button>
+                ))}
+              </div>
+              <button class="type-scroll-btn right" aria-label="Scroll project types right">›</button>
+            </div>
+
+            <button id="filters-toggle" aria-haspopup="true" aria-expanded="false" type="button" class="filters-toggle-btn">
+              <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z" />
               </svg>
-              <input id="projects-search" type="search" placeholder="Search projects" aria-label="Search projects" />
-            </div>
-          </div>
+              <span>Filters</span>
+            </button>
 
-          <!-- Desktop type pills -->
-          <span class="type-filter-label">Sort by:</span>
-          <div class="type-scroll-wrapper">
-            <button class="type-scroll-btn left" aria-label="Scroll left">‹</button>
-            <div id="type-filters" class="type-filter-pill scrollable">
-              {types.map(t => (
-                <button class={`type-btn ${t === "All" ? "active" : ""}`} data-type={t} type="button">
-                  {t}
-                </button>
-              ))}
-            </div>
-            <button class="type-scroll-btn right" aria-label="Scroll right">›</button>
-          </div>
-
-          <!-- Filter toggle + popover -->
-          <button id="filters-toggle" aria-haspopup="true" aria-expanded="false" type="button" class="filters-toggle-btn">
-            <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z"/>
-            </svg>
-          </button>
-
-          <div class="type-filter-wrapper" style="margin-left:auto; position:relative;">
-            <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
-              <div class="filters-popover-content">
-                <div class="filter-group">
-                  <label for="semester-select-pop">Semester</label>
-                  <select id="semester-select-pop">
-                    <option value="all" selected>All past semesters</option>
-                    {semesters.filter(s => s.id !== latestSemester?.id).map(s => (
-                      <option value={s.id}>{s.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div class="filter-group filter-type">
-                  <label for="type-select-pop">Type</label>
-                  <select id="type-select-pop">
-                    {types.map(t => (
-                      <option value={t}>{t}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div class="filter-group">
-                  <label for="sort-select-pop">Sort data</label>
-                  <select id="sort-select-pop">
-                    <option value="" selected>None</option>
-                    <option value="title-asc">Title Ascending</option>
-                    <option value="title-desc">Title Descending</option>
-                  </select>
+            <div class="type-filter-wrapper" style="margin-left:auto; position:relative;">
+              <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
+                <div class="filters-popover-content">
+                  <div class="filter-group filter-type">
+                    <label for="type-select-pop">Type</label>
+                    <select id="type-select-pop">
+                      {types.map((type) => <option value={type}>{type}</option>)}
+                    </select>
+                  </div>
+                  <div class="filter-group">
+                    <label for="sort-select-pop">Sort data</label>
+                    <select id="sort-select-pop">
+                      <option value="" selected>None</option>
+                      <option value="title-asc">Title ascending</option>
+                      <option value="title-desc">Title descending</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
-      </div>
 
-      <section class="projects-panel">
-        <div class="desktop-type-filters">
-          <section id="projects-grid" class="projects-grid">
-            {pastProjects.map(ev => {
-              const type = ev.type ?? ev.category ?? "Other";
-
-              return (
-                <article
-                  class="project-card"
-                  data-semester={ev.semesterId}
-                  data-category={ev.category}
-                  data-type={type}
-                  data-title={ev.title.toLowerCase()}
-                >
-                  <a href={ev.github} target="_blank" rel="noopener noreferrer">
-                    <div class="card-media">
-                      {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
-                    </div>
-
-                    <div class="card-body">
-                      <h3 class="card-title">{ev.title}</h3>
-                      <div class="card-divider"></div>
-                      <time class="card-date">{ev.dateLabel}</time>
-                      <p class="card-description">{ev.excerpt}</p>
-
-                      <div class="card-footer">
-                        <span class="card-view-more">View on GitHub →</span>
+        <section class="projects-panel">
+          <div class="desktop-type-filters">
+            <div class="project-atlas-heading">
+              <span>PROJECT ATLAS</span>
+              <p>Explore the ideas our members have turned into working experiments.</p>
+            </div>
+            <section id="projects-grid" class="projects-grid" aria-label="Project archive">
+              {pastProjects.map((project) => {
+                const type = project.type ?? project.category ?? "Other";
+                return (
+                  <article class="project-card" data-semester={project.semesterId} data-category={project.category} data-type={type} data-title={project.title.toLowerCase()}>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                      <div class="card-media">
+                        {project.image ? <img src={project.image} alt={project.title} /> : <div class="no-image">No image available</div>}
+                        <span class="project-category">{type}</span>
                       </div>
-                    </div>
-                  </a>
-                </article>
-              );
-            })}
-          </section>
-        </div>
-      </section>
+                      <div class="card-body">
+                        <h3 class="card-title">{project.title}</h3>
+                        <p class="card-description">{project.excerpt}</p>
+                        <div class="card-footer">
+                          <time class="card-date">{project.dateLabel}</time>
+                          <span class="card-view-more">Open project ↗</span>
+                        </div>
+                      </div>
+                    </a>
+                  </article>
+                );
+              })}
+            </section>
+          </div>
+        </section>
+        <div id="projects-pagination"></div>
+      </div>
+    </section>
+  </main>
 
-      <div id="projects-pagination"></div>
-    </div>
-
-  </div>
-
-    <Fragment slot="scripts">
+  <Fragment slot="scripts">
     <script>
       import "@/scripts/projects/projects-script.js";
     </script>
   </Fragment>
-
 </ContentLayout>

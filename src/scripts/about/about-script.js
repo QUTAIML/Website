@@ -44,14 +44,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     teamTitle.textContent =
       page.pageIndex > 0
-        ? `${page.teamTitle} – Continued`
+        ? `${page.teamTitle} Continued`
         : page.teamTitle;
 
     teamGrid.innerHTML = "";
 
     page.items.forEach(member => {
-      const card = document.createElement("div");
+      const card = document.createElement(member.linkedin ? "a" : "div");
       card.className = "team-card";
+      card.dataset.team = page.teamTitle;
+
+      if (member.linkedin) {
+        card.href = member.linkedin;
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        card.classList.add("team-card-link");
+        card.setAttribute("aria-label", `Open ${member.name}'s LinkedIn profile`);
+      }
 
       card.innerHTML = `
         <div class="team-photo">
@@ -156,134 +165,4 @@ document.addEventListener("DOMContentLoaded", () => {
   resetTeamAuto();
   renderTeamPage(0);
 
-  /* =========================
-     DEGREES CAROUSEL
-  ========================= */
-
-  const degreeSection = document.querySelector(".degree-section");
-
-  const degreesGrid = document.getElementById("degrees-grid");
-  const degreesDots = document.getElementById("degrees-dots");
-  const degreeTitleElem = document.getElementById("degree-title");
-
-  const degreesData = JSON.parse(degreesGrid.dataset.teams);
-
-  let degreesPages = [];
-  let degreesIndex = 0;
-  let degreePageSize = window.innerWidth <= 768 ? 2 : 4;
-
-  function buildDegreePages() {
-    degreesPages = [];
-
-    degreesData.forEach(section => {
-      for (let i = 0; i < section.items.length; i += degreePageSize) {
-        degreesPages.push({
-          title: section.title,
-          items: section.items.slice(i, i + degreePageSize),
-          pageIndex: i / degreePageSize,
-        });
-      }
-    });
-  }
-
-  function renderDegreePage(index) {
-    const page = degreesPages[index];
-
-    degreeTitleElem.textContent =
-      page.pageIndex > 0
-        ? `${page.title} – Continued`
-        : page.title;
-
-    degreesGrid.innerHTML = "";
-
-    page.items.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "degree-card";
-      card.innerHTML = `<h3>${item.name}</h3>`;
-      degreesGrid.appendChild(card);
-    });
-
-    const pagesForThisTeam = teamPages.filter(p => p.teamTitle === page.teamTitle);
-    const isLastPageOfTeam = page.pageIndex === pagesForThisTeam.length - 1;
-
-    if (!isLastPageOfTeam) {
-      const emptySlots = teamPageSize - page.items.length;
-      for (let i = 0; i < emptySlots; i++) {
-        const emptyCard = document.createElement("div");
-        emptyCard.className = "team-card empty-card";
-        emptyCard.innerHTML = `<div class="team-photo"></div><div class="team-info"></div>`;
-        teamGrid.appendChild(emptyCard);
-      }
-    }
-
-    degreesDots.innerHTML = "";
-
-    degreesPages.forEach((_, i) => {
-      const dot = document.createElement("span");
-      dot.className = i === index ? "degree-dot active" : "degree-dot";
-
-      dot.onclick = () => {
-        degreesIndex = i;
-        renderDegreePage(i);
-      };
-
-      degreesDots.appendChild(dot);
-    });
-  }
-
-  const degreeLeft = degreeSection.querySelector(".left-degree");
-  const degreeRight = degreeSection.querySelector(".right-degree");
-
-  const degreeMobileLeftBtns =
-    degreeSection.querySelectorAll(".degree-arrows-mobile-panel .left");
-
-  const degreeMobileRightBtns =
-    degreeSection.querySelectorAll(".degree-arrows-mobile-panel .right");
-
-  degreeLeft?.addEventListener("click", () => {
-    degreesIndex =
-      (degreesIndex - 1 + degreesPages.length) % degreesPages.length;
-
-    renderDegreePage(degreesIndex);
-  });
-
-  degreeRight?.addEventListener("click", () => {
-    degreesIndex =
-      (degreesIndex + 1) % degreesPages.length;
-
-    renderDegreePage(degreesIndex);
-  });
-
-  degreeMobileLeftBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      degreesIndex =
-        (degreesIndex - 1 + degreesPages.length) % degreesPages.length;
-
-      renderDegreePage(degreesIndex);
-    });
-  });
-
-  degreeMobileRightBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      degreesIndex =
-        (degreesIndex + 1) % degreesPages.length;
-
-      renderDegreePage(degreesIndex);
-    });
-  });
-
-  window.addEventListener("resize", () => {
-    const newSize = window.innerWidth <= 768 ? 2 : 4;
-
-    if (newSize !== degreePageSize) {
-      degreePageSize = newSize;
-      degreesIndex = 0;
-
-      buildDegreePages();
-      renderDegreePage(0);
-    }
-  });
-
-  buildDegreePages();
-  renderDegreePage(0);
 });

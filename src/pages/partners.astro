@@ -2,127 +2,77 @@
 import "@/styles/partners.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
-import InfoPanel from "@/components/InfoPanel.astro";
 ---
 
-<ContentLayout description="QUT AI & ML Society Sponsors Page">
-  <div class="content-wrapper top-space vacant-space">
+<ContentLayout description="QUT AI & ML Society partners and supporters">
+  <div class="content-wrapper top-space partner-page">
+    <section class="partner-hero" aria-labelledby="partner-title">
+      <div class="partner-hero-copy">
+        <p class="partner-eyebrow">BUILDING THE FUTURE TOGETHER</p>
+        <h1 id="partner-title">Partners powering<br /><em>practical AI.</em></h1>
+        <div class="partner-lede">
+          <p>Our partners help turn curiosity into workshops, projects, industry insight, and meaningful opportunities for QUT students.</p>
+          <a class="partner-cta" href="/contact">Partner with AIML <span>↗</span></a>
+        </div>
+      </div>
+      <div class="partner-hero-art" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><span>COLLABORATION<br />IN MOTION</span></div>
+    </section>
 
-    <!-- SPONSORS -->
-    <SectionHeader title="Our Sponsors" />
-
-    <InfoPanel lineStyle="small">
-      <p>
-        Our sponsors are the select organisations that form an exclusive partnership with the QUT AI & ML Society.
-        They provide critical support, helping us deliver high-impact initiatives, workshops, and events for our members.
-        Sponsorship comes with a deeper engagement, reflecting a strategic collaboration with our society's mission.
-      </p>
-    </InfoPanel>
-
-    <div class="sponsor-wrapper">
-      <a href="https://www.nti.com.au" target="_blank" rel="noopener noreferrer">
-        <img src="/data/sponsors/NTI.png" alt="NTI Logo" class="sponsor-logo" />
+    <section class="partner-section" aria-labelledby="sponsor-title">
+      <div class="partner-section-heading">
+        <div><span>01 / SPONSOR</span><h2 id="sponsor-title">Strategic partner</h2></div>
+        <p>Deep, long term collaboration supporting high impact initiatives for our community.</p>
+      </div>
+      <a class="sponsor-spotlight" href="https://www.nti.com.au" target="_blank" rel="noopener noreferrer">
+        <div class="sponsor-mark"><img src="/data/sponsors/NTI.png" alt="NTI" /></div>
+        <div class="sponsor-story"><span>FOUNDING SPONSOR</span><h3>NTI</h3><p>Supporting the next generation of people building thoughtful, real world technology.</p><strong>Visit NTI ↗</strong></div>
       </a>
-    </div>
+    </section>
 
-    <!-- SUPPORTERS -->
-    <SectionHeader title="Our Supporters" />
-
-    <InfoPanel lineStyle="small">
-      <p>
-        Our supporters are valued organisations who champion the QUT AI & ML Society and contribute to member experiences in meaningful ways.
-        While this group is smaller and curated, the support is more general and flexible, helping provide direct access to opportunities, insights,
-        and resources that enhance our community.
-      </p>
-    </InfoPanel>
-
-    <!-- Microsoft -->
-    <div class="info-panel-wrapper">
-      <section class="info-panel history-box">
-        <div class="team-split static-layout equal-height">
-          <div class="team-photo-large">
-            <div class="image-wrapper" style="position: relative;">
-              <div class="loader" id="loader-microsoft">
-                <div class="spinner"></div>
-              </div>
-              <img
-                src="/data/supporters/Microsoft.png"
-                alt="Microsoft"
-                class="team-hero"
-                id="teamHero-microsoft"
-                onload="document.getElementById('loader-microsoft').style.display='none'"
-                style="display: block;"
-              />
-            </div>
-          </div>
-
-          <aside class="yearbook">
-            <h3 class="company-title">Microsoft</h3>
-            <p class="company-description">
-              Microsoft is a global technology company known for its software, cloud computing, and AI innovations. The company develops tools and platforms that empower individuals, businesses, and organisations worldwide to achieve more through technology.
-            </p>
-            <a
-              href="https://www.microsoft.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="view-details-link"
-            >
-              View more details here
-            </a>
-          </aside>
+    <section class="partner-section" aria-labelledby="supporter-title">
+      <div class="partner-section-heading">
+        <div><span>02 / SUPPORTERS</span><h2 id="supporter-title">Community champions</h2></div>
+        <p>Organisations opening doors to insight, professional connection, and resources for our members.</p>
+      </div>
+      <div class="supporter-showcase">
+        <a class="supporter-card microsoft" href="https://www.microsoft.com" target="_blank" rel="noopener noreferrer">
+          <div class="supporter-logo"><img src="/data/supporters/Microsoft.png" alt="Microsoft" /></div>
+          <div><span>GLOBAL TECHNOLOGY</span><h3>Microsoft</h3><p>Cloud, software, and AI tools that empower people and organisations to achieve more.</p><strong>Explore Microsoft ↗</strong></div>
+        </a>
+        <a class="supporter-card acs" href="https://www.acs.org.au" target="_blank" rel="noopener noreferrer">
+          <div class="supporter-logo"><img src="/data/supporters/ACS.png" alt="Australian Computing Society" /></div>
+          <div><span>PROFESSIONAL COMMUNITY</span><h3>Australian Computing Society</h3><p>Australia’s professional association advancing skills, ethics, and connection across technology.</p><strong>Explore ACS ↗</strong></div>
+        </a>
+      </div>
+      <section class="partner-impact" aria-labelledby="partner-impact-title">
+        <header>
+          <span>PARTNERSHIP IMPACT</span>
+          <h3 id="partner-impact-title">Where support becomes <em>opportunity.</em></h3>
+        </header>
+        <div class="partner-impact-grid">
+          <article><span>01</span><h4>Hands on workshops and events</h4><p>Practical spaces for members to learn, build, and share ideas.</p></article>
+          <article><span>02</span><h4>Member insight and mentorship</h4><p>Conversations that make the industry feel closer and more accessible.</p></article>
+          <article><span>03</span><h4>Industry pathways and connection</h4><p>Relationships that help students see what they can grow into.</p></article>
         </div>
       </section>
-    </div>
+    </section>
 
-    <!-- ACS -->
-    <div class="info-panel-wrapper">
-      <section class="info-panel history-box">
-        <div class="team-split static-layout equal-height">
-          <div class="team-photo-large">
-            <div class="image-wrapper" style="position: relative;">
-              <div class="loader" id="loader-acs">
-                <div class="spinner"></div>
-              </div>
-              <img
-                src="/data/supporters/ACS.png"
-                alt="Australian Computing Society"
-                class="team-hero"
-                id="teamHero-acs"
-                onload="document.getElementById('loader-acs').style.display='none'"
-                style="display: block;"
-              />
-            </div>
-          </div>
+    <section class="partner-events" aria-labelledby="partner-events-title">
+      <div class="partner-events-heading">
+        <div><span>03 / IN THE ROOM</span><h2 id="partner-events-title">Industry events<br /><em>we helped bring to life.</em></h2></div>
+        <p>Partnership shows up in the rooms where students meet people, ideas, and opportunities beyond campus.</p>
+      </div>
+      <div class="partner-events-grid">
+        <article class="partner-event-card partner-event-bands"><img src="/data/events/sem-1-2026/images/AIML%20x%20BANDS%20industry%20night/1.jpeg" alt="Attendees at the AIML x BANDS Industry Night" loading="lazy" /><div><span>AIML × BANDS</span><h3>Industry Night</h3></div></article>
+        <article class="partner-event-card partner-event-agentcamp"><img src="/data/events/sem-1-2026/images/AgentCamp/1.jpeg" alt="Attendees at AgentCamp" loading="lazy" /><div><span>COMMUNITY EVENT</span><h3>AgentCamp</h3></div></article>
+        <article class="partner-event-card partner-event-devfest"><img src="/data/events/sem-1-2026/images/Google%20DevFest/1.jpeg" alt="Attendees at Google DevFest" loading="lazy" /><div><span>COMMUNITY EVENT</span><h3>Google DevFest</h3></div></article>
+      </div>
+    </section>
 
-          <aside class="yearbook">
-            <h3 class="company-title">Australian Computing Society</h3>
-            <p class="company-description">
-              The Australian Computing Society (ACS) is Australia's leading professional association for IT practitioners. ACS advocates for excellence, professional development, and ethical practice across the technology sector, connecting members and advancing knowledge in tech.
-            </p>
-            <a
-              href="https://www.acs.org.au"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="view-details-link"
-            >
-              View more details here
-            </a>
-          </aside>
-        </div>
-      </section>
-    </div>
-
-    <!-- COMING SOON -->
-    <InfoPanel lineStyle="small">
-      <p>We're still finalising our partnerships for 2026</p>
-      <p>Stay tuned to see the incoming organisations sponsoring QUT AI & ML Society.</p>
-    </InfoPanel>
-
-    <!-- Modal -->
-    <div id="sponsorModal" class="photo-modal">
-      <span id="sponsorModalClose" class="photo-modal-close">&times;</span>
-      <img id="sponsorModalImg" class="photo-modal-content" />
-    </div>
-
+    <section class="partner-callout">
+      <p>New opportunities are always on the horizon.</p>
+      <h2>Help shape what our members build next.</h2>
+      <a href="/contact">Start a conversation ↗</a>
+    </section>
   </div>
 </ContentLayout>

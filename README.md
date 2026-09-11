@@ -1,6 +1,6 @@
 # QUT AI & ML Society Website
 
-This repository contains the source code for the official website of the QUT AI & Machine Learning Society.
+This repository contains the source code for the official website of the QUT AI & ML Society.
 
 The website serves as the central digital platform for the Society, showcasing:
 - Events and workshops
@@ -16,6 +16,20 @@ The platform is designed to:
 - Provide clear information to prospective members and sponsors
 - Highlight technical events and opportunities
 - Serve as a long-term digital archive of Society activities
+
+## Homepage statistics
+
+The homepage’s project and event figures are derived at build time from the
+current local data folders. They are archive counts, not membership or
+attendance figures. No membership or attendance placeholders are displayed.
+
+## About page timeline and stats
+
+The About page reads every numeric `public/data/about/<year>/team-details.json`
+file at build time. Each valid year becomes a journey entry, and the newest file
+supplies the current-team figure. Its project total and degree-pathway total are
+also derived from their respective local data files, while the 700+ Instagram
+figure is the already-published value from the Highlights page.
 
 ## ML Sandbox
 

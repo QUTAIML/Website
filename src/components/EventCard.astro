@@ -1,39 +1,44 @@
 ---
 const { ev, href } = Astro.props;
+const eventType = ev.type ?? ev.category ?? "Event";
 ---
 
 <article
   class="event-card"
   data-semester={ev.semesterId}
   data-category={ev.category}
-  data-type={ev.type ?? ev.category ?? "Other"}
+  data-type={eventType}
   data-title={ev.title.toLowerCase()}
   data-date={ev.date}
 >
   {href ? (
-    <a href={href}>
+    <a href={href} class="event-card-link">
       <div class="card-media">
-        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">Event image coming soon</div>}
+        <span class="event-card-type">{eventType}</span>
       </div>
       <div class="card-body">
-        <h3 class="card-title">{ev.title}</h3>
-        <div class="card-divider"></div>
-        <time class="card-date">{ev.dateLabel}</time>
-        <p class="card-description">{ev.excerpt}</p>
-        <div class="card-footer">
-          <span class="card-view-more">View more →</span>
+        <div class="card-meta">
+          <time class="card-date">{ev.dateLabel}</time>
+          {ev.time && <span class="card-time">{ev.time}</span>}
         </div>
+        <h3 class="card-title">{ev.title}</h3>
+        <p class="card-description">{ev.excerpt}</p>
+        <div class="card-footer"><span class="card-view-more">Explore event <b aria-hidden="true">↗</b></span></div>
       </div>
     </a>
   ) : (
-    <div>
+    <div class="event-card-link">
       <div class="card-media">
-        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">No image</div>}
+        {ev.image ? <img src={ev.image} alt={ev.title} /> : <div class="no-image">Event image coming soon</div>}
+        <span class="event-card-type">{eventType}</span>
       </div>
       <div class="card-body">
+        <div class="card-meta">
+          <time class="card-date">{ev.dateLabel}</time>
+          {ev.time && <span class="card-time">{ev.time}</span>}
+        </div>
         <h3 class="card-title">{ev.title}</h3>
-        <div class="card-divider"></div>
-        <time class="card-date">{ev.dateLabel}</time>
         <p class="card-description">{ev.excerpt}</p>
       </div>
     </div>

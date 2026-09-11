@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const paginationContainer =
     document.getElementById("projects-pagination");
 
-  const semesterSelectPop =
-    document.getElementById("semester-select-pop");
   const sortSelectPop =
     document.getElementById("sort-select-pop");
   const typeSelectPop =
@@ -30,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.innerWidth < 768 ? 3 : 6;
 
   let currentPage = 1;
-  let currentSemester = "all";
   let currentSort = "";
   let currentType = "All";
 
@@ -91,17 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
           ?.textContent.toLowerCase() || "";
 
       const cardType = card.dataset.type || "";
-      const cardSemester =
-        card.dataset.semester || "";
-
       return (
         (!query ||
           title.includes(query) ||
           excerpt.includes(query)) &&
         (selectedType === "All" ||
-          cardType === selectedType) &&
-        (currentSemester === "all" ||
-          cardSemester === currentSemester)
+          cardType === selectedType)
       );
     });
 
@@ -151,15 +143,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const end = start + PROJECTS_PER_PAGE;
 
-    getCards().forEach(
-      (card) => (card.style.display = "none")
-    );
+    getCards().forEach((card) => {
+      card.style.display = "none";
+      card.style.gridColumn = "";
+      card.style.gridRow = "";
+      card.classList.remove("atlas-visible-hero");
+    });
 
     filteredCards
       .slice(start, end)
-      .forEach(
-        (card) => (card.style.display = "")
-      );
+      .forEach((card, index) => {
+        card.style.display = "";
+        const position = index % 6;
+        if (position === 0) {
+          card.style.gridColumn = "span 2";
+          card.style.gridRow = "span 2";
+          card.classList.add("atlas-visible-hero");
+        } else if (position === 1 || position === 4 || position === 5) {
+          card.style.gridColumn = "span 2";
+        }
+      });
 
     if (scrollToTop && filteredCards[start]) {
       const offset = 300;
@@ -244,17 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput?.addEventListener(
     "input",
     applyFilters
-  );
-
-  semesterSelectPop?.addEventListener(
-    "change",
-    () => {
-      currentSemester =
-        semesterSelectPop.value;
-
-      currentPage = 1;
-      applyFilters();
-    }
   );
 
   sortSelectPop?.addEventListener(

@@ -102,7 +102,7 @@ const latestEventDate = [...eventsBySemester].sort((a, b) => new Date(b.date).ge
           </div>
 
           <section class="events-browser" aria-label="Browse events">
-            <div class="events-controls">
+            <div class="events-controls" data-pagefind-ignore>
               <div class="controls-row">
                 <div class="search-filter-wrapper">
                   <div class="search-wrapper">
@@ -167,14 +167,14 @@ const latestEventDate = [...eventsBySemester].sort((a, b) => new Date(b.date).ge
               <section id="events-grid" class="events-grid">
                 {eventsBySemester.map((event) => <EventCard ev={event} href={event.rubric || null} />)}
               </section>
-              <div id="no-events-state" class="no-events-state" style="display: none;">
+              <div id="no-events-state" class="no-events-state" style="display: none;" data-pagefind-ignore>
                 <p class="no-events-title">Nothing scheduled here yet</p>
                 <p class="no-events-text">New workshops, talks, and project sessions will appear here when they are announced.</p>
                 <a href="/contact">Stay connected <ExternalArrow /></a>
               </div>
             </section>
 
-            <section id="events-calendar" class="events-calendar" aria-label="Event calendar" hidden>
+            <section id="events-calendar" class="events-calendar" aria-label="Event calendar" hidden data-pagefind-ignore>
               <div class="calendar-toolbar">
                 <div>
                   <p class="calendar-kicker">EVENT CALENDAR</p>
@@ -192,7 +192,7 @@ const latestEventDate = [...eventsBySemester].sort((a, b) => new Date(b.date).ge
               <p id="calendar-empty" class="calendar-empty" hidden>No matching events in this month. Try another month or adjust the archive filters.</p>
             </section>
 
-            <div id="events-pagination"></div>
+            <div id="events-pagination" data-pagefind-ignore></div>
           </section>
         </div>
       </section>

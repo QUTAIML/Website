@@ -44,7 +44,7 @@ const archiveLabel = latestSemester?.label ?? "Project archive";
     <!-- Keep the live activities near the top of the page so they remain easy to discover.
          This is browser only because the demos create canvases and interactive state. -->
     <SandboxSection client:only="react">
-      <section class="sandbox-loading" slot="fallback" aria-label="Loading ML Sandbox">
+      <section class="sandbox-loading" slot="fallback" aria-label="Loading ML Sandbox" data-pagefind-ignore>
         <p>LEARN BY DOING</p>
         <h2>ML Sandbox</h2>
         <span>Loading the interactive activities</span>
@@ -88,7 +88,7 @@ const archiveLabel = latestSemester?.label ?? "Project archive";
       </div>
 
       <div class="projects-shell key-content">
-        <div class="projects-controls">
+        <div class="projects-controls" data-pagefind-ignore>
           <div class="controls-row">
             <div class="mobile-search-filter">
               <div class="search-wrapper">
@@ -174,7 +174,7 @@ const archiveLabel = latestSemester?.label ?? "Project archive";
             </section>
           </div>
         </section>
-        <div id="projects-pagination"></div>
+        <div id="projects-pagination" data-pagefind-ignore></div>
       </div>
     </section>
   </main>

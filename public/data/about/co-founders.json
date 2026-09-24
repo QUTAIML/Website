@@ -1,9 +1,9 @@
 [
-  "Zac Knight",
-  "Leonora Van De Sande",
-  "Mandeep Gautam",
-  "Steve Hun",
-  "Belinda Zhou",
-  "Liam D'Souza",
-  "Ethan Regnart"
+  { "name": "Zac Knight", "linkedin": "https://www.linkedin.com/in/zac-knight/" },
+  { "name": "Leonora Van De Sande", "linkedin": "https://www.linkedin.com/in/leonora-van-de-sande/" },
+  { "name": "Mandeep Gautam", "linkedin": "https://www.linkedin.com/in/mandeep-gautam31/" },
+  { "name": "Steve Hun", "linkedin": "https://www.linkedin.com/in/steve-hun-802846211/" },
+  { "name": "Belinda Zhou", "linkedin": "https://au.linkedin.com/in/belinda-zhou-951a41272" },
+  { "name": "Liam D'Souza", "linkedin": "https://www.linkedin.com/in/liam-d-souza/" },
+  { "name": "Ethan Regnart", "linkedin": "https://www.linkedin.com/in/ethan-regnart-3195a61bb/" }
 ]

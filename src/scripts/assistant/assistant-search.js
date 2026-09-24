@@ -1,5 +1,9 @@
 const TOKEN_PATTERN = /[\p{L}\p{N}]+(?:[+#.'-][\p{L}\p{N}+#.'-]+)*/gu;
 const MAX_RESULTS_TO_EVALUATE = 8;
+const LOCAL_SEARCH_PATHS = [
+  "/", "/about/", "/about/faq/", "/about/community/", "/about/exec-application/",
+  "/about/history/", "/events/", "/projects/", "/hackathon/", "/partners/", "/contact/",
+];
 
 // A compact set of grammatical and conversational terms. Domain words, names,
 // dates, numbers, and technical tokens such as C++, C#, and node.js are kept.
@@ -16,7 +20,31 @@ const STOP_WORDS = new Set([
 
 const DOMAIN_TERMS = new Set(["aiml", "qut", "society", "club"]);
 
-const hasAny = (terms, candidates) => candidates.some((term) => terms.has(term));
+function normalizedTermStem(value) {
+  return String(value).replace(/s$/u, "");
+}
+
+function isOneCharacterExtension(left, right) {
+  return (
+    Math.abs(left.length - right.length) <= 1 &&
+    (left.startsWith(right) || right.startsWith(left))
+  );
+}
+
+// Questions are often typed quickly on mobile. Treat a singular/plural form or
+// one extra/missing final character as the same domain term (for example,
+// "eventd" and "event"). This is intentionally conservative: it does not try
+// to guess arbitrary spelling corrections.
+const hasAny = (terms, candidates) => candidates.some((candidate) =>
+  [...terms].some((term) => {
+    const normalizedTerm = normalizedTermStem(term);
+    const normalizedCandidate = normalizedTermStem(candidate);
+    return (
+      normalizedTerm === normalizedCandidate ||
+      isOneCharacterExtension(normalizedTerm, normalizedCandidate)
+    );
+  })
+);
 
 function createCategoryAlias(id, terms, retrievalTerm, preferredPath) {
   return {
@@ -492,6 +520,86 @@ function notFoundResult(question, plan, reason) {
   };
 }
 
+function resultFromEvidence(question, plan, candidates) {
+  const accepted = candidates
+    .filter((candidate) => candidate.accepted)
+    .sort((left, right) =>
+      right.evidenceScore - left.evidenceScore ||
+      left.resultIndex - right.resultIndex ||
+      left.sectionIndex - right.sectionIndex ||
+      left.variantIndex - right.variantIndex
+    );
+
+  if (accepted.length === 0) return null;
+
+  const best = accepted[0];
+  const alternatives = accepted
+    .slice(1)
+    .filter((candidate, index, all) =>
+      candidate.url !== best.url &&
+      all.findIndex((other) => other.url === candidate.url) === index
+    )
+    .slice(0, 2)
+    .map((candidate) => ({
+      title: candidate.title,
+      url: candidate.url,
+      excerpt: candidate.excerpt,
+    }));
+
+  return {
+    status: "found",
+    question,
+    normalizedQuestion: plan.normalizedQuestion,
+    query: plan.query,
+    intent: plan.intent,
+    meaningfulTerms: plan.meaningfulTerms,
+    title: best.title,
+    pageTitle: best.pageTitle,
+    url: best.url,
+    excerpt: best.excerpt,
+    evidence: {
+      heading: best.title,
+      text: best.excerpt,
+      matchedConcepts: best.matchedConcepts,
+      coverage: best.coverage,
+      proximity: best.proximity,
+    },
+    retrieval: {
+      pagefindScore: best.pagefindScore,
+      evidenceScore: best.evidenceScore,
+    },
+    alternatives,
+  };
+}
+
+async function searchRenderedSite(question, plan, explicitBasePath) {
+  const baseUrl = siteBaseUrl(explicitBasePath);
+  const pages = await Promise.all(LOCAL_SEARCH_PATHS.map(async (path, resultIndex) => {
+    const url = new URL(path.replace(/^\//, ""), baseUrl);
+    const response = await fetch(url);
+    if (!response.ok) return [];
+
+    const document = new DOMParser().parseFromString(await response.text(), "text/html");
+    const root = document.querySelector("[data-pagefind-body], main") ?? document.body;
+    const sections = [...root.querySelectorAll("section, article, header")];
+    const candidates = (sections.length ? sections : [root]).map((section, sectionIndex) => ({
+      title: cleanDisplayText(section.querySelector("h1, h2, h3")?.textContent ?? document.title),
+      pageTitle: cleanDisplayText(document.title),
+      url: url.href,
+      excerpt: cleanDisplayText(section.textContent),
+      focused: false,
+      pagefindScore: 0,
+      resultIndex,
+      sectionIndex,
+      variantIndex: 0,
+    })).filter((candidate) => candidate.excerpt.length > 0)
+      .map((candidate) => evaluateEvidence(candidate, plan));
+    return candidates;
+  }));
+
+  return resultFromEvidence(question, plan, pages.flat());
+}
+
 /**
  * Searches the static Pagefind index and returns grounded section evidence.
  * It never composes an answer or treats Pagefind's score as confidence.
@@ -553,59 +661,18 @@ export async function searchAssistant(question, options = {}) {
       });
     }
 
-    const accepted = candidates
-      .filter((candidate) => candidate.accepted)
-      .sort((left, right) =>
-        right.evidenceScore - left.evidenceScore ||
-        left.resultIndex - right.resultIndex ||
-        left.sectionIndex - right.sectionIndex ||
-        left.variantIndex - right.variantIndex
-      );
-
-    if (accepted.length === 0) {
+    const found = resultFromEvidence(originalQuestion, plan, candidates);
+    if (!found) {
       return notFoundResult(originalQuestion, plan, "insufficient_evidence");
     }
-
-    const best = accepted[0];
-    const alternatives = accepted
-      .slice(1)
-      .filter((candidate, index, all) =>
-        candidate.url !== best.url &&
-        all.findIndex((other) => other.url === candidate.url) === index
-      )
-      .slice(0, 2)
-      .map((candidate) => ({
-        title: candidate.title,
-        url: candidate.url,
-        excerpt: candidate.excerpt,
-      }));
-
-    return {
-      status: "found",
-      question: originalQuestion,
-      normalizedQuestion: plan.normalizedQuestion,
-      query: plan.query,
-      intent: plan.intent,
-      meaningfulTerms: plan.meaningfulTerms,
-      title: best.title,
-      pageTitle: best.pageTitle,
-      url: best.url,
-      excerpt: best.excerpt,
-      evidence: {
-        heading: best.title,
-        text: best.excerpt,
-        matchedConcepts: best.matchedConcepts,
-        coverage: best.coverage,
-        proximity: best.proximity,
-      },
-      retrieval: {
-        // Exposed for diagnostics only; it is never used as confidence.
-        pagefindScore: best.pagefindScore,
-        evidenceScore: best.evidenceScore,
-      },
-      alternatives,
-    };
+    return found;
   } catch (error) {
+    try {
+      const fallback = await searchRenderedSite(originalQuestion, plan, options.basePath);
+      if (fallback) return fallback;
+    } catch {
+      // Preserve the original Pagefind error below if the local fallback also fails.
+    }
     return {
       status: "error",
       question: originalQuestion,

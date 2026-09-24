@@ -4,11 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npm run pagefind",
     "preview": "astro preview",
     "astro": "astro",
     "pagefind": "pagefind --site dist",
-    "build:search": "npm run build && npm run pagefind"
+    "build:search": "npm run build"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.5",

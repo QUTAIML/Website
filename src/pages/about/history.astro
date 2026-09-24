@@ -8,6 +8,13 @@ const photoFiles = import.meta.glob([
   "/public/data/about/*/team-photo.jpg",
   "/public/data/about/*/team-photo.jpeg",
 ], { eager: true });
+const founderFiles = import.meta.glob("/public/data/about/co-founders.json", { eager: true });
+const coFounders = founderFiles["/public/data/about/co-founders.json"].default;
+
+const yearHeadings = {
+  2025: { kicker: "FOUNDING TEAM", title: "Where it began." },
+  2027: { kicker: "THE NEXT CHAPTER", title: "Leading forward." },
+};
 
 function groupMembersByRole(items) {
   return items.reduce((roles, member) => {
@@ -33,9 +40,11 @@ const teamsData = Object.entries(rawTeamFiles)
 
 <ContentLayout title="Our History | QUT AI & ML Society">
   <main class="history-page">
-    <header class="history-hero" aria-labelledby="history-title"><div class="history-shell"><p class="history-kicker">QUT AI &amp; ML SOCIETY</p><h1 id="history-title">The people who<br /><span>shape AIML.</span></h1><p>A growing record of the executive teams who have turned curiosity into a community.</p><div class="history-hero-years" aria-label="Years on record">{teamsData.map(entry => <a href={`#team-${entry.year}`}>{entry.year}</a>)}</div></div></header>
+    <header class="history-hero" aria-labelledby="history-title"><div class="history-shell"><p class="history-kicker">QUT AI &amp; ML SOCIETY</p><h1 id="history-title">The people who<br /><span>shape AIML.</span></h1><p>A growing record of the executive teams who have turned curiosity into a community.</p><div class="history-hero-years" aria-label="Years on record" data-pagefind-ignore>{teamsData.map(entry => <a href={`#team-${entry.year}`}>{entry.year}</a>)}</div></div></header>
 
-    <section class="history-timeline" aria-label="AIML team history"><div class="history-shell"><p class="history-intro">Every year adds a new chapter. The roster below is generated from AIML’s recorded team data, so future teams appear here as their data is added.</p><div class="history-entries">{teamsData.map((entry, index) => <article class:list={["history-entry", index === 0 && "history-entry-current"]} id={`team-${entry.year}`}><div class="history-year-rail"><span>{entry.year}</span><i aria-hidden="true"></i></div><div class="history-entry-content"><div class="history-entry-heading"><div><p class="history-kicker">{entry.year === 2025 ? "FOUNDING TEAM" : "TEAM YEAR"}</p><h2>{entry.year === 2025 ? "Where it began." : `Building in ${entry.year}.`}</h2></div><div class="history-count"><strong>{entry.people}</strong><span>people<br />recorded</span></div></div><div class="history-year-layout"><figure class="history-photo">{entry.teamPhoto ? <><img src={entry.teamPhoto} alt={`QUT AIML ${entry.year} team`} class="team-hero" data-modal={entry.year} /><figcaption>Tap to view full photo</figcaption></> : <div class="history-photo-empty">Team photo coming soon</div>}</figure><div class="history-portfolio-grid">{entry.executiveList.map(team => <section class="history-portfolio"><header><p>{team.title}</p><span>{team.items.length} {team.items.length === 1 ? "person" : "people"}</span></header><ul>{Object.entries(groupMembersByRole(team.items)).map(([role, names]) => <li><span>{role}</span><strong>{names.map(name => <span>{name}</span>)}</strong></li>)}</ul></section>)}</div></div></div></article>)}</div></div></section>
+    <section class="history-timeline" aria-label="AIML team history"><div class="history-shell"><p class="history-intro">Every year adds a new chapter. The roster below is generated from AIML’s recorded team data, so future teams appear here as their data is added.</p><div class="history-entries">{teamsData.map((entry, index) => { const heading = yearHeadings[entry.year] ?? { kicker: "TEAM YEAR", title: `Building in ${entry.year}.` }; return <article class:list={["history-entry", index === 0 && "history-entry-current"]} id={`team-${entry.year}`}><div class="history-year-rail"><span>{entry.year}</span><i aria-hidden="true"></i></div><div class="history-entry-content"><div class="history-entry-heading"><div><p class="history-kicker">{heading.kicker}</p><h2>{heading.title}</h2></div><div class="history-count"><strong>{entry.people}</strong><span>people<br />recorded</span></div></div><div class="history-year-layout"><figure class="history-photo">{entry.teamPhoto ? <><img src={entry.teamPhoto} alt={`QUT AIML ${entry.year} team`} class="team-hero" data-modal={entry.year} /><figcaption>Tap to view full photo</figcaption></> : <div class="history-photo-empty">Team photo coming soon</div>}</figure><div class="history-portfolio-grid">{entry.executiveList.map(team => <section class="history-portfolio"><header><p>{team.title}</p><span>{team.items.length} {team.items.length === 1 ? "person" : "people"}</span></header><ul>{Object.entries(groupMembersByRole(team.items)).map(([role, names]) => <li><span>{role}</span><strong>{names.map(name => <span>{name}</span>)}</strong></li>)}</ul></section>)}</div></div></div></article>})}</div></div></section>
+
+    <section class="history-founders" aria-labelledby="co-founders-title"><div class="history-shell"><div class="history-founders-heading"><div><p class="history-kicker">THE BEGINNING</p><h2 id="co-founders-title">Co-Founders</h2></div><p>The people who helped establish the QUT AI &amp; ML Society.</p></div><ol class="history-founders-grid">{coFounders.map((founder, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><strong>{founder}</strong></li>)}</ol></div></section>
   </main>
 
   <Fragment slot="scripts"><script is:inline>

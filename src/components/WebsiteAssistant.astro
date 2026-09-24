@@ -1,0 +1,92 @@
+---
+import "@/styles/components/assistant.css";
+---
+
+<div class="website-assistant" data-assistant-root>
+  <section
+    class="assistant-panel"
+    id="aiml-assistant-panel"
+    data-assistant-panel
+    role="dialog"
+    aria-labelledby="aiml-assistant-title"
+    hidden
+  >
+    <header class="assistant-header">
+      <div class="assistant-heading">
+        <span class="assistant-mark" aria-hidden="true">AI</span>
+        <div>
+          <h2 id="aiml-assistant-title">AIML Assistant</h2>
+          <p>Website answers only</p>
+        </div>
+      </div>
+      <button
+        class="assistant-close"
+        type="button"
+        data-assistant-close
+        aria-label="Minimise AIML Assistant"
+      >
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M4 10h12" />
+        </svg>
+      </button>
+    </header>
+
+    <div
+      class="assistant-messages"
+      data-assistant-messages
+      role="log"
+      aria-live="polite"
+      aria-relevant="additions"
+      aria-label="Assistant conversation"
+      tabindex="0"
+    >
+      <article class="assistant-message assistant-message--assistant">
+        <div class="assistant-message-label">AIML Assistant</div>
+        <div class="assistant-bubble">
+          <p>Ask me about AIML events, projects, membership, or the society. I only use information published on this website.</p>
+        </div>
+      </article>
+    </div>
+
+    <form class="assistant-form" data-assistant-form>
+      <label class="assistant-visually-hidden" for="aiml-assistant-question">
+        Ask the AIML Assistant a question
+      </label>
+      <div class="assistant-input-row">
+        <input
+          id="aiml-assistant-question"
+          data-assistant-input
+          type="text"
+          name="question"
+          maxlength="500"
+          autocomplete="off"
+          enterkeyhint="send"
+          placeholder="Ask about AIML…"
+          required
+        />
+        <button type="submit" data-assistant-send>Send</button>
+      </div>
+    </form>
+  </section>
+
+  <button
+    class="assistant-toggle"
+    type="button"
+    data-assistant-toggle
+    aria-controls="aiml-assistant-panel"
+    aria-expanded="false"
+    aria-label="Open AIML Assistant"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 18.5 3.5 21v-5.2A8.5 8.5 0 1 1 7 18.5Z" />
+      <path d="M8 10h8M8 14h5" />
+    </svg>
+    <span>Ask AIML</span>
+  </button>
+</div>
+
+<script>
+  import { initializeWebsiteAssistants } from "@/scripts/assistant/assistant-ui.js";
+
+  initializeWebsiteAssistants();
+</script>

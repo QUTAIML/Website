@@ -4,7 +4,7 @@
     "items": [
       { "role": "President", "name": "Zac Knight", "image": "Zac.png", "linkedin": "https://www.linkedin.com/in/zac-knight/" },
       { "role": "Vice President", "name": "Rajinder Singh", "image": "Rajinder.png", "linkedin": "https://www.linkedin.com/in/rajinders7/" },
-      { "role": "Secretary", "name": "Varshitha Gowda", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/varsha-gowda-3834341a2/" },
+      { "role": "Secretary", "name": "Varsha Gowda", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/varsha-gowda-3834341a2/" },
       { "role": "Treasurer", "name": "Anay Venugopal", "image": "Anay.png", "linkedin": "https://www.linkedin.com/in/anay-venugopal-72b8072a0/" }
     ]
   },

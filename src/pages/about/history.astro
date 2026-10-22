@@ -1,15 +1,7 @@
 ---
 import "@/styles/about/history.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
-
-const rawTeamFiles = import.meta.glob("/public/data/about/*/team-details.json", { eager: true });
-const photoFiles = import.meta.glob([
-  "/public/data/about/*/team-photo.png",
-  "/public/data/about/*/team-photo.jpg",
-  "/public/data/about/*/team-photo.jpeg",
-], { eager: true });
-const founderFiles = import.meta.glob("/public/data/about/co-founders.json", { eager: true });
-const coFounders = founderFiles["/public/data/about/co-founders.json"].default;
+import { getTeams, coFounders } from "@/lib/content";
 
 const yearHeadings = {
   2025: { kicker: "FOUNDING TEAM", title: "Where it began." },
@@ -24,18 +16,12 @@ function groupMembersByRole(items) {
   }, {});
 }
 
-const teamsData = Object.entries(rawTeamFiles)
-  .map(([path, file]) => {
-    const folder = path.split("/").at(-2) ?? "";
-    const year = Number.parseInt(folder, 10);
-    const teamPhotoPath = Object.keys(photoFiles).find(photo => new RegExp(`/data/about/${year}/team-photo\\.(png|jpe?g)$`).test(photo));
-    const executiveList = [...file.default]
-      .sort((a, b) => a.title === "Academic Champions" ? 1 : b.title === "Academic Champions" ? -1 : 0)
-      .map(team => ({ ...team, items: team.items.map(member => ({ ...member, image: member.image ? `/data/about/${year}/exec-photos/${member.image}` : null })) }));
-    return { year, executiveList, people: executiveList.reduce((total, team) => total + team.items.length, 0), teamPhoto: teamPhotoPath?.replace(/^\/public/, "") ?? null };
-  })
-  .filter(entry => Number.isInteger(entry.year))
-  .sort((a, b) => b.year - a.year);
+const teamsData = (await getTeams()).map(({ year, groups, people, teamPhoto }) => ({
+  year,
+  people,
+  teamPhoto,
+  executiveList: [...groups].sort((a, b) => a.title === "Academic Champions" ? 1 : b.title === "Academic Champions" ? -1 : 0),
+}));
 ---
 
 <ContentLayout title="Our History | QUT AI & ML Society">

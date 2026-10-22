@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npm run pagefind",
+    "build": "npm run check && astro build && npm run pagefind",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "node scripts/check-content.mjs",
     "pagefind": "pagefind --site dist",
     "build:search": "npm run build"
   },

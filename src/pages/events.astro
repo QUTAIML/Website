@@ -1,11 +1,12 @@
 ---
+import { loadImages } from "@/lib/content";
 import "@/styles/events.css";
 import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import { loadEventsData } from "@/scripts/events/events-loader";
 import EventCard from "@/components/EventCard.astro";
 
-const { semesters, eventsBySemester, types, featuredEvents } = loadEventsData();
+const { semesters, eventsBySemester, types, featuredEvents } = await loadEventsData();
 const eventCount = eventsBySemester.length;
 const eventFormatCount = types.filter((type) => type !== "All").length;
 const today = new Date();
@@ -13,6 +14,7 @@ today.setHours(0, 0, 0, 0);
 const hasUpcomingEvents = eventsBySemester.some((event) => new Date(event.date) >= today);
 const defaultView = hasUpcomingEvents ? "upcoming" : "past";
 const latestEventDate = [...eventsBySemester].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]?.date ?? "";
+const image = await loadImages();
 ---
 
 <ContentLayout title="Events | QUT AI & ML Society">
@@ -33,7 +35,7 @@ const latestEventDate = [...eventsBySemester].sort((a, b) => new Date(b.date).ge
         </div>
 
         <figure class="events-hero-image">
-          <img src="/data/events/sem-1-2026/images/projects-night-1.jpg" alt="Students taking part in a QUT AIML event" />
+          <img src={image("events/2026-sem-1/projects-night-1.jpg")} alt="Students taking part in a QUT AIML event" />
           <figcaption>
             <span>QUT AIML IN ACTION</span>
             <strong>Learn together. Build together.</strong>

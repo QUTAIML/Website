@@ -1,0 +1,40 @@
+{
+  "links": {
+    "membership": "https://campus.hellorubric.com/?tab=memberships&s=11397",
+    "discord": "https://discord.gg/CqkUzVVkXX",
+    "instagram": "https://www.instagram.com/qut_aiml/",
+    "linkedin": "https://www.linkedin.com/company/qut-aiml/",
+    "github": "https://github.com/qut-aiml",
+    "roleDescriptions": "https://github.com/QUT-AIML/Constitution/blob/main/Role-Descriptions.md",
+    "codeOfConduct": "https://github.com/QUT-AIML/Code-of-Conduct"
+  },
+  "partners": [
+    {
+      "name": "NTI",
+      "tier": "sponsor",
+      "url": "https://www.nti.com.au",
+      "logo": "partner-nti.png",
+      "tag": "FOUNDING SPONSOR",
+      "description": "Supporting the next generation of people building thoughtful, real world technology.",
+      "cta": "Visit NTI"
+    },
+    {
+      "name": "Microsoft",
+      "tier": "supporter",
+      "url": "https://www.microsoft.com",
+      "logo": "partner-microsoft.png",
+      "tag": "GLOBAL TECHNOLOGY",
+      "description": "Cloud, software, and AI tools that empower people and organisations to achieve more.",
+      "cta": "Explore Microsoft"
+    },
+    {
+      "name": "Australian Computing Society",
+      "tier": "supporter",
+      "url": "https://www.acs.org.au",
+      "logo": "partner-acs.png",
+      "tag": "PROFESSIONAL COMMUNITY",
+      "description": "Australia’s professional association advancing skills, ethics, and connection across technology.",
+      "cta": "Explore ACS"
+    }
+  ]
+}

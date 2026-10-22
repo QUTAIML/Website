@@ -1,73 +1,29 @@
-export function loadAboutData() {
-  // =========================
-  // TEAM DATA
-  // =========================
+import { getTeams, degrees } from "@/lib/content";
 
-  const teamFiles = import.meta.glob(
-    "/public/data/about/*/team-details.json",
-    { eager: true }
-  );
+export async function loadAboutData() {
+  const latest = (await getTeams())[0];
+  if (!latest) throw new Error("No team folders found in content/team/");
 
-  const teamFileYears = Object.keys(teamFiles)
-    .map(path => {
-      const folderName = path.split("/").at(-2);
-
-      return {
-        path,
-        year: parseInt(folderName),
-        valid: /^\d{4}$/.test(folderName),
-      };
-    })
-    .filter(f => f.valid);
-
-  const latestTeamFile = teamFileYears
-    .sort((a, b) => b.year - a.year)[0];
-
-  if (!latestTeamFile) {
-    throw new Error("No valid year found in about data");
-  }
-
-  const latestTeamData =
-    teamFiles[latestTeamFile.path].default;
-
-  const teamsForClient = latestTeamData.map(section => ({
+  const teamsForClient = latest.groups.map(section => ({
     ...section,
     items: section.items
       .filter(member => member.showOnAbout !== false)
       .map(member => ({
-      ...member,
-      // Semester markers stay in the historical record, but are not part of
-      // the current-team display name.
-      name: member.name.replace(/\s*\(S\d+\)$/, ""),
-      image: member.image
-        ? `/data/about/${latestTeamFile.year}/exec-photos/${member.image}`
-        : null,
+        ...member,
+        // Semester markers stay in the historical record, but are not part of
+        // the current-team display name.
+        name: member.name.replace(/\s*\(S\d+\)$/, ""),
       })),
   }));
 
-  // =========================
-  // DEGREE DATA
-  // =========================
-
-  const degreeFiles = import.meta.glob(
-    "/public/data/about/degrees.json",
-    { eager: true }
-  );
-
-  const degreeData =
-    degreeFiles["/public/data/about/degrees.json"].default;
-
-  const degreesForClient = degreeData.map(section => ({
+  const degreesForClient = degrees.map(section => ({
     ...section,
-    items: section.items.map(item => ({
-      ...item,
-      image: null,
-    })),
+    items: section.items.map(item => ({ ...item, image: null })),
   }));
 
   return {
     teamsForClient,
     degreesForClient,
-    currentYear: latestTeamFile.year,
+    currentYear: latest.year,
   };
 }

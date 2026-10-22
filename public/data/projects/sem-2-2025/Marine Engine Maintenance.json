@@ -1,7 +1,0 @@
-{
-  "title": "Marine Engine Maintenance",
-  "category": "Random Forest",
-  "excerpt": "Predict marine engine failures and maintenance needs using Random Forest models.",
-  "image": "marine-engine-maintenance.jpg",
-  "github": "https://github.com/QUTAIML/Random-Forests/blob/main/Marine%20Engine/Marine_Engine_Maintainence.ipynb"
-}

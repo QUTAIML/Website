@@ -1,5 +1,7 @@
 ---
+import { loadImages } from "@/lib/content";
 import "@/styles/components/footer.css"
+const image = await loadImages();
 ---
 
 <footer class="site-footer">
@@ -8,7 +10,7 @@ import "@/styles/components/footer.css"
     <!-- Logo -->
     <div class="footer-left">
       <img
-        src="/Logo-Full.svg"
+        src={image("images/logo-full.svg")}
         alt="QUT AI & ML Society Logo"
         class="footer-logo"
       />

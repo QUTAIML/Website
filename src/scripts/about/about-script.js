@@ -64,9 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.innerHTML = `
         <div class="team-photo">
-          <img src="${member.image || '/people/Anonymous.png'}"
+          <img src="${member.image || teamGrid.dataset.placeholder}"
                alt="${member.name}"
-               onerror="this.src='/people/Anonymous.png';" />
+               onerror="this.onerror=null;this.src='${teamGrid.dataset.placeholder}';" />
         </div>
         <div class="team-info">
           <span class="role">${member.role}</span>

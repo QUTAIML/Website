@@ -1,8 +1,10 @@
 ---
+import { loadImages, partners } from "@/lib/content";
 import "@/styles/partners.css";
 import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
+const image = await loadImages();
 ---
 
 <ContentLayout description="QUT AI & ML Society partners and supporters">
@@ -24,10 +26,12 @@ import SectionHeader from "@/components/SectionHeader.astro";
         <div><span>01 / SPONSOR</span><h2 id="sponsor-title">Strategic partner</h2></div>
         <p>Deep, long term collaboration supporting high impact initiatives for our community.</p>
       </div>
-      <a class="sponsor-spotlight" href="https://www.nti.com.au" target="_blank" rel="noopener noreferrer">
-        <div class="sponsor-mark"><img src="/data/sponsors/NTI.png" alt="NTI" /></div>
-        <div class="sponsor-story"><span>FOUNDING SPONSOR</span><h3>NTI</h3><p>Supporting the next generation of people building thoughtful, real world technology.</p><strong>Visit NTI <ExternalArrow /></strong></div>
-      </a>
+      {partners.filter(p => p.tier === "sponsor").map(p => (
+        <a class="sponsor-spotlight" href={p.url} target="_blank" rel="noopener noreferrer">
+          <div class="sponsor-mark"><img src={image(`images/${p.logo}`)} alt={p.name} /></div>
+          <div class="sponsor-story"><span>{p.tag}</span><h3>{p.name}</h3><p>{p.description}</p><strong>{p.cta} <ExternalArrow /></strong></div>
+        </a>
+      ))}
     </section>
 
     <section class="partner-section" aria-labelledby="supporter-title">
@@ -36,14 +40,12 @@ import SectionHeader from "@/components/SectionHeader.astro";
         <p>Organisations opening doors to insight, professional connection, and resources for our members.</p>
       </div>
       <div class="supporter-showcase">
-        <a class="supporter-card microsoft" href="https://www.microsoft.com" target="_blank" rel="noopener noreferrer">
-          <div class="supporter-logo"><img src="/data/supporters/Microsoft.png" alt="Microsoft" /></div>
-          <div><span>GLOBAL TECHNOLOGY</span><h3>Microsoft</h3><p>Cloud, software, and AI tools that empower people and organisations to achieve more.</p><strong>Explore Microsoft <ExternalArrow /></strong></div>
-        </a>
-        <a class="supporter-card acs" href="https://www.acs.org.au" target="_blank" rel="noopener noreferrer">
-          <div class="supporter-logo"><img src="/data/supporters/ACS.png" alt="Australian Computing Society" /></div>
-          <div><span>PROFESSIONAL COMMUNITY</span><h3>Australian Computing Society</h3><p>Australia’s professional association advancing skills, ethics, and connection across technology.</p><strong>Explore ACS <ExternalArrow /></strong></div>
-        </a>
+        {partners.filter(p => p.tier === "supporter").map((p, i) => (
+          <a class="supporter-card supporter-brand" data-index={String(i + 1).padStart(2, "0")} href={p.url} target="_blank" rel="noopener noreferrer">
+            <div class="supporter-logo"><img src={image(`images/${p.logo}`)} alt={p.name} /></div>
+            <div><span>{p.tag}</span><h3>{p.name}</h3><p>{p.description}</p><strong>{p.cta} <ExternalArrow /></strong></div>
+          </a>
+        ))}
       </div>
       <section class="partner-impact" aria-labelledby="partner-impact-title">
         <header>
@@ -64,9 +66,9 @@ import SectionHeader from "@/components/SectionHeader.astro";
         <p>Partnership shows up in the rooms where students meet people, ideas, and opportunities beyond campus.</p>
       </div>
       <div class="partner-events-grid">
-        <article class="partner-event-card partner-event-bands"><img src="/data/events/sem-1-2026/images/AIML%20x%20BANDS%20industry%20night/1.jpeg" alt="Attendees at the AIML x BANDS Industry Night" loading="lazy" /><div><span>AIML × BANDS</span><h3>Industry Night</h3></div></article>
-        <article class="partner-event-card partner-event-agentcamp"><img src="/data/events/sem-1-2026/images/AgentCamp/1.jpeg" alt="Attendees at AgentCamp" loading="lazy" /><div><span>COMMUNITY EVENT</span><h3>AgentCamp</h3></div></article>
-        <article class="partner-event-card partner-event-devfest"><img src="/data/events/sem-1-2026/images/Google%20DevFest/1.jpeg" alt="Attendees at Google DevFest" loading="lazy" /><div><span>COMMUNITY EVENT</span><h3>Google DevFest</h3></div></article>
+        <article class="partner-event-card partner-event-bands"><img src={image("events/2026-sem-1/bands-industry-night-1.jpeg")} alt="Attendees at the AIML x BANDS Industry Night" loading="lazy" /><div><span>AIML × BANDS</span><h3>Industry Night</h3></div></article>
+        <article class="partner-event-card partner-event-agentcamp"><img src={image("events/2026-sem-1/agentcamp-1.jpeg")} alt="Attendees at AgentCamp" loading="lazy" /><div><span>COMMUNITY EVENT</span><h3>AgentCamp</h3></div></article>
+        <article class="partner-event-card partner-event-devfest"><img src={image("events/2026-sem-1/google-devfest-1.jpeg")} alt="Attendees at Google DevFest" loading="lazy" /><div><span>COMMUNITY EVENT</span><h3>Google DevFest</h3></div></article>
       </div>
     </section>
 

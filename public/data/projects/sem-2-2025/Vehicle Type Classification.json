@@ -1,7 +1,0 @@
-{
-  "title": "Vehicle Type Classification",
-  "category": "CNN",
-  "excerpt": "Classify different types of vehicles from images using Convolutional Neural Networks.",
-  "image": "vehicle-type-classification.jpg",
-  "github": "https://github.com/QUTAIML/Convolutional-Neural-Networks/blob/main/Vehicle%20Type/Vehicle_Type.ipynb"
-}

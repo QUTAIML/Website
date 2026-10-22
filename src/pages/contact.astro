@@ -1,4 +1,5 @@
 ---
+import { links } from "@/lib/content";
 import "@/styles/contact.css";
 import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
@@ -8,7 +9,7 @@ const socials = [
     name: "Discord",
     label: "COMMUNITY CHAT",
     copy: "Ask a question, share an idea, and stay close to what AIML is building.",
-    href: "https://discord.gg/CqkUzVVkXX",
+    href: links.discord,
     icon: "◉",
     action: "Join the conversation",
   },
@@ -16,7 +17,7 @@ const socials = [
     name: "Instagram",
     label: "BEHIND THE SCENES",
     copy: "See event moments, announcements, and the people bringing the community together.",
-    href: "https://www.instagram.com/qut_aiml",
+    href: links.instagram,
     icon: "◎",
     action: "Follow AIML",
   },
@@ -24,7 +25,7 @@ const socials = [
     name: "LinkedIn",
     label: "PROFESSIONAL NETWORK",
     copy: "Connect with AIML updates, industry activity, and opportunities beyond campus.",
-    href: "https://www.linkedin.com/company/qutaiml",
+    href: links.linkedin,
     icon: "in",
     action: "Find us on LinkedIn",
   },
@@ -41,7 +42,7 @@ const socials = [
         </div>
         <div class="connect-hero-copy">
           <p>Questions, ideas, project updates, and new opportunities all start with a conversation.</p>
-          <a href="https://discord.gg/CqkUzVVkXX" target="_blank" rel="noopener noreferrer">Join the Discord <ExternalArrow /></a>
+          <a href={links.discord} target="_blank" rel="noopener noreferrer">Join the Discord <ExternalArrow /></a>
         </div>
       </div>
     </section>
@@ -80,7 +81,7 @@ const socials = [
         </div>
         <div class="connect-direct-card">
           <p>For a question, collaboration idea, or partnership conversation, connect with the AIML team on LinkedIn.</p>
-          <a href="https://www.linkedin.com/company/qutaiml" target="_blank" rel="noopener noreferrer">Visit AIML on LinkedIn <ExternalArrow /></a>
+          <a href={links.linkedin} target="_blank" rel="noopener noreferrer">Visit AIML on LinkedIn <ExternalArrow /></a>
           <small>Follow us for updates and opportunities.</small>
         </div>
       </div>

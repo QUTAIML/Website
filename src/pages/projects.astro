@@ -1,17 +1,17 @@
 ---
+import { loadImages } from "@/lib/content";
 import "@/styles/projects.css";
 import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import SandboxSection from "@/components/sandbox/SandboxSection";
-import {
-  latestSemester,
-  pastProjects,
-  types,
-} from "@/scripts/projects/projects-loader";
+import { loadProjectsData } from "@/scripts/projects/projects-loader";
+
+const { latestSemester, pastProjects, types } = await loadProjectsData();
 
 const projectCount = pastProjects.length;
 const categoryCount = types.filter((type) => type !== "All").length;
 const archiveLabel = latestSemester?.label ?? "Project archive";
+const image = await loadImages();
 ---
 
 <ContentLayout title="Projects | QUT AI & ML Society">
@@ -32,7 +32,7 @@ const archiveLabel = latestSemester?.label ?? "Project archive";
         </div>
 
         <figure class="projects-hero-image">
-          <img src="/data/projects/sem-2-2025/images/penguin-species.jpg" alt="A visualisation from an AIML clustering project" />
+          <img src={image("projects/2025-sem-2/penguin-species.jpg")} alt="A visualisation from an AIML clustering project" />
           <figcaption>
             <span>FEATURED ARCHIVE</span>
             <strong>From first experiments to portfolio work.</strong>

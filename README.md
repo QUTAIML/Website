@@ -17,19 +17,24 @@ The platform is designed to:
 - Highlight technical events and opportunities
 - Serve as a long-term digital archive of Society activities
 
-## Homepage statistics
+## Updating content
 
-The homepage’s project and event figures are derived at build time from the
-current local data folders. They are archive counts, not membership or
-attendance figures. No membership or attendance placeholders are displayed.
+**Everything editable is in [`content/`](content/README.md)**: events, projects,
+team, partners, links, FAQ and every photo. Its README walks through each task.
+Run `npm run check` after editing; it also runs automatically before each deploy.
 
-## About page timeline and stats
+## Project layout
 
-The About page reads every numeric `public/data/about/<year>/team-details.json`
-file at build time. Each valid year becomes a journey entry, and the newest file
-supplies the current-team figure. Its project total and degree-pathway total are
-also derived from their respective local data files, while the 700+ Instagram
-figure is the already-published value from the Highlights page.
+| Folder | What's in it |
+| --- | --- |
+| `content/` | All site content and images (start here) |
+| `src/pages/` | One file per page (layout and page copy) |
+| `src/components/`, `src/layouts/` | Shared building blocks: nav, footer, cards |
+| `src/styles/` | CSS, one file per page |
+| `src/scripts/` | In-browser behaviour (carousels, filters, assistant) |
+| `src/lib/content.js` | The only code that reads `content/`; images are optimised here |
+| `public/` | Files served as-is: downloadable PDFs, the ML demo model |
+| `scripts/` | `check-content.mjs` (content checker), model training script |
 
 ## ML Sandbox
 

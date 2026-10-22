@@ -1,4 +1,5 @@
 ---
+import { loadImages } from "@/lib/content";
 // ContentLayout.astro
 // Layout for content pages (about, contact, etc.)
 // Differs from BaseLayout in that it wraps content in a <div> rather than <main>,
@@ -18,12 +19,13 @@ const {
   title = "QUT AI & ML Society",
   description = "The QUT AI & ML Society is a student-led community exploring artificial intelligence and machine learning.",
 } = Astro.props;
+const image = await loadImages();
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={image("images/favicon.svg")} />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <title>{title}</title>

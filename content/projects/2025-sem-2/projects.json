@@ -1,0 +1,212 @@
+[
+  {
+    "title": "Action Recognition",
+    "category": "Transformers",
+    "excerpt": "Classify different types of human actions from video or text using Transformer models.",
+    "image": "action-recognition.jpeg",
+    "github": "https://github.com/QUTAIML/Transformers/blob/main/Action_Recognition/CNN_Transformer_Action_Recognition.ipynb"
+  },
+  {
+    "title": "AI Bank Statement Analyser",
+    "category": "LLM",
+    "excerpt": "Demonstrates how an LLM can extract insights and structured data from bank statements",
+    "image": "ai-bank-statement-analyser.jpeg",
+    "github": "https://github.com/QUTAIML/LLM/blob/main/AI%20Bank%20Statement%20Analyzer/AI_Bank_Statement_Analyzer.ipynb"
+  },
+  {
+    "title": "Asteroid Hazard Predictor",
+    "category": "Logistic Regression",
+    "excerpt": "Predict asteroid characteristics and classify them using logistic regression.",
+    "image": "asteroid-hazard-predictor.jpg",
+    "github": "https://github.com/QUTAIML/Logistic-Regression/blob/main/Asteriod%20Hazard%20Predictor/AsteroidHazardPredictor.ipynb"
+  },
+  {
+    "title": "Bank Loan Approval",
+    "category": "Logistic Regression",
+    "excerpt": "Predict loan approval decisions using logistic regression.",
+    "image": "bank-loan-approval.png",
+    "github": "https://github.com/QUTAIML/Logistic-Regression/blob/main/Bank%20Loan%20Approval/predict-bank-personal-loan.ipynb"
+  },
+  {
+    "title": "Beginner's Guide to LLMs",
+    "category": "LLM",
+    "excerpt": "A hands on introduction for learning and experimenting with LLMs",
+    "image": "beginners-guide-to-llms.png",
+    "github": "https://github.com/QUTAIML/LLM/blob/main/Beginners%20Guide%20to%20LLM/Beginners_Guide_LLM_on_Colab.ipynb"
+  },
+  {
+    "title": "Best Selling Video Games",
+    "category": "Linear Regression",
+    "excerpt": "Predict video game sales based on various features using linear regression techniques.",
+    "image": "best-selling-video-games.png",
+    "github": "https://github.com/QUTAIML/Linear-Regression/blob/main/Best%20Selling%20Video%20Games/Best%20Selling%20Video%20Game%20Prediction.ipynb"
+  },
+  {
+    "title": "Cats vs Dogs Classification",
+    "category": "CNN",
+    "excerpt": "Binary image classification to distinguish between cats and dogs using CNNs.",
+    "image": "cats-vs-dogs-classification.jpeg",
+    "github": "https://github.com/QUTAIML/Convolutional-Neural-Networks/blob/main/Cats%20vs%20Dogs/Cats_vs_Dogs.ipynb"
+  },
+  {
+    "title": "Concrete Crack Detection",
+    "category": "CNN",
+    "excerpt": "Detect cracks in concrete structures using CNN based image classification.",
+    "image": "concrete-crack-detection.jpg",
+    "github": "https://github.com/QUTAIML/Convolutional-Neural-Networks/blob/main/Concrete%20Cracks/Concrete_Crack_Detection.ipynb"
+  },
+  {
+    "title": "Customer Churn Prediction",
+    "category": "Random Forest",
+    "excerpt": "Predict customer churn using ensemble learning and Random Forest models.",
+    "image": "customer-churn-prediction.png",
+    "github": "https://github.com/QUTAIML/Random-Forests/blob/main/Customer%20Churn/Customer%20Churn.ipynb"
+  },
+  {
+    "title": "Customer Groups",
+    "category": "Clustering",
+    "excerpt": "Group customers based on purchasing behavior and demographics using clustering techniques.",
+    "image": "customer-groups.png",
+    "github": "https://github.com/QUTAIML/Clustering/blob/main/Customer%20Groups/Customer_Segmentation_using_K_Means_Clustering.ipynb"
+  },
+  {
+    "title": "Cybersecurity Attack Prediction",
+    "category": "Random Forest",
+    "excerpt": "Detect and classify cybersecurity threats using Random Forest algorithms.",
+    "image": "cybersecurity-attack-prediction.jpeg",
+    "github": "https://github.com/QUTAIML/Random-Forests/blob/main/Cybersecurity%20Attacks/Cybersecurity_Attack_Prediction.ipynb"
+  },
+  {
+    "title": "Deep Q Learning",
+    "category": "Reinforcement Learning",
+    "excerpt": "This project applies Deep Q Learning to enable Q Learning in large or continuous state spaces.",
+    "image": "deep-q-learning.png",
+    "github": "https://github.com/QUTAIML/Reinforcement-Learning/blob/main/Deep-Q%20Learning/Deep_Q_Learning.ipynb"
+  },
+  {
+    "title": "Energy Consumption",
+    "category": "Linear Regression",
+    "excerpt": "Analyze energy usage patterns and predict future consumption with linear regression.",
+    "image": "energy-consumption.jpeg",
+    "github": "https://github.com/QUTAIML/Linear-Regression/blob/main/Energy%20Consumption/Energy%20Consumption.ipynb"
+  },
+  {
+    "title": "Fake News Classification",
+    "category": "Logistic Regression",
+    "excerpt": "Classify news articles as real or fake using logistic regression.",
+    "image": "fake-news-classification.jpg",
+    "github": "https://github.com/QUTAIML/Logistic-Regression/blob/main/Fake%20News%20Detection/fake-news-classification.ipynb"
+  },
+  {
+    "title": "Formula 1 Analysis",
+    "category": "Linear Regression",
+    "excerpt": "Predict race outcomes and performance metrics of Formula 1 drivers using linear regression.",
+    "image": "formula-1-analysis.jpg",
+    "github": "https://github.com/QUTAIML/Linear-Regression/blob/main/Formula%201/Formula%201%20Analysis.ipynb"
+  },
+  {
+    "title": "Glass Classification",
+    "category": "K-Nearest Neighbours",
+    "excerpt": "Classify types of glass based on chemical composition using KNN.",
+    "image": "glass-classification.jpeg",
+    "github": "https://github.com/QUTAIML/K-Nearest-Neighbours/tree/main/Glass%20Classification"
+  },
+  {
+    "title": "Heart Disease Predictions",
+    "category": "Logistic Regression",
+    "excerpt": "Predict the presence of heart disease based on patient medical data using logistic regression.",
+    "image": "heart-disease-predictions.jpeg",
+    "github": "https://github.com/QUTAIML/Logistic-Regression/blob/main/Heart%20Disease%20Prediction/Predictive%20Modeling%20for%2010-Year%20Cardiovascular%20Risk.ipynb"
+  },
+  {
+    "title": "Income Prediction",
+    "category": "K-Nearest Neighbours",
+    "excerpt": "Predict whether an individual's income exceeds $50K using demographic data with KNN.",
+    "image": "income-prediction.jpg",
+    "github": "https://github.com/QUTAIML/K-Nearest-Neighbours/blob/main/Income%20Prediction/Adult%20Income%20Prediction%20-%20KNN.ipynb"
+  },
+  {
+    "title": "Marine Engine Maintenance",
+    "category": "Random Forest",
+    "excerpt": "Predict marine engine failures and maintenance needs using Random Forest models.",
+    "image": "marine-engine-maintenance.jpg",
+    "github": "https://github.com/QUTAIML/Random-Forests/blob/main/Marine%20Engine/Marine_Engine_Maintainence.ipynb"
+  },
+  {
+    "title": "Penguin Species",
+    "category": "Clustering",
+    "excerpt": "Cluster penguin species based on physical characteristics using unsupervised learning.",
+    "image": "penguin-species.jpg",
+    "github": "https://github.com/QUTAIML/Clustering/blob/main/Penguin%20Species/Biological_Grouping_of_Penguins_using_K_Means_Clustering.ipynb"
+  },
+  {
+    "title": "Physical Activity Recognition",
+    "category": "K-Nearest Neighbours",
+    "excerpt": "Classify different types of physical activity from sensor data using KNN.",
+    "image": "physical-activity-recognition.jpeg",
+    "github": "https://github.com/QUTAIML/K-Nearest-Neighbours/blob/main/Physical%20Activity/KNN%20–%20Human%20Activity%20Recognition.ipynb"
+  },
+  {
+    "title": "Pokemon Identification with Vision Transformers",
+    "category": "Transformers",
+    "excerpt": "A Vision Transformer model for classifying Pokémon images with train/validation splits and device aware training.",
+    "image": "pokemon-identification-transformer.png",
+    "github": "https://github.com/QUTAIML/Transformers/blob/main/Pokemon_Identification/Pokémon%20Identification%20using%20Vision%20Transformers.ipynb"
+  },
+  {
+    "title": "Pokémon Statistic Prediction",
+    "category": "Linear Regression",
+    "excerpt": "Predict Pokémon stats based on other characteristics using linear regression.",
+    "image": "pokemon-statistics-prediction.png",
+    "github": "https://github.com/QUTAIML/Linear-Regression/blob/main/Pokémon/Pokémon%20Identification.ipynb"
+  },
+  {
+    "title": "Quiz Master",
+    "category": "LLM",
+    "excerpt": "Generates quizzes automatically from textbooks using LLM",
+    "image": "quiz-master.jpg",
+    "github": "https://github.com/QUTAIML/LLM/blob/main/AI_QuizMaster/Quiz_Master_from_Text_Book.ipynb"
+  },
+  {
+    "title": "Retail Sales Trends",
+    "category": "Linear Regression",
+    "excerpt": "Predict future retail sales based on historical data using linear regression.",
+    "image": "retail-sales.png",
+    "github": "https://github.com/QUTAIML/Linear-Regression/blob/main/Retail%20Sales%20Trends/Retail%20Sales%20Trends.ipynb"
+  },
+  {
+    "title": "Snake Game Agent",
+    "category": "Reinforcement Learning",
+    "excerpt": "Train an agent to play the classic Nokia Snake game using reinforcement learning.",
+    "image": "snake-game-agent.png",
+    "github": "https://github.com/QUTAIML/Reinforcement-Learning/blob/main/Snake%20Game/Snake_Game.ipynb"
+  },
+  {
+    "title": "Social Media Interest Clustering for Marketing",
+    "category": "Clustering",
+    "excerpt": "Identify communities and patterns in social network data using clustering techniques.",
+    "image": "social-media-interest.jpg",
+    "github": "https://github.com/QUTAIML/Clustering/blob/main/Social%20Media%20Interest/Social%20Media%20Interest%20Clustering%20for%20Marketing.ipynb"
+  },
+  {
+    "title": "Various forms of Clustering",
+    "category": "Clustering",
+    "excerpt": "Practice various clustering techniques on diverse datasets.",
+    "image": "various-forms-of-clustering.jpg",
+    "github": "https://github.com/QUTAIML/Clustering/blob/main/Example%20-%20Various%20forms%20of%20Clustering/Example.ipynb"
+  },
+  {
+    "title": "Vehicle Type Classification",
+    "category": "CNN",
+    "excerpt": "Classify different types of vehicles from images using Convolutional Neural Networks.",
+    "image": "vehicle-type-classification.jpg",
+    "github": "https://github.com/QUTAIML/Convolutional-Neural-Networks/blob/main/Vehicle%20Type/Vehicle_Type.ipynb"
+  },
+  {
+    "title": "Video Classification",
+    "category": "Transformers",
+    "excerpt": "Classify YouTube videos based on content and metadata using Transformer models.",
+    "image": "video-classification.png",
+    "github": "https://github.com/QUTAIML/Transformers/blob/main/Video_Classification/Video_Classification.ipynb"
+  }
+]

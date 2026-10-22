@@ -1,13 +1,15 @@
 ---
+import { links, loadImages } from "@/lib/content";
 import "@/styles/global.css"
 import "@/styles/components/navbar.css"
+const image = await loadImages();
 ---
 
 <nav class="navbar">
   <div class="mobile-header">
     <div class="brand">
       <a href="/">
-        <img src="/Logo.svg" alt="Main Logo" class="logo" />
+        <img src={image("images/logo-mark.svg")} alt="Main Logo" class="logo" />
       </a>
     </div>
 
@@ -24,14 +26,14 @@ import "@/styles/components/navbar.css"
 
     <!-- For mobile only -->
     <div class="mobile-only">
-      <li class="pink-button"><a href="https://campus.hellorubric.com/?tab=memberships&s=11397">Join Us</a></li>
+      <li class="pink-button"><a href={links.membership}>Join Us</a></li>
     </div>
 
     <div class="indicator"></div>
   </ul>
 
   <div class="secondary-links">
-    <a href="https://campus.hellorubric.com/?tab=memberships&s=11397" class="btn btn-outline">
+    <a href={links.membership} class="btn btn-outline">
       <svg class="btn-border" viewBox="0 0 100 40" preserveAspectRatio="none">
         <rect x="1" y="1" width="98" height="38" rx="18" ry="18" />
       </svg>

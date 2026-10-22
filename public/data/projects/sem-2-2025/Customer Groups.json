@@ -1,7 +1,0 @@
-{
-  "title": "Customer Groups",
-  "category": "Clustering",
-  "excerpt": "Group customers based on purchasing behavior and demographics using clustering techniques.",
-  "image": "customer-groups.png",
-  "github": "https://github.com/QUTAIML/Clustering/blob/main/Customer%20Groups/Customer_Segmentation_using_K_Means_Clustering.ipynb"
-}

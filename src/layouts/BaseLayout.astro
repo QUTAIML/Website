@@ -1,4 +1,5 @@
 ---
+import { loadImages } from "@/lib/content";
 // BaseLayout.astro
 // Shared shell for every page on the site.
 // Pass `title` and optionally `description` as props.
@@ -18,12 +19,13 @@ const {
   title = "QUT AI & ML Society",
   description = "The QUT AI & ML Society is a student-led community exploring AI and ML through events, workshops, and collaboration.",
 } = Astro.props;
+const image = await loadImages();
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={image("images/favicon.svg")} />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <title>{title}</title>

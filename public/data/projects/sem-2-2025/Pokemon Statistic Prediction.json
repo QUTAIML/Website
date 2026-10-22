@@ -1,7 +1,0 @@
-{
-  "title": "Pokémon Statistic Prediction",
-  "category": "Linear Regression",
-  "excerpt": "Predict Pokémon stats based on other characteristics using linear regression.",
-  "image": "pokemon-statistics-prediction.png",
-  "github": "https://github.com/QUTAIML/Linear-Regression/blob/main/Pokémon/Pokémon%20Identification.ipynb"
-}

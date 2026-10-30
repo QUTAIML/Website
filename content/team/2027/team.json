@@ -33,13 +33,13 @@
     "title": "Growth Team",
     "items": [
       { "role": "Growth Director", "name": "Vera Novitskaia", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/vera-novitskaia/" },
-      { "role": "Growth Officer", "name": "Leena Jeon", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/linajeon/" },
-      { "role": "Growth Officer", "name": "Paolo Lluka", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/paolo-lluka-928022409/" }
+      { "role": "Growth Officer", "name": "Leena Jeon", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/linajeon/" }
     ]
   },
   {
     "title": "Industry Team",
     "items": [
+      { "role": "Industry Director", "name": "Paolo Lluka", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/paolo-lluka-928022409/" },
       { "role": "Industry Officer", "name": "Aurora Oh", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/oh-sieun-a6ba45426/" }
     ]
   },

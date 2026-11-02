@@ -660,8 +660,13 @@ body.no-scroll {
 }
 
 @media (min-width: 1221px) {
-  .main-links > li > a,
+  .main-links > li > a { font-size: .778rem; }
   .navbar .btn-outline,
-  .navbar .btn-outline span { font-size: .72rem; }
+  .navbar .btn-outline span { font-size: .648rem; }
   .navbar .btn-outline { padding: .4rem 1.1rem; }
+}
+
+/* Tightens the links just above the mobile breakpoint, so they clear the Join Us button. */
+@media (min-width: 1221px) and (max-width: 1320px) {
+  .main-links > li > a { padding-left: 7px; padding-right: 7px; }
 }

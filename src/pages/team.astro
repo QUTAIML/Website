@@ -41,35 +41,32 @@ const slug = (title) => title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
     <section class="about-existing about-team team-directory" aria-labelledby="team-directory-title">
       <div class="about-shell">
-        <div class="existing-heading"><p class="about-kicker">THE {currentTeam.year} TEAM</p><h2 id="team-directory-title">Pick a team, <span>meet the people.</span></h2></div>
-        <div class="team-explorer" id="team-explorer">
-          <div class="team-tabs" role="tablist" aria-label="Teams" aria-orientation="vertical" data-pagefind-ignore>
-            {divisions.map((group, index) => <button class="team-tab" id={`tab-${slug(group.title)}`} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`panel-${slug(group.title)}`}>
-              <i aria-hidden="true"></i>
-              <span><strong>{group.title}</strong><small>{group.items.length} {group.items.length === 1 ? "person" : "people"}</small></span>
-            </button>)}
-          </div>
-          <div class="team-panels">
-            {divisions.map((group, index) => <section class="team-panel" id={`panel-${slug(group.title)}`} role="tabpanel" aria-labelledby={`tab-${slug(group.title)}`}>
-              <header>
-                <div><p class="team-panel-kicker" data-pagefind-ignore>Team {String(index + 1).padStart(2, "0")} of {String(divisions.length).padStart(2, "0")}</p><h3>{group.title}</h3></div>
-                <div class="team-panel-count" data-pagefind-ignore><span aria-hidden="true">{group.items.map(() => <i></i>)}</span><div class="team-panel-count-row"><p>{group.items.length} {group.items.length === 1 ? "person" : "people"}</p><div class="team-panel-arrows" hidden><button type="button" data-team-previous aria-label={`Show previous people in the ${group.title}`}>‹</button><button type="button" data-team-next aria-label={`Show more people in the ${group.title}`}>›</button></div></div></div>
-              </header>
-              <ul class="team-profiles">{group.items.map((member) => {
-                const Tag = member.linkedin ? "a" : "div";
-                const linkProps = member.linkedin ? { href: member.linkedin, target: "_blank", rel: "noopener noreferrer", "aria-label": `${member.name}, ${member.role}. Open LinkedIn profile` } : {};
-                return <li><Tag class="team-profile" {...linkProps}>
-                  <em>{member.role}</em>
-                  <span class="team-profile-photo">
-                    <img src={member.image} alt={member.name} loading="lazy" />
-                    {member.linkedin && <Icon name="tabler:brand-linkedin" aria-hidden="true" />}
-                  </span>
-                  <strong>{member.name}</strong>
-                  {member.degree && <small>{member.degree.split(" (")[0]}{member.degree.includes(" (") && <span>({member.degree.split(" (").slice(1).join(" (")}</span>}</small>}
-                </Tag></li>;
-              })}</ul>
-            </section>)}
-          </div>
+        <div class="existing-heading"><p class="about-kicker">THE {currentTeam.year} TEAM</p><h2 id="team-directory-title">Meet the people, <span>team by team.</span></h2></div>
+        <nav class="team-jump" id="team-jump" aria-label="Jump to a team" data-pagefind-ignore>
+          {divisions.map((group) => <a href={`#team-${slug(group.title)}`}>{group.title}</a>)}
+        </nav>
+        <div class="team-roster" id="team-roster">
+          <i class="team-spine" aria-hidden="true"><b></b></i>
+          {divisions.map((group, index) => <section class="team-group" id={`team-${slug(group.title)}`} aria-labelledby={`team-${slug(group.title)}-title`}>
+            <header class="team-group-head">
+              <span class="team-group-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3 id={`team-${slug(group.title)}-title`}>{group.title}</h3>
+              <p data-pagefind-ignore>{group.items.length} {group.items.length === 1 ? "person" : "people"}</p>
+            </header>
+            <ul class="team-profiles">{group.items.map((member) => {
+              const Tag = member.linkedin ? "a" : "div";
+              const linkProps = member.linkedin ? { href: member.linkedin, target: "_blank", rel: "noopener noreferrer", "aria-label": `${member.name}, ${member.role}. Open LinkedIn profile` } : {};
+              return <li><Tag class="team-profile" {...linkProps}>
+                <em>{member.role}</em>
+                <span class="team-profile-photo">
+                  <img src={member.image} alt={member.name} loading="lazy" />
+                  {member.linkedin && <Icon name="tabler:brand-linkedin" aria-hidden="true" />}
+                </span>
+                <strong>{member.name}</strong>
+                {member.degree && <small>{member.degree.split(" (")[0]}{member.degree.includes(" (") && <span>({member.degree.split(" (").slice(1).join(" (")}</span>}</small>}
+              </Tag></li>;
+            })}</ul>
+          </section>)}
         </div>
       </div>
     </section>
@@ -77,5 +74,5 @@ const slug = (title) => title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     <section class="about-existing about-executive"><div class="about-shell"><div class="existing-heading"><p class="about-kicker">GET INVOLVED</p><h2>The executive <span>body.</span></h2></div><div class="executive-gateway"><a href="/about/exec-application" class="executive-panel executive-panel-apply"><span>01 / JOIN THE TEAM</span><Icon name="tabler:rocket" aria-hidden="true" /><h3>How to become<br />an Executive</h3><p>Learn about the application process, expectations, and responsibilities of AIML executives.</p><b>Explore applications <i aria-hidden="true">→</i></b></a><a href="/about/history" class="executive-panel executive-panel-history"><span>02 / THE STORY SO FAR</span><Icon name="tabler:timeline-event" aria-hidden="true" /><h3>Our history</h3><p>Learn about the teams that have shaped our club over the years.</p><b>Meet past teams <i aria-hidden="true">→</i></b></a></div></div></section>
   </div>
 
-  <Fragment slot="scripts"><script>import "@/scripts/team/team-tabs.js";</script></Fragment>
+  <Fragment slot="scripts"><script>import "@/scripts/team/team-roster.js";</script></Fragment>
 </ContentLayout>

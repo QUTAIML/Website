@@ -8,9 +8,11 @@ export default defineConfig({
     plugins: [tailwindcss()],
     // Keep the React JSX runtimes prebundled together. This prevents a stale
     // development cache from serving a runtime without jsxDEV after upgrades.
+    // Libraries loaded with a dynamic import() are listed too: if Vite first meets
+    // them while a page is running, that request fails with a 504 in development.
     optimizeDeps: {
       force: true,
-      include: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
+      include: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "marked", "@tensorflow/tfjs"],
     },
     resolve: {
       dedupe: ["react", "react-dom"],

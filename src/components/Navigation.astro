@@ -185,6 +185,8 @@ toggleButton.addEventListener("click", e => {
   if (activeLink) {
     activeLink.classList.add('active');
     updateIndicator(activeLink);
+    // The web font changes link widths, so measure again once it has loaded.
+    document.fonts?.ready.then(() => updateIndicator(activeLink));
   } else {
     hideIndicator(); // HOME PAGE → no indicator
   }

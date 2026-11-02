@@ -6,6 +6,7 @@ import { loadImages } from "@/lib/content";
 // matching the existing about/contact page structure.
 
 import "@/styles/global.css";
+import "@/styles/motion.css";
 import Navigation from "@/components/Navigation.astro";
 import Footer from "@/components/Footer.astro";
 import WebsiteAssistant from "@/components/WebsiteAssistant.astro";
@@ -29,6 +30,9 @@ const image = await loadImages();
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <script is:inline>
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("motion");
+    </script>
     <slot name="head" />
   </head>
   <body class="background-dots">
@@ -39,5 +43,6 @@ const image = await loadImages();
     <Footer />
     <WebsiteAssistant />
     <slot name="scripts" />
+    <script>import "@/scripts/motion.js";</script>
   </body>
 </html>

@@ -16,7 +16,7 @@ import "@/styles/components/assistant.css";
         <span class="assistant-mark" aria-hidden="true">AI</span>
         <div>
           <h2 id="aiml-assistant-title">AIML Assistant</h2>
-          <p>Website answers only</p>
+          <p>Answers from AIML's published information</p>
         </div>
       </div>
       <button
@@ -43,7 +43,13 @@ import "@/styles/components/assistant.css";
       <article class="assistant-message assistant-message--assistant">
         <div class="assistant-message-label">AIML Assistant</div>
         <div class="assistant-bubble">
-          <p>Ask me about AIML events, projects, membership, or the society. I only use information published on this website.</p>
+          <p>Ask me about AIML's events, projects, team, and partners. I can count, compare, and filter as well as look things up, and you can ask follow-up questions.</p>
+        </div>
+        <div class="assistant-suggestions">
+          <button class="assistant-suggestion" type="button" data-assistant-suggestion>What's the next event?</button>
+          <button class="assistant-suggestion" type="button" data-assistant-suggestion>Which topic has the most projects?</button>
+          <button class="assistant-suggestion" type="button" data-assistant-suggestion>Did you run more events in 2025 or 2026?</button>
+          <button class="assistant-suggestion" type="button" data-assistant-suggestion>I'm a beginner, where should I start?</button>
         </div>
       </article>
     </div>
@@ -61,7 +67,7 @@ import "@/styles/components/assistant.css";
           maxlength="500"
           autocomplete="off"
           enterkeyhint="send"
-          placeholder="Ask about AIML…"
+          placeholder="Ask anything about AIML…"
           required
         />
         <button type="submit" data-assistant-send>Send</button>

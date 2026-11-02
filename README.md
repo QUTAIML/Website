@@ -36,9 +36,20 @@ Run `npm run check` after editing; it also runs automatically before each deploy
 | `public/` | Files served as-is: downloadable PDFs, the ML demo model |
 | `scripts/` | `check-content.mjs` (content checker), model training script |
 
+## Ask AIML assistant
+
+The assistant has no backend. `src/pages/assistant-knowledge.json.js` publishes
+the site's content as one JSON file at build time, and
+`src/scripts/assistant/assistant-engine.js` computes answers from it in the
+browser (counts, filters, comparisons, rankings, and follow-up questions). Anything
+it can't answer falls back to a Pagefind search of the site's text. Only add fields
+to the knowledge file that are fine to make public: event `attendance` and `notes`
+are deliberately left out.
+
 ## ML Sandbox
 
-The Projects page includes browser-only mini demos. The K-means visualiser is
+The `/projects/sandbox` page, linked from Projects, includes browser-only mini
+demos. The K-means visualiser is
 plain client-side JavaScript; the digit classifier lazy-loads TensorFlow.js and
 the model in `public/models/mnist/` only when its card becomes visible. No user
 input is sent to a server.
@@ -63,8 +74,8 @@ folder name and file structure unchanged, as the sandbox loads
 
 Create a self-contained React component in `src/components/sandbox/`, add it to
 `SandboxSection.tsx`, and use the shared classes in `sandbox.css`. Heavy
-libraries should be dynamically imported inside the component so the Projects
-page stays light until a visitor scrolls to the sandbox.
+libraries should be dynamically imported inside the component so the sandbox
+page stays light until a visitor scrolls to the card.
 
 ### Neural network lab
 

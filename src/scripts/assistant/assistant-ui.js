@@ -1,6 +1,20 @@
+import { answerQuestion, buildIndex } from "./assistant-engine.js";
 import { searchAssistant } from "./assistant-search.js";
 
-const NOT_FOUND_MESSAGE = "I couldn't find that information on the AIML website.";
+const NOT_FOUND_MESSAGE = "I couldn't find that in AIML's published information. Try asking about events, projects, the team, partners, or how to get involved.";
+
+let knowledgeIndex;
+
+// The knowledge file is only fetched once someone asks a question.
+function loadKnowledgeIndex() {
+  knowledgeIndex ??= fetch(new URL("assistant-knowledge.json", new URL(import.meta.env.BASE_URL, window.location.origin)))
+    .then((response) => {
+      if (!response.ok) throw new Error(`Knowledge file responded with ${response.status}`);
+      return response.json();
+    })
+    .then(buildIndex);
+  return knowledgeIndex;
+}
 
 function cleanDisplayText(value) {
   return String(value ?? "")
@@ -105,7 +119,7 @@ function appendLoadingMessage(messages) {
   message.append(createElement("div", "assistant-message-label", "AIML Assistant"));
 
   const bubble = createElement("div", "assistant-bubble");
-  bubble.append(createElement("p", "", "Searching the AIML website…"));
+  bubble.append(createElement("p", "", "Working on it…"));
   message.append(bubble);
   messages.append(message);
   scrollConversation(messages);
@@ -159,6 +173,69 @@ function appendAssistantMessage(messages, result) {
   scrollConversation(messages);
 }
 
+function appendLink(parent, url, text, className) {
+  const safeUrl = safeSourceUrl(url);
+  if (!/^(?:https:\/\/|\/)/.test(safeUrl)) {
+    parent.append(createElement("span", className, text));
+    return;
+  }
+  const link = createElement("a", className, text);
+  link.setAttribute("href", safeUrl);
+  if (safeUrl.startsWith("https://")) {
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  }
+  parent.append(link);
+}
+
+function appendAnswerSection(bubble, answer) {
+  if (answer.text) bubble.append(createElement("p", "", answer.text));
+  (answer.parts ?? []).forEach((part) => bubble.append(createElement("p", "", part)));
+
+  if (answer.items?.length) {
+    const list = createElement("ul", "assistant-list");
+    answer.items.forEach((item) => {
+      const row = createElement("li");
+      if (item.url) appendLink(row, item.url, item.label, "assistant-list-label");
+      else row.append(createElement("span", "assistant-list-label", item.label));
+      if (item.detail) row.append(createElement("span", "assistant-list-detail", item.detail));
+      list.append(row);
+    });
+    bubble.append(list);
+  }
+  if (answer.more) bubble.append(createElement("p", "assistant-more", `and ${answer.more} more. Ask “show more” to see them.`));
+}
+
+function appendComputedAnswer(messages, answer, ask) {
+  const message = createElement("article", "assistant-message assistant-message--assistant");
+  message.append(createElement("div", "assistant-message-label", "AIML Assistant"));
+
+  const bubble = createElement("div", "assistant-bubble");
+  (answer.sections ?? [answer]).forEach((section) => appendAnswerSection(bubble, section));
+
+  if (answer.sources?.length) {
+    const sources = createElement("div", "assistant-source");
+    answer.sources.forEach((source) => appendLink(sources, source.url, source.label, "assistant-source-link"));
+    bubble.append(sources);
+  }
+  message.append(bubble);
+
+  if (answer.suggestions?.length) message.append(createSuggestions(answer.suggestions, ask));
+  messages.append(message);
+  scrollConversation(messages);
+}
+
+function createSuggestions(questions, ask) {
+  const row = createElement("div", "assistant-suggestions");
+  questions.forEach((question) => {
+    const button = createElement("button", "assistant-suggestion", question);
+    button.type = "button";
+    button.addEventListener("click", () => ask(question));
+    row.append(button);
+  });
+  return row;
+}
+
 function initializeAssistant(root) {
   if (root.dataset.assistantInitialized === "true") return;
   root.dataset.assistantInitialized = "true";
@@ -174,6 +251,7 @@ function initializeAssistant(root) {
   if (!panel || !toggle || !close || !form || !input || !send || !messages) return;
 
   let processingQuestion = "";
+  let conversationContext = null;
 
   function setOpen(open, restoreToggleFocus = false) {
     panel.hidden = !open;
@@ -206,10 +284,20 @@ function initializeAssistant(root) {
     }
   });
 
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  async function getReply(question) {
+    try {
+      const { answer, context } = answerQuestion(question, await loadKnowledgeIndex(), conversationContext);
+      conversationContext = context;
+      if (answer) return { answer };
+    } catch (error) {
+      console.error("AIML Assistant could not compute an answer.", error);
+    }
+    // Anything the data can't answer falls back to searching the site's text.
+    return { result: await searchAssistant(question) };
+  }
 
-    const question = cleanDisplayText(input.value);
+  async function ask(rawQuestion) {
+    const question = cleanDisplayText(rawQuestion);
     const duplicateKey = question.toLocaleLowerCase("en-AU");
     if (!question || duplicateKey === processingQuestion) return;
 
@@ -220,9 +308,10 @@ function initializeAssistant(root) {
     setBusy(true);
 
     try {
-      const result = await searchAssistant(question);
+      const { answer, result } = await getReply(question);
       loadingMessage.remove();
-      appendAssistantMessage(messages, result);
+      if (answer) appendComputedAnswer(messages, answer, ask);
+      else appendAssistantMessage(messages, result);
     } catch (error) {
       loadingMessage.remove();
       appendAssistantMessage(messages, { status: "error" });
@@ -232,6 +321,15 @@ function initializeAssistant(root) {
       setBusy(false);
       if (!panel.hidden) input.focus();
     }
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    ask(input.value);
+  });
+
+  root.querySelectorAll("[data-assistant-suggestion]").forEach((button) => {
+    button.addEventListener("click", () => ask(button.textContent));
   });
 }
 

@@ -1,5 +1,5 @@
 ---
-import { links, loadImages, getTeams } from "@/lib/content";
+import { links, loadImages, getTeams, site } from "@/lib/content";
 import "@/styles/about/about.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
@@ -37,6 +37,12 @@ const featuredJourneyMilestone = {
   label: "2026 / AIML EXECUTIVE TEAM",
   title: "Built by a team that delivers.",
   detail: "From practical projects to major events, the team behind AIML turns shared ambition into opportunities for QUT students."
+};
+const statIcons = {
+  "active AIML members": "tabler:users-group",
+  "Instagram followers": "tabler:brand-instagram",
+  "LinkedIn followers": "tabler:brand-linkedin",
+  "Discord community members": "tabler:brand-discord",
 };
 const image = await loadImages();
 ---
@@ -94,7 +100,7 @@ const image = await loadImages();
       </div>
     </section>
 
-    <section class="about-now" aria-labelledby="now-title"><div class="about-shell"><div class="now-intro"><p class="about-kicker">WHERE WE ARE NOW</p><h2 id="now-title">AIML, by the<br /><span>numbers.</span></h2></div><div class="now-stats"><article><Icon name="tabler:users-group" aria-hidden="true" /><strong>275+</strong><p>active AIML members</p></article><article><Icon name="tabler:brand-instagram" aria-hidden="true" /><strong>900+</strong><p>Instagram followers</p></article><article><Icon name="tabler:brand-linkedin" aria-hidden="true" /><strong>875+</strong><p>LinkedIn followers</p></article><article><Icon name="tabler:brand-discord" aria-hidden="true" /><strong>525+</strong><p>Discord community members</p></article></div></div></section>
+    <section class="about-now" aria-labelledby="now-title"><div class="about-shell"><div class="now-intro"><p class="about-kicker">WHERE WE ARE NOW</p><h2 id="now-title">AIML, by the<br /><span>numbers.</span></h2></div><div class="now-stats">{site.stats.map(stat => <article><Icon name={statIcons[stat.label]} aria-hidden="true" /><strong>{stat.value}</strong><p>{stat.label}</p></article>)}</div></div></section>
 
     <section class="about-existing about-degrees" aria-labelledby="degrees-title">
       <div class="about-shell">

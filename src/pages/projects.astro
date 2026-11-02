@@ -3,14 +3,12 @@ import { loadImages } from "@/lib/content";
 import "@/styles/projects.css";
 import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
-import SandboxSection from "@/components/sandbox/SandboxSection";
 import { loadProjectsData } from "@/scripts/projects/projects-loader";
 
-const { latestSemester, pastProjects, types } = await loadProjectsData();
+const { pastProjects, types } = await loadProjectsData();
 
 const projectCount = pastProjects.length;
 const categoryCount = types.filter((type) => type !== "All").length;
-const archiveLabel = latestSemester?.label ?? "Project archive";
 const image = await loadImages();
 ---
 
@@ -28,7 +26,10 @@ const image = await loadImages();
             <span><strong>{projectCount}</strong> archived projects</span>
             <span><strong>{categoryCount}</strong> fields to explore</span>
           </div>
-          <a class="projects-hero-link" href="#project-archive">Explore the archive <span aria-hidden="true">↘</span></a>
+          <div class="projects-hero-actions">
+            <a class="projects-hero-link" href="#project-archive">Explore the archive <span aria-hidden="true">↘</span></a>
+            <a class="sandbox-text-link" href="/projects/sandbox">Try the ML Sandbox <span aria-hidden="true">→</span></a>
+          </div>
         </div>
 
         <figure class="projects-hero-image">
@@ -40,16 +41,6 @@ const image = await loadImages();
         </figure>
       </div>
     </section>
-
-    <!-- Keep the live activities near the top of the page so they remain easy to discover.
-         This is browser only because the demos create canvases and interactive state. -->
-    <SandboxSection client:only="react">
-      <section class="sandbox-loading" slot="fallback" aria-label="Loading ML Sandbox" data-pagefind-ignore>
-        <p>LEARN BY DOING</p>
-        <h2>ML Sandbox</h2>
-        <span>Loading the interactive activities</span>
-      </section>
-    </SandboxSection>
 
     <section class="project-pathways" aria-labelledby="project-pathways-title">
       <div class="projects-shell project-pathways-layout">
@@ -81,100 +72,61 @@ const image = await loadImages();
     <section id="project-archive" class="projects-archive" aria-labelledby="project-archive-title">
       <div class="projects-shell projects-archive-heading">
         <div>
-          <p class="projects-kicker">{archiveLabel.toUpperCase()}</p>
+          <p class="projects-kicker">PROJECT ARCHIVE</p>
           <h2 id="project-archive-title">Work worth<br /><span>showing.</span></h2>
         </div>
-        <p>Search the archive by project type or title. Every card links to the project repository.</p>
+        <p>Choose a topic, pick a project, and read through the notebook our members built.</p>
       </div>
 
-      <div class="projects-shell key-content">
-        <div class="projects-controls" data-pagefind-ignore>
-          <div class="controls-row">
-            <div class="mobile-search-filter">
-              <div class="search-wrapper">
-                <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" />
-                  <line x1="16.65" y1="16.65" x2="21" y2="21" />
-                </svg>
-                <input id="projects-search" type="search" placeholder="Search the project archive" aria-label="Search projects" />
-              </div>
-            </div>
-
-            <span class="type-filter-label">Browse:</span>
-            <div class="type-scroll-wrapper">
-              <button class="type-scroll-btn left" aria-label="Scroll project types left">‹</button>
-              <div id="type-filters" class="type-filter-pill scrollable">
+      <div class="projects-shell">
+        <div class="project-browser">
+          <div class="project-browser-nav">
+            <div class="project-filters" data-pagefind-ignore>
+              <label class="project-browser-label" for="project-topic">TOPIC</label>
+              <select class="project-filter-control project-topic-select" id="project-topic">
                 {types.map((type) => (
-                  <button class={`type-btn ${type === "All" ? "active" : ""}`} data-type={type} type="button">
-                    {type}
-                  </button>
+                  <option value={type}>{type === "All" ? "All topics" : type} ({type === "All" ? projectCount : pastProjects.filter((project) => (project.type ?? project.category ?? "Other") === type).length})</option>
                 ))}
-              </div>
-              <button class="type-scroll-btn right" aria-label="Scroll project types right">›</button>
+              </select>
+              <input class="project-filter-control" id="project-search" type="search" placeholder="Search projects" aria-label="Search projects by name or description" autocomplete="off" />
             </div>
-
-            <button id="filters-toggle" aria-haspopup="true" aria-expanded="false" type="button" class="filters-toggle-btn">
-              <svg class="filters-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M3 4h18l-7 8v6l-4 2v-8L3 4z" />
-              </svg>
-              <span>Filters</span>
-            </button>
-
-            <div class="type-filter-wrapper" style="margin-left:auto; position:relative;">
-              <div id="filters-popover" role="dialog" aria-modal="false" class="filters-popover">
-                <div class="filters-popover-content">
-                  <div class="filter-group filter-type">
-                    <label for="type-select-pop">Type</label>
-                    <select id="type-select-pop">
-                      {types.map((type) => <option value={type}>{type}</option>)}
-                    </select>
-                  </div>
-                  <div class="filter-group">
-                    <label for="sort-select-pop">Sort data</label>
-                    <select id="sort-select-pop">
-                      <option value="" selected>None</option>
-                      <option value="title-asc">Title ascending</option>
-                      <option value="title-desc">Title descending</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <section class="projects-panel">
-          <div class="desktop-type-filters">
-            <div class="project-atlas-heading">
-              <span>PROJECT ATLAS</span>
-              <p>Explore the ideas our members have turned into working experiments.</p>
-            </div>
-            <section id="projects-grid" class="projects-grid" aria-label="Project archive">
+            <p class="project-empty" id="project-empty" hidden data-pagefind-ignore>No projects match that search.</p>
+            <ul class="project-list" id="project-list" aria-label="Projects">
               {pastProjects.map((project) => {
                 const type = project.type ?? project.category ?? "Other";
                 return (
-                  <article class="project-card" data-semester={project.semesterId} data-category={project.category} data-type={type} data-title={project.title.toLowerCase()}>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                      <div class="card-media">
-                        {project.image ? <img src={project.image} alt={project.title} /> : <div class="no-image">No image available</div>}
-                        <span class="project-category">{type}</span>
-                      </div>
-                      <div class="card-body">
-                        <h3 class="card-title">{project.title}</h3>
-                        <p class="card-description">{project.excerpt}</p>
-                        <div class="card-footer">
-                          <time class="card-date">{project.dateLabel}</time>
-                          <span class="card-view-more">Open project <ExternalArrow /></span>
-                        </div>
-                      </div>
+                  <li data-type={type}>
+                    <a class="project-row" href={project.github} target="_blank" rel="noopener noreferrer">
+                      <strong>{project.title}</strong>
+                      <small>{type}</small>
+                      <p hidden>{project.excerpt}</p>
                     </a>
-                  </article>
+                  </li>
                 );
               })}
-            </section>
+            </ul>
           </div>
-        </section>
-        <div id="projects-pagination" data-pagefind-ignore></div>
+          <div class="project-viewer" id="project-viewer" data-pagefind-ignore>
+            <div class="project-viewer-bar">
+              <div><h3 id="project-viewer-title">Select a project</h3><p id="project-viewer-excerpt"></p></div>
+              <a class="project-viewer-link" id="project-viewer-link" href="https://github.com/QUTAIML" target="_blank" rel="noopener noreferrer">Open on GitHub <ExternalArrow /></a>
+            </div>
+            <iframe class="project-viewer-frame" id="project-viewer-frame" title="Project notebook preview" sandbox="allow-popups allow-popups-to-escape-sandbox" srcdoc=""></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sandbox-callout" aria-labelledby="sandbox-callout-title">
+      <div class="projects-shell sandbox-callout-layout">
+        <div>
+          <p class="projects-kicker">INTERACTIVE DEMOS</p>
+          <h2 id="sandbox-callout-title">Try machine learning<br /><span>in your browser.</span></h2>
+        </div>
+        <div>
+          <p>Explore clustering, digit recognition, route planning, and decision boundaries in the ML Sandbox.</p>
+          <a class="projects-hero-link" href="/projects/sandbox">Open the ML Sandbox <span aria-hidden="true">→</span></a>
+        </div>
       </div>
     </section>
   </main>

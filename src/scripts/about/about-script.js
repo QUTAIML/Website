@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let teamPages = [];
   let teamIndex = 0;
   let teamAutoTimer;
+  let isTeamInView = false;
 
   function buildTeamPages() {
     teamPages = [];
@@ -126,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function resetTeamAuto() {
     clearInterval(teamAutoTimer);
-    teamAutoTimer = setInterval(nextTeamPage, TEAM_AUTO_DELAY);
+    if (isTeamInView) teamAutoTimer = setInterval(nextTeamPage, TEAM_AUTO_DELAY);
   }
 
   teamLeftArrow.onclick = () => {
@@ -161,8 +162,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Only rotate while the team is on screen, and start again from the first
+  // group (Admin Team) each time the visitor comes back to it.
+  const TEAM_VISIBLE_RATIO = 0.35;
+
+  new IntersectionObserver(([entry]) => {
+    const wasInView = isTeamInView;
+    isTeamInView = entry.intersectionRatio >= TEAM_VISIBLE_RATIO;
+
+    if (isTeamInView !== wasInView) resetTeamAuto();
+
+    if (!entry.isIntersecting && teamIndex !== 0) {
+      teamIndex = 0;
+      renderTeamPage(0);
+    }
+  }, { threshold: [0, TEAM_VISIBLE_RATIO] }).observe(teamSection);
+
   buildTeamPages();
-  resetTeamAuto();
   renderTeamPage(0);
 
 });

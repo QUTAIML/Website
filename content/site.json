@@ -8,6 +8,17 @@
     "roleDescriptions": "https://github.com/QUT-AIML/Constitution/blob/main/Role-Descriptions.md",
     "codeOfConduct": "https://github.com/QUT-AIML/Code-of-Conduct"
   },
+  "stats": [
+    { "value": "275+", "label": "active AIML members" },
+    { "value": "900+", "label": "Instagram followers" },
+    { "value": "950+", "label": "LinkedIn followers" },
+    { "value": "500+", "label": "Discord community members" }
+  ],
+  "nextHackathon": "Our next hackathon is coming in Semester 1, 2027. Keep an eye on the Hackathon page for more details.",
+  "hackathons": [
+    { "name": "AIML Hackathon 2026", "participants": "115+", "teams": "20", "summary": "It is QUT's biggest standalone student club hackathon to date, with teams building working AI prototypes over a few days." },
+    { "name": "Brains & Bots Hackathon", "participants": "60+", "teams": "13", "summary": "It ran over three days with the QUT Robotics Club and centred on one challenge: disaster response." }
+  ],
   "partners": [
     {
       "name": "NTI",

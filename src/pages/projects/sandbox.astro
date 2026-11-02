@@ -1,0 +1,30 @@
+---
+import "@/styles/projects.css";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+import SandboxSection from "@/components/sandbox/SandboxSection";
+---
+
+<ContentLayout
+  title="ML Sandbox | QUT AI & ML Society"
+  description="Interactive machine learning demos from the QUT AI & ML Society that run entirely in your browser."
+>
+  <main class="projects-page">
+    <section class="projects-hero sandbox-hero" aria-labelledby="sandbox-title">
+      <div class="projects-shell">
+        <div class="projects-hero-copy">
+          <a class="sandbox-back-link" href="/projects"><span aria-hidden="true">←</span> Back to projects</a>
+          <p class="projects-kicker">LEARN BY DOING</p>
+          <h1 id="sandbox-title">ML <span>Sandbox.</span></h1>
+          <p class="projects-intro">Try small machine learning experiences in your browser. Nothing you draw or add leaves your device.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- This is browser only because the demos create canvases and interactive state. -->
+    <SandboxSection client:only="react">
+      <section class="sandbox-loading" slot="fallback" aria-label="Loading ML Sandbox" data-pagefind-ignore>
+        <span>Loading the interactive activities</span>
+      </section>
+    </SandboxSection>
+  </main>
+</ContentLayout>

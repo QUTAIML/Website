@@ -583,7 +583,7 @@ body.modal-open {
 }
 .partner-events-heading h2 em { color: var(--partner-magenta-soft); font-style: normal; }
 .partner-events-heading > p { color: #d7cbd6; line-height: 1.6; margin: 0 0 .35rem; max-width: 23rem; }
-.partner-events-grid { display: grid; gap: .9rem; grid-template-columns: 1.15fr .85fr .85fr; margin-top: 2rem; }
+.partner-events-grid { container-type: inline-size; display: grid; gap: .9rem; grid-template-columns: 1.15fr .85fr .85fr; margin-top: 2rem; }
 .partner-event-card { background: #171016; margin: 0; min-height: 23rem; overflow: hidden; position: relative; }
 .partner-event-card:first-child { min-height: 31rem; }
 .partner-event-card img { height: 100%; inset: 0; object-fit: cover; position: absolute; transition: transform .45s ease; width: 100%; }
@@ -591,7 +591,7 @@ body.modal-open {
 .partner-event-card:hover img { transform: scale(1.045); }
 .partner-event-card > div { bottom: 0; left: 0; padding: 1.6rem; position: absolute; right: 0; z-index: 1; }
 .partner-event-card span { color: var(--partner-magenta-soft); display: block; font: 800 .7rem/1 var(--font-body); letter-spacing: .14em; }
-.partner-event-card h3 { color: #fff; font: 800 clamp(1.8rem, 3vw, 3rem)/.95 var(--font-body); letter-spacing: -.05em; margin: .65rem 0 0; }
+.partner-event-card h3 { color: #fff; font: 800 clamp(1rem, 5.6cqi - 15px, 2.2rem)/.95 var(--font-body); letter-spacing: -.05em; margin: .65rem 0 0; }
 .partner-event-agentcamp { margin-top: 4rem; }
 .partner-event-devfest { margin-top: 8rem; }
 
@@ -600,5 +600,6 @@ body.modal-open {
   .partner-events-heading { display: block; }
   .partner-events-heading > p { margin-top: 1.25rem; }
   .partner-events-grid { grid-template-columns: 1fr; }
+  .partner-event-card h3 { font-size: 1.8rem; }
   .partner-event-card, .partner-event-card:first-child, .partner-event-agentcamp, .partner-event-devfest { margin-top: 0; min-height: 21rem; }
 }

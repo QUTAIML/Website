@@ -1,7 +1,10 @@
 import { answerQuestion, buildIndex } from "./assistant-engine.js";
+import { searchPages } from "./assistant-pages.js";
 import { searchAssistant } from "./assistant-search.js";
 
 const NOT_FOUND_MESSAGE = "I couldn't find that in AIML's published information. Try asking about events, projects, the team, partners, or how to get involved.";
+
+const STARTER_QUESTIONS = ["What's the next event?", "Who is on the team?", "How do I join?", "What can you do?"];
 
 let knowledgeIndex;
 
@@ -293,6 +296,12 @@ function initializeAssistant(root) {
       console.error("AIML Assistant could not compute an answer.", error);
     }
     // Anything the data can't answer falls back to searching the site's text.
+    try {
+      const passage = await searchPages(question);
+      if (passage) return { answer: passage };
+    } catch (error) {
+      console.error("AIML Assistant could not search the site's pages.", error);
+    }
     return { result: await searchAssistant(question) };
   }
 
@@ -311,7 +320,8 @@ function initializeAssistant(root) {
       const { answer, result } = await getReply(question);
       loadingMessage.remove();
       if (answer) appendComputedAnswer(messages, answer, ask);
-      else appendAssistantMessage(messages, result);
+      else if (result?.status === "found") appendAssistantMessage(messages, result);
+      else appendComputedAnswer(messages, { text: NOT_FOUND_MESSAGE, suggestions: STARTER_QUESTIONS }, ask);
     } catch (error) {
       loadingMessage.remove();
       appendAssistantMessage(messages, { status: "error" });

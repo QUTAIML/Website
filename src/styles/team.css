@@ -1,0 +1,103 @@
+.team-hero { background: linear-gradient(118deg, #080808 8%, #120812 60%, #21001e); padding: 14rem 0 clamp(3.5rem, 6vw, 5.5rem); }
+.team-hero-layout { align-items: center; display: grid; gap: clamp(2.5rem, 6vw, 6rem); grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); }
+.team-hero h1 { color: #fff; font-size: clamp(3.4rem, 7vw, 6.6rem); line-height: .95; margin: 0; }
+.team-hero h1 span { color: #ff00e6; }
+.team-hero-lede { color: #ddd3dc; font-size: clamp(1rem, 1.5vw, 1.16rem); line-height: 1.65; margin: 1.75rem 0 0; max-width: 34rem; }
+.team-hero-facts { color: #cbc1ca; display: flex; flex-wrap: wrap; font-size: .9rem; gap: .75rem 1.75rem; margin-top: 2rem; }
+.team-hero-facts strong { color: #fff; font-size: 1.5rem; margin-right: .25rem; }
+.team-hero-photo { background: #f7f2f5; box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, .55); margin: 0; padding: .75rem .75rem 0; position: relative; transform: rotate(2deg); }
+.team-hero-photo::before { background: rgba(255, 0, 230, .5); content: ""; height: 1.6rem; left: 50%; position: absolute; top: -.75rem; transform: translateX(-50%) rotate(-3deg); width: 6.5rem; }
+.team-hero-photo img { display: block; height: auto; width: 100%; }
+.team-hero-photo figcaption { color: #1a1019; font: 700 1.5rem/1.1 "Caveat", cursive; padding: .7rem .35rem .9rem; text-align: center; }
+
+@media (max-width: 900px) {
+  .team-hero { padding-top: 12rem; }
+  .team-hero-layout { grid-template-columns: 1fr; }
+}
+
+/* ── Team tabs and polaroids ── */
+.team-page { overflow: clip; }
+.team-directory { background: radial-gradient(circle at 88% 12%, rgba(255, 0, 230, .13), transparent 34%), #0a090b; }
+.team-directory .existing-heading { margin-bottom: 2.5rem; }
+.team-explorer { --team-pink: #ff00e6; --team-soft: #ff8bf4; }
+.team-explorer.is-ready { align-items: start; display: grid; gap: 0; grid-template-columns: minmax(230px, 15rem) minmax(0, 1fr); }
+.team-tabs { display: none; }
+
+/* The rail is a circuit trace: each team is a node, and the live one connects to the panel. */
+.team-explorer.is-ready .team-tabs { display: flex; flex-direction: column; padding: 1.25rem 0; position: sticky; top: 6rem; }
+.team-tabs::before { background: linear-gradient(rgba(255, 139, 244, .1), rgba(255, 139, 244, .45), rgba(255, 139, 244, .1)); bottom: 2rem; content: ""; left: .85rem; position: absolute; top: 2rem; width: 2px; }
+
+.team-tab { align-items: center; background: none; border: 0; border-radius: 12px 0 0 12px; color: #cbc1ca; cursor: pointer; display: flex; gap: 1.1rem; padding: .95rem 1.25rem .95rem .45rem; position: relative; text-align: left; transition: background .25s ease, color .25s ease; }
+.team-tab i { background: #0a090b; border: 2px solid rgba(255, 139, 244, .55); border-radius: 50%; flex: none; height: .95rem; margin-left: .05rem; position: relative; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, scale .25s ease; width: .95rem; }
+.team-tab strong { color: inherit; display: block; font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; line-height: 1.15; }
+.team-tab small { color: #a99fa7; display: block; font: 500 .74rem/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; margin-top: .2rem; }
+.team-tab:hover { color: #fff; }
+.team-tab:hover i { border-color: var(--team-soft); }
+.team-tab:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
+.team-tab[aria-selected="true"] { background: #171218; color: #fff; }
+.team-tab[aria-selected="true"] i { background: var(--team-pink); border-color: #fff; box-shadow: 0 0 0 5px rgba(255, 0, 230, .22), 0 0 18px var(--team-pink); scale: 1.15; }
+.team-tab[aria-selected="true"] small { color: var(--team-soft); }
+.team-tab[aria-selected="true"]::after { background: var(--team-pink); bottom: 0; content: ""; position: absolute; right: 0; top: 0; width: 3px; }
+
+.team-explorer.is-ready .team-panels { background: radial-gradient(rgba(255, 139, 244, .12) 1px, transparent 1px) 0 0 / 22px 22px, #171218; border: 1px solid rgba(255, 139, 244, .2); border-radius: 0 16px 16px 16px; min-height: 34rem; padding: clamp(1.5rem, 3vw, 2.75rem); }
+.team-panel + .team-panel { margin-top: 3rem; }
+.team-explorer.is-ready .team-panel + .team-panel { margin-top: 0; }
+.team-panel[hidden] { display: none; }
+.team-panel header { align-items: baseline; display: flex; flex-wrap: wrap; gap: .5rem 1rem; justify-content: space-between; margin-bottom: 2.25rem; }
+.team-panel header h3 { color: #fff; font-size: clamp(1.8rem, 3.2vw, 2.9rem); line-height: 1; margin: 0; }
+.team-panel header p { color: var(--team-soft); font: 500 .85rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; margin: 0; }
+
+.team-polaroids { display: grid; gap: 2.5rem 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr)); list-style: none; margin: 0; padding: .75rem 0 0; }
+
+/* A slight fixed tilt that varies from card to card. Hover lifts without rotating further. */
+.team-polaroid { background: #f7f2f5; border-radius: 3px; box-shadow: 0 1.1rem 2.4rem rgba(0, 0, 0, .55); color: #1a1019; display: flex; flex-direction: column; height: 100%; padding: .65rem .65rem 1rem; position: relative; text-align: center; text-decoration: none; transform: rotate(var(--card-tilt, -1.6deg)); transition: box-shadow .25s ease, translate .25s ease; }
+.team-polaroids li:nth-child(4n+2) .team-polaroid { --card-tilt: 1.3deg; }
+.team-polaroids li:nth-child(4n+3) .team-polaroid { --card-tilt: -.8deg; }
+.team-polaroids li:nth-child(4n) .team-polaroid { --card-tilt: 1.8deg; }
+.team-polaroid::before { background: rgba(255, 0, 230, .5); content: ""; height: 1.5rem; left: 50%; position: absolute; top: -.7rem; transform: translateX(-50%) rotate(-3deg); width: 5.5rem; z-index: 2; }
+a.team-polaroid:hover { box-shadow: 0 1.6rem 3rem rgba(255, 0, 230, .3); translate: 0 -8px; }
+a.team-polaroid:focus-visible { outline: 3px solid var(--team-soft); outline-offset: 4px; }
+
+/* Transparent headshots sit on a network backdrop, so every photo looks part of a set. */
+.team-polaroid-photo {
+  aspect-ratio: 1 / 1.08;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 216'%3E%3Cg fill='none' stroke='%23ff8bf4' stroke-opacity='.35'%3E%3Cpath d='M0 62 44 30l50 26 42-40 64 30M44 30l-8 74 58-48 16 66 56-30 34 36M36 104 0 150m36-46 74 8-34 62m34-62 46 58 44-28'/%3E%3C/g%3E%3Cg fill='%23ff8bf4' fill-opacity='.7'%3E%3Ccircle cx='44' cy='30' r='3'/%3E%3Ccircle cx='94' cy='56' r='2.5'/%3E%3Ccircle cx='136' cy='16' r='3'/%3E%3Ccircle cx='36' cy='104' r='2.5'/%3E%3Ccircle cx='110' cy='122' r='3'/%3E%3Ccircle cx='166' cy='92' r='2.5'/%3E%3C/g%3E%3C/svg%3E") center / cover,
+    radial-gradient(circle at 50% 42%, rgba(255, 0, 230, .55), transparent 62%),
+    #1d0b1c;
+  display: block;
+  overflow: hidden;
+}
+.team-polaroid-photo img { display: block; height: 100%; object-fit: cover; object-position: center top; width: 100%; }
+.about-team .team-polaroid strong { color: #1a1019; font: 700 1.5rem/1.05 "Caveat", cursive; margin-top: .7rem; }
+.team-polaroid em { align-self: center; background: linear-gradient(120deg, #ff00e6, #a30093); border-radius: 999px; color: #fff; font: 800 .66rem/1.2 var(--font-body); letter-spacing: .07em; margin-top: .5rem; padding: .32rem .7rem; text-transform: uppercase; }
+.about-team .team-polaroid small { color: #5a5058; display: block; font: 500 .66rem/1.4 var(--font-body); margin-top: .55rem; }
+.about-team .team-polaroid small b { color: #a40094; display: block; font: 800 .66rem/1.4 var(--font-body); letter-spacing: .03em; text-transform: uppercase; }
+.about-team .team-polaroid > svg { bottom: .5rem; color: #a40094; height: .95rem; position: absolute; right: .5rem; width: .95rem; }
+
+/* Cards are dealt onto the board each time a team opens. */
+html.motion .team-panel:not([hidden]) .team-polaroids li { animation: team-deal .65s cubic-bezier(.16, 1, .3, 1) backwards; }
+html.motion .team-panel .team-polaroids li:nth-child(2) { animation-delay: .06s; }
+html.motion .team-panel .team-polaroids li:nth-child(3) { animation-delay: .12s; }
+html.motion .team-panel .team-polaroids li:nth-child(4) { animation-delay: .18s; }
+html.motion .team-panel .team-polaroids li:nth-child(n+5) { animation-delay: .24s; }
+html.motion .team-tab[aria-selected="true"] i { animation: team-node-pulse 2.2s ease-in-out infinite; }
+@keyframes team-deal { from { opacity: 0; rotate: 7deg; scale: .86; translate: -2.5rem 1.5rem; } }
+@keyframes team-node-pulse { 50% { box-shadow: 0 0 0 9px rgba(255, 0, 230, .08), 0 0 26px #ff00e6; } }
+
+@media (max-width: 800px) {
+  .team-explorer.is-ready { display: block; }
+  .team-explorer.is-ready .team-tabs { flex-direction: row; gap: .5rem; margin: 0 -1rem .9rem; overflow-x: auto; padding: .25rem 1rem .75rem; position: static; scrollbar-width: none; }
+  .team-tabs::before { display: none; }
+  .team-tab { border: 1px solid rgba(255, 139, 244, .25); border-radius: 999px; flex: none; gap: .55rem; padding: .55rem .9rem; }
+  .team-tab small { display: none; }
+  .team-tab strong { font-size: .95rem; white-space: nowrap; }
+  .team-tab i { height: .6rem; margin: 0; width: .6rem; }
+  .team-tab[aria-selected="true"]::after { display: none; }
+  .team-explorer.is-ready .team-panels { border-radius: 16px; min-height: 0; }
+  .team-polaroids { gap: 1.75rem 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-team .team-polaroid strong { font-size: 1.3rem; }
+  .team-polaroid em { font-size: .56rem; padding: .28rem .5rem; }
+  .team-polaroid::before { height: 1.1rem; top: -.5rem; width: 3.6rem; }
+  .about-team .team-polaroid > svg { display: none; }
+}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@400;500;600;700&family=Share+Tech&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@400;500;600;700&family=Share+Tech&family=Chakra+Petch:wght@600;700&family=Caveat:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap');
 @import "tailwindcss";
 
@@ -8,7 +8,7 @@
   --color-background: #090909;
   --font-body: "Inter", sans-serif;
   --font-heading: "Share Tech", sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Chakra Petch", sans-serif;
 }
 
 .background {
@@ -580,4 +580,26 @@ footer {
 .info-panel details[open] > .pdf-container {
   height: 600px;
   visibility: visible;
+}
+
+/* ----------------------------- */
+/*        HEADING TYPOGRAPHY     */
+/* ----------------------------- */
+
+/* One heading voice across every page. Page stylesheets set tighter spacing and
+   larger sizes tuned for narrower fonts, so these need to take priority. */
+:is(main, [data-pagefind-body]) :is(h1, h2, h3),
+:is(main, [data-pagefind-body]) :is(h1, h2, h3) :is(span, em) {
+  font-family: var(--font-display) !important;
+  letter-spacing: -.015em !important;
+}
+
+:is(main, [data-pagefind-body]) :is(h1, h2) { font-weight: 700 !important; line-height: 1.02 !important; }
+:is(main, [data-pagefind-body]) h1 { font-size: clamp(2.7rem, 6.2vw, 5.6rem) !important; }
+:is(main, [data-pagefind-body]) h2:not(.faq-list h2, .exec-hero h2, .history-entry-heading h2) { font-size: clamp(2.2rem, 4.4vw, 4.2rem) !important; }
+
+:is(.hero-proof, .archive-stats, .now-stats, .recap-stats, .history-count) strong,
+:is(.event-hero-facts, .project-hero-facts, .team-hero-facts) strong {
+  font-family: var(--font-display);
+  letter-spacing: -.02em !important;
 }

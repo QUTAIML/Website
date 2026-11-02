@@ -3,7 +3,7 @@
 // html.motion is set in the layouts' <head>, and stays off for reduced motion.
 
 const REVEALS = {
-  rise: ".section-heading, .photo-band-heading, .opportunities-copy, .community-copy, .partner-home-lede, .values-heading, .journey-editorial-heading, .now-intro, .existing-heading, .mission-copy, .team-stage-heading, .events-overview-heading, .section-split-heading, .project-pathways-layout > *, .projects-archive-heading, .sandbox-callout-layout, .partner-section-heading, .partner-events-heading, .partner-impact > header, .partner-callout, .connect-section-heading, .connect-direct-layout > *, .recap-heading, .recap-story, .solution-showcase-heading, .photo-story-heading, .photo-story-set > header, .history-intro, .history-entry-heading, .history-founders-heading, .community-story-grid > *, .community-actions-heading, .community-speaker .community-shell, .community-links .community-shell, .exec-heading, .faq-join .faq-shell, .faq-footer .faq-shell, .faq-list-kicker",
+  rise: ".section-heading, .photo-band-heading, .opportunities-copy, .community-copy, .partner-home-lede, .values-heading, .journey-editorial-heading, .now-intro, .existing-heading, .mission-copy, .events-overview-heading, .section-split-heading, .project-pathways-layout > *, .projects-archive-heading, .sandbox-callout-layout, .partner-section-heading, .partner-events-heading, .partner-impact > header, .partner-callout, .connect-section-heading, .connect-direct-layout > *, .recap-heading, .recap-story, .solution-showcase-heading, .photo-story-heading, .photo-story-set > header, .history-intro, .history-entry-heading, .history-founders-heading, .community-story-grid > *, .community-actions-heading, .community-speaker .community-shell, .community-links .community-shell, .exec-heading, .faq-join .faq-shell, .faq-footer .faq-shell, .faq-list-kicker",
   pop: ".value-card, .credibility-promises > div, .archive-stats > article, .opportunity-block, .partner-home-card, .partner-home-impact > div, .social-grid > a, .values-row > article, .now-stats > article, .degree-pathway, .resource-panel, .executive-panel, .event-pillars > article, .event-card, .project-pathway-cards > article, .project-browser, .sponsor-spotlight, .supporter-card, .partner-impact-grid > article, .partner-event-card, .connect-social-grid > *, .recap-stats > div, .solution-grid > article, .history-portfolio, .history-founders-grid > li, .community-action-grid > article, .exec-role-layout > *, .exec-timing",
   wipe: ".photo-story-grid > *, .community-image, .mission-image, .journey-feature-image, .recap-photo, .history-photo",
   left: ".journey-milestone-list > li, .faq-list article",
@@ -11,7 +11,7 @@ const REVEALS = {
 };
 
 const COUNTERS = ".hero-proof strong, .archive-stats strong, .now-stats strong, .event-hero-facts strong, .project-hero-facts strong, .recap-stats strong, .history-count strong";
-const SPOTLIGHT_CARDS =".value-card, .partner-home-card, .opportunity-block, .resource-panel, .executive-panel, .supporter-card, .team-card, .event-card, .solution-grid > article, .connect-social-grid > a";
+const SPOTLIGHT_CARDS =".value-card, .partner-home-card, .opportunity-block, .resource-panel, .executive-panel, .supporter-card, .event-card, .solution-grid > article, .connect-social-grid > a";
 
 const STAGGER_MS = 80;
 const MAX_STAGGER_MS = 400;

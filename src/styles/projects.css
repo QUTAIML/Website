@@ -248,7 +248,7 @@
 .projects-archive h2 { font-size: clamp(3.8rem, 7vw, 6.8rem); }
 .projects-archive-heading > p { margin: 0 0 .5rem; color: #d8ccd6; font-size: 1.1rem; line-height: 1.55; }
 
-.project-browser { border: 1px solid rgba(255, 255, 255, .11); background: #111012; display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); height: 780px; }
+.project-browser { border: 1px solid rgba(255, 255, 255, .11); background: #111012; display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); height: clamp(460px, calc(100vh - 7rem), 780px); }
 
 .project-browser-nav { border-right: 1px solid rgba(255, 255, 255, .11); display: flex; flex-direction: column; min-height: 0; }
 .project-filters { border-bottom: 1px solid rgba(255, 255, 255, .11); display: grid; gap: .6rem; padding: 1.25rem; }
@@ -275,6 +275,10 @@
 .project-viewer-bar p { color: #cbc1ca; font-size: .86rem; line-height: 1.4; margin: .3rem 0 0; }
 .project-viewer-link { color: #fff; flex: none; font-size: .85rem; font-weight: 700; text-decoration: none; }
 .project-viewer-link:hover { color: #f173e5; }
+.project-viewer-links { align-items: center; display: flex; flex: none; flex-wrap: wrap; gap: .5rem 1.1rem; }
+.project-viewer-colab { background: #ff00e6; border-radius: 999px; color: #20081b; font-size: .85rem; font-weight: 800; padding: .5rem .95rem; text-decoration: none; white-space: nowrap; }
+.project-viewer-colab:hover, .project-viewer-colab:focus-visible { background: #ff8bf4; }
+.project-viewer-colab[hidden] { display: none; }
 .project-viewer-frame { background: #0d0c0e; border: 0; display: block; flex: 1; min-height: 0; width: 100%; }
 
 @media (max-width: 900px) {
@@ -305,3 +309,19 @@
   .project-pathway-cards article { min-height: 190px; }
   .project-pathway-cards h3 { margin-top: 2.2rem; }
 }
+
+.project-row { align-items: center; display: flex; gap: .85rem; }
+.project-row-thumb { border-radius: 6px; flex: none; height: 3rem; object-fit: cover; width: 3rem; }
+.project-row-text { min-width: 0; }
+
+/* A layered neural network behind the hero, faded back behind the text. */
+.projects-hero { overflow: hidden; position: relative; }
+.projects-hero-layout { position: relative; z-index: 1; }
+.project-network { height: 100%; inset: 0; pointer-events: none; position: absolute; width: 100%; -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,.15), rgba(0,0,0,.45) 45%, #000 75%); mask-image: linear-gradient(to right, rgba(0,0,0,.15), rgba(0,0,0,.45) 45%, #000 75%); }
+.project-network-wire { fill: none; stroke: rgba(255, 139, 244, .1); stroke-width: 1; }
+.project-network-node { fill: rgba(255, 139, 244, .4); }
+.project-network-pulse { display: none; fill: none; }
+html.motion .project-network-pulse { animation: project-signal linear infinite; display: block; filter: drop-shadow(0 0 3px #ff00e6); stroke: #ff00e6; stroke-dasharray: 4 200; stroke-linecap: round; stroke-width: 2; }
+.project-network.is-offscreen .project-network-pulse { animation-play-state: paused; }
+@keyframes project-signal { from { stroke-dashoffset: 4; } 45%, to { stroke-dashoffset: -100; } }
+@media (max-width: 800px) { .project-network { opacity: .6; } }

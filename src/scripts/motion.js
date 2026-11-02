@@ -106,12 +106,19 @@ function setUpScrollEffects() {
   document.body.appendChild(progressBar);
 
   const rail = document.querySelector(".history-entries");
+  const breaks = [...document.querySelectorAll(".photo-break")];
   let isQueued = false;
 
   const update = () => {
     isQueued = false;
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     progressBar.style.setProperty("--motion-scroll", scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0);
+
+    breaks.forEach((photoBreak) => {
+      const { top } = photoBreak.getBoundingClientRect();
+      const opened = (window.innerHeight - top) / (window.innerHeight * 0.75);
+      photoBreak.style.setProperty("--motion-break", Math.max(0, Math.min(opened, 1)));
+    });
 
     if (rail) {
       const { top, height } = rail.getBoundingClientRect();
@@ -132,20 +139,15 @@ function setUpScrollEffects() {
 }
 
 function setUpHero() {
-  const hero = document.querySelector(".aiml-hero");
-  if (!hero) return;
+  const heroes = new Set([...document.querySelectorAll(".hero-node-map, .photo-net")].map((network) => network.closest("section, header")));
 
-  // Stop the looping network animation once the hero has scrolled away.
-  new IntersectionObserver(([entry]) => {
-    hero.classList.toggle("motion-offscreen", !entry.isIntersecting);
-  }).observe(hero);
-
-  hero.addEventListener("pointermove", (event) => {
-    if (event.pointerType !== "mouse") return;
-    const { left, top, width, height } = hero.getBoundingClientRect();
-    hero.style.setProperty("--motion-px", ((event.clientX - left) / width - 0.5) * 2);
-    hero.style.setProperty("--motion-py", ((event.clientY - top) / height - 0.5) * 2);
+  // Stop looping animations once they have scrolled away.
+  const offscreen = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => target.classList.toggle("motion-offscreen", !isIntersecting));
   });
+  document.querySelectorAll(".photo-strip").forEach((strip) => offscreen.observe(strip));
+
+  heroes.forEach((hero) => offscreen.observe(hero));
 }
 
 function setUpCardSpotlight() {

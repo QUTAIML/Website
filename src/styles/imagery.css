@@ -1,0 +1,66 @@
+/* ----------------------------- */
+/*       PHOTO-LED COMPONENTS    */
+/* ----------------------------- */
+
+/* ── Photo network ── */
+.photo-net { aspect-ratio: 1 / .92; position: relative; }
+.photo-net svg { height: 100%; inset: 0; overflow: visible; position: absolute; width: 100%; }
+.photo-net-line { fill: none; stroke: rgba(255, 139, 244, .55); stroke-width: 1.4; }
+.photo-net-signal { display: none; }
+
+.photo-net-node { height: auto; left: var(--x); position: absolute; top: var(--y); transform: translate(-50%, -50%); width: var(--size); }
+.photo-net-float { aspect-ratio: 1; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 139, 244, .85), 0 0 0 7px rgba(255, 0, 230, .16), 0 0 2.2rem rgba(255, 0, 230, .42); display: block; overflow: hidden; }
+.photo-net-float img { display: block; height: 100%; object-fit: cover; transition: scale .6s cubic-bezier(.16, 1, .3, 1); width: 100%; }
+
+html.motion .photo-net-node { animation: motion-node-in .9s cubic-bezier(.16, 1, .3, 1) calc(.35s + var(--i) * .13s) backwards; }
+html.motion .photo-net-float { animation: photo-net-drift calc(6s + var(--i) * 1.3s) ease-in-out calc(var(--i) * -1.7s) infinite alternate; }
+html.motion .photo-net-line { animation: motion-draw 1.6s ease-in-out .3s backwards; stroke-dasharray: 1; }
+html.motion .photo-net-signal { animation: motion-signal 4.6s linear infinite; display: inline; fill: none; filter: drop-shadow(0 0 5px #ff00e6); stroke: #fff; stroke-dasharray: .1 1; stroke-linecap: round; stroke-width: 2.4; }
+html.motion .photo-net-signal:nth-of-type(n+9) { animation-delay: -1.5s; animation-duration: 6s; }
+html.motion .photo-net-signal:nth-of-type(n+10) { animation-delay: -3s; animation-duration: 5.2s; }
+@keyframes photo-net-drift { from { translate: -5px -7px; } to { translate: 6px 8px; } }
+
+/* Heroes keep their copy on the left, with the network beside it. */
+.photo-net-host { position: relative; }
+.photo-net-host > .photo-net { max-width: none; position: absolute; right: 0; top: 50%; translate: 0 -50%; width: clamp(18rem, 26vw, 25rem); z-index: 0; }
+.photo-net-host > :not(.photo-net) { position: relative; z-index: 1; }
+.photo-net-host > p:not(:first-child) { max-width: 33rem; }
+
+@media (max-width: 1340px) {
+  .photo-net-host > .photo-net { margin: 3rem auto 0; position: relative; right: auto; top: auto; translate: none; width: min(100%, 30rem); }
+}
+
+/* ── Film strip ── */
+.photo-strip { background: #090909; display: grid; gap: .8rem; overflow: hidden; padding: clamp(2rem, 4vw, 3.5rem) 0; }
+.photo-strip-row { -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); overflow: hidden; }
+.photo-strip-track { display: flex; gap: .8rem; width: max-content; }
+.photo-strip-track img { aspect-ratio: 3 / 2; border-radius: 6px; display: block; height: clamp(7.5rem, 14vw, 13rem); object-fit: cover; transition: filter .3s ease, scale .4s cubic-bezier(.16, 1, .3, 1); width: auto; }
+.photo-strip-track img:hover { filter: saturate(1.2); scale: 1.04; }
+html.motion .photo-strip-track { animation: photo-strip-move 70s linear infinite; }
+html.motion .photo-strip-row:nth-child(2) .photo-strip-track { animation-direction: reverse; animation-duration: 85s; }
+html.motion .photo-strip-row:hover .photo-strip-track { animation-play-state: paused; }
+@keyframes photo-strip-move { to { transform: translateX(calc(-50% - .4rem)); } }
+html:not(.motion) .photo-strip-row { overflow-x: auto; }
+
+/* ── Scroll-driven photo break ── */
+.photo-break { background: #090909; padding: clamp(1.5rem, 3vw, 2.5rem) 0; }
+.photo-break-frame { --pb-gap: calc(1 - var(--motion-break, 1)); clip-path: inset(calc(var(--pb-gap) * 9%) calc(var(--pb-gap) * 14%) round calc(var(--pb-gap) * 28px)); height: clamp(22rem, 72vh, 44rem); overflow: hidden; position: relative; }
+.photo-break-frame img { height: 100%; object-fit: cover; scale: calc(1 + var(--pb-gap) * .22); width: 100%; }
+.photo-break-frame::after { background: linear-gradient(0deg, rgba(8, 3, 8, .9), rgba(8, 3, 8, .1) 58%); content: ""; inset: 0; position: absolute; }
+.photo-break-copy { bottom: clamp(1.75rem, 5vw, 4rem); left: clamp(1.25rem, 8vw, 8rem); opacity: calc(var(--motion-break, 1) * 1.6 - .6); position: absolute; right: clamp(1.25rem, 8vw, 8rem); translate: 0 calc(var(--pb-gap) * 3rem); z-index: 1; }
+.photo-break-label { color: #ff8bf4; font-size: .72rem; font-weight: 800; letter-spacing: .14em; margin: 0 0 .7rem; }
+.photo-break-line { color: #fff; font: 700 clamp(2.1rem, 5vw, 4.6rem)/1.02 var(--font-display); letter-spacing: -.015em; margin: 0; max-width: 18ch; }
+.photo-break .photo-break-line span { color: #ff00e6; display: inline; font: inherit; letter-spacing: inherit; }
+
+/* ── Photo covers on text cards ── */
+.has-cover { overflow: hidden; padding-top: 12rem !important; position: relative; }
+.card-cover { height: 10.5rem; left: 0; object-fit: cover; position: absolute; top: 0; transition: scale .6s cubic-bezier(.16, 1, .3, 1); width: 100%; }
+.has-cover::after { background: linear-gradient(180deg, transparent 6rem, rgba(0, 0, 0, .35) 10.5rem, transparent 10.5rem); content: ""; inset: 0; pointer-events: none; position: absolute; }
+.has-cover:hover .card-cover { scale: 1.06; }
+
+/* Photos fill their hero frames, however tall the frame is. */
+.events-hero-image img, .projects-hero-image img { inset: 0; position: absolute; }
+.events-hero-image figcaption, .projects-hero-image figcaption { z-index: 2; }
+
+/* Some pages set a body font on every element, so these lines need to insist. */
+.photo-break .photo-break-line, .photo-break .photo-break-line span { font-family: var(--font-display) !important; }

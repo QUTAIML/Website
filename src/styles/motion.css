@@ -68,11 +68,6 @@ html.motion :is(.events-hero-image, .projects-hero-image, .partner-hero-art) {
 html.motion .about-hero > img { animation: motion-settle 2.4s var(--motion-ease) backwards; }
 
 /* ── Home hero network ── */
-html.motion .hero-node-map {
-  transition: translate .7s ease-out;
-  translate: calc(var(--motion-px, 0) * -22px) calc(var(--motion-py, 0) * -14px);
-}
-
 html.motion .hero-node-map path:not(.node-signal) {
   animation: motion-draw 2.4s ease-in-out .15s backwards;
   stroke-dasharray: 1;
@@ -100,11 +95,6 @@ html.motion .hero-node-map circle {
 
 html.motion .hero-node-map circle:nth-child(3n) { animation-delay: 1.3s, 2.6s; }
 html.motion .hero-node-map circle:nth-child(3n+1) { animation-delay: 1.6s, 3.4s; }
-
-html.motion .hero-glow {
-  transition: translate .9s ease-out;
-  translate: calc(var(--motion-px, 0) * 34px) calc(var(--motion-py, 0) * 26px);
-}
 
 html.motion .hero-glow-one { animation: motion-drift 11s ease-in-out infinite alternate; }
 html.motion .hero-glow-two { animation: motion-drift 14s ease-in-out -5s infinite alternate-reverse; }

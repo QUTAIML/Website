@@ -1,4 +1,5 @@
 ---
+import PhotoBreak from "@/components/PhotoBreak.astro";
 import { loadImages, partners } from "@/lib/content";
 import "@/styles/partners.css";
 import ExternalArrow from "@/components/ExternalArrow.astro";
@@ -72,7 +73,9 @@ const image = await loadImages();
       </div>
     </section>
 
-    <section class="partner-callout">
+    <PhotoBreak src="events/2026-sem-1/bands-industry-night-4.jpeg" alt="A speaker presenting at the AIML and BANDS Industry Night" label="WHERE IT LEADS" line="Students meet" accent="the industry." />
+
+      <section class="partner-callout">
       <p>New opportunities are always on the horizon.</p>
       <h2>Help shape what our members build next.</h2>
       <a href="/contact">Start a conversation <ExternalArrow /></a>

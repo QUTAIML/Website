@@ -68,7 +68,9 @@ export async function searchPages(question) {
       const rarity = Math.log(1 + passages.length / (frequency.get(term) ?? 1));
       return total + rarity * (counts.get(term) / (counts.get(term) + 1.2));
     }, 0);
-    if (!best || score > best.score) best = { ...passage, score };
+    const titled = matched.some((term) => passage.sectionTerms.includes(term));
+    const weighted = titled ? score * 1.6 : score;
+    if (!best || weighted > best.score) best = { ...passage, score: weighted };
   }
 
   if (!best || best.score < MIN_SCORE) return null;

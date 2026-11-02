@@ -1,5 +1,5 @@
 // src/scripts/team/team-tabs.js
-// Left-hand team tabs. Without JavaScript the tabs stay hidden and every team is listed.
+// Team tabs along a rail. Without JavaScript the tabs stay hidden and every team is listed.
 
 document.addEventListener("DOMContentLoaded", () => {
   const explorer = document.getElementById("team-explorer");
@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const tabs = [...explorer.querySelectorAll(".team-tab")];
   const panels = [...explorer.querySelectorAll(".team-panel")];
+  const rail = explorer.querySelector(".team-tabs");
+  rail.style.setProperty("--team-count", tabs.length);
 
   function selectTab(tab, shouldFocus = false) {
     tabs.forEach((other) => {
@@ -15,15 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
       other.tabIndex = isSelected ? 0 : -1;
     });
     panels.forEach((panel) => { panel.hidden = panel.id !== tab.getAttribute("aria-controls"); });
+    rail.style.setProperty("--team-progress", tabs.indexOf(tab) / Math.max(tabs.length - 1, 1));
     if (shouldFocus) tab.focus();
   }
 
   tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => {
       selectTab(tab);
-      // On phones the people sit below the tabs, so bring them into view.
+      // On phones the rail scrolls sideways, so keep the chosen team in view.
       if (window.matchMedia("(max-width: 800px)").matches) {
-        panels.find((panel) => !panel.hidden)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        tab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       }
     });
     tab.addEventListener("keydown", (event) => {

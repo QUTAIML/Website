@@ -54,7 +54,8 @@
     "attendance": 52,
     "week": "WK2",
     "confirmed": true,
-    "notes": "WIT, BANDS, TECH Collab"
+    "notes": "WIT, BANDS, TECH Collab",
+    "rubric": "https://campus.hellorubric.com/?eid=55110"
   },
   {
     "title": "Special General Meeting",
@@ -98,7 +99,8 @@
     "isCollab": true,
     "attendance": 11,
     "week": "WK3",
-    "confirmed": true
+    "confirmed": true,
+    "rubric": "https://campus.hellorubric.com/?eid=55260"
   },
   {
     "title": "Project Night 3",
@@ -142,7 +144,8 @@
     "isCollab": false,
     "attendance": 14,
     "week": "WK5",
-    "confirmed": true
+    "confirmed": true,
+    "rubric": "https://campus.hellorubric.com/?eid=58857"
   },
   {
     "title": "Clubs Exchange Party",
@@ -157,7 +160,8 @@
     "attendance": 364,
     "week": "WK5",
     "confirmed": true,
-    "notes": "Event affiliate"
+    "notes": "Event affiliate",
+    "rubric": "https://campus.hellorubric.com/?eid=52540"
   },
   {
     "title": "Project Night 5",
@@ -188,7 +192,8 @@
     "week": "MID",
     "confirmed": true,
     "attendance": 117,
-    "notes": "Multi-day event"
+    "notes": "Multi-day event",
+    "rubric": "https://campus.hellorubric.com/?eid=51059"
   },
   {
     "title": "Project Night 6",
@@ -217,7 +222,8 @@
     "week": "WK8",
     "confirmed": true,
     "attendance": 110,
-    "notes": "Partnered with BANDS"
+    "notes": "Partnered with BANDS",
+    "rubric": "https://campus.hellorubric.com/?eid=55496"
   },
   {
     "title": "Team400 Workshop",
@@ -259,7 +265,8 @@
     "isCollab": false,
     "week": "WK10",
     "confirmed": true,
-    "attendance": 15
+    "attendance": 15,
+    "rubric": "https://campus.hellorubric.com/?eid=51267"
   },
   {
     "title": "AgentCamp",
@@ -286,7 +293,8 @@
     "isCollab": false,
     "week": "WK11",
     "confirmed": true,
-    "attendance": 4
+    "attendance": 4,
+    "rubric": "https://campus.hellorubric.com/?eid=59994"
   },
   {
     "title": "Trivia Night",
@@ -301,6 +309,6 @@
     "attendance": 25,
     "week": "WK11",
     "confirmed": true,
-    "rubric": ""
+    "rubric": "https://campus.hellorubric.com/?eid=63155"
   }
 ]

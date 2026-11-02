@@ -6,7 +6,62 @@ const NOT_FOUND_MESSAGE = "I couldn't find that in AIML's published information.
 
 const STARTER_QUESTIONS = ["What's the next event?", "Who is on the team?", "How do I join?", "What can you do?"];
 
+// The chat is kept in session storage so it follows the person between pages.
+// It never leaves their browser and is dropped when they arrive from elsewhere.
+const STORAGE_KEY = "aiml-assistant-chat";
+const MAX_SAVED_TURNS = 40;
+const OPEN_ON_NEW_PAGE_MIN_WIDTH = 700;
+
 let knowledgeIndex;
+
+function readSavedChat() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
+    return { turns: Array.isArray(saved?.turns) ? saved.turns : [], isOpen: Boolean(saved?.isOpen) };
+  } catch {
+    return { turns: [], isOpen: false };
+  }
+}
+
+function writeSavedChat(chat) {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...chat, turns: chat.turns.slice(-MAX_SAVED_TURNS) }));
+  } catch {
+    // Without storage the chat still works, it just won't follow them to the next page.
+  }
+}
+
+function clearSavedChat() {
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Nothing was saved in the first place.
+  }
+}
+
+// Moving between this site's pages or reloading keeps the chat. Anything else is a new visit.
+function isNewVisit() {
+  const navigation = performance.getEntriesByType("navigation")[0];
+  if (navigation && navigation.type !== "navigate") return false;
+  try {
+    return new URL(document.referrer).origin !== window.location.origin;
+  } catch {
+    return true;
+  }
+}
+
+const savableSection = ({ text, parts, items, more, sources, suggestions }) => ({ text, parts, items, more, sources, suggestions });
+
+function savableAnswer(answer) {
+  return { ...savableSection(answer), sections: answer.sections?.map(savableSection) };
+}
+
+// Page search can return a whole section with its words run together.
+function isReadableEvidence(value) {
+  const text = cleanDisplayText(value);
+  const gluedWords = text.match(/[a-z][A-Z]|\d[A-Z]/g)?.length ?? 0;
+  return text.length > 0 && text.length <= 700 && gluedWords <= 2;
+}
 
 // The knowledge file is only fetched once someone asks a question.
 function loadKnowledgeIndex() {
@@ -250,20 +305,58 @@ function initializeAssistant(root) {
   const input = root.querySelector("[data-assistant-input]");
   const send = root.querySelector("[data-assistant-send]");
   const messages = root.querySelector("[data-assistant-messages]");
+  const clear = root.querySelector("[data-assistant-clear]");
 
   if (!panel || !toggle || !close || !form || !input || !send || !messages) return;
 
   let processingQuestion = "";
   let conversationContext = null;
+  let isContextRestored = false;
 
-  function setOpen(open, restoreToggleFocus = false) {
+  if (isNewVisit()) clearSavedChat();
+
+  function renderTurn(turn) {
+    appendUserMessage(messages, turn.question);
+    renderReply(turn);
+  }
+
+  function renderReply(turn) {
+    if (turn.answer) appendComputedAnswer(messages, turn.answer, ask);
+    else if (turn.result?.status === "found") appendAssistantMessage(messages, turn.result);
+    else appendComputedAnswer(messages, { text: NOT_FOUND_MESSAGE, suggestions: STARTER_QUESTIONS }, ask);
+  }
+
+  function clearConversation() {
+    messages.querySelectorAll(".assistant-message:not(:first-child)").forEach((message) => message.remove());
+    conversationContext = null;
+    isContextRestored = false;
+  }
+
+  function renderSavedChat() {
+    clearConversation();
+    const { turns } = readSavedChat();
+    turns.forEach(renderTurn);
+    if (clear) clear.hidden = turns.length === 0;
+  }
+
+  // Asking the saved questions again rebuilds what the engine remembered.
+  function restoreContext(index) {
+    if (isContextRestored) return;
+    isContextRestored = true;
+    readSavedChat().turns.forEach((turn) => {
+      conversationContext = answerQuestion(turn.question, index, conversationContext).context;
+    });
+  }
+
+  function setOpen(open, restoreToggleFocus = false, moveFocus = true) {
     panel.hidden = !open;
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close AIML Assistant" : "Open AIML Assistant");
     root.classList.toggle("is-open", open);
+    writeSavedChat({ ...readSavedChat(), isOpen: open });
 
     if (open) {
-      input.focus();
+      if (moveFocus) input.focus();
       scrollConversation(messages);
     } else if (restoreToggleFocus) {
       toggle.focus();
@@ -289,7 +382,9 @@ function initializeAssistant(root) {
 
   async function getReply(question) {
     try {
-      const { answer, context } = answerQuestion(question, await loadKnowledgeIndex(), conversationContext);
+      const index = await loadKnowledgeIndex();
+      restoreContext(index);
+      const { answer, context } = answerQuestion(question, index, conversationContext);
       conversationContext = context;
       if (answer) return { answer };
     } catch (error) {
@@ -302,7 +397,8 @@ function initializeAssistant(root) {
     } catch (error) {
       console.error("AIML Assistant could not search the site's pages.", error);
     }
-    return { result: await searchAssistant(question) };
+    const result = await searchAssistant(question);
+    return { result: isReadableEvidence(result.evidence?.text || result.excerpt) ? result : { status: "not_found" } };
   }
 
   async function ask(rawQuestion) {
@@ -319,9 +415,19 @@ function initializeAssistant(root) {
     try {
       const { answer, result } = await getReply(question);
       loadingMessage.remove();
-      if (answer) appendComputedAnswer(messages, answer, ask);
-      else if (result?.status === "found") appendAssistantMessage(messages, result);
-      else appendComputedAnswer(messages, { text: NOT_FOUND_MESSAGE, suggestions: STARTER_QUESTIONS }, ask);
+
+      if (answer?.clearsMemory) {
+        clearSavedChat();
+        clearConversation();
+        if (clear) clear.hidden = true;
+        appendComputedAnswer(messages, answer, ask);
+      } else {
+        const turn = { question, answer: answer ? savableAnswer(answer) : undefined, result: answer ? undefined : result };
+        renderReply(turn);
+        const saved = readSavedChat();
+        writeSavedChat({ ...saved, isOpen: !panel.hidden, turns: [...saved.turns, turn] });
+        if (clear) clear.hidden = false;
+      }
     } catch (error) {
       loadingMessage.remove();
       appendAssistantMessage(messages, { status: "error" });
@@ -333,6 +439,18 @@ function initializeAssistant(root) {
     }
   }
 
+  clear?.addEventListener("click", () => {
+    clearSavedChat();
+    clearConversation();
+    clear.hidden = true;
+    input.focus();
+  });
+
+  // Pages restored by the back button may be behind the chat on the page they came from.
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) renderSavedChat();
+  });
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     ask(input.value);
@@ -341,6 +459,9 @@ function initializeAssistant(root) {
   root.querySelectorAll("[data-assistant-suggestion]").forEach((button) => {
     button.addEventListener("click", () => ask(button.textContent));
   });
+
+  renderSavedChat();
+  if (readSavedChat().isOpen && window.innerWidth >= OPEN_ON_NEW_PAGE_MIN_WIDTH) setOpen(true, false, false);
 }
 
 export function initializeWebsiteAssistants() {

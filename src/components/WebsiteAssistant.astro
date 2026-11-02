@@ -16,9 +16,10 @@ import "@/styles/components/assistant.css";
         <span class="assistant-mark" aria-hidden="true">AI</span>
         <div>
           <h2 id="aiml-assistant-title">AIML Assistant</h2>
-          <p>Answers from AIML's published information</p>
+          <p>Remembers this chat until you leave the site</p>
         </div>
       </div>
+      <button class="assistant-clear" type="button" data-assistant-clear hidden>New chat</button>
       <button
         class="assistant-close"
         type="button"
@@ -43,7 +44,7 @@ import "@/styles/components/assistant.css";
       <article class="assistant-message assistant-message--assistant">
         <div class="assistant-message-label">AIML Assistant</div>
         <div class="assistant-bubble">
-          <p>Ask me about AIML's events, projects, team, and partners. I can count, compare, and filter as well as look things up, and you can ask follow-up questions.</p>
+          <p>Ask me about AIML's events, projects, team, and partners. I can count, compare, and filter as well as look things up, and I'll remember what we've talked about as you move around the site.</p>
         </div>
         <div class="assistant-suggestions">
           <button class="assistant-suggestion" type="button" data-assistant-suggestion>What's the next event?</button>

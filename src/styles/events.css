@@ -1205,8 +1205,15 @@
 .calendar-day:focus-visible { outline: 2px solid var(--event-pink-soft); outline-offset: 2px; }
 .calendar-day.has-event { border-color: rgba(240,0,213,.35); background: linear-gradient(145deg, rgba(181,0,168,.2), #171217 78%); }
 .calendar-day:hover { border-color: rgba(255,139,244,.55); background: #211821; }
+/* Event days are filled in the legend's colours: light pink coming up, light grey past. */
+.calendar-day.is-upcoming { border-color: var(--event-pink-soft); background: var(--event-pink-soft); }
+.calendar-day.is-past { border-color: #8d8390; background: #8d8390; }
+.calendar-day:is(.is-upcoming, .is-past):hover { border-color: #fff; }
+.calendar-day:is(.is-upcoming, .is-past) .calendar-date,
+.calendar-day:is(.is-upcoming, .is-past) .calendar-event,
+.calendar-day:is(.is-upcoming, .is-past) .calendar-more { border-left-color: #20081b; color: #20081b; }
 .calendar-day.is-today { border: 1px dashed #fff; }
-.calendar-day.is-selected { border-color: var(--event-pink); background: var(--event-pink); color: #20081b; }
+.calendar-day.is-selected { border-color: var(--event-pink); background: var(--event-pink); box-shadow: 0 0 0 2px #fff; color: #20081b; }
 .calendar-date { color: #ddd1dc; font-size: .84rem; font-weight: 800; line-height: 1; }
 .calendar-event { display: -webkit-box; overflow: hidden; padding-left: .35rem; border-left: 2px solid var(--event-pink-soft); color: #f7e8f4; font-size: .68rem; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 /* Keeps tiles the same height when two events share a day. */
@@ -1248,6 +1255,12 @@
 .events-page .events-panel::before { display: none; }
 .events-page .events-list { overflow: hidden; width: 100%; margin: 1.6rem 0 0; padding: 0; border: 1px solid rgba(255,255,255,.15); border-radius: .8rem; background: #100d10; list-style: none; }
 .events-page .events-list:empty { display: none; }
+/* The list and page buttons keep one height, so the box doesn't jump between pages or filters. */
+.events-page { --events-list-height: 25rem; }
+.events-page .events-list, .events-page .no-events-state { box-sizing: border-box; min-height: var(--events-list-height); }
+.events-page .no-events-state { align-content: center; margin-top: 1.6rem; }
+.events-page #events-pagination { box-sizing: border-box; display: flex; height: 3.2rem; margin: 1rem 0 .4rem; min-height: 0; padding: 0; }
+.events-page #events-pagination[hidden] { display: none; }
 .event-list-date { padding: .4rem 1rem; background: #1e161e; color: #fff; font-family: var(--font-display); font-size: .9rem; font-weight: 700; }
 .event-list-date:not(:first-child), .event-row { border-top: 1px solid rgba(255,255,255,.12); }
 .event-row { display: grid; grid-template-columns: 13rem auto minmax(0, 1fr) auto; grid-template-areas: "date date date date" "time dot title meta"; align-items: center; gap: .2rem .9rem; padding: .45rem 1rem; color: #d1c5cf; font-size: .88rem; }
@@ -1272,7 +1285,7 @@ html.motion .calendar-details > * { animation: calendar-detail-in .28s ease both
 @media (max-width: 1100px) {
   .calendar-event { width: .42rem; height: .42rem; padding: 0; border: 0; border-radius: 50%; background: var(--event-pink-soft); font-size: 0; }
   .calendar-event.is-past { background: #8d8390; }
-  .calendar-day.is-selected .calendar-event { background: #20081b; }
+  .calendar-day:is(.is-selected, .is-upcoming, .is-past) .calendar-event { background: #20081b; }
   .calendar-more { display: none; }
 }
 @media (max-width: 700px) {
@@ -1285,9 +1298,9 @@ html.motion .calendar-details > * { animation: calendar-detail-in .28s ease both
   .calendar-day { align-items: center; height: 3rem; padding: .4rem .1rem; text-align: center; }
   .event-filter-bar .search-wrapper { flex-basis: 100%; max-width: none; }
   .event-filter-select { flex: 1 1 0; min-width: 0; }
+  .events-page { --events-list-height: 42.5rem; }
   .event-list-date, .event-row { padding-inline: 1rem; }
   .event-row, .events-list.is-grouped .event-row { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "dot title" ". time" ". meta"; }
   .event-row-meta { text-align: left; }
   .event-row-time:empty { display: none; }
 }
-.events-page #events-pagination { margin-top: .7rem; }

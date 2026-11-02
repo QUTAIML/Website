@@ -2,53 +2,53 @@
   {
     "title": "Admin Team",
     "items": [
-      { "role": "President", "name": "Zac Knight", "image": "Zac.png", "linkedin": "https://www.linkedin.com/in/zac-knight/" },
-      { "role": "Vice President", "name": "Rajinder Singh", "image": "Rajinder.png", "linkedin": "https://www.linkedin.com/in/rajinders7/" },
-      { "role": "Secretary", "name": "Varsha Gowda", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/varsha-gowda-3834341a2/" },
-      { "role": "Treasurer", "name": "Anay Venugopal", "image": "Anay.png", "linkedin": "https://www.linkedin.com/in/anay-venugopal-72b8072a0/" }
+      { "role": "President", "name": "Zac Knight", "degree": "Master of AI", "image": "Zac.png", "linkedin": "https://www.linkedin.com/in/zac-knight/" },
+      { "role": "Vice President", "name": "Rajinder Singh", "degree": "Bachelor of Engineering (Software)", "image": "Rajinder.png", "linkedin": "https://www.linkedin.com/in/rajinders7/" },
+      { "role": "Secretary", "name": "Varsha Gowda", "degree": "Master of Data Science", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/varsha-gowda-3834341a2/" },
+      { "role": "Treasurer", "name": "Anay Venugopal", "degree": "Bachelor of Engineering (Software)", "image": "Anay.png", "linkedin": "https://www.linkedin.com/in/anay-venugopal-72b8072a0/" }
     ]
   },
   {
     "title": "Projects Team",
     "items": [
-      { "role": "Projects Director", "name": "Tripti Kaur", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/tripti-kaur/" },
-      { "role": "Projects Officer", "name": "Rattanakpanha Chea", "image": "Panha.png", "linkedin": "https://www.linkedin.com/in/rattanakpanha-chea/" },
-      { "role": "Projects Officer", "name": "Karan Rooprai", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/krooprai2003/" },
-      { "role": "Projects Officer", "name": "Danica Yi", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/danica-yi-400b143b2/" },
-      { "role": "Projects Officer", "name": "Rodney Rodriguez", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/rodney-r-1a9960377/" },
-      { "role": "Projects Officer", "name": "Huzaifah Ahmed Qureshi", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/huzaifah-ahmed-q/" },
-      { "role": "Projects Officer", "name": "Tanish Singh Negi", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/tanish3009/" }
+      { "role": "Projects Director", "name": "Tripti Kaur", "degree": "Master of Data Science", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/tripti-kaur/" },
+      { "role": "Projects Officer", "name": "Panha Chea", "degree": "Bachelor of IT (AI)", "image": "Panha.png", "linkedin": "https://www.linkedin.com/in/rattanakpanha-chea/" },
+      { "role": "Projects Officer", "name": "Karan Rooprai", "degree": "Master of AI", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/krooprai2003/" },
+      { "role": "Projects Officer", "name": "Danica Yi", "degree": "Master of IT (Software Dev)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/danica-yi-400b143b2/" },
+      { "role": "Projects Officer", "name": "Rodney Rodriguez", "degree": "Master of AI", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/rodney-r-1a9960377/" },
+      { "role": "Projects Officer", "name": "Huzaifah Ahmed Qureshi", "degree": "Bachelor of Data Science (AI & ML)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/huzaifah-ahmed-q/" },
+      { "role": "Projects Officer", "name": "Tanish Singh Negi", "degree": "Master of AI", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/tanish3009/" }
     ]
   },
   {
     "title": "Education Team",
     "items": [
-      { "role": "Education Director", "name": "Liam Collins", "image": "Liam.png", "linkedin": "https://www.linkedin.com/in/liamcollins-engineer/" },
-      { "role": "Education Officer", "name": "Jack Lewin", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/jack-lewin-919794329/" },
-      { "role": "Education Officer", "name": "Jean-Claude Ndoci", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/jndoci/" },
-      { "role": "Education Officer", "name": "Kendric Tristan", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/kendric-tristan-b46484289/" }
+      { "role": "Education Director", "name": "Liam Collins", "degree": "Bachelor of Engineering (Software)", "image": "Liam.png", "linkedin": "https://www.linkedin.com/in/liamcollins-engineer/" },
+      { "role": "Education Officer", "name": "Jack Lewin", "degree": "Bachelor of Engineering (Software)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/jack-lewin-919794329/" },
+      { "role": "Education Officer", "name": "Jean-Claude Ndoci", "degree": "Bachelor of IT (Computer Science)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/jndoci/" },
+      { "role": "Education Officer", "name": "Kendric Tristan", "degree": "Bachelor of IT (AI)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/kendric-tristan-b46484289/" }
     ]
   },
   {
     "title": "Growth Team",
     "items": [
-      { "role": "Growth Director", "name": "Vera Novitskaia", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/vera-novitskaia/" },
-      { "role": "Growth Officer", "name": "Leena Jeon", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/linajeon/" }
+      { "role": "Growth Director", "name": "Vera Novitskaia", "degree": "Bachelor of Communication (Promotional Communication)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/vera-novitskaia/" },
+      { "role": "Growth Officer", "name": "Leena Jeon", "degree": "Bachelor of Business (Accounting)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/linajeon/" }
     ]
   },
   {
     "title": "Industry Team",
     "items": [
-      { "role": "Industry Director", "name": "Paolo Lluka", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/paolo-lluka-928022409/" },
-      { "role": "Industry Officer", "name": "Aurora Oh", "image": "Anonymous.png", "linkedin": "https://www.linkedin.com/in/oh-sieun-a6ba45426/" }
+      { "role": "Industry Director", "name": "Paolo Lluka", "degree": "Bachelor of Engineering (Mechatronics)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/paolo-lluka-928022409/" },
+      { "role": "Industry Officer", "name": "Aurora Oh", "degree": "Master of IT (Data Science)", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/oh-sieun-a6ba45426/" }
     ]
   },
   {
     "title": "Chief Returning Officers",
     "items": [
-      { "role": "Chief Returning Officer", "name": "Declan Whitty", "image": "Declan.png", "linkedin": "https://www.linkedin.com/in/declan-whitty/" },
-      { "role": "Chief Returning Officer", "name": "Leonora Van De Sande", "image": "Leonora.png", "linkedin": "https://www.linkedin.com/in/leonora-van-de-sande/" },
-      { "role": "Chief Returning Officer", "name": "Venis Patel", "image": "Venis.png", "linkedin": "https://www.linkedin.com/in/venis-patel-537975267/" }
+      { "role": "Chief Returning Officer", "name": "Declan Whitty", "degree": "Bachelor of IT (Computer Science)", "image": "Declan.png", "linkedin": "https://www.linkedin.com/in/declan-whitty/" },
+      { "role": "Chief Returning Officer", "name": "Leonora Van De Sande", "degree": "Bachelor of IT (Cyber Security & Computer Science)", "image": "Leonora.png", "linkedin": "https://www.linkedin.com/in/leonora-van-de-sande/" },
+      { "role": "Chief Returning Officer", "name": "Venis Patel", "degree": "Bachelor of IT (Computer Science)", "image": "Venis.png", "linkedin": "https://www.linkedin.com/in/venis-patel-537975267/" }
     ]
   }
 ]

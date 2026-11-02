@@ -551,6 +551,8 @@ body.modal-open {
   .partner-page { padding-bottom: 4rem; }
   .partner-hero { display: block; margin-bottom: 4rem; min-height: 0; padding: 2rem 1rem 3rem; }
   .partner-hero-art { margin: 4rem auto 0; max-width: 19rem; }
+  /* Its desktop position hangs past the circle, which widened the whole page on phones. */
+  .partner-hero-art span { right: 0; }
   .partner-section { padding: 0 1rem; }
   .partner-callout { margin-left: 1rem; margin-right: 1rem; }
   .sponsor-spotlight { box-shadow: .55rem .55rem 0 rgba(91, 0, 82, .28); }

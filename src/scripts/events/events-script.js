@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
         day.classList.add('is-today');
         day.setAttribute('aria-current', 'date');
       }
-      if (events.length) day.classList.add('has-event');
+      if (events.length) day.classList.add('has-event', events.some((event) => event.end >= today) ? 'is-upcoming' : 'is-past');
       events.slice(0, 2).forEach((event) => {
         day.appendChild(createElement('span', `calendar-event ${event.end < today ? 'is-past' : 'is-upcoming'}`, event.title));
       });

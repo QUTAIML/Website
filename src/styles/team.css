@@ -19,46 +19,63 @@
 .team-page { overflow: clip; }
 .team-directory { background: radial-gradient(circle at 88% 12%, rgba(255, 0, 230, .13), transparent 34%), #0a090b; }
 .team-directory .existing-heading { margin-bottom: 2.5rem; }
-.team-explorer { --team-pink: #ff00e6; --team-soft: #ff8bf4; }
+.team-explorer { --team-pink: #ff00e6; --team-soft: #ff8bf4; --team-blush: #f6c8f0; --team-silver: #c8cdd6; }
 .team-tabs { display: none; }
 
-/* The rail is one line of nodes. A signal runs along it to reach the team that is open. */
-.team-explorer.is-ready .team-tabs { display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; margin-bottom: 2.25rem; position: relative; }
-.team-tabs::before, .team-tabs::after { content: ""; height: 2px; left: calc(50% / var(--team-count, 7)); position: absolute; top: 1.15rem; }
-.team-tabs::before { background: rgba(255, 139, 244, .22); right: calc(50% / var(--team-count, 7)); }
-.team-tabs::after { background: var(--team-pink); box-shadow: 0 0 10px var(--team-pink); transition: width .5s cubic-bezier(.16, 1, .3, 1); width: calc((100% - 100% / var(--team-count, 7)) * var(--team-progress, 0)); }
+/* Two panels: choose a team on the left (a quarter), meet the people on the right. */
+.team-explorer.is-ready { align-items: start; display: grid; gap: 1.1rem; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); }
+.team-explorer.is-ready .team-tabs { background: #0f0d10; border: 1px solid rgba(255, 255, 255, .11); border-radius: 12px; display: flex; flex-direction: column; gap: .2rem; padding: .6rem; position: sticky; top: 6rem; }
+.team-explorer.is-ready .team-panels { background: #0f0d10; border: 1px solid rgba(255, 255, 255, .11); border-radius: 12px; min-width: 0; overflow: hidden; }
 
-.team-tab { align-items: center; background: none; border: 0; color: #cbc1ca; cursor: pointer; display: flex; flex-direction: column; font-family: inherit; gap: .65rem; padding: .7rem .4rem .6rem; position: relative; text-align: center; transition: color .25s ease; z-index: 1; }
-.team-tab i { background: #0a090b; border: 2px solid rgba(255, 139, 244, .55); border-radius: 50%; flex: none; height: .95rem; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease; width: .95rem; }
-.team-tab strong { color: inherit; display: block; font-family: var(--font-display); font-size: 1rem; font-weight: 700; line-height: 1.15; }
-.team-tab small { color: #a99fa7; display: block; font-size: .72rem; line-height: 1.3; margin-top: .2rem; }
-.team-tab:hover { color: #fff; }
+.team-tab { align-items: center; background: none; border: 0; border-radius: 8px; color: var(--team-silver); cursor: pointer; display: flex; font-family: inherit; gap: .75rem; padding: .65rem .7rem; text-align: left; transition: background-color .2s ease, color .2s ease; }
+.team-tab i { background: #0a090b; border: 2px solid rgba(255, 139, 244, .55); border-radius: 50%; flex: none; height: .75rem; transition: background .2s ease, border-color .2s ease, box-shadow .2s ease; width: .75rem; }
+.team-tab strong { color: inherit; display: block; font-family: var(--font-display); font-size: .98rem; font-weight: 700; line-height: 1.15; }
+.team-tab small { color: #9ea3ad; display: block; font-size: .72rem; line-height: 1.3; margin-top: .15rem; }
+.team-tab:hover { background: rgba(255, 255, 255, .04); color: #fff; }
 .team-tab:hover i { border-color: var(--team-soft); }
 .team-tab:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
-.team-tab[aria-selected="true"] { color: #fff; }
-.team-tab[aria-selected="true"] i { background: var(--team-pink); border-color: #fff; box-shadow: 0 0 0 5px rgba(255, 0, 230, .22), 0 0 18px var(--team-pink); }
+.team-tab[aria-selected="true"] { background: rgba(255, 0, 230, .12); color: #fff; }
+.team-tab[aria-selected="true"] i { background: var(--team-pink); border-color: #fff; box-shadow: 0 0 0 4px rgba(255, 0, 230, .22), 0 0 14px var(--team-pink); }
 .team-tab[aria-selected="true"] small { color: var(--team-soft); }
 
 .team-panel + .team-panel { margin-top: 3rem; }
 .team-explorer.is-ready .team-panel + .team-panel { margin-top: 0; }
 .team-panel[hidden] { display: none; }
-.team-panel header { align-items: baseline; display: flex; flex-wrap: wrap; gap: .5rem 1rem; justify-content: space-between; margin-bottom: 1.5rem; }
-.team-panel header h3 { color: #fff; font-size: clamp(1.8rem, 3.2vw, 2.9rem); line-height: 1; margin: 0; }
-.team-panel header p { color: var(--team-soft); font-size: .85rem; font-weight: 700; margin: 0; }
+/* Each team opens with its own banner, and one connected node per person. */
+.team-panel header { align-items: center; background: linear-gradient(100deg, rgba(255, 0, 230, .24), rgba(255, 0, 230, .05) 62%, transparent); border-bottom: 1px solid rgba(255, 139, 244, .3); display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; justify-content: space-between; padding: 1.1rem clamp(1rem, 2vw, 1.5rem); }
+.team-panel header .team-panel-kicker { color: var(--team-soft); font-size: .68rem; font-weight: 800; letter-spacing: .14em; margin: 0 0 .35rem; text-transform: uppercase; }
+.team-panel header h3 { color: #fff; font-size: clamp(1.5rem, 2.4vw, 2.1rem); line-height: 1; margin: 0; }
+.team-panel-count { align-items: flex-end; display: flex; flex-direction: column; gap: .45rem; }
+.team-panel-count span { align-items: center; display: flex; gap: .7rem; position: relative; }
+.team-panel-count span::before { background: rgba(255, 139, 244, .5); content: ""; height: 1px; left: .25rem; position: absolute; right: .25rem; top: 50%; }
+.team-panel-count i { background: var(--team-pink); border-radius: 50%; box-shadow: 0 0 8px rgba(255, 0, 230, .8); height: .5rem; position: relative; transition: background-color .25s ease, box-shadow .25s ease; width: .5rem; }
+/* People scrolled out of view dim their node. */
+.team-panel-count i.is-off-screen { background: #4a3a49; box-shadow: none; }
+.team-panel-count-row { align-items: center; display: flex; gap: .8rem; }
+.team-panel-arrows { display: flex; gap: .4rem; }
+.team-panel-arrows[hidden] { display: none; }
+.team-panel-arrows button { background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 139, 244, .55); border-radius: 50%; color: #fff; cursor: pointer; font-size: 1.15rem; height: 2rem; line-height: 1; transition: background-color .2s ease, border-color .2s ease; width: 2rem; }
+.team-panel-arrows button:not(:disabled):hover, .team-panel-arrows button:focus-visible { background: var(--team-pink); border-color: var(--team-pink); }
+.team-panel-arrows button:disabled { cursor: not-allowed; opacity: .3; }
+.team-panel-count p { color: var(--team-blush); font-size: .85rem; font-weight: 700; margin: 0; }
 
-/* Four to a row. Each card is a parallelogram, with its contents skewed back so they stay upright. */
-.team-profiles { --team-skew: 6deg; display: grid; gap: 1.1rem; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0 1.25rem; }
+/* Every card shares the row's tracks for role, photo, name and degree, so they line up across a row. */
+.team-profiles { display: grid; gap: 0 1rem; grid-auto-columns: calc((100% - 3rem) / 4); grid-auto-flow: column; grid-template-rows: repeat(4, auto); list-style: none; margin: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 1.4rem clamp(1rem, 2vw, 1.5rem) .1rem; scroll-padding-inline: clamp(1rem, 2vw, 1.5rem); scroll-snap-type: x mandatory; scrollbar-width: none; }
+.team-profiles::-webkit-scrollbar { display: none; }
 
-.team-profile { background: #171317; border-radius: 10px; color: #fff; display: block; height: 100%; overflow: hidden; position: relative; text-decoration: none; transform: skewX(calc(var(--team-skew) * -1)); }
-.team-profile::after { border: 1px solid rgba(255, 255, 255, .12); border-radius: inherit; content: ""; inset: 0; pointer-events: none; position: absolute; transition: border-color .25s ease, box-shadow .25s ease; }
-a.team-profile:hover::after, a.team-profile:focus-visible::after { border-color: var(--team-pink); box-shadow: inset 0 0 28px rgba(255, 0, 230, .3); }
-a.team-profile:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-.team-profile-photo { aspect-ratio: 4 / 5; background: linear-gradient(145deg, #322b31, #151315); display: block; overflow: hidden; }
-.team-profile-photo img { display: block; height: 100%; object-fit: cover; object-position: center top; transform: skewX(var(--team-skew)) scale(1.14); width: 100%; }
-.team-profile-text { background: linear-gradient(transparent, rgba(8, 4, 8, .94) 58%); bottom: 0; display: block; left: -12%; padding: 2.6rem 12% .9rem calc(12% + .95rem); position: absolute; right: -12%; transform: skewX(var(--team-skew)); }
-.about-team .team-profile em { color: var(--team-soft); display: block; font: 800 .66rem/1.3 var(--font-body); letter-spacing: .1em; text-transform: uppercase; }
-.about-team .team-profile strong { color: #fff; display: block; font: 700 1.08rem/1.2 var(--font-display); margin-top: .3rem; }
-.about-team .team-profile > svg { color: #fff; filter: drop-shadow(0 1px 3px #000); height: 1rem; opacity: .85; position: absolute; right: .9rem; top: .6rem; transform: skewX(var(--team-skew)); width: 1rem; }
+.team-profiles > li { display: grid; grid-row: span 4; grid-template-rows: subgrid; padding-bottom: 1.4rem; scroll-snap-align: start; }
+.team-profile { color: #fff; display: grid; grid-row: span 4; grid-template-rows: subgrid; text-align: center; text-decoration: none; }
+a.team-profile:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.team-profile-photo { aspect-ratio: 1; background: linear-gradient(155deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .012) 42%), #09080a; border-radius: 10px; display: block; margin: .55rem 0 .7rem; overflow: hidden; position: relative; }
+.team-profile-photo::after { border: 1px solid rgba(255, 255, 255, .1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08); border-radius: inherit; content: ""; inset: 0; pointer-events: none; position: absolute; transition: border-color .25s ease, box-shadow .25s ease; }
+a.team-profile:hover .team-profile-photo::after, a.team-profile:focus-visible .team-profile-photo::after { border-color: var(--team-pink); box-shadow: inset 0 0 28px rgba(255, 0, 230, .3); }
+/* Sits 10% higher than the frame, and is taller by the same amount so the bottom stays filled. */
+.team-profile-photo img { display: block; height: 110%; left: 0; object-fit: cover; object-position: center top; position: absolute; top: -10%; width: 100%; }
+.about-team .team-profile em { align-self: end; color: var(--team-silver); display: block; font: 800 .7rem/1.3 var(--font-body); letter-spacing: .1em; text-transform: uppercase; }
+.about-team .team-profile strong { color: var(--team-soft); display: block; font: 700 1rem/1.2 var(--font-display); }
+.about-team .team-profile small { color: #cbc1ca; display: block; font-size: .8rem; line-height: 1.35; margin-top: .2rem; }
+.about-team .team-profile small span { color: inherit; display: block; font: inherit; letter-spacing: inherit; }
+.about-team .team-profile-photo svg { color: #fff; filter: drop-shadow(0 1px 3px #000); height: 1rem; opacity: .85; position: absolute; right: .9rem; top: .6rem; width: 1rem; }
 
 /* Profiles rise in each time a team opens, like cards elsewhere on the site. */
 html.motion .team-panel:not([hidden]) .team-profiles li { animation: motion-pop .7s cubic-bezier(.16, 1, .3, 1) backwards; }
@@ -70,19 +87,28 @@ html.motion .team-tab[aria-selected="true"] i { animation: team-node-pulse 2.2s 
 @keyframes team-node-pulse { 50% { box-shadow: 0 0 0 9px rgba(255, 0, 230, .08), 0 0 26px #ff00e6; } }
 
 @media (max-width: 1000px) {
-  .team-profiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .team-profiles { grid-auto-columns: calc((100% - 2rem) / 3); }
 }
 
 @media (max-width: 800px) {
-  /* The rail scrolls sideways on phones, so its line stays out of the way. */
-  .team-explorer.is-ready .team-tabs { display: flex; gap: .5rem; margin: 0 -1rem 1.25rem; overflow-x: auto; padding: .25rem 1rem .75rem; scrollbar-width: none; }
-  .team-tabs::before, .team-tabs::after { display: none; }
-  .team-tab { border: 1px solid rgba(255, 139, 244, .25); border-radius: 999px; flex: none; flex-direction: row; gap: .55rem; padding: .55rem .9rem; }
+  /* The panels stack on phones, and the team list scrolls sideways. */
+  .team-explorer.is-ready { display: block; }
+  .team-panel-count { align-items: flex-start; }
+  .team-explorer.is-ready .team-tabs { background: none; border: 0; flex-direction: row; gap: .5rem; margin: 0 -1rem .9rem; overflow-x: auto; padding: .25rem 1rem .5rem; position: static; scrollbar-width: none; }
+  .team-tab { border: 1px solid rgba(255, 139, 244, .25); border-radius: 999px; flex: none; gap: .55rem; padding: .55rem .9rem; }
   .team-tab small { display: none; }
   .team-tab strong { font-size: .95rem; white-space: nowrap; }
   .team-tab i { height: .6rem; width: .6rem; }
-  .team-profiles { --team-skew: 4deg; gap: .7rem; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 .6rem; }
-  .team-profile-text { padding: 2rem 12% .7rem calc(12% + .7rem); }
+  .team-profiles { gap: 0 .7rem; grid-auto-columns: calc((100% - .7rem) / 2); }
+  .team-profiles > li { padding-bottom: 1.1rem; }
   .about-team .team-profile strong { font-size: .95rem; }
   .about-team .team-profile em { font-size: .58rem; }
+  .about-team .team-profile small { font-size: .7rem; }
+}
+
+/* The team photo takes most of the row, giving back only what "Meet the" needs to stay on one line. */
+@media (min-width: 901px) {
+  .team-hero .team-hero-layout { gap: clamp(1.5rem, 2.5vw, 2.5rem); grid-template-columns: minmax(min-content, .7fr) minmax(0, 1.3fr); }
+  .team-hero h1 { white-space: nowrap; }
+  .team-hero h1 span { display: block; }
 }

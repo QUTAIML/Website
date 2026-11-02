@@ -706,7 +706,8 @@ function peopleAnswer(parsed, index) {
       const byYear = [...new Set(record.map((member) => member.year))].sort();
       const yearsText = plural(byYear.length, "year");
       const roleText = byYear.map((year) => `${year}: ${joinList([...new Set(record.filter((member) => member.year === year).map((member) => member.role))])}`).join("; ");
-      return `${record[0].cleanName}${founder ? " is a co-founder of AIML and" : ""} has served ${yearsText} on the team. ${roleText}.`;
+      const degree = record.find((member) => member.degree)?.degree;
+      return `${record[0].cleanName}${founder ? " is a co-founder of AIML and" : ""} has served ${yearsText} on the team. ${roleText}.${degree ? ` Degree: ${degree}.` : ""}`;
     }).filter(Boolean), items: (() => {
       const link = index.members.find((member) => member.nameNorm === people[0] && member.linkedin);
       return people.length === 1 && link ? [{ label: `${link.cleanName} on LinkedIn`, url: link.linkedin }] : [];
@@ -1009,7 +1010,7 @@ function fixedTopicAnswer(parsed, index) {
     return answerWith("The ML Sandbox has four browser-based demos: a K-means clustering visualiser, a live digit classifier, a city route planner, and a decision boundary playground. Nothing you enter leaves your device.", { sources: [PAGES.sandbox] });
   }
 
-  if (parsed.has("degree", "degrees", "course", "courses", "study", "bachelor", "bachelors", "master", "masters", "pathway", "pathways")) {
+  if (!findPeople(parsed, index).length && parsed.has("degree", "degrees", "course", "courses", "study", "bachelor", "bachelors", "master", "masters", "pathway", "pathways")) {
     const level = kb.degrees.filter((group) => parsed.has(normalize(group.title), stem(normalize(group.title))));
     const groups = level.length ? level : kb.degrees;
     const items = groups.flatMap((group) => group.items.map((item) => ({ label: item.name.replace(/^Coming Soon - /, ""), detail: `${group.title}${item.name.startsWith("Coming Soon") ? " · Coming soon" : ""}` })));

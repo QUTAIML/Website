@@ -1,4 +1,5 @@
 ---
+import PhotoStrip from "@/components/PhotoStrip.astro";
 import { links } from "@/lib/content";
 import "@/styles/contact.css";
 import ExternalArrow from "@/components/ExternalArrow.astro";
@@ -46,6 +47,8 @@ const socials = [
         </div>
       </div>
     </section>
+
+    <PhotoStrip photos={[{ src: "events/2026-sem-1/social-night-1.jpg", alt: "AIML Welcome Night" }, { src: "events/2026-sem-1/bands-industry-night-8.jpeg", alt: "People talking at the Industry Night" }, { src: "events/2026-sem-1/trivia.jpg", alt: "Trivia night" }, { src: "events/2026-sem-1/agentcamp-4.jpeg", alt: "AgentCamp audience" }, { src: "images/community.png", alt: "The AIML community" }, { src: "images/hackathon-aiml-2026-5.jpg", alt: "Hackathon team" }]} />
 
     <section class="connect-socials" aria-labelledby="socials-title">
       <div class="connect-shell">

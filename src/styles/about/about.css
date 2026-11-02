@@ -1448,3 +1448,7 @@
     padding: 1.5rem;
   }
 }
+
+/* The team feature moved to the Team page, so the journey runs full width. */
+.about-journey .journey-editorial-layout { display: block; }
+.about-journey .journey-milestone-list { max-width: 52rem; }

@@ -10,7 +10,7 @@ const PAGES = {
   events: { label: "Events", url: "/events/" },
   projects: { label: "Projects", url: "/projects/" },
   sandbox: { label: "ML Sandbox", url: "/projects/sandbox/" },
-  team: { label: "Meet the team", url: "/about/" },
+  team: { label: "Meet the team", url: "/team/" },
   history: { label: "Team history", url: "/about/history/" },
   partners: { label: "Partners", url: "/partners/" },
   hackathon: { label: "Hackathons", url: "/hackathon/" },
@@ -20,7 +20,7 @@ const PAGES = {
   about: { label: "About AIML", url: "/about/" },
 };
 
-const STOP_WORDS = new Set(`a about after all also am an and any anything are as at available be been before being but by can could
+export const STOP_WORDS = new Set(`a about after all also am an and any anything are as at available be been before being but by can could
 currently did do does doing done during each ever every find for from get give got had has have held here how i if in info information is
 it its just know let like list looking many me more most much my need number of on one or our out please provide run running runs say see
 should show some tell than that the their them there these they this those to total u us use used using want was we were what whats when
@@ -36,7 +36,11 @@ sponsor sponsors sponsored supporter supporters backed sandbox demo demos playgr
 master masters pathway pathways hackathon hackathons brains bots apply application applications nominate executive executives portfolio portfolios
 leadership founder founders cofounder cofounders founded lead leads runs charge director directors officer officers manager head heads served serve
 serving returning twice month months location locations venue venues room rooms look like love enjoy interested into should good best learn
-turnout attendees easiest experience code coded never community history presidents notebook notebooks repo repository repositories`.split(/\s+/));
+turnout attendees easiest experience code coded never community history presidents notebook notebooks repo repository repositories
+today tomorrow tonight week weekend monday tuesday wednesday thursday friday saturday sunday usually normally typically often frequently regularly average
+long until till venue ticket tickets book booking stand acronym abbreviation name based located campus university uni old established began website
+contribute contributed contributes contribution contributions favourite favorite hardest smartest coolest nicest valuable impressive helpful ranking mvp meant instead sorry actually rather sure right correct true really talked discussed asked remember forget recap summarise summarize repeat conversation question questions interested keen
+chatgpt gemini claude gpt openai copilot talk talks speak speaker speakers giving page link url ever altogether joined left newcomers departed replaced positions boss leader mean understand teach longest multi semester`.split(/\s+/));
 
 const TOPIC_ALIASES = {
   CNN: ["cnn", "cnns", "convolutional", "convolutional neural network", "convolutional neural networks", "computer vision", "image classification", "vision"],
@@ -47,7 +51,7 @@ const TOPIC_ALIASES = {
   "Reinforcement Learning": ["reinforcement learning", "reinforcement", "rl", "q learning", "deep q", "dqn"],
   Transformers: ["transformer", "transformers", "vit", "vision transformer", "vision transformers", "attention"],
   LLM: ["llm", "llms", "large language model", "large language models", "gpt", "chatbot", "chatbots", "generative ai", "genai"],
-  Clustering: ["clustering", "cluster", "clusters", "k means", "kmeans", "unsupervised"],
+  Clustering: ["clustering", "cluster", "clusters", "k means", "kmeans"],
 };
 
 // Maps everyday subject words onto words that appear in project descriptions.
@@ -71,6 +75,38 @@ const GLOSSARY = {
   Transformers: "A transformer is a neural network built around attention, which lets the model weigh how every part of an input relates to every other part. Transformers power modern language models and also work on images and video.",
   LLM: "A large language model (LLM) is a transformer trained on huge amounts of text to predict what comes next, which lets it answer questions, summarise, and generate language.",
   Clustering: "Clustering groups similar data points without any labels, making it a form of unsupervised learning. K-means is a popular method: it repeatedly assigns points to the nearest centre, then moves each centre.",
+};
+
+// Concepts with no project topic of their own. Written for this assistant, not taken from the site.
+const EXTRA_CONCEPTS = {
+  "Artificial intelligence": { aliases: ["artificial intelligence"], text: "Artificial intelligence (AI) is the broad field of building systems that perform tasks normally needing human intelligence, such as understanding language, recognising images, and making decisions." },
+  "Machine learning": { aliases: ["machine learning"], text: "Machine learning (ML) is the part of AI where systems learn patterns from data instead of following hand-written rules. Models improve by being trained on examples." },
+  "Deep learning": { aliases: ["deep learning"], text: "Deep learning is machine learning with neural networks of many layers. It powers modern image recognition, speech, and language models, and usually needs plenty of data and computing power." },
+  "Neural network": { aliases: ["neural network", "neural networks", "neural net", "neural nets"], text: "A neural network is a model made of layers of connected units. Each connection has a weight, and training adjusts those weights so the network's outputs match the examples it sees." },
+  "Supervised learning": { aliases: ["supervised learning", "supervised"], text: "Supervised learning trains a model on labelled examples, so it learns to map inputs to known answers. Regression and classification are the two common kinds." },
+  "Unsupervised learning": { aliases: ["unsupervised learning"], text: "Unsupervised learning finds structure in data without labels. Clustering and dimensionality reduction are common examples." },
+  Overfitting: { aliases: ["overfitting", "overfit", "over fitting"], text: "Overfitting is when a model learns its training data too closely, including the noise, so it performs well there but poorly on new data. More data, simpler models, and regularisation all help." },
+  Underfitting: { aliases: ["underfitting", "underfit", "under fitting"], text: "Underfitting is when a model is too simple to capture the pattern in the data, so it performs poorly on both training and new data." },
+  "Gradient descent": { aliases: ["gradient descent"], text: "Gradient descent trains a model by repeatedly nudging its parameters in the direction that most reduces the error." },
+  Backpropagation: { aliases: ["backpropagation", "backprop"], text: "Backpropagation works out how much each weight in a neural network contributed to the error, so gradient descent knows how to adjust it." },
+  "Loss function": { aliases: ["loss function", "cost function"], text: "A loss function measures how wrong a model's predictions are. Training is the process of making that number smaller." },
+  Hyperparameter: { aliases: ["hyperparameter", "hyperparameters"], text: "A hyperparameter is a setting chosen before training rather than learned from data, such as the learning rate or the K in K-means." },
+  "Cross-validation": { aliases: ["cross validation"], text: "Cross-validation tests a model on several different splits of the data, giving a more reliable estimate of how it will perform on new data." },
+  Regression: { aliases: ["regression"], text: "Regression predicts a continuous number, such as a price or temperature." },
+  Classification: { aliases: ["classification", "classifier", "classifiers"], text: "Classification predicts a category, such as whether an email is spam or which species an animal is." },
+  PCA: { aliases: ["pca", "principal component analysis", "dimensionality reduction"], text: "Principal component analysis (PCA) reduces data to fewer dimensions while keeping as much of its variation as possible, which makes it easier to visualise and model." },
+  NLP: { aliases: ["nlp", "natural language processing"], text: "Natural language processing (NLP) is the area of AI that works with human language, including translation, summarising, and chatbots." },
+  Embedding: { aliases: ["embedding", "embeddings"], text: "An embedding represents something like a word or image as a list of numbers, placed so that similar things sit close together." },
+  RAG: { aliases: ["rag", "retrieval augmented generation"], text: "Retrieval-augmented generation (RAG) has a language model look up relevant documents first and use them when answering, which helps it stay accurate on specific information." },
+  "Prompt engineering": { aliases: ["prompt engineering", "prompting"], text: "Prompt engineering is the practice of wording instructions to a language model so that it produces more useful and reliable output." },
+  RNN: { aliases: ["rnn", "rnns", "recurrent neural network", "lstm", "lstms"], text: "A recurrent neural network (RNN) processes sequences one step at a time while keeping a memory of earlier steps. An LSTM is a popular type that remembers longer patterns." },
+  GAN: { aliases: ["gan", "gans", "generative adversarial network"], text: "A generative adversarial network (GAN) trains two networks against each other: one creates fake samples and the other tries to spot them, which pushes the generator to improve." },
+  Python: { aliases: ["python"], text: "Python is the most widely used programming language in machine learning, thanks to its readable syntax and libraries such as NumPy, pandas, scikit-learn, and PyTorch." },
+  PyTorch: { aliases: ["pytorch"], text: "PyTorch is a popular open-source Python library for building and training neural networks." },
+  TensorFlow: { aliases: ["tensorflow"], text: "TensorFlow is an open-source library from Google for building and training machine learning models." },
+  "Jupyter notebook": { aliases: ["jupyter", "jupyter notebook", "ipynb"], text: "A Jupyter notebook is a document that mixes runnable code, results, charts, and written notes. AIML's project archive is mostly made of them." },
+  GPU: { aliases: ["gpu", "gpus"], text: "A GPU is a processor that does many calculations in parallel, which makes training neural networks far faster than on a typical CPU." },
+  MNIST: { aliases: ["mnist"], text: "MNIST is a classic dataset of 70,000 handwritten digits, widely used as a first image classification exercise. The ML Sandbox's digit classifier was trained on it." },
 };
 
 const EVENT_CATEGORIES = {
@@ -107,10 +143,12 @@ export function normalize(value) {
 
 const tokensOf = (value) => normalize(value).split(" ").filter(Boolean);
 
-function stem(word) {
+export function stem(word) {
   if (word.length <= 3) return word;
+  if (word.startsWith("eligib")) return "eligib";
+  if (word.endsWith("e")) return word.slice(0, -1);
   if (word.endsWith("ies") && word.length > 4) return `${word.slice(0, -3)}y`;
-  if (word.endsWith("ing") && word.length > 6) return word.slice(0, -3);
+  if (word.endsWith("ing") && word.length > 5) return word.slice(0, -3);
   if (word.endsWith("ed") && word.length > 5) return word.slice(0, -2);
   if (word.endsWith("s") && !/(ss|us|is)$/.test(word)) return word.slice(0, -1);
   return word;
@@ -234,7 +272,12 @@ function correctTypos(rawTokens, index) {
 // ---------------------------------------------------------------------------
 
 function parseQuestion(question, index, now, inherited = {}) {
-  const tokens = correctTypos(tokensOf(question), index);
+  // Everyday ways of asking for the society's leader.
+  const tokens = correctTypos(tokensOf(question), index).join(" ")
+    .replace(/\b(boss|leader|head) of (aiml|qut aiml|the club|the society)\b/g, "president")
+    .replace(/\b(runs|leads|in charge of) (aiml|qut aiml|the club|the society)\b/g, "is the president")
+    .replace(/^who is in charge$/, "who is the president")
+    .split(" ").filter(Boolean);
   const text = tokens.join(" ");
   const has = (...phrases) => phrases.some((phrase) => hasPhrase(text, phrase));
   const currentYear = now.getFullYear();
@@ -269,20 +312,58 @@ function parseQuestion(question, index, now, inherited = {}) {
   const ordinalWords = { first: 0, "1st": 0, second: 1, "2nd": 1, third: 2, "3rd": 2, fourth: 3, "4th": 3, fifth: 4, "5th": 4 };
   const ordinalWord = tokens.find((token) => token in ordinalWords);
 
+  const dayFormat = (offset) => {
+    const date = new Date(now);
+    date.setDate(date.getDate() + offset);
+    return isoDay(date);
+  };
+  const mondayOffset = (now.getDay() + 6) % 7;
+  let range = null;
+  if (has("today", "tonight")) range = { from: dayFormat(0), to: dayFormat(0), label: "today" };
+  else if (has("tomorrow")) range = { from: dayFormat(1), to: dayFormat(1), label: "tomorrow" };
+  else if (has("this week")) range = { from: dayFormat(-mondayOffset), to: dayFormat(6 - mondayOffset), label: "this week" };
+  else if (has("next week")) range = { from: dayFormat(7 - mondayOffset), to: dayFormat(13 - mondayOffset), label: "next week" };
+  else if (has("last week")) range = { from: dayFormat(-7 - mondayOffset), to: dayFormat(-1 - mondayOffset), label: "last week" };
+  else if (has("this weekend")) range = { from: dayFormat(5 - mondayOffset), to: dayFormat(6 - mondayOffset), label: "this weekend" };
+  else if (has("this month", "next month", "last month")) {
+    const shift = has("next month") ? 1 : has("last month") ? -1 : 0;
+    const start = new Date(now.getFullYear(), now.getMonth() + shift, 1);
+    const end = new Date(now.getFullYear(), now.getMonth() + shift + 1, 0);
+    range = { from: isoDay(start), to: isoDay(end), label: has("next month") ? "next month" : has("last month") ? "last month" : "this month" };
+  }
+  const currentSemester = now.getMonth() >= 6 ? 2 : 1;
+  const thisSemester = has("this semester", "current semester");
+  const lastSemester = has("last semester", "previous semester");
+  const WEEKDAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+  const weekday = WEEKDAYS.findIndex((day) => tokens.includes(day) || tokens.includes(`${day}s`));
+  const weekend = has("weekend", "weekends") && !range;
+
+  const concepts = Object.entries(EXTRA_CONCEPTS).filter(([, concept]) => concept.aliases.some((alias) => hasPhrase(text, alias))).map(([name]) => name);
+  const meaningful = tokens.filter((token) => !STOP_WORDS.has(token) || token === "ai" || token === "ml");
+  if (meaningful.join(" ") === "ai" && !concepts.length) concepts.push("Artificial intelligence");
+  if (meaningful.join(" ") === "ml" && !concepts.length) concepts.push("Machine learning");
+  // Longer phrases win: "unsupervised learning" shouldn't also count as "supervised".
+  if (tokens.includes("ai") && has("difference", "vs", "versus", "compare") && !concepts.includes("Artificial intelligence")) concepts.push("Artificial intelligence");
+  const namedConcepts = concepts.filter((name) => !concepts.some((other) => other !== name && EXTRA_CONCEPTS[other].aliases.some((alias) => hasPhrase(text, alias) && EXTRA_CONCEPTS[name].aliases.some((inner) => alias !== inner && hasPhrase(alias, inner)))));
+
   // Words left over once everything recognised above is removed.
   const consumed = [
+    ...Object.values(EXTRA_CONCEPTS).flatMap((concept) => concept.aliases).filter((alias) => hasPhrase(text, alias)),
     ...Object.values(TOPIC_ALIASES).flat().filter((alias) => hasPhrase(text, alias)),
     ...Object.values(EVENT_CATEGORIES).flat().filter((alias) => hasPhrase(text, alias)),
     ...Object.keys(LOCATION_ALIASES).filter((alias) => hasPhrase(text, alias)),
   ].flatMap(tokensOf);
-  const ignore = new Set([...STOP_WORDS, ...DOMAIN_WORDS, ...consumed, ...COMMON_WORDS, ...MONTHS, "try", "im", "interest", "mention", "mentions", "mentioning", "include", "includes", "including", "time", "date", "left", "exactly", "actually", "officer", "officers", "upcoming", "coming", "up", "future", "soon", "planned", "still", "remaining", "so", "far", "already", "ago", "s", "1", "2", "second", "collab", "collabs", "collaboration", "collaborations", "collaborative", "joint", "partnered", "other", "clubs", "only", "recent", "old", "new", "again", "ones", "scheduled", "yet", "have", "breakdown", "break", "down", "per", "early", "late"]);
+  const ignore = new Set([...STOP_WORDS, ...DOMAIN_WORDS, ...consumed, ...COMMON_WORDS, ...MONTHS, ...WEEKDAYS, ...WEEKDAYS.map((day) => `${day}s`), "today", "tomorrow", "tonight", "week", "weekend", "weekends", "month", "last", "next", "this", "current", "day", "days", "usually", "normally", "typically", "often", "frequently", "regularly", "average", "long", "until", "till", "starts", "start", "ends", "end", "finish", "take", "place", "ticket", "tickets", "book", "booking", "free", "money", "pay", "longest", "multi", "try", "im", "interest", "mention", "mentions", "mentioning", "include", "includes", "including", "time", "date", "left", "exactly", "actually", "officer", "officers", "upcoming", "coming", "up", "future", "soon", "planned", "still", "remaining", "so", "far", "already", "ago", "s", "1", "2", "second", "collab", "collabs", "collaboration", "collaborations", "collaborative", "joint", "partnered", "other", "clubs", "only", "recent", "old", "new", "again", "ones", "scheduled", "yet", "have", "breakdown", "break", "down", "per", "early", "late", "mean", "meant", "instead", "sorry", "actually", "rather", "just", "then", "though", "no", "nah", "nope", "ok", "okay", "yes", "yeah", "wait", "oops", "hmm", "well", "that", "before", "after", "previous", "following", "other", "same", "try", "make", "said", "asking", "else"]);
   const keywords = tokens.filter((token) => !ignore.has(token) && !/^20\d\d$/.test(token));
 
   return {
-    question, tokens, text, has, years: years.length ? years : inherited.years ?? [], semester: semester ?? inherited.semester ?? null,
+    question, tokens, text, has, range, weekday: weekday >= 0 ? weekday : null, weekend, concepts: namedConcepts,
+    years: thisSemester ? [currentYear] : lastSemester ? [currentSemester === 1 ? currentYear - 1 : currentYear] : years.length ? years : inherited.years ?? [],
+    semester: thisSemester ? currentSemester : lastSemester ? (currentSemester === 1 ? 2 : 1) : semester ?? inherited.semester ?? null,
+    allTime: has("ever", "all time", "have there been", "has there been", "there been", "altogether", "over the years", "every year", "each year", "all years", "history", "past", "in total", "so far", "by year", "per year"),
     month: month >= 0 ? month : null, time, superlative, topics, categories, locations, collab, wantsCount, wantsBreakdown, wantsMost,
     wantsLeast, refersToPrevious, ordinal: ordinalWord ? ordinalWords[ordinalWord] : null, keywords,
-    isDefinition: has("what is", "what are", "whats", "explain", "define", "meaning of", "how does", "how do", "what does") || (tokens[0] === "what" && tokens.length <= 4),
+    isDefinition: has("what is", "what are", "whats", "explain", "define", "meaning of", "how does", "how do", "what does", "tell me about", "teach me", "understand", "what do you mean by") || (tokens[0] === "what" && tokens.length <= 4),
     wantsWhere: tokens[0] === "where" || has("where is", "where was", "where are", "where does"),
     wantsWhen: tokens[0] === "when" || has("what time", "what date"),
   };
@@ -312,9 +393,18 @@ function limitItems(items) {
 // ---------------------------------------------------------------------------
 
 const eventEnd = (event) => event.endDate || event.date;
+const WEEKDAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const weekdayOf = (event) => {
+  const [year, month, day] = event.date.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day)).getUTCDay();
+};
+const daysBetween = (from, to) => Math.round((Date.UTC(...to.split("-").map((part, position) => Number(part) - (position === 1 ? 1 : 0))) - Date.UTC(...from.split("-").map((part, position) => Number(part) - (position === 1 ? 1 : 0)))) / 86400000);
 
 function describeEventFilters(parsed) {
   const parts = [];
+  if (parsed.range) parts.push(parsed.range.label);
+  if (parsed.weekday !== null) parts.push(`on a ${WEEKDAY_NAMES[parsed.weekday]}`);
+  if (parsed.weekend) parts.push("on a weekend");
   if (parsed.semester) parts.push(`in Semester ${parsed.semester}`);
   if (parsed.years.length) parts.push(`${parsed.semester ? "" : "in "}${parsed.years.join(" and ")}`.trim());
   if (parsed.month !== null) parts.push(`in ${MONTHS[parsed.month][0].toUpperCase()}${MONTHS[parsed.month].slice(1)}`);
@@ -330,6 +420,9 @@ function filterEvents(parsed, index, now, base) {
     if (parsed.years.length && !parsed.years.includes(Number(event.date.slice(0, 4)))) return false;
     if (parsed.semester && !event.semester.endsWith(`sem-${parsed.semester}`)) return false;
     if (parsed.month !== null && Number(event.date.slice(5, 7)) - 1 !== parsed.month) return false;
+    if (parsed.range && (eventEnd(event) < parsed.range.from || event.date > parsed.range.to)) return false;
+    if (parsed.weekday !== null && weekdayOf(event) !== parsed.weekday) return false;
+    if (parsed.weekend && ![0, 6].includes(weekdayOf(event))) return false;
     if (parsed.categories.length && !parsed.categories.includes(event.category)) return false;
     if (parsed.locations.length && !parsed.locations.some((needle) => hasPhrase(normalize(event.location), needle) || normalize(event.location).includes(needle))) return false;
     if (parsed.collab && !event.collab) return false;
@@ -340,7 +433,7 @@ function filterEvents(parsed, index, now, base) {
 }
 
 function isEventQuestion(parsed, index) {
-  if (parsed.categories.length || parsed.has("event", "events", "workshop", "workshops", "happening", "calendar", "whats on", "what is on", "busiest")) return true;
+  if (parsed.categories.length || parsed.has("event", "events", "workshop", "workshops", "happening", "calendar", "whats on", "what is on", "busiest", "anything on", "whats happening", "what is happening", "venue", "venues") || parsed.range || parsed.weekday !== null) return true;
   if (parsed.locations.length && !parsed.topics.length) return true;
   return index.events.some((event) => event.titleNorm.length > 3 && hasPhrase(parsed.text, event.titleNorm));
 }
@@ -355,12 +448,66 @@ function countBy(list, keyOf) {
   return [...counts.entries()];
 }
 
+// Questions about patterns across events rather than a list of them.
+function eventPatternAnswer(parsed, matches, shared, noun, nounPlural, filters, index, now) {
+  const today = isoDay(now);
+
+  if (parsed.has("how long until", "how long till", "how soon", "how many days until", "how many days till", "days until", "days till", "how long before")) {
+    const next = matches.find((event) => eventEnd(event) >= today);
+    if (!next) return answerWith(`There are no upcoming ${nounPlural}${filters} on the calendar right now.`, shared);
+    const days = daysBetween(today, next.date);
+    return answerWith(`${next.title} is ${days <= 0 ? "on today" : days === 1 ? "tomorrow" : `in ${days} days`}: ${eventItem(next).detail}.`, { ...shared, set: [next] });
+  }
+
+  if (parsed.has("how often", "how frequently", "how regularly", "per semester", "each semester", "average", "on average") && !parsed.has("by semester", "breakdown")) {
+    const semesters = [...new Set(matches.map((event) => event.semester))];
+    if (!semesters.length) return answerWith(`I couldn't find any ${nounPlural}${filters}.`, shared);
+    const average = matches.length / semesters.length;
+    return answerWith(`AIML has run ${plural(matches.length, noun, nounPlural)} across ${plural(semesters.length, "semester")}, which is about ${Math.round(average * 10) / 10} per semester.`, { ...shared, items: countBy(matches, (event) => event.semesterLabel).map(([label, count]) => ({ label, detail: String(count) })) });
+  }
+
+  if (parsed.has("what day", "which day", "what days", "which days", "day of the week", "usually on")) {
+    const rows = countBy(matches, (event) => WEEKDAY_NAMES[weekdayOf(event)]).sort((a, b) => b[1] - a[1]);
+    if (!rows.length) return answerWith(`I couldn't find any ${nounPlural}${filters}.`, shared);
+    return answerWith(`${nounPlural[0].toUpperCase()}${nounPlural.slice(1)}${filters} most often run on ${rows[0][0]}, with ${rows[0][1]} of ${matches.length}.`, { ...shared, items: rows.map(([label, count]) => ({ label, detail: String(count) })) });
+  }
+
+  if (parsed.has("what time", "when do", "usually start", "start time", "starts") && parsed.has("usually", "normally", "typically", "generally", "what time do", "when do")) {
+    const timed = matches.filter((event) => event.time);
+    if (!timed.length) return answerWith(`The site doesn't list times for those ${nounPlural}.`, shared);
+    const [time, count] = countBy(timed, (event) => event.time).sort((a, b) => b[1] - a[1])[0];
+    return answerWith(`The most common time for ${nounPlural}${filters} is ${time}, used by ${count} of the ${timed.length} with a listed time.`, shared);
+  }
+
+  if (parsed.has("venue", "venues", "rooms", "locations", "places") && parsed.has("how many", "what", "which", "list", "all")) {
+    const rows = countBy(matches.filter((event) => event.location), (event) => event.location).sort((a, b) => b[1] - a[1]);
+    return answerWith(`AIML's ${nounPlural}${filters} have used ${plural(rows.length, "location")}:`, { ...shared, ...limitItems(rows.map(([label, count]) => ({ label, detail: String(count) }))) });
+  }
+
+  if (parsed.has("longest", "multi day", "multiday", "several days", "more than one day")) {
+    const long = matches.filter((event) => event.endDate && event.endDate !== event.date).sort((a, b) => daysBetween(b.date, b.endDate) - daysBetween(a.date, a.endDate));
+    if (!long.length) return answerWith("None of those events ran for more than one day.", shared);
+    if (parsed.has("longest")) return answerWith(`${long[0].title} is the longest, running ${daysBetween(long[0].date, long[0].endDate) + 1} days: ${eventItem(long[0]).detail}.`, { ...shared, set: [long[0]] });
+    return answerWith(`${plural(long.length, "event")} ran for more than one day:`, { ...shared, set: long, ...limitItems(long.map(eventItem)) });
+  }
+
+  if (parsed.has("ticket", "tickets", "book", "booking", "free", "cost", "price", "pay", "rsvp", "register", "registration", "sign up")) {
+    const booked = index.events.filter((event) => event.rubric);
+    return answerWith(`The website doesn't list event prices. ${booked.length} of the ${index.events.length} events on record link to a Rubric page, which is where any booking details and pricing appear. New events are also announced in the Discord.`, { ...shared, items: [{ label: "AIML on Rubric", url: index.kb.links.membership }, { label: "Discord", url: index.kb.links.discord }] });
+  }
+
+  return null;
+}
+
 function eventsAnswer(parsed, index, now, base) {
   const matches = filterEvents(parsed, index, now, base);
   const shared = { sources: [PAGES.events], domain: "events", set: matches };
   const filters = describeEventFilters(parsed);
   const noun = parsed.categories.length === 1 ? parsed.categories[0].toLowerCase() : "event";
   const nounPlural = noun.endsWith("s") ? noun : `${noun}s`;
+
+  const pattern = eventPatternAnswer(parsed, matches, shared, noun, nounPlural, filters, index, now);
+  if (pattern) return pattern;
 
   if (parsed.wantsBreakdown || parsed.wantsMost || parsed.wantsLeast || parsed.has("what type", "what types", "what kind", "what kinds", "types of", "kinds of")) {
     const byPlace = parsed.has("where", "location", "locations", "venue", "venues", "room", "rooms");
@@ -381,7 +528,16 @@ function eventsAnswer(parsed, index, now, base) {
   }
 
   if (!matches.length) {
-    if (parsed.time === "upcoming") return answerWith(`There are no upcoming ${nounPlural}${filters} on the calendar right now. New events are announced on the Events page and in the Discord.`, shared);
+    if (base) return answerWith(`None of those ${nounPlural} were${filters}.`, { ...shared, set: base });
+    if (parsed.time === "upcoming" || parsed.range) {
+      const next = index.events.filter((event) => eventEnd(event) >= isoDay(now)).sort((a, b) => a.date.localeCompare(b.date))[0];
+      return answerWith(`There are no ${parsed.range ? "" : "upcoming "}${nounPlural}${filters} on the calendar.${next && !parsed.keywords.length ? ` The next event is ${next.title} on ${formatDate(next.date)}.` : " New events are announced on the Events page and in the Discord."}`, shared);
+    }
+    const latestYear = Math.max(...index.events.map((event) => Number(event.date.slice(0, 4))));
+    if (parsed.years.length && parsed.years.every((year) => year > latestYear)) {
+      const period = parsed.semester ? `Semester ${parsed.semester} ${latestYear}` : String(latestYear);
+      return answerWith(`AIML hasn't listed any ${nounPlural}${filters} yet.`, { ...shared, suggestions: [`How many events were there in ${period}?`, "What events are coming up?"] });
+    }
     return answerWith(`I couldn't find any ${nounPlural}${filters}.`, { ...shared, suggestions: ["What events are coming up?", "How many events have you run?"] });
   }
 
@@ -390,8 +546,8 @@ function eventsAnswer(parsed, index, now, base) {
     return answerWith(`There ${matches.length === 1 ? "is" : "are"} ${plural(matches.length, noun, nounPlural)}${filters} ${tense}.`, { ...shared, ...limitItems(matches.map(eventItem)) });
   }
 
-  const singleWanted = parsed.time === "upcoming" && !parsed.has("upcoming events", "events coming", "all", "list", "which", "coming up", "remaining", "future");
-  if (parsed.superlative === "first" || parsed.superlative === "latest" || singleWanted || parsed.has("last") && !parsed.has("last year")) {
+  const singleWanted = parsed.time === "upcoming" && !parsed.range && !parsed.has("upcoming events", "events coming", "all", "list", "which", "coming up", "remaining", "future");
+  if (parsed.superlative === "first" || parsed.superlative === "latest" || singleWanted || (parsed.has("last") && !parsed.range && !parsed.has("last year", "last semester"))) {
     const pool = parsed.has("last") || parsed.superlative === "latest"
       ? (matches.filter((event) => eventEnd(event) < isoDay(now)).length ? matches.filter((event) => eventEnd(event) < isoDay(now)) : matches)
       : matches;
@@ -500,7 +656,8 @@ function findRoles(parsed, index) {
   const exact = [];
   let remaining = text;
   index.roles.forEach((role) => {
-    if (hasPhrase(remaining, role)) { exact.push(role); remaining = ` ${remaining} `.replace(` ${role} `, " | ").trim(); }
+    const form = [role, `${role}s`].find((candidate) => hasPhrase(remaining, candidate));
+    if (form) { exact.push(role); remaining = ` ${remaining} `.replace(` ${form} `, " | ").trim(); }
   });
   return exact;
 }
@@ -513,7 +670,10 @@ function findGroups(parsed, index) {
   });
 }
 
-const isPeopleWord = (parsed) => parsed.has("team", "teams", "exec", "execs", "executive", "executives", "committee", "portfolio", "portfolios", "leadership", "founder", "founders", "cofounder", "cofounders", "co founder", "co founders", "founded", "started aiml", "started the club", "president", "leads", "runs", "in charge", "lead", "run the", "served", "serve", "serving", "returning");
+const TITLE_WORDS = ["director", "officer", "manager", "champion", "returning officer"];
+const titleWordIn = (parsed) => TITLE_WORDS.find((title) => parsed.has(title, `${title}s`));
+
+const isPeopleWord = (parsed) => parsed.has("who is new", "who left", "who joined", "roles", "positions", "presidents", "directors", "officers", "managers", "members of the team", "team members", "team", "teams", "exec", "execs", "executive", "executives", "committee", "portfolio", "portfolios", "leadership", "founder", "founders", "cofounder", "cofounders", "co founder", "co founders", "founded", "started aiml", "started the club", "president", "leads", "runs", "in charge", "lead", "run the", "served", "serve", "serving", "returning");
 
 function teamYear(parsed, index, candidates) {
   const available = index.teams.map((team) => team.year);
@@ -544,25 +704,78 @@ function peopleAnswer(parsed, index) {
       const founder = index.kb.coFounders.find((person) => normalize(person.name) === name);
       if (!record.length) return founder ? `${founder.name} is a co-founder of AIML.` : "";
       const byYear = [...new Set(record.map((member) => member.year))].sort();
+      const yearsText = plural(byYear.length, "year");
       const roleText = byYear.map((year) => `${year}: ${joinList([...new Set(record.filter((member) => member.year === year).map((member) => member.role))])}`).join("; ");
-      return `${record[0].cleanName}${founder ? " is a co-founder of AIML and" : ""} has served as ${roleText}.`;
+      const degree = record.find((member) => member.degree)?.degree;
+      return `${record[0].cleanName}${founder ? " is a co-founder of AIML and" : ""} has served ${yearsText} on the team. ${roleText}.${degree ? ` Degree: ${degree}.` : ""}`;
     }).filter(Boolean), items: (() => {
       const link = index.members.find((member) => member.nameNorm === people[0] && member.linkedin);
       return people.length === 1 && link ? [{ label: `${link.cleanName} on LinkedIn`, url: link.linkedin }] : [];
     })() });
   }
 
-  const allYears = parsed.has("every year", "each year", "all years", "over the years", "history", "past presidents", "per year", "by year");
-  const returning = parsed.has("more than one year", "multiple years", "returning", "served twice", "more than once", "every year");
+  // Who joined or moved on between two teams.
+  if (parsed.has("joined", "new", "newcomers", "first time", "left", "departed", "no longer", "stepped down") && !findRoles(parsed, index).length) {
+    const leaving = parsed.has("left", "departed", "no longer", "stepped down");
+    const years = index.teams.map((team) => team.year).sort((a, b) => a - b);
+    const named = parsed.years[0];
+    const later = leaving ? (named ? (parsed.has("after") ? years[years.indexOf(named) + 1] : named) : years.at(-1)) : named ?? years.at(-1);
+    const earlier = years[years.indexOf(later) - 1];
+    if (!earlier || !later) return answerWith(`${years[0]} was AIML's first team, so there isn't an earlier one to compare it with.`, shared);
+    const namesIn = (year) => new Map(index.members.filter((member) => member.year === year).map((member) => [member.nameNorm, member]));
+    const [before, after] = [namesIn(earlier), namesIn(later)];
+    const everBefore = new Set(index.members.filter((member) => member.year < later).map((member) => member.nameNorm));
+    const list = leaving ? [...before.values()].filter((member) => !after.has(member.nameNorm)) : [...after.values()].filter((member) => !everBefore.has(member.nameNorm));
+    return answerWith(leaving ? `${plural(list.length, "person", "people")} on the ${earlier} team ${list.length === 1 ? "isn't" : "aren't"} listed on the ${later} team:` : `${plural(list.length, "person", "people")} joined the executive team for the first time in ${later}:`, { ...shared, ...limitItems(list.map((member) => ({ label: member.cleanName, detail: member.role }))) });
+  }
+
+  if (parsed.has("what roles", "which roles", "what positions", "which positions", "list of roles", "list roles", "all roles", "all the roles", "what exec roles", "what executive roles", "how many roles", "how many positions")) {
+    const year = teamYear(parsed, index);
+    const roles = [...new Set(index.members.filter((member) => member.year === year).map((member) => member.role))];
+    return answerWith(`The ${year} team has ${plural(roles.length, "different role")}:`, { ...shared, items: roles.map((label) => ({ label })) });
+  }
+
+  if (parsed.wantsCount && parsed.has("ever", "all time", "altogether", "in total", "total", "have there been", "so far", "over the years") && !findRoles(parsed, index).length && !findGroups(parsed, index).length && !titleWordIn(parsed)) {
+    const everyone = new Set(index.members.map((member) => member.nameNorm));
+    return answerWith(`${plural(everyone.size, "person has", "different people have")} served on AIML's executive team across ${plural(index.teams.length, "year")}.`, { ...shared, items: index.teams.map((team) => ({ label: String(team.year), detail: plural(index.members.filter((member) => member.year === team.year).length, "person", "people") })).reverse() });
+  }
+
+  const allYears = parsed.allTime || parsed.has("past presidents", "change", "changed", "changes");
+  const returning = parsed.has("more than one year", "multiple years", "returning", "served twice", "more than once", "every year", "longest", "most years", "longest serving", "served the most", "served most");
   if (returning && !findRoles(parsed, index).length) {
     const tally = new Map();
     index.members.forEach((member) => { const years = tally.get(member.nameNorm) ?? { name: member.cleanName, years: new Set() }; years.years.add(member.year); tally.set(member.nameNorm, years); });
     const repeat = [...tally.values()].filter((person) => person.years.size > 1).sort((a, b) => b.years.size - a.years.size || a.name.localeCompare(b.name));
+    if (parsed.has("longest", "most years", "every year", "longest serving", "served the most", "served most")) {
+      const most = repeat[0].years.size;
+      const top = repeat.filter((person) => person.years.size === most);
+      return answerWith(`${plural(top.length, "person has", "people have")} served ${most === index.teams.length ? `all ${most} years on record` : `the most, with ${most} years`}:`, { ...shared, ...limitItems(top.map((person) => ({ label: person.name, detail: [...person.years].sort().join(", ") }))) });
+    }
     return answerWith(`${plural(repeat.length, "person has", "people have")} served on the team across more than one year:`, { ...shared, ...limitItems(repeat.map((person) => ({ label: person.name, detail: [...person.years].sort().join(", ") }))) });
   }
 
   const roles = findRoles(parsed, index);
   if (roles.length) {
+    const holders = index.members.filter((member) => roles.includes(member.roleNorm));
+    const titleOf = (role) => index.members.find((member) => member.roleNorm === role).role;
+
+    if (parsed.superlative === "first" && !parsed.years.length) {
+      const earliest = Math.min(...holders.map((member) => member.year));
+      const first = holders.filter((member) => member.year === earliest);
+      return answerWith(`AIML's first ${joinList(roles.map(titleOf))} ${first.length > 1 ? "were" : "was"} ${groupNames(first)}, in ${earliest}.`, shared);
+    }
+
+    if (parsed.wantsCount) {
+      const pool = parsed.years.length ? holders.filter((member) => parsed.years.includes(member.year)) : holders;
+      const people = [...new Set(pool.map((member) => member.nameNorm))];
+      const label = joinList(roles.map(titleOf));
+      const scope = parsed.years.length ? `In ${parsed.years.join(" and ")}, AIML had` : "AIML has had";
+      return answerWith(`${scope} ${people.length} ${label}${people.length === 1 ? "" : "s"} ${parsed.years.length ? "" : `across ${plural(index.teams.length, "year")}`}`.trim() + ".", { ...shared, ...limitItems(people.map((name) => {
+        const record = pool.filter((member) => member.nameNorm === name);
+        return { label: record[0].cleanName, detail: [...new Set(record.map((member) => member.year))].sort().join(", ") };
+      })) });
+    }
+
     if (allYears) {
       const lines = index.teams.map((team) => {
         const holders = index.members.filter((member) => member.year === team.year && roles.includes(member.roleNorm));
@@ -582,10 +795,16 @@ function peopleAnswer(parsed, index) {
   }
 
   const groups = findGroups(parsed, index);
+  const titleWord = titleWordIn(parsed);
+  if (titleWord && !groups.length) {
+    const year = teamYear(parsed, index);
+    const members = index.members.filter((member) => member.year === year && member.roleNorm.includes(titleWord));
+    if (parsed.wantsCount) return answerWith(`The ${year} team has ${plural(members.length, titleWord)}.`, { ...shared, ...limitItems(members.map((member) => ({ label: member.cleanName, detail: member.role }))) });
+    return answerWith(`The ${year} team's ${titleWord}s:`, { ...shared, ...limitItems(members.map((member) => ({ label: member.cleanName, detail: member.role }))) });
+  }
   if (groups.length) {
     const inGroups = index.members.filter((member) => groups.includes(member.group));
     const year = teamYear(parsed, index, inGroups);
-    const titleWord = ["officer", "director", "manager"].find((title) => parsed.tokens.includes(title) || parsed.tokens.includes(`${title}s`));
     const members = inGroups.filter((member) => member.year === year && (!parsed.wantsCount || !titleWord || member.roleNorm.includes(titleWord)));
     if (!members.length) return answerWith(`The ${year} team doesn't have a ${joinList(groups)}.`, shared);
     if (parsed.wantsCount) return answerWith(`The ${year} ${joinList(groups)} ${groups.length > 1 ? "have" : "has"} ${plural(members.length, titleWord ?? "person", titleWord ? `${titleWord}s` : "people")}.`, { ...shared, items: members.map((member) => ({ label: member.cleanName, detail: member.role })) });
@@ -596,7 +815,8 @@ function peopleAnswer(parsed, index) {
     return answerWith(`The ${year} ${joinList(groups)}:`, { ...shared, ...limitItems(members.map((member) => ({ label: member.cleanName, detail: member.role }))) });
   }
 
-  if (parsed.wantsMost || parsed.wantsLeast || parsed.wantsBreakdown) {
+  // "Most" only has a published answer when it is about team size.
+  if ((parsed.wantsMost || parsed.wantsLeast || parsed.wantsBreakdown) && (parsed.wantsBreakdown || parsed.has("portfolio", "portfolios", "team", "teams", "group", "groups"))) {
     const year = teamYear(parsed, index);
     const members = index.members.filter((member) => member.year === year);
     if (parsed.wantsBreakdown && parsed.has("each year", "per year", "by year")) {
@@ -615,12 +835,52 @@ function peopleAnswer(parsed, index) {
 }
 
 // ---------------------------------------------------------------------------
+// Judgement questions
+// ---------------------------------------------------------------------------
+
+// Nothing published measures who or what is best, so say so and offer what is known.
+function judgementAnswer(parsed, index) {
+  const judging = parsed.has("contribute", "contributed", "contributes", "contribution", "contributions", "best", "worst", "favourite", "favorite", "hardest", "smartest", "coolest", "nicest", "most valuable", "most important", "most impressive", "most helpful", "most impact", "mvp", "better", "ranking");
+  if (!judging || parsed.topics.length >= 2 || parsed.concepts.length || parsed.has("best way", "better way", "how can i", "how do i", "beginner", "beginners", "start", "learn", "recommend", "should i", "hackathon", "hackathons", "award")) return null;
+
+  if (parsed.has("project", "projects", "notebook", "notebooks")) {
+    return answerWith("AIML doesn't rank its projects, so I can't name a best one. I can show you what's in the archive, or suggest projects if you tell me what interests you.", { sources: [PAGES.projects], suggestions: ["Which topic has the most projects?", "I'm a beginner, where should I start?"] });
+  }
+  if (parsed.has("event", "events", "night", "nights")) {
+    return answerWith("AIML doesn't rank its events or publish attendance for them, so I can't name a best one. I can tell you about event types, dates, and locations.", { sources: [PAGES.events], suggestions: ["What events are coming up?", "What types of events do you run?"] });
+  }
+
+  if (!isPeopleWord(parsed) && parsed.tokens[0] !== "who") return null;
+  const tally = new Map();
+  index.members.forEach((member) => {
+    const person = tally.get(member.nameNorm) ?? { name: member.cleanName, years: new Set() };
+    person.years.add(member.year);
+    tally.set(member.nameNorm, person);
+  });
+  const ranked = [...tally.values()].sort((a, b) => b.years.size - a.years.size || a.name.localeCompare(b.name));
+  const most = ranked[0].years.size;
+  const longest = ranked.filter((person) => person.years.size === most);
+  return answerWith(`AIML doesn't publish any measure of individual contribution, so it wouldn't be fair for me to name one person. What the site does show is time on the team: ${plural(longest.length, "person has", "people have")} served the longest, with ${plural(most, "year")}.`, {
+    ...limitItems(longest.map((person) => ({ label: person.name, detail: [...person.years].sort().join(", ") }))),
+    sources: [PAGES.team, PAGES.history],
+    domain: "people",
+    suggestions: ["Who is the president?", "Who is on the projects team?"],
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Comparisons
 // ---------------------------------------------------------------------------
 
 function compareAnswer(parsed, index, now) {
-  const comparing = parsed.has("compare", "comparison", "versus", "vs", "difference between", "differ", "more", "fewer", "larger", "bigger", "smaller", "grow", "grew", "change", "changed") || (parsed.has(" or ") && parsed.years.length > 1);
+  const comparing = parsed.has("compare", "comparison", "versus", "vs", "difference between", "difference", "differ", "better", "more", "fewer", "larger", "bigger", "smaller", "grow", "grew", "change", "changed") || (parsed.has(" or ") && parsed.years.length > 1);
   if (!comparing) return null;
+
+  const conceptCount = parsed.topics.length + parsed.concepts.length;
+  if (conceptCount >= 2 && parsed.concepts.length) {
+    const items = [...parsed.topics.map((topic) => ({ label: topic, detail: GLOSSARY[topic] })), ...parsed.concepts.map((name) => ({ label: name, detail: EXTRA_CONCEPTS[name].text }))];
+    return answerWith("Here's how they compare:", { items, sources: [PAGES.projects] });
+  }
 
   if (parsed.topics.length >= 2) {
     const items = parsed.topics.map((topic) => ({ label: topic, detail: GLOSSARY[topic] }));
@@ -702,11 +962,11 @@ function fixedTopicAnswer(parsed, index) {
     return answerWith("AIML doesn't publish attendance numbers for individual events, so I can't answer that. I can tell you about event types, dates, and locations.", { sources: [PAGES.events], suggestions: ["How many events have you run?", "What events are coming up?"] });
   }
 
-  if (parsed.has("become an executive", "become an exec", "join the team", "join the exec", "join the committee", "apply", "application", "applications", "nominate", "exec role", "executive role", "executive roles", "exec roles") && !parsed.has("event") && !findPeople(parsed, index).length) {
+  if (parsed.has("become an executive", "become an exec", "join the team", "join the exec", "join the committee", "apply", "application", "applications", "nominate", "exec role", "executive role", "executive roles", "exec roles") && !parsed.has("event", "what roles", "which roles", "what exec roles", "what executive roles", "how many roles") && !findPeople(parsed, index).length) {
     return answerWith("Executive applications open once a year at AIML's Annual General Meeting. The application page explains the process, expectations, and responsibilities.", { sources: [PAGES.exec], domain: "people" });
   }
 
-  if (!isPeopleQuestion && parsed.has("join", "joining", "sign up", "signup", "become a member", "membership", "member fee", "fee", "fees", "cost", "price", "how much")) {
+  if (!isPeopleQuestion && !parsed.has("event", "events", "ticket", "tickets") && parsed.has("join", "joining", "sign up", "signup", "become a member", "membership", "member fee", "fee", "fees", "cost", "price", "how much")) {
     const link = { items: [{ label: "Join AIML on Rubric", url: kb.links.membership }], sources: [PAGES.faq] };
     if (parsed.has("cost", "fee", "fees", "price", "how much")) {
       const priced = kb.faq.find((item) => /\b(cost|fee|fees|free|price)\b/i.test(`${item.title} ${item.body}`));
@@ -725,11 +985,16 @@ function fixedTopicAnswer(parsed, index) {
     return answerWith(`AIML has ${members.value} ${members.label}.`, { items: others.map((stat) => ({ label: stat.label, detail: stat.value })), sources: [PAGES.about] });
   }
 
-  if (!isPeopleQuestion && parsed.has("contact", "email", "reach", "get in touch", "discord", "instagram", "linkedin", "socials", "social media", "follow", "github", "code of conduct", "constitution")) {
+  if (!isPeopleQuestion && !findPeople(parsed, index).length && parsed.has("contact", "email", "reach", "get in touch", "discord", "instagram", "linkedin", "socials", "social media", "follow", "github", "code of conduct", "constitution")) {
     if (parsed.has("code of conduct")) return answerWith("AIML's Code of Conduct is published on GitHub.", { items: [{ label: "Code of Conduct", url: kb.links.codeOfConduct }] });
     if (parsed.has("constitution")) return answerWith("AIML's governing document and role descriptions are published on GitHub.", { items: [{ label: "Constitution and role descriptions", url: kb.links.roleDescriptions }] });
     const named = socials.filter(([name]) => parsed.has(name.toLowerCase()));
     return answerWith("The best way to reach AIML is through its community channels:", { items: (named.length ? named : socials).map(([label, url]) => ({ label, url })), sources: [PAGES.contact] });
+  }
+
+  if (parsed.has("business", "businesses", "company", "companies", "become a sponsor", "become a partner", "partner with", "sponsor aiml", "sponsor you", "sponsor the club", "how do i sponsor")) {
+    const how = kb.faq.find((item) => /sponsor|partner|business/i.test(item.title));
+    if (how) return answerWith(how.body, { sources: [PAGES.partners, PAGES.contact] });
   }
 
   if (parsed.has("partner", "partners", "sponsor", "sponsors", "supporter", "supporters", "backed") || kb.partners.some((partner) => hasPhrase(parsed.text, normalize(partner.name)))) {
@@ -741,11 +1006,11 @@ function fixedTopicAnswer(parsed, index) {
     return answerWith(parsed.has("sponsor", "sponsors", "sponsored") ? "AIML's sponsors:" : parsed.has("supporter", "supporters") ? "AIML's supporters:" : "AIML's sponsors and supporters:", { items: list.map((partner) => ({ label: partner.name, detail: partner.description, url: partner.url })), sources: [PAGES.partners] });
   }
 
-  if (parsed.has("sandbox", "demo", "demos", "playground", "interactive")) {
+  if (parsed.has("sandbox", "demo", "demos", "playground", "interactive", "digit classifier", "route planner", "k means visualiser", "k means visualizer", "decision boundary")) {
     return answerWith("The ML Sandbox has four browser-based demos: a K-means clustering visualiser, a live digit classifier, a city route planner, and a decision boundary playground. Nothing you enter leaves your device.", { sources: [PAGES.sandbox] });
   }
 
-  if (parsed.has("degree", "degrees", "course", "courses", "study", "bachelor", "bachelors", "master", "masters", "pathway", "pathways")) {
+  if (!findPeople(parsed, index).length && parsed.has("degree", "degrees", "course", "courses", "study", "bachelor", "bachelors", "master", "masters", "pathway", "pathways")) {
     const level = kb.degrees.filter((group) => parsed.has(normalize(group.title), stem(normalize(group.title))));
     const groups = level.length ? level : kb.degrees;
     const items = groups.flatMap((group) => group.items.map((item) => ({ label: item.name.replace(/^Coming Soon - /, ""), detail: `${group.title}${item.name.startsWith("Coming Soon") ? " · Coming soon" : ""}` })));
@@ -756,8 +1021,8 @@ function fixedTopicAnswer(parsed, index) {
   return null;
 }
 
-function recommendationAnswer(parsed, index, now) {
-  const asking = parsed.has("beginner", "beginners", "new to", "where should i start", "where do i start", "how do i start", "how to start", "get started", "getting started", "no experience", "dont know how to code", "cant code", "never coded", "recommend", "suggest", "should i try", "should i start", "should i attend", "good first", "easiest", "start with", "learn");
+function recommendationAnswer(parsed, index, now, isDirect = false) {
+  const asking = isDirect || parsed.has("beginner", "beginners", "new to", "where should i start", "where do i start", "how do i start", "how to start", "get started", "getting started", "no experience", "dont know how to code", "cant code", "never coded", "recommend", "suggest", "should i try", "should i start", "should i attend", "good first", "easiest", "start with", "learn", "for me", "would i like", "would i enjoy");
   if (!asking) return null;
 
   const upcoming = index.events.filter((event) => eventEnd(event) >= isoDay(now)).sort((a, b) => a.date.localeCompare(b.date));
@@ -777,6 +1042,45 @@ function recommendationAnswer(parsed, index, now) {
   return answerWith(`${lead}${next}`, { items: starters.map(projectItem), sources: [PAGES.sandbox, PAGES.projects, PAGES.events], domain: "projects", set: starters });
 }
 
+function factsAnswer(parsed, index, now) {
+  const firstYear = Math.min(...index.teams.map((team) => team.year));
+
+  if (parsed.has("stand for", "acronym", "abbreviation", "full name", "aiml mean", "does aiml mean")) {
+    return answerWith("AIML stands for Artificial Intelligence and Machine Learning. The full name is the QUT AI & ML Society.", { sources: [PAGES.about] });
+  }
+
+  const asksWhenStarted = (parsed.tokens[0] === "when" && parsed.has("founded", "start", "started", "established", "begin", "began", "created", "formed"))
+    || parsed.has("how old", "how long has", "how long have", "what year was", "founding year", "year founded");
+  if (asksWhenStarted && !findPeople(parsed, index).length && !findRoles(parsed, index).length) {
+    const first = [...index.events].sort((a, b) => a.date.localeCompare(b.date))[0];
+    const age = now.getFullYear() - firstYear;
+    return answerWith(`AIML was founded in ${firstYear}${age > 0 ? `, so it is in its ${age === 1 ? "second" : age === 2 ? "third" : `${age + 1}th`} year` : ""}. Its first recorded event was the ${first.title} on ${formatDate(first.date)}.`, { sources: [PAGES.about, PAGES.history] });
+  }
+
+  if (parsed.has("where is aiml", "where are you", "where is the club", "where is the society", "based", "located", "which university", "what university", "which uni", "what uni", "which campus", "what campus")) {
+    const onCampus = index.events.filter((event) => /\bGP\b/.test(event.location)).length;
+    return answerWith(`AIML is a student society at Queensland University of Technology (QUT) in Brisbane. ${onCampus} of its ${index.events.length} recorded events were held at QUT's Gardens Point campus.`, { sources: [PAGES.about, PAGES.events] });
+  }
+
+  if (parsed.has("where can i", "where do i", "link to", "link for", "which page", "what page", "url", "take me to", "go to the", "open the")) {
+    const places = [
+      [["event", "events", "calendar"], PAGES.events], [["sandbox", "demo", "demos"], PAGES.sandbox], [["project", "projects", "notebook", "notebooks"], PAGES.projects],
+      [["history", "past teams"], PAGES.history], [["team", "exec", "executive", "executives"], PAGES.team], [["partner", "partners", "sponsor", "sponsors"], PAGES.partners],
+      [["hackathon", "hackathons"], PAGES.hackathon], [["faq", "faqs", "questions"], PAGES.faq], [["contact", "socials"], PAGES.contact], [["apply", "application", "applications"], PAGES.exec],
+    ].filter(([words]) => words.some((word) => parsed.has(word))).map(([, page]) => page);
+    if (places.length) return answerWith("You can find that here:", { items: places.slice(0, 3).map((page) => ({ label: page.label, url: page.url })) });
+  }
+  return null;
+}
+
+function conceptAnswer(parsed, index) {
+  if (!parsed.concepts.length || parsed.topics.length) return null;
+  const asks = parsed.isDefinition || parsed.has("difference between", "vs", "versus", "compare");
+  if (!asks || parsed.has("project", "projects", "event", "events") || parsed.keywords.length > 1) return null;
+  const parts = parsed.concepts.map((name) => EXTRA_CONCEPTS[name].text);
+  return answerWith("", { parts, sources: [PAGES.projects, PAGES.sandbox], suggestions: ["What projects have you done?", "What is a CNN?"] });
+}
+
 function glossaryAnswer(parsed, index) {
   if (!parsed.topics.length || !parsed.isDefinition) return null;
   if (parsed.has("project", "projects", "notebook")) return null;
@@ -786,7 +1090,7 @@ function glossaryAnswer(parsed, index) {
 }
 
 function overviewAnswer(parsed, index) {
-  if (!parsed.has("what is aiml", "what is qut aiml", "who are you", "what do you do", "what does aiml do", "what does the society do", "what does the club do", "about aiml", "about the society", "about the club", "what is the society", "what is the club", "what is this")) return null;
+  if (!parsed.has("what is aiml", "what is qut aiml", "who are you", "what do you do", "what does aiml do", "what does the society do", "what does the club do", "about aiml", "about the society", "about the club", "what is the society", "what is the club", "what is this", "what is the qut ai and ml society", "what is the ai and ml society", "what is qut ai and ml", "what is ai and ml society")) return null;
   const about = index.kb.faq[0];
   return answerWith(about.body, { sources: [PAGES.about], suggestions: ["What events are coming up?", "What projects have you done?", "How do I join?"] });
 }
@@ -824,21 +1128,29 @@ function searchDocuments(parsed, index) {
 // ---------------------------------------------------------------------------
 
 function isClearlyAboutPeople(parsed, index) {
-  if (findRoles(parsed, index).length || findGroups(parsed, index).length || findPeople(parsed, index).length) return true;
-  return parsed.has("team", "teams", "exec", "execs", "executive", "executives", "committee", "portfolio", "portfolios", "founder", "founders", "founded", "served", "serve") && !parsed.has("event", "events");
+  if (findRoles(parsed, index).length || findGroups(parsed, index).length || findPeople(parsed, index).length || titleWordIn(parsed)) return true;
+  return parsed.has("team", "teams", "exec", "execs", "executive", "executives", "committee", "portfolio", "portfolios", "founder", "founders", "founded", "served", "serve", "longest serving") && !parsed.has("event", "events");
 }
 
+// The page text answers these better than any computed list.
+const PAGE_TEXT_TOPICS = ["eligible", "eligibility", "requirement", "requirements", "qualify", "responsibilities", "expectations", "time commitment", "give a talk", "give talk", "giving talks", "guest speaker", "speak at", "present at", "values", "mission", "objectives"];
+
 function route(parsed, index, now) {
+  if (parsed.has(...PAGE_TEXT_TOPICS)) return null;
+
   const multiple = parsed.wantsCount && parsed.has("event", "events") && parsed.has("project", "projects") && !parsed.keywords.length;
   if (multiple) {
     const eventTotal = filterEvents({ ...parsed, categories: [], keywords: [] }, index, now).length;
     return answerWith(`AIML has ${plural(eventTotal, "event")}${describeEventFilters({ ...parsed, keywords: [] })} and ${plural(index.projects.length, "project")} on record.`, { sources: [PAGES.events, PAGES.projects] });
   }
 
-  return compareAnswer(parsed, index, now)
+  return judgementAnswer(parsed, index)
+    ?? compareAnswer(parsed, index, now)
     ?? hackathonAnswer(parsed, index)
+    ?? factsAnswer(parsed, index, now)
     ?? fixedTopicAnswer(parsed, index)
     ?? overviewAnswer(parsed, index)
+    ?? conceptAnswer(parsed, index)
     ?? recommendationAnswer(parsed, index, now)
     ?? glossaryAnswer(parsed, index)
     ?? (isClearlyAboutPeople(parsed, index) ? peopleAnswer(parsed, index) : null)
@@ -848,52 +1160,197 @@ function route(parsed, index, now) {
     ?? searchDocuments(parsed, index);
 }
 
+// Openers and closers that turn a message into a change to the previous question.
+const SHIFT_OPENING = /^\s*(?:(?:no|nah|nope|sorry|oops|actually|wait|well|ok|okay|hmm|yes|yeah)\b[,.!\s]*)*(?:(?:i|we)\s+(?:meant?|said)|i\s+was\s+asking\s+about|i\s*a?m\s+asking\s+about|what\s+about|how\s+about|and\s+what\s+about|what\s+of|same\s+(?:but\s+)?for|and\s+for|and\s+in|make\s+that|try|rather|only|just|and)\b[,:\s]*/i;
+const SOFT_OPENING = /^\s*(?:no|nah|nope|sorry|oops|actually|wait)\b[,.!\s]+/i;
+const SHIFT_CLOSING = /[,\s]+(?:instead|then|please|sorry|though|rather)\s*[?.!]*\s*$/i;
+
+const PERSON_PRONOUN = /\b(?:he|she|they|them|him|her|hers|his|their|theirs|that person|this person)\b/gi;
+
 function detailOfItem(item, set) {
   if (item.kind === "event") return answerWith(`${item.title}: ${eventItem(item).detail}. ${item.excerpt}`.trim(), { sources: [PAGES.events], domain: "events", set });
   return answerWith(`${item.title} (${item.topic}): ${item.excerpt}`, { items: [{ label: "Open the notebook on GitHub", url: item.github }], sources: [PAGES.projects], domain: "projects", set });
 }
 
+function hasOwnSubject(parsed, index) {
+  return isEventQuestion(parsed, index) || isProjectQuestion(parsed, index) || isClearlyAboutPeople(parsed, index) || parsed.concepts.length > 0 || parsed.has("hackathon", "hackathons", "partner", "partners", "sponsor", "sponsors", "join", "membership", "degree", "degrees", "sandbox");
+}
+
+// Keeps the previous question and applies only what this message changes.
+function applyShift(shifted, base) {
+  const baseYear = base.years[0];
+  const relativeYear = baseYear && shifted.has("year before", "previous year", "the year prior") ? baseYear - 1 : baseYear && shifted.has("year after", "following year") ? baseYear + 1 : null;
+  const otherSemester = base.semester && shifted.has("other semester", "other sem") ? 3 - base.semester : null;
+  const isListing = shifted.has("which", "what are", "list", "show", "who");
+  return {
+    ...base,
+    years: relativeYear ? [relativeYear] : shifted.years.length ? shifted.years : base.years,
+    semester: otherSemester ?? shifted.semester ?? base.semester,
+    month: shifted.month ?? base.month,
+    range: shifted.range ?? base.range,
+    weekday: shifted.weekday ?? base.weekday,
+    weekend: shifted.weekend || base.weekend,
+    time: shifted.time ?? (shifted.years.length || shifted.semester || relativeYear || otherSemester ? null : base.time),
+    categories: shifted.categories.length ? shifted.categories : base.categories,
+    topics: shifted.topics.length ? shifted.topics : base.topics,
+    locations: shifted.locations.length ? shifted.locations : base.locations,
+    wantsCount: shifted.wantsCount || (!isListing && base.wantsCount),
+  };
+}
+
+function answerForDomain(domain, parsed, index, now) {
+  if (domain === "events") return eventsAnswer(parsed, index, now);
+  if (domain === "projects") return projectsAnswer(parsed, index);
+  if (domain === "people") return peopleAnswer(parsed, index);
+  return null;
+}
+
 function followUpAnswer(question, parsed, index, now, context) {
-  if (!context?.domain) return null;
+  const opened = question.replace(SHIFT_OPENING, "").replace(SOFT_OPENING, "");
+  const stripped = opened.replace(SHIFT_CLOSING, "").replace(/[?.!\s]+$/, "").trim();
+  const wasRephrased = stripped !== question.replace(/[?.!\s]+$/, "").trim();
+  if (wasRephrased && !stripped) return null;
 
-  // "tell me about the second one", "what's the first project?"
-  if (parsed.ordinal !== null && parsed.has("one", "item", "project", "event") && context.set?.[parsed.ordinal] && !parsed.years.length && parsed.tokens.length <= 9) {
-    return detailOfItem(context.set[parsed.ordinal], context.set);
-  }
-  const asksAboutIt = parsed.tokens.includes("it") && (parsed.wantsWhere || parsed.wantsWhen || parsed.has("about it", "more about", "details", "link"));
-  if ((asksAboutIt || parsed.has("tell me more", "more details", "more info")) && context.set?.length === 1 && context.set[0].kind && parsed.tokens.length <= 8) {
-    return detailOfItem(context.set[0], context.set);
-  }
-  if (parsed.has("more", "the rest", "show the rest", "others", "remaining ones") && parsed.tokens.length <= 5 && context.set?.length) {
-    const rest = context.set.slice(LIST_LIMIT);
-    if (!rest.length) return answerWith("That was the full list.", { domain: context.domain, set: context.set });
-    return answerWith(`The remaining ${plural(rest.length, "result")}:`, { items: rest.map((item) => (item.kind === "event" ? eventItem(item) : projectItem(item))), domain: context.domain, set: context.set, sources: context.sources ?? [] });
+  if (context?.domain) {
+    const asksPerson = context.domain === "people" && context.people?.length;
+    PERSON_PRONOUN.lastIndex = 0;
+    if (asksPerson && PERSON_PRONOUN.test(question) && !findPeople(parsed, index).length) {
+      if (context.people.length === 1) {
+        const name = context.people[0];
+        return route(parseQuestion(question.replace(PERSON_PRONOUN, name), index, now), index, now);
+      }
+      return answerWith("Which person do you mean?", { domain: "people", suggestions: context.people.slice(0, 4).map((name) => `Tell me about ${name}`) });
+    }
+
+    // "tell me about the second one", "what's the last project?", "the second person"
+    const fromEnd = parsed.has("last one", "final one", "last project", "last event") && context.set?.length && parsed.tokens.length <= 8;
+    if (fromEnd) return detailOfItem(context.set.at(-1), context.set);
+    if (parsed.ordinal !== null && parsed.has("one", "item", "project", "event", "person") && !parsed.years.length && parsed.tokens.length <= 9) {
+      if (context.domain === "people" && context.people?.[parsed.ordinal]) return route(parseQuestion(`tell me about ${context.people[parsed.ordinal]}`, index, now), index, now);
+      if (context.set?.[parsed.ordinal]) return detailOfItem(context.set[parsed.ordinal], context.set);
+    }
+
+    const asksAboutIt = parsed.tokens.includes("it") && (parsed.wantsWhere || parsed.wantsWhen || parsed.has("about it", "more about", "details", "link"));
+    if ((asksAboutIt || parsed.has("tell me more", "more details", "more info")) && context.set?.length === 1 && context.set[0].kind && parsed.tokens.length <= 8) {
+      return detailOfItem(context.set[0], context.set);
+    }
+    if (parsed.has("more", "the rest", "show the rest", "others", "remaining ones") && parsed.tokens.length <= 5 && context.set?.length) {
+      const rest = context.set.slice(LIST_LIMIT);
+      if (!rest.length) return answerWith("That was the full list.", { domain: context.domain, set: context.set });
+      return answerWith(`The remaining ${plural(rest.length, "result")}:`, { items: rest.map((item) => (item.kind === "event" ? eventItem(item) : projectItem(item))), domain: context.domain, set: context.set, sources: context.sources ?? [] });
+    }
+
+    // "any projects on that?" after "what is a CNN?"
+    const pointsBack = parsed.tokens.some((token) => ["it", "that", "this"].includes(token));
+    if (pointsBack && parsed.has("project", "projects", "notebook", "notebooks", "example", "examples") && !parsed.topics.length && context.parsed?.topics?.length) {
+      return projectsAnswer({ ...parsed, topics: context.parsed.topics, keywords: [] }, index);
+    }
+
+    // "which of those are in 2026?", or "those events" after talking about something else.
+    if (parsed.refersToPrevious) {
+      const named = parsed.has("event", "events") ? "events" : parsed.has("project", "projects") ? "projects" : context.domain;
+      const base = context.byDomain?.[named]?.set;
+      if (base?.length && named === "events") return eventsAnswer(parsed, index, now, base);
+      if (base?.length && named === "projects") return projectsAnswer(parsed, index, base);
+    }
+
+    // "what about 2025?", "i mean 2026 sem 1", "how many in March?", "just the socials"
+    if (context.parsed) {
+      const shifted = parseQuestion(stripped || question, index, now);
+      const changesFilter = shifted.years.length || shifted.semester || shifted.time || shifted.month !== null || shifted.range || shifted.weekday !== null || shifted.has("year before", "previous year", "year after", "following year", "other semester", "other sem");
+      const changesSubject = (context.domain === "events" && shifted.categories.length) || (context.domain === "projects" && shifted.topics.length);
+      // "how many?" counts whatever was just listed.
+      const isBareCount = shifted.wantsCount && !changesFilter && !changesSubject && !shifted.keywords.length && !hasOwnSubject(shifted, index);
+      if (isBareCount && context.set && ["events", "projects"].includes(context.domain)) {
+        const noun = context.domain === "events" ? "event" : "project";
+        return answerWith(context.set.length ? `That's ${plural(context.set.length, noun)}.` : `That's no ${noun}s.`, { domain: context.domain, set: context.set, sources: context.sources ?? [] });
+      }
+      const isOnlyThat = !shifted.keywords.length && !shifted.concepts.length && (changesFilter || changesSubject || shifted.wantsCount);
+      const isPartOfLast = wasRephrased || parsed.tokens.length <= 3 || !hasOwnSubject(shifted, index);
+      if (isOnlyThat && isPartOfLast) {
+        const answer = answerForDomain(context.domain, applyShift(shifted, context.parsed), index, now);
+        if (answer) return { ...answer, parsedOverride: applyShift(shifted, context.parsed) };
+      }
+    }
   }
 
-  // "which of those are in 2026?", "how many of them are collabs?"
-  if (parsed.refersToPrevious && context.set?.length) {
-    if (context.domain === "events") return eventsAnswer(parsed, index, now, context.set);
-    if (context.domain === "projects") return projectsAnswer(parsed, index, context.set);
-  }
-
-  // "what about 2025?", "and semester 1?", "how about clustering?"
-  const stripped = question.replace(/^\s*(what about|how about|and what about|and for|and in|and|what of|same for)\b/i, "").trim();
-  const isShiftedQuestion = stripped !== question.trim() || parsed.tokens.length <= 3;
-  if (!isShiftedQuestion || !context.parsed) return null;
-
-  const shifted = parseQuestion(stripped, index, now);
-  const filtersOnly = !shifted.keywords.length && !shifted.topics.length && !shifted.categories.length && (shifted.years.length || shifted.semester || shifted.time || shifted.month !== null);
-  if (filtersOnly) {
-    const merged = { ...context.parsed, years: shifted.years.length || !shifted.semester ? shifted.years : context.parsed.years, semester: shifted.semester, time: shifted.time ?? context.parsed.time, month: shifted.month };
-    if (context.domain === "events") return eventsAnswer(merged, index, now);
-    if (context.domain === "projects") return projectsAnswer(merged, index);
-    if (context.domain === "people") return peopleAnswer(merged, index);
-  }
-  if (stripped !== question.trim()) {
-    const inheritance = { wantsCount: context.parsed.wantsCount, years: context.parsed.years, semester: context.parsed.semester };
+  // "i mean the projects team": a new subject that still keeps the last question's shape.
+  if (wasRephrased) {
+    const inheritance = context?.parsed ? { wantsCount: context.parsed.wantsCount, years: context.parsed.years, semester: context.parsed.semester } : {};
     return route(parseQuestion(stripped, index, now, inheritance), index, now);
   }
   return null;
+}
+
+// ---------------------------------------------------------------------------
+// Conversation memory
+// ---------------------------------------------------------------------------
+
+function learnAboutUser(question, parsed, index, profile) {
+  const learned = { ...profile, topics: [...(profile.topics ?? [])], interests: [...(profile.interests ?? [])] };
+  const named = question.match(/\b(?:my name is|my name's|call me)\s+([a-z][a-z'-]+)/i) ?? (parsed.tokens.length <= 3 ? question.match(/^\s*(?:hi[,!\s]+)?(?:i am|i'm|im)\s+([A-Z][a-z'-]+)\s*[.!]?\s*$/) : null);
+  if (named && !(index.vocabulary.has(normalize(named[1])) && !/my name|call me/i.test(question))) {
+    learned.name = named[1][0].toUpperCase() + named[1].slice(1);
+    learned.justNamed = true;
+  }
+  if (/\b(?:(?:i am|im|i m)\s+(?:really\s+|very\s+)?(?:interested in|into|keen on)|i\s+(?:really\s+)?(?:like|love|enjoy))\b/.test(parsed.text)) {
+    const interests = parsed.keywords.filter((keyword) => SUBJECT_ALIASES[keyword] || index.projects.some((project) => projectMatches(project, keyword)));
+    learned.topics = [...new Set([...learned.topics, ...parsed.topics])];
+    learned.interests = [...new Set([...learned.interests, ...interests])];
+    learned.justInterested = parsed.topics.length > 0 || interests.length > 0;
+  }
+  return learned;
+}
+
+function memoryAnswer(question, parsed, index, now, memory) {
+  const { history = [], profile = {} } = memory ?? {};
+  const last = history.at(-1);
+
+  if (parsed.has("forget everything", "forget this", "forget our", "forget that", "clear the chat", "clear chat", "clear our", "clear this", "start over", "start again", "new chat", "new conversation", "delete our")) {
+    return answerWith("Done, I've forgotten this conversation.", { clearsMemory: true, suggestions: ["What's the next event?", "What can you do?"] });
+  }
+  if (profile.justNamed) return answerWith(`Nice to meet you, ${profile.name}! I'll remember that until you leave the site.`, { suggestions: ["What's the next event?", "What can you do?"] });
+  if (profile.justInterested) {
+    const noted = recommendationAnswer({ ...parsed, topics: profile.topics, keywords: profile.interests }, index, now, true);
+    return { ...noted, text: `I'll keep that in mind. ${noted.text}` };
+  }
+
+  if (parsed.has("what is my name", "whats my name", "what my name", "do you know my name", "who am i")) {
+    return answerWith(profile.name ? `You told me your name is ${profile.name}.` : "You haven't told me your name yet.");
+  }
+  if (parsed.has("what do you know about me", "what do you remember", "do you remember", "can you remember", "do you have memory", "do you have a memory", "will you remember", "do you save", "is this saved", "are you saving", "do you store", "is this private")) {
+    const known = [profile.name && `your name is ${profile.name}`, [...(profile.topics ?? []), ...(profile.interests ?? [])].length && `you're interested in ${joinList([...(profile.topics ?? []), ...(profile.interests ?? [])])}`, history.length && `we've covered ${plural(history.length, "question")} so far`].filter(Boolean);
+    return answerWith(`I remember this conversation while you're on the site, including across pages. It stays in your browser, isn't sent anywhere, and is gone once you leave.${known.length ? ` So far I know ${joinList(known)}.` : ""}`);
+  }
+  if (parsed.has("what did i ask", "what did i just ask", "what did i say", "what was my question", "my last question", "my previous question", "my first question", "what have i asked", "what have we talked", "what have we discussed", "what did we talk", "what did we discuss", "summarise our", "summarize our", "summarise this", "summarize this", "recap")) {
+    if (!history.length) return answerWith("We haven't talked about anything yet.");
+    if (parsed.has("first question")) return answerWith(`Your first question was “${history[0].question}”`);
+    if (parsed.has("last question", "previous question", "just ask", "what was my question")) return answerWith(`Your last question was “${last.question}”`);
+    return answerWith(`We've covered ${plural(history.length, "question")}. The most recent:`, { items: history.slice(-LIST_LIMIT).map((turn) => ({ label: turn.question })) });
+  }
+  if (!last) return null;
+  if (parsed.has("repeat that", "say that again", "what did you say", "what did you just say", "your last answer", "your previous answer", "come again")) {
+    return last.answer ?? answerWith("I wasn't able to answer that last one.");
+  }
+  if (parsed.tokens.length <= 5 && parsed.has("are you sure", "is that right", "is that correct", "is that true", "you sure", "really")) {
+    const sources = last.answer?.sources ?? [];
+    return answerWith(sources.length ? "That comes directly from AIML's published information, so it's as accurate as the site. You can check it here:" : "I only answer from AIML's published information, so it's as accurate as the site.", { items: sources.map((source) => ({ label: source.label, url: source.url })) });
+  }
+  if (parsed.tokens[0] === "why" && parsed.tokens.length <= 3) {
+    return answerWith("The site doesn't give reasons for that, so I can only tell you what's published. The team would know more, and Discord is the best place to ask.", { items: [{ label: "Discord", url: index.kb.links.discord }] });
+  }
+  return null;
+}
+
+// Names mentioned in an answer, so that "they" and "the second one" can refer to them.
+function peopleInAnswer(answer, index) {
+  const sections = answer.sections ?? [answer];
+  const text = ` ${normalize(sections.flatMap((section) => [section.text, ...(section.parts ?? []), ...(section.items ?? []).flatMap((item) => [item.label, item.detail])]).filter(Boolean).join(" | "))} `;
+  return index.names
+    .map((name) => ({ name, position: text.indexOf(` ${name} `) }))
+    .filter(({ position }) => position >= 0)
+    .sort((a, b) => a.position - b.position)
+    .map(({ name }) => index.members.find((member) => member.nameNorm === name)?.cleanName ?? index.kb.coFounders.find((person) => normalize(person.name) === name)?.name ?? name);
 }
 
 function smallTalk(parsed) {
@@ -902,6 +1359,11 @@ function smallTalk(parsed) {
     return answerWith("Hi! Ask me anything about AIML's events, projects, team, partners, or how to get involved.", { suggestions: ["What's the next event?", "Which project topic has the most work?", "Who is the president?"] });
   }
   if (parsed.has("thanks", "thank you", "cheers", "thx", "ty")) return answerWith("You're welcome!");
+  if (parsed.has("how are you", "hows it going", "how is it going")) return answerWith("All good, thanks for asking! What would you like to know about AIML?");
+  if (parsed.has("your name", "who are you", "what are you", "are you a bot", "are you real", "are you human", "are you an ai", "are you ai", "are you chatgpt", "are you gpt", "are you claude", "who made you", "who built you", "who created you", "how do you know", "how smart")) {
+    return answerWith("I'm the AIML Assistant, a built-in helper for this website. I'm not a general AI chatbot: I work out answers from AIML's published information, and the short machine learning explanations are written into me.", { suggestions: ["What can you do?", "What's the next event?"] });
+  }
+  if (parsed.has("good bye", "goodbye", "bye", "see ya", "see you")) return answerWith("See you around!");
   if (parsed.has("what can you do", "what can i ask", "help me", "how do you work") || onlyTokens("help")) {
     return answerWith("I can look things up and work things out from AIML's published information. For example:", {
       items: [
@@ -938,24 +1400,54 @@ function mergeAnswers(answers) {
 
 /**
  * Returns { answer, context }. `answer` is null when the data doesn't cover the
- * question. Pass the returned context back in so follow-up questions work.
+ * question. Pass the returned context back in and it carries the conversation:
+ * earlier questions and answers, what they were about, and anything the person
+ * has said about themselves. It lives only as long as the caller keeps it.
  */
 export function answerQuestion(question, index, context = null, now = new Date()) {
   index.currentYear = now.getFullYear();
-  const parts = splitQuestion(question);
-  let currentContext = context;
+  let memory = context ?? { history: [], profile: {}, byDomain: {} };
   const answers = [];
 
-  parts.forEach((part) => {
-    const parsed = parseQuestion(part, index, now);
-    const answer = smallTalk(parsed)
-      ?? followUpAnswer(part, parsed, index, now, currentContext)
+  splitQuestion(question).forEach((part) => {
+    let parsed = parseQuestion(part, index, now);
+    const profile = learnAboutUser(part, parsed, index, memory.profile ?? {});
+    memory = { ...memory, profile };
+
+    // Earlier interests answer "what should I try?" when this message doesn't name any.
+    const wantsSuggestion = parsed.has("recommend", "suggest", "should i try", "should i start", "good first", "for me", "would i like", "would i enjoy");
+    if (wantsSuggestion && !parsed.topics.length && !parsed.keywords.length && (profile.topics?.length || profile.interests?.length)) {
+      parsed = { ...parsed, topics: profile.topics, keywords: profile.interests };
+    }
+
+    const answer = memoryAnswer(part, parsed, index, now, memory)
+      ?? smallTalk(parsed)
+      ?? followUpAnswer(part, parsed, index, now, memory)
       ?? route(parsed, index, now);
     answers.push(answer);
-    if (answer?.domain) currentContext = { domain: answer.domain, set: answer.set, parsed, sources: answer.sources };
+
+    const { justNamed, justInterested, ...settled } = memory.profile;
+    memory = { ...memory, profile: settled };
+    if (answer?.clearsMemory) {
+      memory = { history: [], profile: {}, byDomain: {} };
+    } else if (answer?.domain) {
+      const remembered = answer.parsedOverride ?? parsed;
+      const mentioned = answer.domain === "people" ? peopleInAnswer(answer, index) : [];
+      const people = mentioned.length ? mentioned : memory.people;
+      memory = {
+        ...memory,
+        domain: answer.domain,
+        set: answer.set,
+        parsed: remembered,
+        sources: answer.sources,
+        people,
+        byDomain: { ...memory.byDomain, [answer.domain]: { set: answer.set } },
+      };
+    }
   });
 
   const useful = answers.filter(Boolean);
-  if (!useful.length) return { answer: null, context: currentContext };
-  return { answer: mergeAnswers(useful), context: currentContext };
+  const merged = useful.length ? mergeAnswers(useful) : null;
+  if (!merged?.clearsMemory) memory = { ...memory, history: [...(memory.history ?? []), { question, answer: merged }].slice(-40) };
+  return { answer: merged, context: memory };
 }

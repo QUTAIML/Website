@@ -83,7 +83,7 @@ For a new semester whose projects aren't announced yet, create the folder with
 ## New executive team (each year)
 
 1. Copy last year's folder, e.g. `team/2027` → `team/2028`.
-2. Edit `team.json`: names, roles, LinkedIn links, groups.
+2. Edit `team.json`: names, roles, LinkedIn links, groups, and an optional `degree` shown under the name.
 3. Replace the headshots, and the group photo as `team-photo.jpg` (or `.png`).
 4. Delete any headshots you no longer need.
 

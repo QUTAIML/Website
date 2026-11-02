@@ -1,4 +1,7 @@
 ---
+import PhotoNetwork from "@/components/PhotoNetwork.astro";
+import PhotoStrip from "@/components/PhotoStrip.astro";
+import PhotoBreak from "@/components/PhotoBreak.astro";
 import { links, partners, loadImages, getEvents, getProjectSemesters } from "@/lib/content";
 import "@/styles/home.css";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -24,7 +27,7 @@ const image = await loadImages();
         <g><circle cx="140" cy="426" r="5"/><circle cx="268" cy="484" r="5"/><circle cx="422" cy="277" r="6"/><circle cx="571" cy="346" r="5"/><circle cx="699" cy="165" r="6"/><circle cx="862" cy="243" r="5"/><circle cx="1032" cy="120" r="5"/><circle cx="183" cy="206" r="4"/><circle cx="646" cy="346" r="4"/><circle cx="882" cy="352" r="5"/></g>
       </svg>
       <div class="hero-glow hero-glow-one"></div><div class="hero-glow hero-glow-two"></div>
-      <div class="aiml-shell hero-content">
+      <div class="aiml-shell hero-content photo-net-host">
         <p class="kicker">QUT AI &amp; ML SOCIETY</p>
         <h1 id="home-title">Build the future<br /><span>with AIML.</span></h1>
         <p class="hero-lede">Queensland’s largest university society dedicated to artificial intelligence and machine learning. Learn, collaborate, and turn ambitious ideas into practical work.</p>
@@ -37,17 +40,20 @@ const image = await loadImages();
           <div><strong>{eventRecordCount}</strong><span>event records</span></div>
           <div><strong>3</strong><span>active supporters</span></div>
         </div>
+        <PhotoNetwork photos={["images/hackathon-aiml-2026-1.jpeg","events/2026-sem-1/social-night-1.jpg","events/2026-sem-1/bands-industry-night-6.jpeg","events/2026-sem-1/agentcamp-3.jpeg","images/hackathon-aiml-2026-7.jpg"]} />
       </div>
     </section>
+
+    <PhotoStrip photos={[{ src: "images/hackathon-aiml-2026-5.jpg", alt: "AIML Hackathon team working around a laptop" }, { src: "events/2026-sem-1/bands-industry-night-5.jpeg", alt: "Panel at the AIML and BANDS Industry Night" }, { src: "events/2026-sem-1/social-night-1.jpg", alt: "AIML members at a Welcome Night" }, { src: "events/2026-sem-1/agentcamp-1.jpeg", alt: "AgentCamp at QUT" }, { src: "events/2026-sem-1/projects-night-1.jpg", alt: "A project night in progress" }, { src: "images/hackathon-brains-and-bots-3.jpeg", alt: "Brains and Bots team presenting a prototype" }, { src: "events/2026-sem-1/bands-industry-night-8.jpeg", alt: "Attendees talking at the Industry Night" }, { src: "events/2026-sem-1/agentcamp-4.jpeg", alt: "Audience at AgentCamp" }, { src: "images/hackathon-aiml-2026-7.jpg", alt: "AIML Hackathon team presenting" }, { src: "events/2026-sem-1/trivia.jpg", alt: "Students at a trivia night" }, { src: "images/hackathon-aiml-2026-3.jpg", alt: "AIML Hackathon exhibition" }, { src: "events/2026-sem-1/projects-night-4.jpg", alt: "Students at a project night" }]} />
 
     <section class="member-value section-dark node-surface" aria-labelledby="value-title">
       <div class="aiml-shell">
         <div class="section-heading split-heading"><div><p class="kicker">WHAT YOU CAN DO HERE</p><h2 id="value-title">A community built<br />for <span>doing.</span></h2></div><p>There is no single route into AI. AIML creates practical ways to find your people, develop your skills, and make something worth showing.</p></div>
         <div class="value-grid">
-          <article class="value-card"><span class="value-icon" aria-hidden="true">⌘</span><h3>Build projects</h3><p>Join teams working across regression, vision, transformers, LLMs, and more. Add meaningful work to your portfolio.</p><a href="/projects">Explore projects <span aria-hidden="true">→</span></a></article>
-          <article class="value-card value-card-accent"><span class="value-icon" aria-hidden="true">✦</span><h3>Take on challenges</h3><p>Put your thinking into practice through project nights, competitions, and the Brains &amp; Bots Hackathon.</p><a href="/hackathon">Meet Brains &amp; Bots <span aria-hidden="true">→</span></a></article>
-          <article class="value-card"><span class="value-icon" aria-hidden="true">◌</span><h3>Meet the field</h3><p>Hear from alumni, researchers, and industry professionals while growing a network that lasts beyond university.</p><a href="/events">See upcoming events <span aria-hidden="true">→</span></a></article>
-          <article class="value-card"><span class="value-icon" aria-hidden="true"><ExternalArrow /></span><h3>Keep learning</h3><p>Move from curiosity to confidence with peer support, hands on workshops, and a community happy to share what it knows.</p><a href="/about">How AIML works <span aria-hidden="true">→</span></a></article>
+          <article class="value-card has-cover"><img class="card-cover" src={image("events/2026-sem-1/projects-night-3.jpg")} alt="" loading="lazy" /><span class="value-icon" aria-hidden="true">⌘</span><h3>Build projects</h3><p>Join teams working across regression, vision, transformers, LLMs, and more. Add meaningful work to your portfolio.</p><a href="/projects">Explore projects <span aria-hidden="true">→</span></a></article>
+          <article class="value-card value-card-accent has-cover"><img class="card-cover" src={image("images/hackathon-aiml-2026-5.jpg")} alt="" loading="lazy" /><span class="value-icon" aria-hidden="true">✦</span><h3>Take on challenges</h3><p>Put your thinking into practice through project nights, competitions, and the Brains &amp; Bots Hackathon.</p><a href="/hackathon">Meet Brains &amp; Bots <span aria-hidden="true">→</span></a></article>
+          <article class="value-card has-cover"><img class="card-cover" src={image("events/2026-sem-1/bands-industry-night-6.jpeg")} alt="" loading="lazy" /><span class="value-icon" aria-hidden="true">◌</span><h3>Meet the field</h3><p>Hear from alumni, researchers, and industry professionals while growing a network that lasts beyond university.</p><a href="/events">See upcoming events <span aria-hidden="true">→</span></a></article>
+          <article class="value-card has-cover"><img class="card-cover" src={image("events/2026-sem-1/agentcamp-3.jpeg")} alt="" loading="lazy" /><span class="value-icon" aria-hidden="true"><ExternalArrow /></span><h3>Keep learning</h3><p>Move from curiosity to confidence with peer support, hands on workshops, and a community happy to share what it knows.</p><a href="/about">How AIML works <span aria-hidden="true">→</span></a></article>
         </div>
       </div>
     </section>
@@ -61,7 +67,7 @@ const image = await loadImages();
 
     <section class="opportunities-section section-dark node-surface" aria-labelledby="opportunities-title">
       <div class="aiml-shell opportunities-layout"><div class="opportunities-copy"><p class="kicker">MAKE THE MOST OF IT</p><h2 id="opportunities-title">Your next<br /><span>opportunity</span><br />is here.</h2><p>Take the first step, then choose where it leads. AIML is a place to start small, grow quickly, and build toward the work you want to do.</p><a class="button button-secondary" href="/events">Find an event <span aria-hidden="true">→</span></a></div>
-        <div class="opportunity-stack"><a class="opportunity-block opportunity-projects" href="/projects"><span>01 / PROJECT TEAMS</span><h3>Build something with people who care.</h3><p>Contribute to hands-on work and share it with the wider community.</p><ExternalArrow /></a><a class="opportunity-block opportunity-hackathon" style={`--hackathon-bg: url(${image("images/home-2.png")})`} href="/hackathon"><span>02 / BRAINS &amp; BOTS</span><h3>Make a weekend count.</h3><p>Challenge yourself at our flagship AI-focused hackathon.</p><ExternalArrow /></a><a class="opportunity-block opportunity-partners" href="/partners"><span>03 / INDUSTRY CONNECTION</span><h3>See where AI can take you.</h3><p>Discover insights and pathways with AIML’s supporters.</p><ExternalArrow /></a></div>
+        <div class="opportunity-stack"><a class="opportunity-block opportunity-projects" style={`--block-bg: url(${image("events/2026-sem-1/projects-night-1.jpg")})`} href="/projects"><span>01 / PROJECT TEAMS</span><h3>Build something with people who care.</h3><p>Contribute to hands-on work and share it with the wider community.</p><ExternalArrow /></a><a class="opportunity-block opportunity-hackathon" style={`--hackathon-bg: url(${image("images/home-2.png")})`} href="/hackathon"><span>02 / BRAINS &amp; BOTS</span><h3>Make a weekend count.</h3><p>Challenge yourself at our flagship AI-focused hackathon.</p><ExternalArrow /></a><a class="opportunity-block opportunity-partners" style={`--block-bg: url(${image("events/2026-sem-1/bands-industry-night-2.jpeg")})`} href="/partners"><span>03 / INDUSTRY CONNECTION</span><h3>See where AI can take you.</h3><p>Discover insights and pathways with AIML’s supporters.</p><ExternalArrow /></a></div>
       </div>
     </section>
 
@@ -73,6 +79,8 @@ const image = await loadImages();
         <figure class="photo-story photo-story-industry"><img src={image("events/2026-sem-1/bands-industry-night-1.jpeg")} alt="Attendees at the AIML and BANDS Industry Night" /><figcaption><p>AIML × BANDS</p><h3>Industry Night</h3><span>Career conversations and industry connection.</span></figcaption></figure>
       </div>
     </section>
+
+    <PhotoBreak src="images/hackathon-aiml-2026-2.jpeg" alt="AIML Hackathon participants listening to a presentation in the QUT atrium" label="AIML IN THE ROOM" line="Big ideas start" accent="in real rooms." />
 
     <section class="partners-home" aria-labelledby="partners-title"><div class="aiml-shell"><div class="section-heading partners-heading"><div><p class="kicker">BACKING THE COMMUNITY</p><h2 id="partners-title">Our sponsors<br />and <span>supporters.</span></h2></div><a href="/partners">Meet our partners <span aria-hidden="true">→</span></a></div><p class="partners-home-lede">AIML’s partners help turn student curiosity into workshops, projects, industry insight, and meaningful opportunities across the community.</p><div class="partner-home-grid">{partners.map(p => <a class:list={["partner-home-card", p.tier === "sponsor" && "partner-home-sponsor"]} href={p.url} target="_blank" rel="noopener noreferrer"><div class="partner-home-logo"><img src={image(`images/${p.logo}`)} alt={p.name} /></div><div><span>{p.tag}</span><h3>{p.name}</h3><p>{p.description}</p><b>{p.cta} <ExternalArrow /></b></div></a>)}</div><div class="partner-home-impact" aria-label="Partnership impact"><div><b>01</b><p>Hands-on workshops<br />and events</p></div><div><b>02</b><p>Member insight<br />and mentorship</p></div><div><b>03</b><p>Industry pathways<br />and connection</p></div></div></div></section>
 

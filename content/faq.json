@@ -8,12 +8,68 @@
     "body": "Any QUT student with an interest in AI, data science, machine learning, or related technology can join. The society welcomes students from all disciplines and skill levels who want to learn, build projects, and grow their technical skills."
   },
   {
+    "title": "Do I need to study IT or computer science?",
+    "body": "No. The society welcomes students from all disciplines. If you are curious about AI or machine learning, you are in the right place, whatever your degree."
+  },
+  {
+    "title": "Do I need any AI or coding experience?",
+    "body": "No. Our events are designed to be welcoming to everyone, from beginners exploring AI for the first time to students building portfolios and working on real world machine learning projects."
+  },
+  {
+    "title": "How do I become a member?",
+    "body": "Membership is handled through Rubric. Use the Become a member button on this page to sign up through our Rubric page."
+  },
+  {
     "title": "What activities and events does the society run?",
     "body": "The QUT AI & ML Society hosts a range of events including project nights, industry talks, networking nights, welcome events, and collaborative build sessions. These are designed to help members learn core tools and techniques in AI and machine learning and connect with peers and professionals in tech."
   },
   {
+    "title": "How do I find out what's on?",
+    "body": "The calendar on our Events page shows what is coming up, and you can switch to a list view if you prefer. Selecting an event shows its date and location, with a link to its Rubric page when one is available. We also share announcements on Discord and our social pages."
+  },
+  {
+    "title": "Where are events held?",
+    "body": "Most of our events are on campus at QUT Gardens Point, with some held online or at other venues. The location for each event is listed on the Events page."
+  },
+  {
+    "title": "What happens at a project night?",
+    "body": "Project nights are a chance to work on projects and collaborate with other AIML members. Past sessions have included topics such as how to build and maintain a machine learning portfolio."
+  },
+  {
+    "title": "Can I come to an event on my own?",
+    "body": "Yes. The easiest way to get involved is to come along to a regular event and stay afterwards to chat with other members."
+  },
+  {
+    "title": "Where can I see what members have built?",
+    "body": "Our Projects page has an archive of notebooks across topics such as computer vision, language models, and reinforcement learning. You can read each one on the site, open it in Google Colab to run it yourself, or view it on GitHub."
+  },
+  {
+    "title": "What is the ML Sandbox?",
+    "body": "The ML Sandbox is a set of interactive demos on our Projects page. You can explore clustering, digit recognition, route planning, and decision boundaries right in your browser."
+  },
+  {
+    "title": "Does the society run hackathons?",
+    "body": "Yes. The AIML Hackathon 2026 had more than 115 participants across 20 teams, and the Brains & Bots Hackathon, run with the QUT Robotics Club, had more than 60 participants across 13 teams. Our next hackathon is coming in Semester 1, 2027, and the Hackathon page has recaps and updates."
+  },
+  {
+    "title": "Where do I go to ask questions or meet other members?",
+    "body": "Discord is the main place to ask questions, share opportunities, and stay connected between events. You can also follow us on Instagram and LinkedIn for updates."
+  },
+  {
     "title": "How can I volunteer or help with events?",
     "body": "Members can volunteer by helping organise workshops, supporting project nights, mentoring peers, or assisting with social media and community outreach. The society often announces these opportunities through Discord and their social pages."
+  },
+  {
+    "title": "How do I join the executive team?",
+    "body": "Executive applications open once per year at our Annual General Meeting, where every position is declared vacant. Any eligible member can nominate, and you need to be continuing your studies at QUT the following year. The Executive Applications page has more detail."
+  },
+  {
+    "title": "Can I give a talk at an event?",
+    "body": "Yes, we would love to hear from you. Past talks have covered machine learning fundamentals, applied AI projects, natural language processing, and emerging tools and frameworks. Connect with us on LinkedIn to start the conversation."
+  },
+  {
+    "title": "Do you work with other clubs?",
+    "body": "Yes. We regularly collaborate with other technology and innovation focused societies across QUT and the wider Brisbane community, including the QUT Robotics Club on the Brains & Bots Hackathon."
   },
   {
     "title": "How do I become a sponsor or industry partner?",

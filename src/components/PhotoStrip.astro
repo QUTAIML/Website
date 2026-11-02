@@ -1,0 +1,30 @@
+---
+// PhotoStrip.astro
+// Two rows of event photos drifting in opposite directions.
+import "@/styles/imagery.css";
+import { loadImages } from "@/lib/content";
+
+interface Photo {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  photos: Photo[];
+}
+
+const { photos } = Astro.props;
+const image = await loadImages();
+const middle = Math.ceil(photos.length / 2);
+const rows = [photos.slice(0, middle), photos.slice(middle)];
+---
+
+<section class="photo-strip" aria-label="Photos from AIML events" data-pagefind-ignore>
+  {rows.map((row) => (
+    <div class="photo-strip-row">
+      <div class="photo-strip-track">
+        {[...row, ...row].map((photo, index) => <img src={image(photo.src)} alt={index < row.length ? photo.alt : ""} aria-hidden={index < row.length ? undefined : "true"} />)}
+      </div>
+    </div>
+  ))}
+</section>

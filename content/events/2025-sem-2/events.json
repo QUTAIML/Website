@@ -58,7 +58,7 @@
     "week": "WK3",
     "confirmed": true,
     "notes": "With BANDS and Industry",
-    "rubric": ""
+    "rubric": "https://campus.hellorubric.com/?eid=38194"
   },
   {
     "title": "Project Night 3",
@@ -73,7 +73,7 @@
     "attendance": 45,
     "week": "WK4",
     "confirmed": true,
-    "rubric": ""
+    "rubric": "https://campus.hellorubric.com/?eid=38574"
   },
   {
     "title": "Special General Meeting",
@@ -148,7 +148,8 @@
     "attendance": 130,
     "week": "WK8",
     "confirmed": true,
-    "notes": "With several clubs"
+    "notes": "With several clubs",
+    "rubric": "https://campus.hellorubric.com/?eid=39731"
   },
   {
     "title": "Annual General Meeting",
@@ -178,7 +179,7 @@
     "attendance": 16,
     "week": "MID",
     "confirmed": true,
-    "rubric": ""
+    "rubric": "https://campus.hellorubric.com/?eid=41299"
   },
   {
     "title": "Industry Speaker Event",
@@ -237,7 +238,7 @@
     "attendance": 42,
     "week": "WK12",
     "confirmed": true,
-    "rubric": ""
+    "rubric": "https://campus.hellorubric.com/?eid=40841"
   },
   {
     "title": "Symposium of Undergrad EER",
@@ -253,6 +254,6 @@
     "week": "BREAK",
     "confirmed": true,
     "notes": "Affiliate with EESS, QUTRC, MESS, EWB, CN",
-    "rubric": ""
+    "rubric": "https://campus.hellorubric.com/?eid=43438"
   }
 ]

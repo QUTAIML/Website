@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const title = document.getElementById("project-viewer-title");
   const excerpt = document.getElementById("project-viewer-excerpt");
   const githubLink = document.getElementById("project-viewer-link");
+  const colabLink = document.getElementById("project-viewer-colab");
   const topicSelect = document.getElementById("project-topic");
   const searchInput = document.getElementById("project-search");
   const emptyMessage = document.getElementById("project-empty");
@@ -114,6 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
     title.textContent = row.querySelector("strong").textContent;
     excerpt.textContent = row.querySelector("p").textContent;
     githubLink.href = row.href;
+    // Colab opens any public GitHub notebook from the same path.
+    const isNotebook = NOTEBOOK_URL.test(row.href);
+    colabLink.hidden = !isNotebook;
+    if (isNotebook) colabLink.href = row.href.replace("https://github.com/", "https://colab.research.google.com/github/");
     if (!isViewerStarted) return;
 
     const currentRequest = ++requestId;

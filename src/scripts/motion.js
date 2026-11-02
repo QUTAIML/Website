@@ -3,15 +3,15 @@
 // html.motion is set in the layouts' <head>, and stays off for reduced motion.
 
 const REVEALS = {
-  rise: ".section-heading, .photo-band-heading, .opportunities-copy, .community-copy, .partner-home-lede, .values-heading, .journey-editorial-heading, .now-intro, .existing-heading, .mission-copy, .team-stage-heading, .events-overview-heading, .section-split-heading, .project-pathways-layout > *, .projects-archive-heading, .sandbox-callout-layout, .partner-section-heading, .partner-events-heading, .partner-impact > header, .partner-callout, .connect-section-heading, .connect-direct-layout > *, .recap-heading, .recap-story, .solution-showcase-heading, .photo-story-heading, .photo-story-set > header, .history-intro, .history-entry-heading, .history-founders-heading, .community-story-grid > *, .community-actions-heading, .community-speaker .community-shell, .community-links .community-shell, .exec-heading, .faq-join .faq-shell, .faq-footer .faq-shell, .faq-list-kicker",
-  pop: ".value-card, .credibility-promises > div, .archive-stats > article, .opportunity-block, .partner-home-card, .partner-home-impact > div, .social-grid > a, .values-row > article, .now-stats > article, .degree-pathway, .resource-panel, .executive-panel, .event-pillars > article, .event-card, .project-pathway-cards > article, .project-browser, .sponsor-spotlight, .supporter-card, .partner-impact-grid > article, .partner-event-card, .connect-social-grid > *, .recap-stats > div, .solution-grid > article, .history-portfolio, .history-founders-grid > li, .community-action-grid > article, .exec-role-layout > *, .exec-timing",
+  rise: ".section-heading, .photo-band-heading, .opportunities-copy, .community-copy, .partner-home-lede, .values-heading, .journey-editorial-heading, .now-intro, .existing-heading, .mission-copy, .events-overview-heading, .section-split-heading, .project-pathways-layout > *, .projects-archive-heading, .sandbox-callout-layout, .partner-section-heading, .partner-events-heading, .partner-impact > header, .partner-callout, .connect-section-heading, .connect-direct-layout > *, .recap-heading, .recap-story, .solution-showcase-heading, .photo-story-heading, .photo-story-set > header, .history-intro, .history-entry-heading, .history-founders-heading, .community-story-grid > *, .community-actions-heading, .community-speaker .community-shell, .community-links .community-shell, .exec-heading, .faq-join .faq-shell, .faq-footer .faq-shell, .faq-list-kicker",
+  pop: ".team-group-head, .team-profiles > li, .value-card, .credibility-promises > div, .archive-stats > article, .opportunity-block, .partner-home-card, .partner-home-impact > div, .social-grid > a, .values-row > article, .now-stats > article, .degree-pathway, .resource-panel, .executive-panel, .event-pillars > article, .event-card, .project-pathway-cards > article, .project-browser, .sponsor-spotlight, .supporter-card, .partner-impact-grid > article, .partner-event-card, .connect-social-grid > *, .recap-stats > div, .solution-grid > article, .history-portfolio, .history-founders-grid > li, .community-action-grid > article, .exec-role-layout > *, .exec-timing",
   wipe: ".photo-story-grid > *, .community-image, .mission-image, .journey-feature-image, .recap-photo, .history-photo",
   left: ".journey-milestone-list > li, .faq-list article",
   right: ".journey-feature-copy",
 };
 
 const COUNTERS = ".hero-proof strong, .archive-stats strong, .now-stats strong, .event-hero-facts strong, .project-hero-facts strong, .recap-stats strong, .history-count strong";
-const SPOTLIGHT_CARDS =".value-card, .partner-home-card, .opportunity-block, .resource-panel, .executive-panel, .supporter-card, .team-card, .event-card, .solution-grid > article, .connect-social-grid > a";
+const SPOTLIGHT_CARDS =".value-card, .partner-home-card, .opportunity-block, .resource-panel, .executive-panel, .supporter-card, .event-card, .solution-grid > article, .connect-social-grid > a";
 
 const STAGGER_MS = 80;
 const MAX_STAGGER_MS = 400;
@@ -106,12 +106,19 @@ function setUpScrollEffects() {
   document.body.appendChild(progressBar);
 
   const rail = document.querySelector(".history-entries");
+  const breaks = [...document.querySelectorAll(".photo-break")];
   let isQueued = false;
 
   const update = () => {
     isQueued = false;
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     progressBar.style.setProperty("--motion-scroll", scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0);
+
+    breaks.forEach((photoBreak) => {
+      const { top } = photoBreak.getBoundingClientRect();
+      const opened = (window.innerHeight - top) / (window.innerHeight * 0.75);
+      photoBreak.style.setProperty("--motion-break", Math.max(0, Math.min(opened, 1)));
+    });
 
     if (rail) {
       const { top, height } = rail.getBoundingClientRect();
@@ -132,20 +139,15 @@ function setUpScrollEffects() {
 }
 
 function setUpHero() {
-  const hero = document.querySelector(".aiml-hero");
-  if (!hero) return;
+  const heroes = new Set([...document.querySelectorAll(".hero-node-map, .photo-net")].map((network) => network.closest("section, header")));
 
-  // Stop the looping network animation once the hero has scrolled away.
-  new IntersectionObserver(([entry]) => {
-    hero.classList.toggle("motion-offscreen", !entry.isIntersecting);
-  }).observe(hero);
-
-  hero.addEventListener("pointermove", (event) => {
-    if (event.pointerType !== "mouse") return;
-    const { left, top, width, height } = hero.getBoundingClientRect();
-    hero.style.setProperty("--motion-px", ((event.clientX - left) / width - 0.5) * 2);
-    hero.style.setProperty("--motion-py", ((event.clientY - top) / height - 0.5) * 2);
+  // Stop looping animations once they have scrolled away.
+  const offscreen = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => target.classList.toggle("motion-offscreen", !isIntersecting));
   });
+  document.querySelectorAll(".photo-strip").forEach((strip) => offscreen.observe(strip));
+
+  heroes.forEach((hero) => offscreen.observe(hero));
 }
 
 function setUpCardSpotlight() {

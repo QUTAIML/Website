@@ -5,132 +5,65 @@ document.addEventListener("DOMContentLoaded", () => {
   const noEventsState = document.getElementById('no-events-state');
 
   const searchInput = document.getElementById('events-search');
-  const grid = document.getElementById('events-grid');
+  const eventsList = document.getElementById('events-list');
+  const eventRows = Array.from(eventsList.querySelectorAll('.event-row'));
   let paginationContainer = document.getElementById('events-pagination');
 
   if (!paginationContainer) {
     paginationContainer = document.createElement('div');
     paginationContainer.id = 'events-pagination';
-    grid.parentNode.appendChild(paginationContainer);
+    eventsList.parentNode.appendChild(paginationContainer);
   }
 
-  const filtersToggle = document.getElementById('filters-toggle');
-  const filtersPopover = document.getElementById('filters-popover');
-  const semesterSelectPop = document.getElementById('semester-select-pop');
-  const sortSelectPop = document.getElementById('sort-select-pop'); // Upcoming / Past
-  const typeSelectPop = document.getElementById('type-select-pop'); // Mobile type
-  const sortGroup = document.getElementById('sort-filter-group');
-  const archiveViewButton = document.getElementById('event-archive-view');
+  const typeFilter = document.getElementById('event-type-filter');
+  const whenFilter = document.getElementById('event-when-filter');
+  const listViewButton = document.getElementById('event-list-view');
   const calendarViewButton = document.getElementById('event-calendar-view');
   const eventsPanel = document.querySelector('.events-panel');
   const eventsCalendar = document.getElementById('events-calendar');
   const calendarGrid = document.getElementById('calendar-grid');
   const calendarMonthTitle = document.getElementById('calendar-month-title');
-  const calendarEmpty = document.getElementById('calendar-empty');
+  const calendarDetails = document.getElementById('calendar-details');
   const calendarPrevious = document.getElementById('calendar-previous');
   const calendarNext = document.getElementById('calendar-next');
+  const calendarToday = document.getElementById('calendar-today');
+  const calendarPosition = document.getElementById('calendar-position');
+  const calendarLegend = document.querySelector('.calendar-legend');
 
-  const EVENTS_PER_PAGE = 6;
+  const EVENTS_PER_PAGE = 5;
+  const CALENDAR_FIRST_MONTH = '2025-07';
 
   let currentPage = 1;
-  let currentSemester = 'all';
-  const eventsPage = document.querySelector('.events-page');
-  let currentSort = eventsPage?.dataset.defaultView === 'past' ? 'past' : 'upcoming';
+  let currentSort = 'all';
   let currentTitleSort = 'none';
-  let currentType = 'All';
-  let currentView = 'archive';
-  const calendarStart = eventsPage?.dataset.calendarStart;
-  let calendarDate = calendarStart ? new Date(`${calendarStart}T12:00:00`) : new Date();
+  let currentView = 'calendar';
+  let calendarDate = new Date();
+  let selectedDate = null;
 
   let filteredCards = [];
-  let typeButtons = [];
-
-  const latestSemesterId =
-    semesterSelectPop.options[1]?.value ?? null;
-
-  sortSelectPop.value = currentSort;
 
   function getCards() {
-    return Array.from(grid.querySelectorAll('.event-card'));
+    return eventRows;
   }
 
-  function getTypesForFilteredCards() {
-    const query = searchInput.value.trim().toLowerCase();
+  // The calendar shows past and upcoming events together, so "Show" only applies to the list.
+  function matchesSortFilter(date) {
+    if (currentView === 'calendar') return true;
     const today = new Date(); today.setHours(0, 0, 0, 0);
-
-    const cards = getCards().filter(card => {
-      const semester = card.dataset.semester;
-      const title = card.dataset.title;
-      const excerpt = card.querySelector('p')?.textContent.toLowerCase() || '';
-      const date = new Date(card.dataset.date); date.setHours(0,0,0,0);
-
-      const matchesSemester =
-        currentSemester === 'all' || semester === currentSemester;
-
-      let matchesSort = true;
-      if (currentSort === 'upcoming') matchesSort = date >= today;
-      if (currentSort === 'past') matchesSort = date < today;
-
-      const matchesQuery =
-        !query || title.includes(query) || excerpt.includes(query);
-
-      return matchesSemester && matchesSort && matchesQuery;
-    });
-
-    const typeSet = new Set(cards.map(c => c.dataset.type || 'Other'));
-
-    if (typeSet.size <= 1) {
-      return ['All'];
-    }
-
-    const preferred = ["Social", "Industry", "Projects", "Major"];
-    const preferredExisting = preferred.filter(p => typeSet.has(p));
-    const remaining = [...typeSet]
-      .filter(t => !preferredExisting.includes(t))
-      .sort((a, b) => a.localeCompare(b));
-
-    return ['All', ...preferredExisting, ...remaining];
-  }
-
-
-  function renderTypeButtons(types) {
-    const container = document.getElementById('type-filters');
-    container.innerHTML = '';
-
-    types.forEach(type => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.dataset.type = type;
-      btn.textContent = type;
-      btn.className = `type-btn ${type === currentType ? 'active' : ''}`;
-
-      btn.addEventListener('click', () => {
-        currentType = type;
-        typeButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        applyFilters();
-      });
-
-      container.appendChild(btn);
-    });
-
-    typeButtons = Array.from(container.querySelectorAll('.type-btn'));
+    if (currentSort === 'upcoming') return date >= today;
+    if (currentSort === 'past') return date < today;
+    return true;
   }
 
   function applyFilters() {
     const query = searchInput.value.trim().toLowerCase();
-    const today = new Date(); today.setHours(0,0,0,0);
 
-    const selectedType =
-      window.innerWidth <= 768 && typeSelectPop
-        ? typeSelectPop.value
-        : currentType;
+    const selectedType = typeFilter.value;
 
     filteredCards = getCards().filter(card => {
       const title = card.dataset.title;
       const excerpt = card.querySelector('p')?.textContent.toLowerCase() || '';
       const type = card.dataset.type;
-      const semester = card.dataset.semester;
       const date = new Date(card.dataset.date); date.setHours(0,0,0,0);
 
       const matchesQuery =
@@ -139,18 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const matchesType =
         selectedType === 'All' || type === selectedType;
 
-      const matchesSemester =
-        currentSemester === 'all' || semester === currentSemester;
-
-      let matchesSort = true;
-      if (currentSort === 'upcoming') matchesSort = date >= today;
-      if (currentSort === 'past') matchesSort = date < today;
-
       return (
         matchesQuery &&
         matchesType &&
-        matchesSemester &&
-        matchesSort
+        matchesSortFilter(date)
       );
     });
 
@@ -158,83 +83,238 @@ document.addEventListener("DOMContentLoaded", () => {
     applySort();
     renderPage();
     renderPagination();
-    renderCalendar();
 
-    if (window.innerWidth > 768) {
-      renderTypeButtons(getTypesForFilteredCards());
+    // Filtering from the calendar should land on a month and day that have a match.
+    if (currentView === 'calendar' && filteredCards.length && !monthHasEvents(calendarDate)) {
+      calendarDate = nearestEventMonth(filteredCards);
     }
+    if (!eventsByDate().has(selectedDate)) selectedDate = null;
+    renderCalendar();
   }
 
   function localDate(dateString) {
     return new Date(`${dateString}T12:00:00`);
   }
 
+  function isoDate(date) {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  }
+
+  function createElement(tag, className, text) {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text) element.textContent = text;
+    return element;
+  }
+
+  // Calendar entries come from the same rows as the list, so both views always agree.
+  function readEvent(card) {
+    return {
+      start: card.dataset.date,
+      end: card.dataset.endDate || card.dataset.date,
+      title: card.querySelector('.event-row-title')?.textContent.trim() ?? 'AIML event',
+      type: card.dataset.type ?? 'Event',
+      time: card.dataset.time ?? '',
+      location: card.dataset.location ?? '',
+      excerpt: card.querySelector('p')?.textContent.trim() ?? '',
+      link: card.querySelector('a.event-row-title')?.getAttribute('href') ?? '',
+    };
+  }
+
+  // Maps each day to its events. Multi-day events appear on every day they run.
+  function eventsByDate() {
+    const days = new Map();
+    filteredCards.map(readEvent).forEach((event) => {
+      const last = localDate(event.end);
+      for (let date = localDate(event.start); date <= last; date.setDate(date.getDate() + 1)) {
+        const key = isoDate(date);
+        days.set(key, [...(days.get(key) ?? []), event]);
+      }
+    });
+    return days;
+  }
+
+  function monthKey(date) {
+    return isoDate(date).slice(0, 7);
+  }
+
+  function monthHasEvents(date) {
+    return [...eventsByDate().keys()].some((key) => key.startsWith(monthKey(date)));
+  }
+
+  // The month of the next upcoming event, or of the latest event once they have all passed.
+  function nearestEventMonth(cards) {
+    const today = isoDate(new Date());
+    const dates = cards.map((card) => card.dataset.date).sort();
+    const target = dates.find((date) => date >= today) ?? dates.at(-1);
+    return target ? localDate(target) : new Date();
+  }
+
+  function formatRange(event) {
+    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    const start = localDate(event.start).toLocaleDateString('en-AU', options);
+    if (event.start === event.end) return start;
+    return `${start} to ${localDate(event.end).toLocaleDateString('en-AU', options)}`;
+  }
+
+  function renderEventDetails(event) {
+    const today = isoDate(new Date());
+    const isPast = event.end < today;
+    const article = createElement('article', 'calendar-detail-event');
+    const tags = createElement('p', 'calendar-detail-tags');
+    tags.append(
+      createElement('span', isPast ? 'is-past' : 'is-upcoming', isPast ? 'Past event' : 'Coming up'),
+      createElement('span', '', event.type),
+    );
+    article.append(tags, createElement('h4', '', event.title));
+
+    const facts = createElement('dl', 'calendar-detail-facts');
+    [['When', formatRange(event)], ['Time', event.time], ['Where', event.location]].forEach(([label, value]) => {
+      if (value) facts.append(createElement('dt', '', label), createElement('dd', '', value));
+    });
+    article.appendChild(facts);
+
+    if (event.excerpt) article.appendChild(createElement('p', 'calendar-detail-text', event.excerpt));
+    if (event.link) {
+      const link = createElement('a', 'calendar-detail-link', 'View more details');
+      link.href = event.link;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      article.appendChild(link);
+    }
+    return article;
+  }
+
+  function renderDetails(days) {
+    if (!calendarDetails) return;
+    calendarDetails.replaceChildren();
+
+    if (!selectedDate) {
+      calendarDetails.append(
+        createElement('p', 'calendar-detail-day', calendarMonthTitle.textContent),
+        createElement('h4', '', 'Nothing planned'),
+        createElement('p', 'calendar-detail-text', 'No matching events this month. Try another month or adjust the filters.'),
+      );
+      return;
+    }
+
+    const heading = localDate(selectedDate).toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long' });
+    calendarDetails.appendChild(createElement('p', 'calendar-detail-day', heading));
+    const events = days.get(selectedDate) ?? [];
+    if (!events.length) {
+      calendarDetails.append(
+        createElement('h4', '', 'Nothing planned'),
+        createElement('p', 'calendar-detail-text', calendarGrid.querySelector('.has-event') ? 'Pick a highlighted day to see what’s on.' : 'No matching events this month. Try another month or adjust the filters.'),
+      );
+    }
+    events.forEach((event) => calendarDetails.appendChild(renderEventDetails(event)));
+  }
+
+  function selectDate(date, days) {
+    selectedDate = date;
+    calendarGrid.querySelectorAll('.calendar-day[data-date]').forEach((day) => {
+      const isSelected = day.dataset.date === date;
+      day.classList.toggle('is-selected', isSelected);
+      day.setAttribute('aria-pressed', String(isSelected));
+    });
+    renderDetails(days);
+  }
+
+  function isFiltering() {
+    return typeFilter.value !== 'All' || searchInput.value.trim() !== '';
+  }
+
+  // The matching events in date order, for stepping through them with the arrows.
+  function matchingStarts() {
+    return filteredCards.map((card) => card.dataset.date).sort();
+  }
+
+  function stepToEvent(direction) {
+    const starts = matchingStarts();
+    const from = selectedDate ?? `${monthKey(calendarDate)}-01`;
+    const target = direction > 0 ? starts.find((date) => date > from) : starts.filter((date) => date < from).at(-1);
+    if (!target) return;
+    selectedDate = target;
+    showMonth(localDate(target));
+  }
+
+  function updateCalendarNavigation() {
+    const filtering = isFiltering();
+    const starts = matchingStarts();
+    const from = selectedDate ?? `${monthKey(calendarDate)}-01`;
+    calendarPrevious.disabled = filtering ? !starts.some((date) => date < from) : monthKey(calendarDate) <= CALENDAR_FIRST_MONTH;
+    calendarNext.disabled = filtering && !starts.some((date) => date > from);
+    calendarPrevious.setAttribute('aria-label', filtering ? 'Show previous matching event' : 'Show previous month');
+    calendarNext.setAttribute('aria-label', filtering ? 'Show next matching event' : 'Show next month');
+
+    const label = typeFilter.value !== 'All' ? typeFilter.value : 'Match';
+    const position = starts.indexOf(selectedDate) + 1;
+    calendarPosition.hidden = !filtering || starts.length === 0;
+    calendarPosition.textContent = position ? `${label} ${position} of ${starts.length}` : `${starts.length} matching`;
+    calendarLegend.hidden = filtering && starts.length > 0;
+  }
+
   function renderCalendar() {
-    if (!calendarGrid || !calendarMonthTitle || !calendarEmpty) return;
+    if (!calendarGrid || !calendarMonthTitle) return;
 
     const year = calendarDate.getFullYear();
     const month = calendarDate.getMonth();
-    const monthName = calendarDate.toLocaleDateString('en-AU', { month: 'long', year: 'numeric' });
-    calendarMonthTitle.textContent = monthName;
-    calendarGrid.innerHTML = '';
+    const shownMonth = monthKey(calendarDate);
+    const today = isoDate(new Date());
+    calendarMonthTitle.textContent = calendarDate.toLocaleDateString('en-AU', { month: 'long', year: 'numeric' });
+    calendarGrid.replaceChildren();
 
-    const firstDay = new Date(year, month, 1).getDay();
+    const leadingBlanks = (new Date(year, month, 1).getDay() + 6) % 7; // Weeks start on Monday.
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const daysInPreviousMonth = new Date(year, month, 0).getDate();
-    const eventsByDay = new Map();
+    const days = eventsByDate();
 
-    filteredCards.forEach((card) => {
-      const date = localDate(card.dataset.date);
-      if (date.getFullYear() !== year || date.getMonth() !== month) return;
-      const day = date.getDate();
-      const events = eventsByDay.get(day) ?? [];
-      events.push({
-        title: card.querySelector('.card-title')?.textContent.trim() ?? 'AIML event',
-        type: card.dataset.type ?? 'Event',
-      });
-      eventsByDay.set(day, events);
-    });
+    for (let index = 0; index < leadingBlanks; index += 1) {
+      calendarGrid.appendChild(createElement('span', 'calendar-blank'));
+    }
 
-    for (let index = 0; index < 42; index += 1) {
-      const dayOffset = index - firstDay + 1;
-      const day = document.createElement('div');
-      day.className = 'calendar-day';
-      let label;
+    for (let dayNumber = 1; dayNumber <= daysInMonth; dayNumber += 1) {
+      const date = new Date(year, month, dayNumber, 12);
+      const key = isoDate(date);
+      const events = days.get(key) ?? [];
+      const day = createElement('button', 'calendar-day');
+      day.type = 'button';
+      day.dataset.date = key;
+      day.appendChild(createElement('span', 'calendar-date', String(dayNumber)));
+      day.setAttribute('aria-label', `${date.toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long' })}: ${events.map((event) => event.title).join(', ') || 'no events'}`);
 
-      if (dayOffset < 1) {
-        label = daysInPreviousMonth + dayOffset;
-        day.classList.add('outside-month');
-      } else if (dayOffset > daysInMonth) {
-        label = dayOffset - daysInMonth;
-        day.classList.add('outside-month');
-      } else {
-        label = dayOffset;
-        const events = eventsByDay.get(dayOffset) ?? [];
-        if (events.length) day.classList.add('has-event');
-        events.slice(0, 3).forEach((event) => {
-          const item = document.createElement('span');
-          item.className = 'calendar-event';
-          item.dataset.type = event.type;
-          item.textContent = event.title;
-          item.title = event.title;
-          day.appendChild(item);
-        });
-        if (events.length > 3) {
-          const more = document.createElement('span');
-          more.className = 'calendar-more';
-          more.textContent = `+${events.length - 3} more`;
-          day.appendChild(more);
-        }
+      if (key === today) {
+        day.classList.add('is-today');
+        day.setAttribute('aria-current', 'date');
       }
+      if (events.length) day.classList.add('has-event', events.some((event) => event.end >= today) ? 'is-upcoming' : 'is-past');
+      events.slice(0, 2).forEach((event) => {
+        day.appendChild(createElement('span', `calendar-event ${event.end < today ? 'is-past' : 'is-upcoming'}`, event.title));
+      });
+      if (events.length > 2) day.appendChild(createElement('span', 'calendar-more', `+${events.length - 2} more`));
 
-      const dateNumber = document.createElement('span');
-      dateNumber.className = 'calendar-date';
-      dateNumber.textContent = label;
-      day.prepend(dateNumber);
+      day.addEventListener('click', () => {
+        selectDate(key, days);
+        updateCalendarNavigation();
+        // On phones the details sit below the calendar, so bring them into view.
+        if (events.length && window.matchMedia('(max-width: 900px)').matches) {
+          calendarDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
       calendarGrid.appendChild(day);
     }
 
-    calendarEmpty.hidden = eventsByDay.size !== 0;
+    // Keep a day picked in this month, otherwise open on its next event, or its first if all have passed.
+    if (!selectedDate?.startsWith(shownMonth)) {
+      const monthDates = [...days.keys()].filter((key) => key.startsWith(shownMonth)).sort();
+      selectedDate = monthDates.find((key) => key >= today) ?? monthDates[0] ?? null;
+    }
+    selectDate(selectedDate, days);
+    updateCalendarNavigation();
+  }
+
+  function showMonth(date) {
+    calendarDate = date;
+    renderCalendar();
   }
 
   function setView(view) {
@@ -243,11 +323,12 @@ document.addEventListener("DOMContentLoaded", () => {
     eventsPanel.hidden = showCalendar;
     eventsCalendar.hidden = !showCalendar;
     paginationContainer.hidden = showCalendar;
-    archiveViewButton.classList.toggle('active', !showCalendar);
+    listViewButton.classList.toggle('active', !showCalendar);
     calendarViewButton.classList.toggle('active', showCalendar);
-    archiveViewButton.setAttribute('aria-pressed', String(!showCalendar));
+    listViewButton.setAttribute('aria-pressed', String(!showCalendar));
     calendarViewButton.setAttribute('aria-pressed', String(showCalendar));
-    if (showCalendar) renderCalendar();
+    whenFilter.hidden = showCalendar;
+    applyFilters();
   }
 
   function applySort() {
@@ -265,31 +346,38 @@ document.addEventListener("DOMContentLoaded", () => {
       dateB.setHours(0, 0, 0, 0);
 
       if (currentSort === 'upcoming') return dateA - dateB;
-      if (currentSort === 'past') return dateB - dateA;
-
-      return 0;
+      return dateB - dateA;
     });
   }
 
 
   function renderPage(scrollToTop = false) {
-    const isMobile = window.innerWidth < 768;
-    const EVENTS_PER_PAGE_MOBILE = 3;
-    const perPage = isMobile ? EVENTS_PER_PAGE_MOBILE : EVENTS_PER_PAGE;
+    const start = (currentPage - 1) * EVENTS_PER_PAGE;
+    const today = isoDate(new Date());
+    let lastHeading = '';
 
-    const start = (currentPage - 1) * perPage;
-    const end = start + perPage;
-
-    getCards().forEach(card => (card.style.display = 'none'));
-    filteredCards.slice(start, end).forEach(card => (card.style.display = ''));
+    // Rows sit under a heading for their date, like an agenda.
+    eventsList.classList.add('is-grouped');
+    eventsList.replaceChildren();
+    const pageRows = filteredCards.slice(start, start + EVENTS_PER_PAGE);
+    eventsList.classList.toggle('no-times', !pageRows.some((row) => row.querySelector('.event-row-time').textContent));
+    pageRows.forEach((row) => {
+      const event = readEvent(row);
+      const heading = formatRange(event);
+      if (heading !== lastHeading) {
+        eventsList.appendChild(createElement('li', 'event-list-date', heading));
+        lastHeading = heading;
+      }
+      row.classList.toggle('is-past', event.end < today);
+      eventsList.appendChild(row);
+    });
 
     // Toggle the dark panel and empty state
     noEventsState.style.display = filteredCards.length === 0 ? 'block' : 'none';
 
-    if (scrollToTop && filteredCards[start]) {
-      const offset = 400;
-      const topPosition =
-        filteredCards[start].getBoundingClientRect().top + window.scrollY - offset;
+    if (scrollToTop) {
+      const offset = 130;
+      const topPosition = eventsList.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({ top: topPosition, behavior: 'smooth' });
     }
   }
@@ -345,62 +433,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   searchInput.addEventListener('input', applyFilters);
 
-  semesterSelectPop.addEventListener('change', () => {
-    currentSemester = semesterSelectPop.value;
-
-    if (currentSemester === latestSemesterId || currentSemester === 'all') {
-      sortGroup.style.display = 'block';
-      currentSort = sortSelectPop.value;
-    } else {
-      sortGroup.style.display = 'none';
-      currentSort = 'past';
-    }
-
+  typeFilter.addEventListener('change', applyFilters);
+  whenFilter.addEventListener('change', () => {
+    currentSort = whenFilter.value;
     applyFilters();
   });
 
-  sortSelectPop.addEventListener('change', () => {
-    currentSort = sortSelectPop.value;
-    applyFilters();
-  });
-
-  if (typeSelectPop) {
-    typeSelectPop.addEventListener('change', applyFilters);
-  }
-
-  archiveViewButton?.addEventListener('click', () => setView('archive'));
+  listViewButton?.addEventListener('click', () => setView('list'));
   calendarViewButton?.addEventListener('click', () => setView('calendar'));
-  calendarPrevious?.addEventListener('click', () => {
-    calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1);
-    renderCalendar();
-  });
-  calendarNext?.addEventListener('click', () => {
-    calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1);
-    renderCalendar();
-  });
-
-  filtersToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const open = filtersPopover.style.display === 'block';
-    filtersPopover.style.display = open ? 'none' : 'block';
-    filtersToggle.setAttribute('aria-expanded', String(!open));
+  // With a filter on, the arrows jump between matching events instead of months.
+  calendarPrevious?.addEventListener('click', () => (isFiltering() ? stepToEvent(-1) : showMonth(new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1))));
+  calendarNext?.addEventListener('click', () => (isFiltering() ? stepToEvent(1) : showMonth(new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1))));
+  calendarToday?.addEventListener('click', () => {
+    selectedDate = isoDate(new Date());
+    showMonth(new Date());
   });
 
-  document.addEventListener('click', (e) => {
-    if (!filtersPopover.contains(e.target) && e.target !== filtersToggle) {
-      filtersPopover.style.display = 'none';
-      filtersToggle.setAttribute('aria-expanded', 'false');
-    }
-  });
+  calendarDate = nearestEventMonth(getCards());
+  setView('calendar');
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      filtersPopover.style.display = 'none';
-      filtersToggle.setAttribute('aria-expanded', 'false');
-    }
+  // Phone address bars resize the page while scrolling, so only react when the width changes.
+  let lastWidth = window.innerWidth;
+  window.addEventListener('resize', () => {
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
+    applyFilters();
   });
-
-  applyFilters();
-  window.addEventListener('resize', applyFilters);
 
 });

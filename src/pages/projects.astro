@@ -1,4 +1,5 @@
 ---
+import PhotoBreak from "@/components/PhotoBreak.astro";
 import { loadImages } from "@/lib/content";
 import "@/styles/projects.css";
 import ExternalArrow from "@/components/ExternalArrow.astro";
@@ -15,6 +16,7 @@ const image = await loadImages();
 <ContentLayout title="Projects | QUT AI & ML Society">
   <main class="projects-page">
     <section class="projects-hero">
+      <svg class="project-network" id="project-network" aria-hidden="true"></svg>
       <div class="projects-shell projects-hero-layout">
         <div class="projects-hero-copy">
           <p class="projects-kicker">QUT AI & ML SOCIETY</p>
@@ -51,23 +53,25 @@ const image = await loadImages();
         <p class="project-pathways-intro">Projects turn learning into something you can test, share, and continue building with people who care about the same questions.</p>
       </div>
       <div class="projects-shell project-pathway-cards">
-        <article>
+        <article class="has-cover"><img class="card-cover" src={image("events/2026-sem-1/projects-night-1.jpg")} alt="" loading="lazy" />
           <span>01</span>
           <h3>Build together</h3>
           <p>Join practical work across real machine learning topics and grow through doing.</p>
         </article>
-        <article>
+        <article class="has-cover"><img class="card-cover" src={image("images/hackathon-aiml-2026-5.jpg")} alt="" loading="lazy" />
           <span>02</span>
           <h3>Explore ideas</h3>
           <p>Try methods, datasets, and approaches that make AI concepts feel tangible.</p>
         </article>
-        <article>
+        <article class="has-cover"><img class="card-cover" src={image("images/hackathon-aiml-2026-7.jpg")} alt="" loading="lazy" />
           <span>03</span>
           <h3>Show the work</h3>
           <p>Browse the archive for projects, code, and ideas worth taking further.</p>
         </article>
       </div>
     </section>
+
+    <PhotoBreak src="events/2026-sem-1/projects-night-3.jpg" alt="A room of AIML members working at a project night" label="MADE BY MEMBERS" line="Curiosity becomes" accent="working code." />
 
     <section id="project-archive" class="projects-archive" aria-labelledby="project-archive-title">
       <div class="projects-shell projects-archive-heading">
@@ -97,8 +101,8 @@ const image = await loadImages();
                 return (
                   <li data-type={type}>
                     <a class="project-row" href={project.github} target="_blank" rel="noopener noreferrer">
-                      <strong>{project.title}</strong>
-                      <small>{type}</small>
+                      {project.image && <img class="project-row-thumb" src={project.image} alt="" loading="lazy" />}
+                      <span class="project-row-text"><strong>{project.title}</strong><small>{type}</small></span>
                       <p hidden>{project.excerpt}</p>
                     </a>
                   </li>
@@ -109,7 +113,10 @@ const image = await loadImages();
           <div class="project-viewer" id="project-viewer" data-pagefind-ignore>
             <div class="project-viewer-bar">
               <div><h3 id="project-viewer-title">Select a project</h3><p id="project-viewer-excerpt"></p></div>
-              <a class="project-viewer-link" id="project-viewer-link" href="https://github.com/QUTAIML" target="_blank" rel="noopener noreferrer">Open on GitHub <ExternalArrow /></a>
+              <div class="project-viewer-links">
+                <a class="project-viewer-colab" id="project-viewer-colab" href="https://colab.research.google.com" target="_blank" rel="noopener noreferrer" hidden>Open in Colab <ExternalArrow /></a>
+                <a class="project-viewer-link" id="project-viewer-link" href="https://github.com/QUTAIML" target="_blank" rel="noopener noreferrer">Open on GitHub <ExternalArrow /></a>
+              </div>
             </div>
             <iframe class="project-viewer-frame" id="project-viewer-frame" title="Project notebook preview" sandbox="allow-popups allow-popups-to-escape-sandbox" srcdoc=""></iframe>
           </div>
@@ -134,6 +141,7 @@ const image = await loadImages();
   <Fragment slot="scripts">
     <script>
       import "@/scripts/projects/projects-script.js";
+      import "@/scripts/projects/project-network.js";
     </script>
   </Fragment>
 </ContentLayout>

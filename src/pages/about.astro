@@ -1,4 +1,6 @@
 ---
+import PhotoStrip from "@/components/PhotoStrip.astro";
+import PhotoBreak from "@/components/PhotoBreak.astro";
 import { links, loadImages, getTeams, site } from "@/lib/content";
 import "@/styles/about/about.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
@@ -7,17 +9,10 @@ import InfoPanel from "@/components/InfoPanel.astro";
 import { Icon } from "astro-icon/components";
 import { loadAboutData } from "@/scripts/about/exec-data";
 
-const { teamsForClient: rawTeamsForClient, degreesForClient } = await loadAboutData();
-// Keep the executive portfolio groups together, then present Academic Champions last.
-const teamsForClient = [...rawTeamsForClient].sort((a, b) => {
-  if (a.title === "Academic Champions") return 1;
-  if (b.title === "Academic Champions") return -1;
-  return 0;
-});
+const { degreesForClient } = await loadAboutData();
 const coreDegreeGroups = degreesForClient.filter(group => group.title !== "Other Relevant Courses");
 const otherDegreeGroup = degreesForClient.find(group => group.title === "Other Relevant Courses");
 const journey = (await getTeams()).map(({ year, people }) => ({ year, people })).reverse();
-const currentTeam = journey.at(-1);
 const journeyMilestones = [
   { year: "2025", label: "FOUNDATIONS", title: "AIML begins", detail: `AIML is founded, with ${journey[0]?.people ?? 0} people recorded in the founding executive team data.` },
   {
@@ -33,11 +28,6 @@ const journeyMilestones = [
     ]
   }
 ];
-const featuredJourneyMilestone = {
-  label: "2026 / AIML EXECUTIVE TEAM",
-  title: "Built by a team that delivers.",
-  detail: "From practical projects to major events, the team behind AIML turns shared ambition into opportunities for QUT students."
-};
 const statIcons = {
   "active AIML members": "tabler:users-group",
   "Instagram followers": "tabler:brand-instagram",
@@ -66,7 +56,9 @@ const image = await loadImages();
       </div>
     </section>
 
-    <section class="about-values" aria-labelledby="values-title"><div class="about-shell"><div class="values-heading"><div><p class="about-kicker">OUR OBJECTIVES</p><h2 id="values-title">The values behind<br /><span>what we do.</span></h2></div><p>Three practical commitments shape the AIML experience.</p></div><div class="values-row"><article><Icon name="tabler:bulb" aria-hidden="true" /><h3>Learn from the field</h3><p>Gain insights and guidance from alumni, professionals, and leaders in the AI and ML industry.</p></article><article><Icon name="tabler:tool" aria-hidden="true" /><h3>Build together</h3><p>Collaborate, experiment, and build impactful projects focused on artificial intelligence and machine learning.</p></article><article><Icon name="tabler:users" aria-hidden="true" /><h3>Grow your network</h3><p>Connect and network with students, researchers, and professionals in the AI, ML, and broader tech community.</p></article></div></div></section>
+    <PhotoStrip photos={[{ src: "events/2026-sem-1/projects-night-2.jpg", alt: "A presenter at a project night" }, { src: "images/hackathon-aiml-2026-6.jpg", alt: "Mentors reviewing a hackathon project" }, { src: "events/2026-sem-1/bands-industry-night-1.jpeg", alt: "Crowd at the Industry Night" }, { src: "events/2026-sem-1/social-night-2.jpg", alt: "AIML social night" }, { src: "images/hackathon-brains-and-bots-1.jpeg", alt: "Brains and Bots participants" }, { src: "events/2026-sem-1/agentcamp-2.jpeg", alt: "AgentCamp session" }, { src: "events/2026-sem-1/industry-night-2.jpg", alt: "Panel at an industry night" }, { src: "images/hackathon-aiml-2026-4.jpg", alt: "Hackathon team with organisers" }]} />
+
+    <section class="about-values" aria-labelledby="values-title"><div class="about-shell"><div class="values-heading"><div><p class="about-kicker">OUR OBJECTIVES</p><h2 id="values-title">The values behind<br /><span>what we do.</span></h2></div><p>Three practical commitments shape the AIML experience.</p></div><div class="values-row"><article class="has-cover"><img class="card-cover" src={image("events/2026-sem-1/bands-industry-night-6.jpeg")} alt="" loading="lazy" /><Icon name="tabler:bulb" aria-hidden="true" /><h3>Learn from the field</h3><p>Gain insights and guidance from alumni, professionals, and leaders in the AI and ML industry.</p></article><article class="has-cover"><img class="card-cover" src={image("images/hackathon-aiml-2026-5.jpg")} alt="" loading="lazy" /><Icon name="tabler:tool" aria-hidden="true" /><h3>Build together</h3><p>Collaborate, experiment, and build impactful projects focused on artificial intelligence and machine learning.</p></article><article class="has-cover"><img class="card-cover" src={image("events/2026-sem-1/bands-industry-night-8.jpeg")} alt="" loading="lazy" /><Icon name="tabler:users" aria-hidden="true" /><h3>Grow your network</h3><p>Connect and network with students, researchers, and professionals in the AI, ML, and broader tech community.</p></article></div></div></section>
 
     <section class="about-journey" aria-labelledby="journey-title">
       <div class="about-shell">
@@ -86,21 +78,13 @@ const image = await loadImages();
               </div>
             </li>)}
           </ol>
-          <aside class="journey-feature">
-            <div class="journey-feature-copy">
-              <small>{featuredJourneyMilestone.label}</small>
-              <h3>{featuredJourneyMilestone.title}</h3>
-              <p>{featuredJourneyMilestone.detail}</p>
-            </div>
-            <figure class="journey-feature-image">
-              <img src={image("team/2026/team-photo.png")} alt="QUT AIML executive team in 2026" loading="lazy" />
-            </figure>
-          </aside>
         </div>
       </div>
     </section>
 
     <section class="about-now" aria-labelledby="now-title"><div class="about-shell"><div class="now-intro"><p class="about-kicker">WHERE WE ARE NOW</p><h2 id="now-title">AIML, by the<br /><span>numbers.</span></h2></div><div class="now-stats">{site.stats.map(stat => <article><Icon name={statIcons[stat.label]} aria-hidden="true" /><strong>{stat.value}</strong><p>{stat.label}</p></article>)}</div></div></section>
+
+    <PhotoBreak src="images/home-1.png" alt="A large group of AIML members together in a room" label="A GROWING COMMUNITY" line="Better when we" accent="build together." />
 
     <section class="about-existing about-degrees" aria-labelledby="degrees-title">
       <div class="about-shell">
@@ -119,11 +103,5 @@ const image = await loadImages();
     </section>
 
     <section class="about-existing about-resources"><div class="about-shell"><div class="existing-heading"><p class="about-kicker">KEEP EXPLORING</p><h2>Useful <span>resources.</span></h2></div><div class="resource-explorer"><a href="/about/faq" class="resource-panel resource-panel-feature"><Icon name="tabler:message-circle-question" aria-hidden="true" /><div><span>01 / START HERE</span><h3>Frequently Asked<br />Questions</h3><p>Answers to common questions about membership, events, and involvement.</p></div><Icon name="tabler:arrow-up-right" aria-hidden="true" /></a><a href="/about/community" class="resource-panel"><Icon name="tabler:users-group" aria-hidden="true" /><div><span>02 / PEOPLE</span><h3>Our community</h3><p>Learn about our culture, values, and what makes AIML special.</p></div><Icon name="tabler:arrow-up-right" aria-hidden="true" /></a><a href={links.roleDescriptions} class="resource-panel"><Icon name="tabler:scale" aria-hidden="true" /><div><span>03 / GOVERNANCE</span><h3>Constitution</h3><p>Our governing document outlining structure, roles, and processes.</p></div><Icon name="tabler:arrow-up-right" aria-hidden="true" /></a><a href={links.codeOfConduct} class="resource-panel"><Icon name="tabler:heart-handshake" aria-hidden="true" /><div><span>04 / STANDARDS</span><h3>Code of Conduct</h3><p>Guidelines to ensure a safe, inclusive, and respectful community.</p></div><Icon name="tabler:arrow-up-right" aria-hidden="true" /></a></div></div></section>
-
-    <section class="about-existing about-team"><div class="about-shell"><div class="existing-heading"><p class="about-kicker">THE PEOPLE BEHIND AIML</p><h2>Meet the <span>team.</span></h2></div></div><section class="team-section"><div class="team-stage-heading"><span>TEAM FOCUS</span><div id="team-title" class="team-name" aria-live="polite"></div><p>Meet the executive portfolios behind AIML’s events, projects, industry connections, education, and community.</p></div><div class="team-grid-wrapper"><div class="team-row"><div class="side-bar left"><button class="carousel-arrow left" aria-label="Previous team group">‹</button></div><div class="team-grid" id="team-grid" data-teams={JSON.stringify(teamsForClient)} data-placeholder={image("images/team-placeholder.png")}></div><div class="side-bar right"><button class="carousel-arrow right" aria-label="Next team group">›</button></div></div><div class="team-dots" id="team-dots" aria-label="Team group pages"></div></div></section></section>
-
-    <section class="about-existing about-executive"><div class="about-shell"><div class="existing-heading"><p class="about-kicker">GET INVOLVED</p><h2>The executive <span>body.</span></h2></div><div class="executive-gateway"><a href="/about/exec-application" class="executive-panel executive-panel-apply"><span>01 / JOIN THE TEAM</span><Icon name="tabler:rocket" aria-hidden="true" /><h3>How to become<br />an Executive</h3><p>Learn about the application process, expectations, and responsibilities of AIML executives.</p><b>Explore applications <i aria-hidden="true">→</i></b></a><a href="/about/history" class="executive-panel executive-panel-history"><span>02 / THE STORY SO FAR</span><Icon name="tabler:timeline-event" aria-hidden="true" /><h3>Our history</h3><p>Learn about the teams that have shaped our club over the years.</p><b>Meet past teams <i aria-hidden="true">→</i></b></a></div></div></section>
   </div>
-
-  <Fragment slot="scripts"><script>import "@/scripts/about/about-script.js";</script></Fragment>
 </ContentLayout>

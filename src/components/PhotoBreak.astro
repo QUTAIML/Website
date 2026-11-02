@@ -1,0 +1,27 @@
+---
+// PhotoBreak.astro
+// A full-width photo that opens up as it scrolls into view.
+import "@/styles/imagery.css";
+import { loadImages } from "@/lib/content";
+
+interface Props {
+  src: string;
+  alt: string;
+  label: string;
+  line: string;
+  accent: string;
+}
+
+const { src, alt, label, line, accent } = Astro.props;
+const image = await loadImages();
+---
+
+<section class="photo-break">
+  <div class="photo-break-frame">
+    <img src={image(src)} alt={alt} loading="lazy" />
+    <div class="photo-break-copy">
+      <p class="photo-break-label">{label}</p>
+      <p class="photo-break-line">{line} <span>{accent}</span></p>
+    </div>
+  </div>
+</section>

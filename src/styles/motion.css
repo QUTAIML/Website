@@ -43,21 +43,21 @@
 html.motion body { overflow-x: clip; }
 
 /* ── Hero entrances ── */
-html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > * {
+html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .team-hero-copy, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > * {
   animation: motion-rise .9s var(--motion-ease) backwards;
 }
 
-html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > :nth-child(2) { animation-delay: .1s; }
-html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > :nth-child(3) { animation-delay: .3s; }
-html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > :nth-child(4) { animation-delay: .42s; }
-html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > :nth-child(n+5) { animation-delay: .54s; }
+html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .team-hero-copy, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > :nth-child(2) { animation-delay: .1s; }
+html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .team-hero-copy, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > :nth-child(3) { animation-delay: .3s; }
+html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .team-hero-copy, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > :nth-child(4) { animation-delay: .42s; }
+html.motion :is(.hero-content, .events-hero-copy, .projects-hero-copy, .about-hero-content, .team-hero-copy, .partner-hero-copy, .connect-hero-layout, .hackathon-hero .hackathon-shell, .faq-hero .faq-shell, .community-hero .community-shell, .history-hero .history-shell, .exec-hero .exec-shell) > :nth-child(n+5) { animation-delay: .54s; }
 
 /* Headlines wipe in, then the accent line flares. */
-html.motion :is(.aiml-hero, .events-hero, .projects-hero, .about-hero, .partner-hero, .connect-hero, .hackathon-hero, .faq-hero, .community-hero, .history-hero, .exec-hero) h1 {
+html.motion :is(.aiml-hero, .team-hero, .events-hero, .projects-hero, .about-hero, .partner-hero, .connect-hero, .hackathon-hero, .faq-hero, .community-hero, .history-hero, .exec-hero) h1 {
   animation: motion-wipe-text 1.1s var(--motion-ease) .1s backwards;
 }
 
-html.motion :is(.aiml-hero, .events-hero, .projects-hero, .about-hero, .partner-hero, .connect-hero, .hackathon-hero, .faq-hero, .community-hero, .history-hero, .exec-hero) h1 > :is(span, em) {
+html.motion :is(.aiml-hero, .team-hero, .events-hero, .projects-hero, .about-hero, .partner-hero, .connect-hero, .hackathon-hero, .faq-hero, .community-hero, .history-hero, .exec-hero) h1 > :is(span, em) {
   animation: motion-flare 1.6s ease-out .75s backwards;
 }
 
@@ -68,11 +68,6 @@ html.motion :is(.events-hero-image, .projects-hero-image, .partner-hero-art) {
 html.motion .about-hero > img { animation: motion-settle 2.4s var(--motion-ease) backwards; }
 
 /* ── Home hero network ── */
-html.motion .hero-node-map {
-  transition: translate .7s ease-out;
-  translate: calc(var(--motion-px, 0) * -22px) calc(var(--motion-py, 0) * -14px);
-}
-
 html.motion .hero-node-map path:not(.node-signal) {
   animation: motion-draw 2.4s ease-in-out .15s backwards;
   stroke-dasharray: 1;
@@ -100,11 +95,6 @@ html.motion .hero-node-map circle {
 
 html.motion .hero-node-map circle:nth-child(3n) { animation-delay: 1.3s, 2.6s; }
 html.motion .hero-node-map circle:nth-child(3n+1) { animation-delay: 1.6s, 3.4s; }
-
-html.motion .hero-glow {
-  transition: translate .9s ease-out;
-  translate: calc(var(--motion-px, 0) * 34px) calc(var(--motion-py, 0) * 26px);
-}
 
 html.motion .hero-glow-one { animation: motion-drift 11s ease-in-out infinite alternate; }
 html.motion .hero-glow-two { animation: motion-drift 14s ease-in-out -5s infinite alternate-reverse; }
@@ -142,12 +132,6 @@ html.motion .motion-spot {
 }
 
 html.motion :hover > .motion-spot { opacity: 1; }
-
-/* Team cards are re-rendered by the carousel, so they animate on insertion. */
-html.motion .team-grid .team-card { animation: motion-pop .7s var(--motion-ease) backwards; }
-html.motion .team-grid .team-card:nth-child(2) { animation-delay: .07s; }
-html.motion .team-grid .team-card:nth-child(3) { animation-delay: .14s; }
-html.motion .team-grid .team-card:nth-child(4) { animation-delay: .21s; }
 
 /* ── Small interactions ── */
 html.motion [data-pagefind-body] a > span[aria-hidden="true"]:not([class]),

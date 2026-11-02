@@ -1,0 +1,78 @@
+---
+import { getTeams } from "@/lib/content";
+import "@/styles/about/about.css";
+import "@/styles/team.css";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+import { Icon } from "astro-icon/components";
+import { loadAboutData } from "@/scripts/about/exec-data";
+
+const { teamsForClient } = await loadAboutData();
+// Keep the executive portfolio groups together, then present Academic Champions last.
+const divisions = [...teamsForClient]
+  .filter((group) => group.items.length > 0)
+  .sort((a, b) => {
+    if (a.title === "Academic Champions") return 1;
+    if (b.title === "Academic Champions") return -1;
+    return 0;
+  });
+const teams = await getTeams();
+const currentTeam = teams[0];
+const teamPhotoEntry = teams.find((team) => team.teamPhoto);
+const slug = (title) => title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+---
+
+<ContentLayout title="Meet the Team | QUT AI & ML Society" description="Meet the executive team behind the QUT AI & ML Society, and find out how to get involved.">
+  <div class="about-page team-page">
+    <section class="team-hero" aria-labelledby="team-page-title">
+      <div class="about-shell team-hero-layout">
+        <div class="team-hero-copy">
+          <p class="about-kicker">THE PEOPLE BEHIND AIML</p>
+          <h1 id="team-page-title">Meet the <span>team.</span></h1>
+          <p class="team-hero-lede">From practical projects to major events, the team behind AIML turns shared ambition into opportunities for QUT students.</p>
+          <div class="team-hero-facts" aria-label="Team at a glance">
+            <span><strong>{currentTeam.people}</strong> people in {currentTeam.year}</span>
+            <span><strong>{currentTeam.groups.length}</strong> portfolios</span>
+            <span><strong>{teams.length}</strong> teams so far</span>
+          </div>
+        </div>
+        {teamPhotoEntry && <figure class="team-hero-photo"><img src={teamPhotoEntry.teamPhoto} alt={`QUT AIML executive team in ${teamPhotoEntry.year}`} /><figcaption>The {teamPhotoEntry.year} executive team</figcaption></figure>}
+      </div>
+    </section>
+
+    <section class="about-existing about-team team-directory" aria-labelledby="team-directory-title">
+      <div class="about-shell">
+        <div class="existing-heading"><p class="about-kicker">THE {currentTeam.year} TEAM</p><h2 id="team-directory-title">Meet the people, <span>team by team.</span></h2></div>
+        <nav class="team-jump" id="team-jump" aria-label="Jump to a team" data-pagefind-ignore>
+          {divisions.map((group) => <a href={`#team-${slug(group.title)}`}>{group.title}</a>)}
+        </nav>
+        <div class="team-roster" id="team-roster">
+          <i class="team-spine" aria-hidden="true"><b></b></i>
+          {divisions.map((group, index) => <section class="team-group" id={`team-${slug(group.title)}`} aria-labelledby={`team-${slug(group.title)}-title`}>
+            <header class="team-group-head">
+              <span class="team-group-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3 id={`team-${slug(group.title)}-title`}>{group.title}</h3>
+              <p data-pagefind-ignore>{group.items.length} {group.items.length === 1 ? "person" : "people"}</p>
+            </header>
+            <ul class="team-profiles">{group.items.map((member) => {
+              const Tag = member.linkedin ? "a" : "div";
+              const linkProps = member.linkedin ? { href: member.linkedin, target: "_blank", rel: "noopener noreferrer", "aria-label": `${member.name}, ${member.role}. Open LinkedIn profile` } : {};
+              return <li><Tag class="team-profile" {...linkProps}>
+                <em>{member.role}</em>
+                <span class="team-profile-photo">
+                  <img src={member.image} alt={member.name} loading="lazy" />
+                  {member.linkedin && <Icon name="tabler:brand-linkedin" aria-hidden="true" />}
+                </span>
+                <strong>{member.name}</strong>
+                {member.degree && <small>{member.degree.split(" (")[0]}{member.degree.includes(" (") && <span>({member.degree.split(" (").slice(1).join(" (")}</span>}</small>}
+              </Tag></li>;
+            })}</ul>
+          </section>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="about-existing about-executive"><div class="about-shell"><div class="existing-heading"><p class="about-kicker">GET INVOLVED</p><h2>The executive <span>body.</span></h2></div><div class="executive-gateway"><a href="/about/exec-application" class="executive-panel executive-panel-apply"><span>01 / JOIN THE TEAM</span><Icon name="tabler:rocket" aria-hidden="true" /><h3>How to become<br />an Executive</h3><p>Learn about the application process, expectations, and responsibilities of AIML executives.</p><b>Explore applications <i aria-hidden="true">→</i></b></a><a href="/about/history" class="executive-panel executive-panel-history"><span>02 / THE STORY SO FAR</span><Icon name="tabler:timeline-event" aria-hidden="true" /><h3>Our history</h3><p>Learn about the teams that have shaped our club over the years.</p><b>Meet past teams <i aria-hidden="true">→</i></b></a></div></div></section>
+  </div>
+
+  <Fragment slot="scripts"><script>import "@/scripts/team/team-roster.js";</script></Fragment>
+</ContentLayout>

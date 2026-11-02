@@ -447,3 +447,21 @@ a.assistant-list-label {
     transition: none;
   }
 }
+
+.assistant-clear {
+  flex: none;
+  margin-left: auto;
+  padding: .35rem .7rem;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  background: transparent;
+  color: #e7dfe5;
+  cursor: pointer;
+  font: inherit;
+  font-size: .75rem;
+  white-space: nowrap;
+}
+
+.assistant-clear:hover,
+.assistant-clear:focus-visible { border-color: #ff8bf4; color: #ff8bf4; }
+.assistant-clear[hidden] { display: none; }

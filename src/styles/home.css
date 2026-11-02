@@ -82,3 +82,10 @@
 .community-image figcaption strong { color: #fff; display: block; font-size: 1.45rem; letter-spacing: -.04em; margin-top: .55rem; }
 .community-section .social-grid { margin-top: 1rem; }
 @media (max-width: 760px) { .community-intro { grid-template-columns: 1fr; }.community-copy { padding-top: 0; }.community-image { min-height: 320px; }.community-section .social-grid { margin-top: 1rem; } }
+
+/* Every opportunity leads with a photo. */
+.opportunity-projects::before { background: linear-gradient(105deg, rgba(190, 0, 175, .93), rgba(120, 0, 110, .42)), var(--block-bg) center/cover; }
+.opportunity-partners::before { background: linear-gradient(105deg, rgba(20, 12, 20, .94), rgba(20, 12, 20, .4)), var(--block-bg) center/cover; }
+.opportunity-block::before { transition: scale .6s cubic-bezier(.16, 1, .3, 1); }
+.opportunity-block:hover::before { scale: 1.05; }
+.has-cover .value-icon { background: #1b1b1b; margin-top: -1.6rem; position: relative; z-index: 1; }

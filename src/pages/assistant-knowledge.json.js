@@ -35,7 +35,7 @@ export async function GET() {
         title: group.title,
         members: group.items
           .filter((member) => member.showOnAbout !== false)
-          .map(({ role, name, linkedin }) => ({ role, name, linkedin: linkedin ?? null })),
+          .map(({ role, name, linkedin, degree }) => ({ role, name, linkedin: linkedin ?? null, degree: degree ?? null })),
       })),
     })),
     partners: partners.map(({ name, tier, url, tag, description }) => ({ name, tier, url, tag, description })),

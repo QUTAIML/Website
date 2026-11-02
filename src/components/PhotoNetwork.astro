@@ -1,0 +1,38 @@
+---
+// PhotoNetwork.astro
+// Real photos as the nodes of a neural network: wired together and gently drifting.
+// Decorative, so the photos carry no alt text.
+import "@/styles/imagery.css";
+import { loadImages } from "@/lib/content";
+
+interface Props {
+  photos: string[];
+}
+
+const { photos } = Astro.props;
+const image = await loadImages();
+
+// x and y are the centre of each node, and size its width, all as a % of the frame.
+const NODES = [
+  { x: 25, y: 24, size: 40 },
+  { x: 74, y: 16, size: 29 },
+  { x: 84, y: 58, size: 31 },
+  { x: 47, y: 68, size: 44 },
+  { x: 11, y: 74, size: 21 },
+];
+const LINKS = [[0, 1], [1, 2], [0, 3], [2, 3], [3, 4], [0, 4], [1, 3]];
+const placed = photos.slice(0, NODES.length).map((photo, index) => ({ ...NODES[index], src: image(photo) }));
+const lines = LINKS.filter(([from, to]) => placed[from] && placed[to]).map(([from, to]) => `M${placed[from].x} ${placed[from].y}L${placed[to].x} ${placed[to].y}`);
+---
+
+<div class="photo-net" aria-hidden="true" data-pagefind-ignore>
+  <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+    {lines.map((line) => <path class="photo-net-line" pathLength="1" vector-effect="non-scaling-stroke" d={line} />)}
+    {lines.slice(0, 4).map((line) => <path class="photo-net-signal" pathLength="1" vector-effect="non-scaling-stroke" d={line} />)}
+  </svg>
+  {placed.map((node, index) => (
+    <span class="photo-net-node" style={`--x:${node.x}%;--y:${node.y}%;--size:${node.size}%;--i:${index}`}>
+      <span class="photo-net-float"><img src={node.src} alt="" /></span>
+    </span>
+  ))}
+</div>

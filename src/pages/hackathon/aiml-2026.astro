@@ -1,0 +1,68 @@
+---
+import HackathonLightbox from "@/components/hackathon/HackathonLightbox.astro";
+import { loadImages, site } from "@/lib/content";
+import "@/styles/hackathon.css";
+import "@/styles/hackathon-folio.css";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+const [aimlHackathon] = site.hackathons;
+const image = await loadImages();
+
+const solutions = [
+  ["STUDY SUPPORT", "CanvAssist", "A Canvas companion that brings assignments, rubrics, grades, study materials, and planning into one clearer student workspace."],
+  ["CAREER PATHWAYS", "Course2Career", "A tool matching academic progress with job requirements to surface skill gaps, next semester choices, and useful learning resources."],
+  ["PERSONAL KNOWLEDGE", "Clarity", "An AI second brain for capturing notes, finding connections between ideas, and chatting with a personal knowledge base."],
+  ["EVERYDAY MOBILITY", "FuelFlow", "A refuelling planner combining fuel price data, route detours, and short term forecasting to help drivers decide when and where to fill up."],
+  ["ACCESSIBILITY", "Neurovox", "An eye tracking communication prototype with a gaze keyboard and language assisted reply suggestions for hands free interaction."],
+  ["FASTER REPORTING", "Roadify", "An AI supported vehicle incident reporting flow that guides photo capture and helps produce a data rich first report."],
+];
+
+const gallery = [
+  ["images/hackathon-aiml-2026-1.jpeg", "AIML Hackathon participants gathered in the QUT atrium"],
+  ["images/hackathon-aiml-2026-2.jpeg", "AIML Hackathon participants working together"],
+  ["images/hackathon-aiml-2026-3.jpg", "AIML Hackathon teams presenting projects at the exhibition"],
+  ["images/hackathon-aiml-2026-4.jpg", "AIML Hackathon team with organisers after receiving recognition"],
+  ["images/hackathon-aiml-2026-5.jpg", "AIML Hackathon team collaborating around a laptop"],
+  ["images/hackathon-aiml-2026-6.jpg", "Mentors reviewing an AIML Hackathon team project"],
+  ["images/hackathon-aiml-2026-7.jpg", "AIML Hackathon team presenting their project"],
+];
+const pad = (n) => String(n).padStart(2, "0");
+---
+
+<ContentLayout title="AIML Hackathon 2026 Recap | QUT AI & ML Society" description="A recap of the AIML Hackathon 2026: QUT's biggest standalone student club hackathon to date, with 115+ participants across 20 teams.">
+  <div class="hackathon-page recap-page recap-page-aiml">
+    <header class="hackathon-hero recap-hero" aria-labelledby="aiml-detail-title">
+      <span class="recap-hero-mark" aria-hidden="true">2026</span>
+      <div class="hackathon-shell">
+        <a class="recap-back" href="/hackathon"><span aria-hidden="true">←</span> All hackathons</a>
+        <p class="hackathon-kicker">HACKATHON RECAP 01</p>
+        <h1 id="aiml-detail-title">The AIML<br /><span>Hackathon 2026.</span></h1>
+        <p>A build sprint for practical ideas: teams turned everyday student and community challenges into working AI products.</p>
+      </div>
+    </header>
+
+    <main class="hackathon-recaps">
+      <section class="hackathon-recap recap-aiml" aria-label="About the AIML Hackathon 2026">
+        <div class="hackathon-shell">
+          <div class="recap-stats" aria-label="AIML Hackathon key figures"><div><strong>{aimlHackathon.participants}</strong><span>participants</span></div><div><strong>{aimlHackathon.teams}</strong><span>teams</span></div><div><strong>QUT’s biggest</strong><span>standalone student club hackathon to date</span></div></div>
+          <div class="recap-story"><div><p>The AIML Hackathon gave teams a few intense days to identify a problem, build a prototype, and pitch a solution with real world potential. The result was a wide range of ideas spanning study support, career planning, accessibility, mobility, and personal productivity.</p><p>Projects paired thoughtful user problems with technical experimentation: browser tools that make university information easier to navigate, AI assisted career planning, private local first study companions, and systems designed to make reporting and decision making faster.</p><p>What stood out was not only the ambition of the projects, but the way teams turned rough concepts into tangible demonstrations under pressure.</p></div>
+            <figure class="recap-photo"><img src={image("images/hackathon-aiml-2026-3.jpg")} alt="AIML Hackathon teams presenting projects at the exhibition" /><figcaption>AIML Hackathon project exhibition</figcaption></figure>
+          </div>
+          <!-- These summaries are based on the submitted team repositories. Update them if teams amend their public project descriptions. -->
+          <section class="solution-showcase" aria-labelledby="aiml-solutions-title"><div class="solution-showcase-heading"><p class="hackathon-kicker">FROM THE BUILD FLOOR</p><h3 id="aiml-solutions-title">Ideas that became <span>working prototypes.</span></h3><p>Selected examples from the projects submitted during the hackathon.</p></div>
+            <div class="solution-grid">{solutions.map(([area, name, body], index) => <article><span>{pad(index + 1)} / {area}</span><h4>{name}</h4><p>{body}</p></article>)}</div>
+          </section>
+        </div>
+      </section>
+
+      <section class="hackathon-photo-story" aria-labelledby="aiml-gallery-title"><div class="hackathon-shell">
+        <header class="photo-story-heading"><p class="hackathon-kicker">THE PHOTO STORY</p><h2 id="aiml-gallery-title">Built in<br /><span>the room.</span></h2><p>The teams, prototypes, pitches, and people behind the AIML Hackathon 2026.</p></header>
+        <section class="photo-story-set" aria-label="AIML Hackathon 2026 photos"><header><h3>AIML Hackathon 2026</h3><span>01 — {pad(gallery.length)}</span></header>
+          <div class="photo-story-grid photo-story-grid-aiml">{gallery.map(([src, alt], index) => <figure><img src={image(src)} alt={alt} loading="lazy" /><figcaption>{pad(index + 1)}</figcaption></figure>)}</div>
+        </section>
+      </div></section>
+
+      <nav class="recap-next" aria-label="Next hackathon recap"><div class="hackathon-shell"><a href="/hackathon/brains-and-bots"><small>NEXT RECAP · 02</small><strong>Brains &amp; Bots <span>Hackathon</span></strong><i aria-hidden="true">→</i></a></div></nav>
+    </main>
+    <HackathonLightbox />
+  </div>
+</ContentLayout>

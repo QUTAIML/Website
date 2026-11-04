@@ -1,0 +1,60 @@
+---
+// HackathonLightbox.astro
+// Full-screen viewer for the recap photos. Photos in a .photo-story-grid can be
+// stepped through; any other .recap-photo opens on its own.
+---
+
+<dialog class="hackathon-lightbox" id="hackathon-lightbox" aria-label="Expanded hackathon photo" data-pagefind-ignore><button class="hackathon-lightbox-nav hackathon-lightbox-previous" type="button" aria-label="Previous photo">‹</button><img alt="" /><button class="hackathon-lightbox-nav hackathon-lightbox-next" type="button" aria-label="Next photo">›</button><button class="hackathon-lightbox-close" type="button" aria-label="Close full screen photo">×</button></dialog>
+
+<script>
+  const lightbox = document.querySelector<HTMLDialogElement>("#hackathon-lightbox");
+  const lightboxImage = lightbox?.querySelector("img");
+  const closeButton = lightbox?.querySelector<HTMLButtonElement>(".hackathon-lightbox-close");
+  const previousButton = lightbox?.querySelector<HTMLButtonElement>(".hackathon-lightbox-previous");
+  const nextButton = lightbox?.querySelector<HTMLButtonElement>(".hackathon-lightbox-next");
+  const photos = document.querySelectorAll<HTMLImageElement>(".recap-photo img, .photo-story-grid img");
+  const galleryPhotos = Array.from(document.querySelectorAll<HTMLImageElement>(".photo-story-grid img"));
+  let activeGalleryPhotos: HTMLImageElement[] = [];
+  let activePhotoIndex = 0;
+
+  const showPhoto = (index: number) => {
+    if (!lightbox || !lightboxImage || !activeGalleryPhotos.length) return;
+    activePhotoIndex = (index + activeGalleryPhotos.length) % activeGalleryPhotos.length;
+    const photo = activeGalleryPhotos[activePhotoIndex];
+    lightboxImage.src = photo.currentSrc || photo.src;
+    lightboxImage.alt = photo.alt;
+  };
+
+  const openLightbox = (photo: HTMLImageElement) => {
+    const matchingGalleryPhoto = galleryPhotos.findIndex((galleryPhoto) => galleryPhoto.src === photo.src);
+    const selectedPhoto = matchingGalleryPhoto >= 0 ? galleryPhotos[matchingGalleryPhoto] : photo;
+    const gallery = selectedPhoto.closest(".photo-story-grid");
+    activeGalleryPhotos = gallery ? Array.from(gallery.querySelectorAll<HTMLImageElement>("img")) : [selectedPhoto];
+    showPhoto(activeGalleryPhotos.indexOf(selectedPhoto));
+    if (lightbox && !lightbox.open) lightbox.showModal();
+  };
+
+  photos.forEach((photo) => {
+    photo.tabIndex = 0;
+    photo.setAttribute("role", "button");
+    photo.setAttribute("aria-label", `View ${photo.alt} full screen`);
+    photo.addEventListener("click", () => openLightbox(photo));
+    photo.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLightbox(photo);
+      }
+    });
+  });
+
+  closeButton?.addEventListener("click", () => lightbox?.close());
+  previousButton?.addEventListener("click", () => showPhoto(activePhotoIndex - 1));
+  nextButton?.addEventListener("click", () => showPhoto(activePhotoIndex + 1));
+  lightbox?.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") showPhoto(activePhotoIndex - 1);
+    if (event.key === "ArrowRight") showPhoto(activePhotoIndex + 1);
+  });
+  lightbox?.addEventListener("click", (event) => {
+    if (event.target === lightbox) lightbox.close();
+  });
+</script>

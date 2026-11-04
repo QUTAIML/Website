@@ -10,7 +10,7 @@ const REVEALS = {
   right: ".journey-feature-copy",
 };
 
-const COUNTERS = ".hero-proof strong, .archive-stats strong, .now-stats strong, .event-hero-facts strong, .project-hero-facts strong, .recap-stats strong, .history-count strong";
+const COUNTERS = ".hero-proof strong, .folio-stats strong, .folio-telemetry dd, .archive-stats strong, .now-stats strong, .event-hero-facts strong, .project-hero-facts strong, .recap-stats strong, .history-count strong";
 const SPOTLIGHT_CARDS =".value-card, .partner-home-card, .opportunity-block, .resource-panel, .executive-panel, .supporter-card, .event-card, .solution-grid > article, .connect-social-grid > a";
 
 const STAGGER_MS = 80;

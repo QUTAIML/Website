@@ -605,6 +605,6 @@ footer {
 }
 
 /* Full-bleed photos need pages to run edge to edge. */
-main:is(.projects-page, .connect-page, .faq-page, .community-page, .exec-page, .history-page) { padding-inline: 0; }
+main:is(.projects-page, .connect-page, .faq-page, .community-page, .exec-page, .history-page, .hackathon-recaps, .hackathon-folios) { padding-inline: 0; }
 main:is(.faq-page, .community-page, .exec-page) { margin-top: 0; }
-main:is(.faq-page, .community-page, .exec-page, .projects-page, .connect-page, .hackathon-recaps) { padding-top: 0 !important; }
+main:is(.faq-page, .community-page, .exec-page, .projects-page, .connect-page, .hackathon-recaps, .hackathon-folios) { padding-top: 0 !important; }

@@ -1,0 +1,63 @@
+---
+import HackathonLightbox from "@/components/hackathon/HackathonLightbox.astro";
+import { loadImages, site } from "@/lib/content";
+import "@/styles/hackathon.css";
+import "@/styles/hackathon-folio.css";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+const [, brainsHackathon] = site.hackathons;
+const image = await loadImages();
+
+// Featured project descriptions are drawn from the teams' submitted repositories. These are not placement or award claims.
+const solutions = [
+  ["POST BUSHFIRE SEARCH", "AshRovers", "A ground rover concept using camera sensing and AI detection to spot people and wildlife after a fire, while monitoring nearby conditions and obstacles."],
+  ["RECOVERY INTELLIGENCE", "ARGUS", "A disaster recovery sensor system that brings environmental readings and camera snapshots into a live operator dashboard."],
+  ["SOUND BASED SEARCH", "Banshees", "A microphone array concept designed to isolate human sounds, estimate their direction, and guide a robot toward people trapped under rubble."],
+  ["TRIAGE COMPANION", "DR.BOT", "A robot assisted reporting workflow that combines person detection with voice or gesture responses to send structured information to responders."],
+  ["INDOOR LOCATION", "LifeTrace", "A Wi Fi sensing prototype that uses ESP32 channel state information to estimate a person’s likely position and show it on a live heatmap."],
+  ["VOICE FIRST INTAKE", "SaveWise", "A voice guided emergency intake system that captures survivor information, asks follow up questions, and helps organise it for response teams."],
+];
+
+const gallery = [
+  ["images/hackathon-brains-and-bots-1.jpeg", "Brains and Bots Hackathon participants gathered together"],
+  ["images/hackathon-brains-and-bots-2.jpeg", "Brains and Bots team working on hardware and software"],
+  ["images/hackathon-brains-and-bots-3.jpeg", "Brains and Bots team presenting their prototype"],
+  ["images/hackathon-brains-and-bots-4.jpg", "Brains and Bots Hackathon award recipients and organisers"],
+];
+const pad = (n) => String(n).padStart(2, "0");
+---
+
+<ContentLayout title="Brains & Bots Hackathon Recap | QUT AI & ML Society" description="A recap of the Brains & Bots Hackathon: three days of AI and robotics for disaster response, run with the QUT Robotics Club.">
+  <div class="hackathon-page recap-page recap-page-brains">
+    <header class="hackathon-hero recap-hero" aria-labelledby="brains-detail-title">
+      <div class="hackathon-shell">
+        <a class="recap-back" href="/hackathon"><span aria-hidden="true">←</span> All hackathons</a>
+        <p class="hackathon-kicker">HACKATHON RECAP 02 · BRIEF: DISASTER RESPONSE</p>
+        <h1 id="brains-detail-title">Brains &amp; Bots<br /><span>Hackathon.</span></h1>
+        <p>A three day hackathon with the QUT Robotics Club, centred on one challenge: disaster response.</p>
+      </div>
+      <i class="folio-hazard" aria-hidden="true"></i>
+    </header>
+
+    <main class="hackathon-recaps">
+      <section class="hackathon-recap recap-brains" aria-label="About the Brains & Bots Hackathon">
+        <div class="hackathon-shell">
+          <div class="recap-stats" aria-label="Brains and Bots Hackathon key figures"><div><strong>{brainsHackathon.participants}</strong><span>participants</span></div><div><strong>{brainsHackathon.teams}</strong><span>teams</span></div><div><strong>3</strong><span>days of building</span></div></div>
+          <div class="recap-story brains-story"><div><p>Brains &amp; Bots asked teams to focus on one real world challenge: disaster response. Over three days, teams built and refined prototypes before presenting how their ideas could help in high pressure situations.</p><p>Delivered with the QUT Robotics Club, the hackathon brought AI and machine learning together with robotics hardware. The brief encouraged practical systems that could speed up post disaster operations and help responders make faster, better informed decisions.</p><p>From early concepts to working demonstrations, teams had to balance technical thinking with the realities of the people and situations their solutions were designed to support.</p></div><figure class="recap-photo"><img src={image("images/hackathon-brains-and-bots-4.jpg")} alt="Brains and Bots Hackathon Best Overall Award recipients with organisers" /><figcaption>Brains &amp; Bots Hackathon Best Overall Award</figcaption></figure></div>
+          <section class="solution-showcase brains-solution-showcase" aria-labelledby="brains-solutions-title"><div class="solution-showcase-heading"><p class="hackathon-kicker">FEATURED TEAM SOLUTIONS</p><h3 id="brains-solutions-title">Ideas built for <span>the response.</span></h3><p>Six practical approaches to finding people, sharing information, and supporting responders in difficult conditions.</p></div>
+            <div class="solution-grid">{solutions.map(([area, name, body], index) => <article><span>{pad(index + 1)} / {area}</span><h4>{name}</h4><p>{body}</p></article>)}</div>
+          </section>
+        </div>
+      </section>
+
+      <section class="hackathon-photo-story" aria-labelledby="brains-gallery-title"><div class="hackathon-shell">
+        <header class="photo-story-heading"><p class="hackathon-kicker">FIELD LOG</p><h2 id="brains-gallery-title">Built in<br /><span>the room.</span></h2><p>The teams, robots, and demonstrations behind Brains &amp; Bots.</p></header>
+        <section class="photo-story-set photo-story-set-brains" aria-label="Brains and Bots Hackathon photos"><header><h3>Brains &amp; Bots Hackathon</h3><span>01 — {pad(gallery.length)}</span></header>
+          <div class="photo-story-grid photo-story-grid-brains">{gallery.map(([src, alt], index) => <figure><img src={image(src)} alt={alt} loading="lazy" /><figcaption>{pad(index + 1)}</figcaption></figure>)}</div>
+        </section>
+      </div></section>
+
+      <nav class="recap-next" aria-label="Previous hackathon recap"><div class="hackathon-shell"><a href="/hackathon/aiml-2026"><small>PREVIOUS RECAP · 01</small><strong>The AIML <span>Hackathon 2026</span></strong><i aria-hidden="true">→</i></a></div></nav>
+    </main>
+    <HackathonLightbox />
+  </div>
+</ContentLayout>

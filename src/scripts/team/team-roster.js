@@ -11,6 +11,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const links = [...jump.querySelectorAll("a")];
   let isQueued = false;
 
+  // Each team plays its own entrance the first time it scrolls into view.
+  // html.motion is only set when the visitor allows motion.
+  if (document.documentElement.classList.contains("motion") && "IntersectionObserver" in window) {
+    groups.forEach((group) => {
+      group.querySelectorAll(".team-profiles > li").forEach((item, index) => item.style.setProperty("--team-i", index));
+    });
+    roster.classList.add("team-reveal");
+
+    const revealer = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        revealer.unobserve(target);
+        target.classList.add("is-visible");
+      });
+    }, { rootMargin: "0px 0px -18% 0px" });
+
+    groups.forEach((group) => revealer.observe(group));
+  }
+
   function update() {
     isQueued = false;
     const line = window.innerHeight * 0.45;

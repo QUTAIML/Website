@@ -212,6 +212,8 @@ export function buildIndex(kb) {
     year: team.year,
     group: group.title,
     cleanName: member.name.replace(/\s*\(S\d+\)$/, ""),
+    // "(S1)" / "(S2)": the role was held for that semester only (a mid-year handover).
+    term: Number(member.name.match(/\(S(\d)\)$/)?.[1]) || null,
     nameNorm: normalize(member.name.replace(/\s*\(S\d+\)$/, "")),
     roleNorm: normalize(member.role),
   }))));
@@ -244,11 +246,16 @@ export function buildIndex(kb) {
   DOMAIN_WORDS.forEach((word) => vocabulary.add(word));
   COMMON_WORDS.forEach((word) => vocabulary.add(word));
   MONTHS.forEach((word) => vocabulary.add(word));
+  EVERYDAY_WORDS.forEach((word) => vocabulary.add(word));
 
   return { kb, events, projects, teams, members, roles, groups, names, documents, documentFrequency, vocabulary };
 }
 
-const SHORTHAND = { wat: "what", wht: "what", wot: "what", hw: "how", whn: "when", whr: "where", abt: "about", pls: "please", plz: "please", ur: "your", yr: "year" };
+// Ordinary words the typo fixer must leave alone, since they are a letter or two away
+// from words in the data ("both" → "bots", "division" → "decision").
+const EVERYDAY_WORDS = new Set("both either neither division divisions portfolio portfolios replaced replace replacement successor successors predecessor predecessors preceded succeeded before after held hold holds role roles former previous current currently sure certain correct incorrect right wrong check checked verify confirm accurate really true false mistake missed missing forgot forgotten actually think thought count counted recount again double total name names list someone anyone everyone nobody".split(" "));
+
+const SHORTHAND = { u: "you", r: "are", ya: "you", wat: "what", wht: "what", wot: "what", hw: "how", whn: "when", whr: "where", abt: "about", pls: "please", plz: "please", ur: "your", yr: "year" };
 
 function correctTypos(rawTokens, index) {
   return rawTokens.map((raw) => {
@@ -652,11 +659,11 @@ function findPeople(parsed, index) {
 }
 
 function findRoles(parsed, index) {
-  const text = parsed.text.replace(/\bvp\b/g, "vice president").replace(/\bprez\b/g, "president");
+  const text = roleText(parsed.text);
   const exact = [];
   let remaining = text;
   index.roles.forEach((role) => {
-    const form = [role, `${role}s`].find((candidate) => hasPhrase(remaining, candidate));
+    const form = [role, `${role}s`, pluralTitle(role)].find((candidate) => hasPhrase(remaining, candidate));
     if (form) { exact.push(role); remaining = ` ${remaining} `.replace(` ${form} `, " | ").trim(); }
   });
   return exact;
@@ -671,9 +678,145 @@ function findGroups(parsed, index) {
 }
 
 const TITLE_WORDS = ["director", "officer", "manager", "champion", "returning officer"];
+
+// Everyday names for roles.
+const roleText = (text) => text.replace(/\bvps\b/g, "vice presidents").replace(/\b(?:vp|veep|vice prez)\b/g, "vice president").replace(/\bprez\b/g, "president").replace(/\bvice presidency\b/g, "vice president").replace(/\bpresidency\b/g, "president");
+
+// ── Role terms ──
+// Each member record is one person in one role for one year, or for one semester of
+// it when the role changed hands mid-year. These helpers order and describe them.
+const termOrder = (member) => member.year * 10 + (member.term ?? 0);
+const byTerm = (a, b) => termOrder(a) - termOrder(b);
+const termLabel = (member) => (member.term ? `${member.year}, Semester ${member.term}` : String(member.year));
+const roleTitle = (index, role) => index.members.find((member) => member.roleNorm === role)?.role ?? role;
+function pluralTitle(title) {
+  return /[^aeiou]y$/i.test(title) ? `${title.slice(0, -1)}ies` : `${title}s`;
+}
+const latestYear = (index) => index.teams[0]?.year;
+const isCurrentTerm = (index, member) => member.year === latestYear(index);
+const asksCurrent = (parsed) => parsed.has("current", "currently", "now", "right now", "at the moment", "today", "present", "these days", "nowadays");
+const isYesNoQuestion = (parsed) => /^(?:was|is|has|have|had|did|does|do|were|are)\b/.test(parsed.text);
+
+// A role with one seat a year (President) rather than several (Projects Officer).
+function isSingleSeat(index, role) {
+  return index.teams.every((team) => countBy(index.members.filter((member) => member.year === team.year && member.roleNorm === role), (member) => member.term ?? 0).every(([, count]) => count <= 1));
+}
+
+// One line per person, in the order they first held the role(s), with every term.
+function holderItems(index, holders, showRole = false) {
+  const people = new Map();
+  [...holders].sort(byTerm).forEach((member) => {
+    const entry = people.get(member.nameNorm) ?? { member, terms: [] };
+    entry.terms.push(member);
+    people.set(member.nameNorm, entry);
+  });
+  return [...people.values()].map(({ member, terms }) => ({
+    label: member.cleanName,
+    detail: [terms.map((term) => (showRole ? `${term.role}, ${termLabel(term)}` : termLabel(term))).join("; "), terms.some((term) => isCurrentTerm(index, term)) ? "current" : ""].filter(Boolean).join(" · "),
+  }));
+}
+
+const distinctPeople = (members) => [...new Map(members.map((member) => [member.nameNorm, member])).values()];
+
+// What an answer was about, so follow-ups ("who were they?", "how many of them…")
+// can work on it. Kept small: it is held for the whole conversation.
+function focusOf(members, roles = [], groups = []) {
+  return { roles, groups, members: members.map(({ cleanName, nameNorm, role, roleNorm, year, term, group }) => ({ cleanName, nameNorm, role, roleNorm, year, term, group })) };
+}
+
+// "In 2026, the Vice President was Iwan (Semester 1) and Jackson (Semester 2)."
+function yearHoldersText(index, year, role) {
+  const holders = index.members.filter((member) => member.year === year && member.roleNorm === role).sort(byTerm);
+  const title = roleTitle(index, role);
+  if (!holders.length) return `The ${year} team doesn't list a ${title}.`;
+  const isCurrent = year === latestYear(index);
+  if (holders.some((member) => member.term) && isSingleSeat(index, role)) {
+    return `In ${year}, the ${title} ${isCurrent ? "is" : "was"} ${joinList(holders.map((member) => (member.term ? `${member.cleanName} (Semester ${member.term})` : member.cleanName)))}.`;
+  }
+  if (holders.length === 1) return `The ${year} ${title} ${isCurrent ? "is" : "was"} ${holders[0].cleanName}.`;
+  return `The ${year} ${pluralTitle(title)} ${isCurrent ? "are" : "were"} ${groupNames(holders)}.`;
+}
+
+// Questions that pair a person with a role: "when was Jackson VP?", "was Zac ever
+// treasurer?", "who were the VPs before Rajinder?", "who replaced Jackson as VP?"
+function personRoleAnswer(parsed, index, people, roles, shared) {
+  const role = roles[0];
+  const title = roleTitle(index, role);
+  const holders = index.members.filter((member) => member.roleNorm === role).sort(byTerm);
+  const asksBefore = /\b(?:did|does)\b.*\b(?:replace|succeed|take over from)\b/.test(parsed.text) || parsed.has("before", "preceded", "predecessor", "predecessors", "prior to", "earlier than", "came before");
+  const asksAfter = !asksBefore && parsed.has("after", "replaced", "replace", "replacement", "succeeded", "succeed", "successor", "successors", "took over", "take over", "came after", "next");
+  const immediate = parsed.has("replaced", "replace", "replacement", "succeeded", "succeed", "successor", "predecessor", "took over", "take over", "preceded", "was right before", "right before", "right after", "just before", "just after", "directly before", "directly after");
+  const yesNo = isYesNoQuestion(parsed);
+  const parts = [];
+  let items = [];
+  const mentioned = [];
+
+  people.slice(0, 3).forEach((name) => {
+    const own = holders.filter((member) => member.nameNorm === name);
+    const records = index.members.filter((member) => member.nameNorm === name).sort(byTerm);
+    const person = records[0]?.cleanName ?? name;
+    const first = person.split(" ")[0];
+    if (!own.length) {
+      const held = [...new Set(records.map((member) => member.role))].map((other) => `${other} (${records.filter((member) => member.role === other).map(termLabel).join(", ")})`);
+      parts.push(`${yesNo ? "No, " : ""}${person} hasn't been ${title}.${held.length ? ` ${first} has been ${joinList(held)}.` : ""}`);
+      mentioned.push(...records);
+      return;
+    }
+    mentioned.push(...own);
+    if (asksBefore || asksAfter) {
+      const pivot = asksBefore ? termOrder(own[0]) : termOrder(own.at(-1));
+      let others = holders.filter((member) => member.nameNorm !== name && (asksBefore ? termOrder(member) < pivot : termOrder(member) > pivot));
+      if (immediate && others.length) {
+        const next = asksBefore ? others.at(-1) : others[0];
+        others = others.filter((member) => member.nameNorm === next.nameNorm);
+      }
+      mentioned.push(...others);
+      if (!others.length) {
+        parts.push(asksBefore ? `${person} was AIML's first ${title}, in ${termLabel(own[0])}.` : own.some((member) => isCurrentTerm(index, member)) ? `${person} is the current ${title}, so no one has taken over yet.` : `The record doesn't list a ${title} after ${person}.`);
+      } else if (immediate) {
+        const other = others[0];
+        parts.push(asksBefore ? `${person} took over as ${title} from ${other.cleanName}, who held it in ${joinList(others.map(termLabel))}.` : `${other.cleanName} took over from ${person} as ${title}, in ${termLabel(other)}.`);
+      } else {
+        parts.push(`${asksBefore ? `Before ${person}` : `After ${person}`}, AIML's ${pluralTitle(title)} ${asksBefore ? "were" : "have been"}:`);
+        items = holderItems(index, others);
+      }
+      return;
+    }
+    const current = own.filter((member) => isCurrentTerm(index, member));
+    const past = own.filter((member) => !isCurrentTerm(index, member));
+    const sentence = current.length && past.length
+      ? `${person} was ${title} in ${joinList(past.map(termLabel))}, and is the current ${title}.`
+      : current.length ? `${person} is the current ${title} (${joinList(current.map(termLabel))}).`
+      : `${person} was ${title} in ${joinList(past.map(termLabel))}.`;
+    parts.push(`${yesNo ? "Yes. " : ""}${sentence}`);
+  });
+
+  return answerWith("", { ...shared, parts, items, focus: focusOf(mentioned, roles) });
+}
+
+// "Who has held more than one role?"
+function multipleRolesAnswer(parsed, index, shared) {
+  const tally = new Map();
+  [...index.members].sort(byTerm).forEach((member) => {
+    const entry = tally.get(member.nameNorm) ?? { name: member.cleanName, roles: new Map(), records: [] };
+    entry.roles.set(member.role, [...(entry.roles.get(member.role) ?? []), termLabel(member)]);
+    entry.records.push(member);
+    tally.set(member.nameNorm, entry);
+  });
+  let people = [...tally.values()].filter((person) => person.roles.size > 1).sort((a, b) => b.roles.size - a.roles.size || a.name.localeCompare(b.name));
+  if (parsed.has("most roles", "most different roles")) people = people.filter((person) => person.roles.size === people[0].roles.size);
+  const describe = (person) => [...person.roles].map(([role, terms]) => `${role} (${terms.join(", ")})`).join(" → ");
+  if (!people.length) return answerWith("No one on the record has held more than one role.", shared);
+  const text = parsed.has("most roles", "most different roles")
+    ? `${joinList(people.map((person) => person.name))} ${people.length === 1 ? "has" : "have"} held the most roles, with ${people[0].roles.size} each:`
+    : `${plural(people.length, "person has", "people have")} held more than one role on the executive team:`;
+  return answerWith(text, { ...shared, ...limitItems(people.map((person) => ({ label: person.name, detail: describe(person) }))), focus: focusOf(people.flatMap((person) => person.records)) });
+}
 const titleWordIn = (parsed) => TITLE_WORDS.find((title) => parsed.has(title, `${title}s`));
 
-const isPeopleWord = (parsed) => parsed.has("who is new", "who left", "who joined", "roles", "positions", "presidents", "directors", "officers", "managers", "members of the team", "team members", "team", "teams", "exec", "execs", "executive", "executives", "committee", "portfolio", "portfolios", "leadership", "founder", "founders", "cofounder", "cofounders", "co founder", "co founders", "founded", "started aiml", "started the club", "president", "leads", "runs", "in charge", "lead", "run the", "served", "serve", "serving", "returning");
+const asksMultipleRoles = (parsed) => parsed.has("more than one role", "multiple roles", "different roles", "several roles", "two roles", "changed roles", "change roles", "switched roles", "most roles", "more than one position", "multiple positions", "different positions");
+
+const isPeopleWord = (parsed) => parsed.has("division", "divisions", "who is new", "who left", "who joined", "roles", "positions", "presidents", "directors", "officers", "managers", "members of the team", "team members", "team", "teams", "exec", "execs", "executive", "executives", "committee", "portfolio", "portfolios", "leadership", "founder", "founders", "cofounder", "cofounders", "co founder", "co founders", "founded", "started aiml", "started the club", "president", "leads", "runs", "in charge", "lead", "run the", "served", "serve", "serving", "returning");
 
 function teamYear(parsed, index, candidates) {
   const available = index.teams.map((team) => team.year);
@@ -698,6 +841,10 @@ function peopleAnswer(parsed, index) {
   }
 
   const people = findPeople(parsed, index);
+  const namedRoles = findRoles(parsed, index);
+  if (people.length && namedRoles.length) return personRoleAnswer(parsed, index, people, namedRoles, shared);
+  if (!people.length && asksMultipleRoles(parsed)) return multipleRolesAnswer(parsed, index, shared);
+
   if (people.length) {
     return answerWith("", { ...shared, parts: people.slice(0, 3).map((name) => {
       const record = index.members.filter((member) => member.nameNorm === name);
@@ -754,44 +901,78 @@ function peopleAnswer(parsed, index) {
     return answerWith(`${plural(repeat.length, "person has", "people have")} served on the team across more than one year:`, { ...shared, ...limitItems(repeat.map((person) => ({ label: person.name, detail: [...person.years].sort().join(", ") }))) });
   }
 
-  const roles = findRoles(parsed, index);
+  const roles = namedRoles;
   if (roles.length) {
-    const holders = index.members.filter((member) => roles.includes(member.roleNorm));
-    const titleOf = (role) => index.members.find((member) => member.roleNorm === role).role;
+    const holders = index.members.filter((member) => roles.includes(member.roleNorm)).sort(byTerm);
+    const titleOf = (role) => roleTitle(index, role);
+    const titles = joinList(roles.map(titleOf));
+    const showRole = roles.length > 1;
+    const singleSeat = roles.every((role) => isSingleSeat(index, role));
+    const current = asksCurrent(parsed);
+    const firstYear = Math.min(...holders.map((member) => member.year));
+
+    // "Has anyone been both President and Vice President?"
+    if (roles.length >= 2 && parsed.has("both", "as well as", "and also", "same person", "each of")) {
+      const sets = roles.map((role) => new Set(holders.filter((member) => member.roleNorm === role).map((member) => member.nameNorm)));
+      const both = [...sets[0]].filter((name) => sets.every((set) => set.has(name)));
+      const records = holders.filter((member) => both.includes(member.nameNorm));
+      if (!both.length) return answerWith(`No one has held both ${titles}.`, { ...shared, focus: focusOf([], roles) });
+      return answerWith(`${plural(both.length, "person has", "people have")} held both ${titles}:`, { ...shared, items: holderItems(index, records, true), focus: focusOf(records, roles) });
+    }
 
     if (parsed.superlative === "first" && !parsed.years.length) {
-      const earliest = Math.min(...holders.map((member) => member.year));
-      const first = holders.filter((member) => member.year === earliest);
-      return answerWith(`AIML's first ${joinList(roles.map(titleOf))} ${first.length > 1 ? "were" : "was"} ${groupNames(first)}, in ${earliest}.`, shared);
+      const earliest = Math.min(...holders.map(termOrder));
+      const first = holders.filter((member) => termOrder(member) === earliest);
+      return answerWith(`AIML's first ${titles} ${first.length > 1 ? "were" : "was"} ${groupNames(first)}, in ${termLabel(first[0])}.`, { ...shared, focus: focusOf(first, roles) });
+    }
+    if (parsed.superlative === "latest" && !parsed.years.length && !current) {
+      const latest = Math.max(...holders.map(termOrder));
+      const last = holders.filter((member) => termOrder(member) === latest);
+      return answerWith(`The most recent ${titles} ${last.length > 1 ? "are" : "is"} ${groupNames(last)} (${termLabel(last[0])}).`, { ...shared, focus: focusOf(last, roles) });
     }
 
+    // Counting across every year, or within one. Roles with one seat a year count
+    // across all years by default; roles with several seats count the current team.
+    const scopedToYear = parsed.years.length > 0 || current || (!parsed.allTime && !singleSeat);
     if (parsed.wantsCount) {
-      const pool = parsed.years.length ? holders.filter((member) => parsed.years.includes(member.year)) : holders;
-      const people = [...new Set(pool.map((member) => member.nameNorm))];
-      const label = joinList(roles.map(titleOf));
-      const scope = parsed.years.length ? `In ${parsed.years.join(" and ")}, AIML had` : "AIML has had";
-      return answerWith(`${scope} ${people.length} ${label}${people.length === 1 ? "" : "s"} ${parsed.years.length ? "" : `across ${plural(index.teams.length, "year")}`}`.trim() + ".", { ...shared, ...limitItems(people.map((name) => {
-        const record = pool.filter((member) => member.nameNorm === name);
-        return { label: record[0].cleanName, detail: [...new Set(record.map((member) => member.year))].sort().join(", ") };
-      })) });
+      if (scopedToYear) {
+        const years = parsed.years.length ? parsed.years : [teamYear(parsed, index, holders)];
+        const parts = years.map((year) => {
+          const inYear = holders.filter((member) => member.year === year);
+          const people = distinctPeople(inYear);
+          const word = people.length === 1 ? titles : roles.length === 1 ? pluralTitle(titleOf(roles[0])) : titles;
+          const split = singleSeat && inYear.some((member) => member.term) ? ` (the role changed hands mid-year: ${joinList(inYear.map((member) => `${member.cleanName}, Semester ${member.term ?? "1 and 2"}`))})` : "";
+          return `The ${year} team ${year === latestYear(index) ? "has" : "had"} ${people.length} ${word}${split}.`;
+        });
+        const listed = holders.filter((member) => years.includes(member.year));
+        return answerWith("", { ...shared, parts, items: holderItems(index, listed, showRole), focus: focusOf(listed, roles) });
+      }
+      const people = distinctPeople(holders);
+      const handovers = [...new Set(holders.filter((member) => member.term).map((member) => member.year))];
+      const word = people.length === 1 ? titles : roles.length === 1 ? pluralTitle(titleOf(roles[0])) : `people in those roles`;
+      const note = handovers.length ? `, including a mid-year handover in ${joinList(handovers)}` : "";
+      const text = people.length === 1
+        ? `AIML has had 1 ${titles} since ${firstYear}: ${people[0].cleanName}${new Set(holders.map((member) => member.year)).size > 1 ? `, every year since ${firstYear}` : ""}.`
+        : `AIML has had ${people.length} ${word} since ${firstYear}${note}:`;
+      return answerWith(text, { ...shared, items: holderItems(index, holders, showRole), focus: focusOf(holders, roles) });
     }
 
-    if (allYears) {
-      const lines = index.teams.map((team) => {
-        const holders = index.members.filter((member) => member.year === team.year && roles.includes(member.roleNorm));
-        return holders.length ? { label: String(team.year), detail: groupNames(holders) } : null;
-      }).filter(Boolean).reverse();
-      return answerWith(`Here is who has held ${joinList(roles.map((role) => [...new Set(index.members.filter((member) => member.roleNorm === role).map((member) => member.role))][0]))} each year:`, { ...shared, items: lines });
+    // Listing everyone who has held the role, in order.
+    const pluralForm = roles.some((role) => hasPhrase(roleText(parsed.text), pluralTitle(role)) || hasPhrase(roleText(parsed.text), `${role}s`));
+    const wantsHistory = parsed.allTime || parsed.has("all the", "list all", "all of the", "every", "past", "previous", "former", "history of", "over the years", "timeline", "list the", "in order", "so far", "change", "changed", "changes", "past presidents") || (pluralForm && singleSeat);
+    if (wantsHistory && !parsed.years.length && !current) {
+      const people = distinctPeople(holders);
+      if (people.length === 1 && roles.length === 1) {
+        return answerWith(`${people[0].cleanName} has been ${titles} every year on record (${[...new Set(holders.map((member) => member.year))].join(", ")}).`, { ...shared, focus: focusOf(holders, roles) });
+      }
+      return answerWith(`Everyone who has been ${titles}, in order:`, { ...shared, items: holderItems(index, holders, showRole), focus: focusOf(holders, roles) });
     }
-    const year = teamYear(parsed, index, index.members.filter((member) => roles.includes(member.roleNorm)));
-    const parts = roles.map((role) => {
-      const holders = index.members.filter((member) => member.year === year && member.roleNorm === role);
-      const title = index.members.find((member) => member.roleNorm === role).role;
-      if (!holders.length) return `The ${year} team doesn't list a ${title}.`;
-      const verb = year >= index.currentYear ? "is" : "was";
-      return holders.length === 1 ? `The ${year} ${title} ${verb} ${holders[0].cleanName}.` : `The ${year} ${title}s are ${groupNames(holders)}.`;
-    });
-    return answerWith("", { ...shared, parts, context: { year } });
+
+    const year = teamYear(parsed, index, holders);
+    const years = parsed.years.length > 1 ? parsed.years : [year];
+    const parts = years.flatMap((each) => roles.map((role) => yearHoldersText(index, each, role)));
+    const listed = holders.filter((member) => years.includes(member.year));
+    return answerWith("", { ...shared, parts, context: { year }, focus: focusOf(listed, roles) });
   }
 
   const groups = findGroups(parsed, index);
@@ -804,6 +985,14 @@ function peopleAnswer(parsed, index) {
   }
   if (groups.length) {
     const inGroups = index.members.filter((member) => groups.includes(member.group));
+    const overTime = parsed.allTime || parsed.has("over the years", "ever", "every year", "each year", "history", "in total", "altogether", "all time", "since");
+    if (overTime && !parsed.years.length) {
+      const people = distinctPeople(inGroups);
+      const groupYears = [...new Set(inGroups.map((member) => member.year))].sort();
+      const perYear = groupYears.map((year) => ({ label: String(year), detail: plural(distinctPeople(inGroups.filter((member) => member.year === year)).length, "person", "people") }));
+      if (parsed.wantsCount) return answerWith(`${plural(people.length, "person has", "different people have")} been on the ${joinList(groups)} since ${groupYears[0]}:`, { ...shared, items: perYear, focus: focusOf(inGroups, [], groups) });
+      return answerWith(`Everyone who has been on the ${joinList(groups)}:`, { ...shared, items: holderItems(index, inGroups, true), focus: focusOf(inGroups, [], groups) });
+    }
     const year = teamYear(parsed, index, inGroups);
     const members = inGroups.filter((member) => member.year === year && (!parsed.wantsCount || !titleWord || member.roleNorm.includes(titleWord)));
     if (!members.length) return answerWith(`The ${year} team doesn't have a ${joinList(groups)}.`, shared);
@@ -816,7 +1005,7 @@ function peopleAnswer(parsed, index) {
   }
 
   // "Most" only has a published answer when it is about team size.
-  if ((parsed.wantsMost || parsed.wantsLeast || parsed.wantsBreakdown) && (parsed.wantsBreakdown || parsed.has("portfolio", "portfolios", "team", "teams", "group", "groups"))) {
+  if ((parsed.wantsMost || parsed.wantsLeast || parsed.wantsBreakdown) && (parsed.wantsBreakdown || parsed.has("portfolio", "portfolios", "division", "divisions", "team", "teams", "group", "groups"))) {
     const year = teamYear(parsed, index);
     const members = index.members.filter((member) => member.year === year);
     if (parsed.wantsBreakdown && parsed.has("each year", "per year", "by year")) {
@@ -1129,7 +1318,8 @@ function searchDocuments(parsed, index) {
 
 function isClearlyAboutPeople(parsed, index) {
   if (findRoles(parsed, index).length || findGroups(parsed, index).length || findPeople(parsed, index).length || titleWordIn(parsed)) return true;
-  return parsed.has("team", "teams", "exec", "execs", "executive", "executives", "committee", "portfolio", "portfolios", "founder", "founders", "founded", "served", "serve", "longest serving") && !parsed.has("event", "events");
+  if (asksMultipleRoles(parsed)) return true;
+  return parsed.has("team", "teams", "exec", "execs", "executive", "executives", "committee", "portfolio", "portfolios", "division", "divisions", "founder", "founders", "founded", "served", "serve", "longest serving") && !parsed.has("event", "events");
 }
 
 // The page text answers these better than any computed list.
@@ -1176,6 +1366,74 @@ function hasOwnSubject(parsed, index) {
   return isEventQuestion(parsed, index) || isProjectQuestion(parsed, index) || isClearlyAboutPeople(parsed, index) || parsed.concepts.length > 0 || parsed.has("hackathon", "hackathons", "partner", "partners", "sponsor", "sponsors", "join", "membership", "degree", "degrees", "sandbox");
 }
 
+// ── People follow-ups ──
+// Work on whoever the last answer was about (context.focus): "who were they?",
+// "how many of them are officers?", "tell me about them", "who leads it?".
+const GROUP_POINTER = /\b(?:they|them|those|these|their|theirs)\b/;
+
+function peopleFollowUp(question, parsed, index, now, context) {
+  const focus = context.focus;
+  if (!focus?.members?.length || findPeople(parsed, index).length) return null;
+  const shared = { sources: [PAGES.team, PAGES.history], domain: "people" };
+  const members = focus.members;
+  const people = distinctPeople(members);
+  const pointsBack = GROUP_POINTER.test(parsed.text);
+  const mixedRoles = new Set(members.map((member) => member.roleNorm)).size > 1;
+
+  if (pointsBack && parsed.tokens.length <= 8 && !parsed.wantsCount && (/^(?:and |so |ok )?(?:who|what|which) (?:were|are|was|is) (?:they|them|those|these)\b/.test(parsed.text) || parsed.has("list them", "name them", "show them", "their names", "names of them", "list those", "name those", "who are those", "who were those", "what are their names", "what were their names"))) {
+    const isCurrent = members.every((member) => isCurrentTerm(index, member));
+    return answerWith(people.length === 1 ? "That's:" : isCurrent ? "They are:" : "Here they are, in order:", { ...shared, items: holderItems(index, members, mixedRoles), focus });
+  }
+
+  if (pointsBack && parsed.wantsCount) {
+    const roles = findRoles(parsed, index);
+    const title = titleWordIn(parsed);
+    const groups = findGroups(parsed, index);
+    const matches = distinctPeople(members.filter((member) => (!roles.length || roles.includes(member.roleNorm)) && (!title || member.roleNorm.includes(title)) && (!groups.length || groups.includes(member.group))));
+    if (!roles.length && !title && !groups.length) return answerWith(`That's ${plural(people.length, "person", "people")}.`, { ...shared, focus });
+    const what = roles.length ? (matches.length === 1 ? roleTitle(index, roles[0]) : pluralTitle(roleTitle(index, roles[0]))) : title ? (matches.length === 1 ? title : `${title}s`) : `on the ${joinList(groups)}`;
+    const article = (roles.length || title) && matches.length === 1 ? (/^[aeiou]/i.test(what) ? "an " : "a ") : "";
+    const verb = members.every((member) => member.year < latestYear(index)) ? (matches.length === 1 ? "was" : "were") : (matches.length === 1 ? "is" : "are");
+    const kept = members.filter((member) => matches.some((match) => match.nameNorm === member.nameNorm));
+    return answerWith(`${matches.length} of the ${plural(people.length, "person", "people")} ${verb} ${article}${what}${matches.length ? ":" : "."}`, { ...shared, items: holderItems(index, kept, true), focus: focusOf(kept.length ? kept : members, roles.length ? roles : focus.roles, groups.length ? groups : focus.groups) });
+  }
+
+  // "Who was the first one?" / "and the current one?" while talking about a role.
+  if (focus.roles?.length === 1 && parsed.tokens.length <= 7 && !findRoles(parsed, index).length && !/\b(?:before|after|replace|replaced|succeed|succeeded)\b/.test(parsed.text)) {
+    const title = roleTitle(index, focus.roles[0]);
+    if (parsed.has("first one", "the first", "first ever", "earliest", "earliest one", "original")) return peopleAnswer(parseQuestion(`who was the first ${title}`, index, now), index);
+    if (parsed.has("current one", "latest one", "the current", "the latest", "most recent one", "newest", "now")) return peopleAnswer(parseQuestion(`who is the current ${title}`, index, now), index);
+  }
+
+  const asksRelation = /\b(?:replace|replaced|replacement|succeed|succeeded|successor|successors|predecessor|predecessors|before|after|took over|take over|came next|next one)\b/.test(parsed.text);
+  if (asksRelation && focus.roles?.length && people.length > 1 && (pointsBack || parsed.tokens.length <= 8)) {
+    const role = focus.roles[0];
+    const inRole = members.filter((member) => member.roleNorm === role).sort(byTerm);
+    const before = /\b(?:before|predecessor|predecessors|did\b.*\breplace)\b/.test(parsed.text);
+    const pointsAtLatest = parsed.has("latest", "last one", "most recent", "current", "newest", "the last");
+    const pointsAtFirst = parsed.has("first", "earliest", "first one", "oldest");
+    const pivot = pointsAtLatest ? inRole.at(-1) : pointsAtFirst ? inRole[0] : parsed.ordinal !== null ? inRole[parsed.ordinal] : before ? inRole[0] : inRole.at(-1);
+    if (pivot) return peopleAnswer(parseQuestion(`${before ? "who was right before" : "who replaced"} ${pivot.cleanName} as ${roleTitle(index, role)}`, index, now), index);
+  }
+
+  if (pointsBack && people.length > 1 && parsed.has("tell me about", "more about", "more on", "details", "info", "information", "who are they", "what do they do")) {
+    return mergeAnswers(people.slice(0, 4).map((person) => route(parseQuestion(`tell me about ${person.cleanName}`, index, now), index, now)).filter(Boolean));
+  }
+
+  if (focus.groups?.length && parsed.has("lead", "leads", "runs", "run", "in charge", "head", "heads", "director", "directors") && (parsed.tokens.some((token) => ["it", "that", "this", "them", "they", "their"].includes(token)) || parsed.tokens.length <= 4)) {
+    const year = members[0]?.year ?? latestYear(index);
+    return peopleAnswer(parseQuestion(`who leads the ${focus.groups[0]} in ${year}`, index, now), index);
+  }
+  return null;
+}
+
+// "Their" for "there" ("how many VPs have their been?") would otherwise read as a pronoun.
+function fixHomophones(text) {
+  return text
+    .replace(/\btheir\s+(?=(?:been|was|were|is|are|be|any|many|much)\b)/gi, "there ")
+    .replace(/\bthere\s+(?=(?:names|name|roles|role|degrees|degree|years)\b)/gi, "their ");
+}
+
 // Keeps the previous question and applies only what this message changes.
 function applyShift(shifted, base) {
   const baseYear = base.years[0];
@@ -1212,12 +1470,18 @@ function followUpAnswer(question, parsed, index, now, context) {
   if (wasRephrased && !stripped) return null;
 
   if (context?.domain) {
+    const aboutPeople = context.domain === "people" ? peopleFollowUp(question, parsed, index, now, context) : null;
+    if (aboutPeople) return aboutPeople;
+
     const asksPerson = context.domain === "people" && context.people?.length;
     PERSON_PRONOUN.lastIndex = 0;
     if (asksPerson && PERSON_PRONOUN.test(question) && !findPeople(parsed, index).length) {
       if (context.people.length === 1) {
         const name = context.people[0];
-        return route(parseQuestion(question.replace(PERSON_PRONOUN, name), index, now), index, now);
+        // "who replaced them?" after "who was VP in 2026?" keeps the role being discussed.
+        const asksRelation = /\b(?:replace|replaced|succeed|succeeded|successor|predecessor|before|after|took over|take over)\b/i.test(question);
+        const role = asksRelation && context.focus?.roles?.length && !findRoles(parsed, index).length ? ` as ${roleTitle(index, context.focus.roles[0])}` : "";
+        return route(parseQuestion(`${question.replace(PERSON_PRONOUN, name).replace(/[?.!\s]+$/, "")}${role}`, index, now), index, now);
       }
       return answerWith("Which person do you mean?", { domain: "people", suggestions: context.people.slice(0, 4).map((name) => `Tell me about ${name}`) });
     }
@@ -1302,6 +1566,109 @@ function learnAboutUser(question, parsed, index, profile) {
   return learned;
 }
 
+// ── Double-checking ──
+// "Are you sure?", "check again", "I think there were 5", "you forgot Iwan".
+// The last real question is worked out again from scratch, from the same point in
+// the conversation, and compared with what was said. The reply says what was
+// checked and either confirms the answer or corrects it. Any number or person the
+// message brings up is checked against the record too.
+const CHALLENGE_PHRASES = ["are you sure", "you sure", "sure about that", "are you certain", "you certain", "is that right", "is that correct", "is that true", "is that accurate", "is it right", "is it correct", "that right", "really", "double check", "check again", "check that", "check it", "recheck", "re check", "verify", "confirm that", "can you confirm", "thats wrong", "that is wrong", "thats not right", "that is not right", "not right", "incorrect", "youre wrong", "you are wrong", "you re wrong", "wrong", "mistake", "i dont think so", "i do not think so", "that cant be right", "cant be right", "that doesnt sound right", "doesnt sound right", "doesnt seem right", "i think there", "i thought there", "i thought it was", "you missed", "you forgot", "you left out", "missing someone", "isnt it", "wasnt it", "arent there", "werent there"];
+const STRONG_CHALLENGES = ["are you sure", "you sure", "sure about that", "are you certain", "double check", "check again", "recheck", "re check", "verify", "can you confirm", "thats wrong", "that is wrong", "thats not right", "youre wrong", "you are wrong", "you re wrong", "i dont think so", "that cant be right", "cant be right", "you missed", "you forgot", "you left out", "doesnt sound right", "doesnt seem right"];
+
+function isChallenge(parsed) {
+  if (parsed.has(...STRONG_CHALLENGES)) return true;
+  // Weaker phrases ("really?", "what about…", "wrong") only count in a short reply.
+  return parsed.tokens.length <= 6 && parsed.has(...CHALLENGE_PHRASES);
+}
+
+const answerSignature = (answer) => JSON.stringify((answer?.sections ?? [answer]).filter(Boolean).map((section) => [section.text, section.parts ?? [], (section.items ?? []).map((item) => [item.label, item.detail])]));
+const firstCount = (answer) => Number((answer?.sections?.[0] ?? answer)?.text?.match(/\b(\d{1,3})\b/)?.[1] ?? (answer?.sections?.[0] ?? answer)?.parts?.join(" ").match(/\b(\d{1,3})\b/)?.[1] ?? NaN);
+
+function howChecked(answer, index) {
+  const domain = answer?.domain ?? answer?.sections?.at(-1)?.domain;
+  const years = index.teams.map((team) => team.year).sort();
+  if (domain === "people") return `I went back through every role on the ${joinList(years)} executive teams (${plural(index.members.length, "role record")}), including roles held for one semester.`;
+  if (domain === "events") return `I went back through all ${plural(index.events.length, "event")} on record.`;
+  if (domain === "projects") return `I went back through all ${plural(index.projects.length, "project")} in the archive.`;
+  return "I worked it out again from AIML's published information.";
+}
+
+function verifyAnswer(question, parsed, index, now, memory) {
+  const history = memory.history ?? [];
+  const position = history.findLastIndex((turn) => !turn.answer?.verification && !isChallenge(parseQuestion(fixHomophones(turn.question), index, now)));
+  const turn = history[position];
+  if (!turn) return answerWith("There isn't an earlier answer for me to check yet.", { verification: true });
+  if (!turn.answer) {
+    return answerWith(`I couldn't work out “${turn.question}” from AIML's records, so that reply came from searching the site's pages. Try asking it a different way, or check the page it pointed to.`, { verification: true, restore: turn.snapshot });
+  }
+
+  // Work the question out again from the same point in the conversation.
+  const before = history[position - 1]?.snapshot ?? {};
+  const replayMemory = { profile: memory.profile ?? {}, byDomain: {}, ...before, history: history.slice(0, position) };
+  const fresh = answerPart(turn.question, index, now, replayMemory).answer;
+  const changed = fresh && answerSignature(fresh) !== answerSignature(turn.answer);
+  const current = changed ? fresh : turn.answer;
+  const checked = howChecked(current, index);
+  const sources = current.sources ?? current.sections?.flatMap((section) => section.sources ?? []) ?? [];
+  const shared = { verification: true, sources, restore: turn.snapshot, domain: current.domain };
+  const body = current.sections ?? [current];
+
+  // A person the message says was missed: "you forgot Iwan".
+  const named = findPeople(parsed, index);
+  const roles = turn.snapshot?.focus?.roles ?? [];
+  if (named.length && roles.length) {
+    const listed = new Set((turn.snapshot?.focus?.members ?? []).map((member) => member.nameNorm));
+    const missed = named.filter((name) => !listed.has(name) && index.members.some((member) => member.nameNorm === name && roles.includes(member.roleNorm)));
+    const check = personRoleAnswer({ ...parsed, text: "was", has: () => false }, index, named, roles, { sources });
+    const intro = missed.length ? `You're right to check. ${joinList(missed.map((name) => index.members.find((member) => member.nameNorm === name).cleanName))} should have been included. Here's the full, corrected answer:` : `I checked ${joinList(named.map((name) => index.members.find((member) => member.nameNorm === name)?.cleanName ?? name))} against the record:`;
+    return { ...answerWith(""), ...shared, sections: missed.length ? [answerWith(intro), ...(fresh.sections ?? [fresh])] : [answerWith(intro), check, answerWith(`So the answer to “${turn.question}” stands. ${checked}`)] };
+  }
+
+  // A number the message suggests instead: "I think there were 5".
+  const claimed = parsed.text.match(/\b(\d{1,3})\b/)?.[1];
+  const counted = firstCount(current);
+  if (claimed && !Number.isNaN(counted) && Number(claimed) !== counted) {
+    return { ...answerWith(""), ...shared, sections: [answerWith(`I double-checked, and the published record shows ${counted}, not ${claimed}. ${checked} Here is every one, so you can see what I counted:`), ...body, answerWith(current.domain === "people" || current.sections?.at(-1)?.domain === "people" ? "If someone is missing, they may not have been added to the site's team records yet." : "If something is missing, it may not have been added to the site yet.")] };
+  }
+
+  if (changed) {
+    return { ...answerWith(""), ...shared, sections: [answerWith(`Good catch. I worked “${turn.question}” out again and got a different result, so here's the corrected answer. ${checked}`), ...body] };
+  }
+  const confirm = claimed && Number(claimed) === counted ? `Yes, it's ${counted}.` : "Yes.";
+  return { ...answerWith(""), ...shared, sections: [answerWith(`${confirm} I worked “${turn.question}” out again from scratch and got the same answer. ${checked}`), ...body] };
+}
+
+// ── Recalling earlier parts of the conversation ──
+// "What did I ask about vice presidents earlier?", "go back to the treasurers".
+const RECALL_PATTERN = /\b(?:what (?:did|have|was it) (?:i|we|you) (?:ask|asked|say|said|talk|talked|discuss|discussed|mention|mentioned|tell|told)(?: me)?|what was (?:the|your) answer|what you said|what you told me|remind me|earlier you said|you said earlier|you mentioned|you told me)\b/;
+const BACK_PATTERN = /^\s*(?:(?:ok(?:ay)?|so|right|now|and|anyway)[,\s]+)?(?:(?:let'?s|lets|can we|could we|please)\s+)?(?:go(?:ing)?\s+back\s+to|back\s+to|return\s+to|returning\s+to|revisit|circle\s+back\s+to)\s+(.+?)\s*[?.!]*$/i;
+const RECALL_FILLER = new Set(["earlier", "before", "previously", "ago", "again", "question", "questions", "asked", "ask", "said", "say", "talk", "talked", "discuss", "discussed", "mention", "mentioned", "tell", "told", "answer", "answers", "remind", "conversation", "chat", "topic", "thing", "stuff", "bit", "part", "what", "did", "you", "we", "me", "i", "my", "your", "our", "the", "about", "on", "regarding"]);
+
+const recallWords = (text) => tokensOf(roleText(normalize(text))).filter((token) => !STOP_WORDS.has(token) && !RECALL_FILLER.has(token)).map(stem);
+
+function findEarlierTurn(history, words) {
+  let best = null;
+  let bestScore = 0;
+  history.forEach((turn) => {
+    const own = new Set(tokensOf(roleText(normalize(turn.question))).map(stem));
+    const score = words.filter((word) => own.has(word)).length;
+    if (score > 0 && score >= bestScore) { best = turn; bestScore = score; }
+  });
+  return best;
+}
+
+function recallAnswer(question, parsed, history) {
+  const back = question.match(BACK_PATTERN);
+  if (!back && !RECALL_PATTERN.test(parsed.text)) return null;
+  const words = recallWords(back ? back[1] : parsed.text.replace(RECALL_PATTERN, " "));
+  if (!words.length) return null;
+  const turn = findEarlierTurn(history, words);
+  if (!turn) return answerWith(`I can't find anything about ${back ? back[1].replace(/[?.!]+$/, "") : "that"} earlier in this chat.`, { suggestions: ["What have we talked about?"] });
+  const prefix = back ? `Going back to “${turn.question}”:` : `Earlier you asked “${turn.question}”. I said:`;
+  if (!turn.answer) return answerWith(`${prefix} I wasn't able to answer that one at the time.`, { restore: turn.snapshot });
+  return { ...answerWith(""), sections: [answerWith(prefix), ...(turn.answer.sections ?? [turn.answer])], sources: turn.answer.sources ?? [], suggestions: turn.answer.suggestions ?? [], restore: turn.snapshot };
+}
+
 function memoryAnswer(question, parsed, index, now, memory) {
   const { history = [], profile = {} } = memory ?? {};
   const last = history.at(-1);
@@ -1309,6 +1676,8 @@ function memoryAnswer(question, parsed, index, now, memory) {
   if (parsed.has("forget everything", "forget this", "forget our", "forget that", "clear the chat", "clear chat", "clear our", "clear this", "start over", "start again", "new chat", "new conversation", "delete our")) {
     return answerWith("Done, I've forgotten this conversation.", { clearsMemory: true, suggestions: ["What's the next event?", "What can you do?"] });
   }
+  const recalled = history.length ? recallAnswer(question, parsed, history) : null;
+  if (recalled) return recalled;
   if (profile.justNamed) return answerWith(`Nice to meet you, ${profile.name}! I'll remember that until you leave the site.`, { suggestions: ["What's the next event?", "What can you do?"] });
   if (profile.justInterested) {
     const noted = recommendationAnswer({ ...parsed, topics: profile.topics, keywords: profile.interests }, index, now, true);
@@ -1328,18 +1697,26 @@ function memoryAnswer(question, parsed, index, now, memory) {
     if (parsed.has("last question", "previous question", "just ask", "what was my question")) return answerWith(`Your last question was “${last.question}”`);
     return answerWith(`We've covered ${plural(history.length, "question")}. The most recent:`, { items: history.slice(-LIST_LIMIT).map((turn) => ({ label: turn.question })) });
   }
+  if (isChallenge(parsed)) return verifyAnswer(question, parsed, index, now, memory);
   if (!last) return null;
   if (parsed.has("repeat that", "say that again", "what did you say", "what did you just say", "your last answer", "your previous answer", "come again")) {
     return last.answer ?? answerWith("I wasn't able to answer that last one.");
-  }
-  if (parsed.tokens.length <= 5 && parsed.has("are you sure", "is that right", "is that correct", "is that true", "you sure", "really")) {
-    const sources = last.answer?.sources ?? [];
-    return answerWith(sources.length ? "That comes directly from AIML's published information, so it's as accurate as the site. You can check it here:" : "I only answer from AIML's published information, so it's as accurate as the site.", { items: sources.map((source) => ({ label: source.label, url: source.url })) });
   }
   if (parsed.tokens[0] === "why" && parsed.tokens.length <= 3) {
     return answerWith("The site doesn't give reasons for that, so I can only tell you what's published. The team would know more, and Discord is the best place to ask.", { items: [{ label: "Discord", url: index.kb.links.discord }] });
   }
   return null;
+}
+
+// When an answer didn't say what it was about, rebuild it from the names it mentioned.
+function focusFromNames(names, parsed, index) {
+  const wanted = new Set(names.map(normalize));
+  const years = parsed.years?.length ? parsed.years : null;
+  const records = index.members.filter((member) => wanted.has(member.nameNorm));
+  const latest = new Map();
+  records.forEach((member) => { if (!latest.has(member.nameNorm) || member.year > latest.get(member.nameNorm)) latest.set(member.nameNorm, member.year); });
+  const members = records.filter((member) => (years ? years.includes(member.year) : member.year === latest.get(member.nameNorm)));
+  return focusOf(members, findRoles(parsed, index), findGroups(parsed, index));
 }
 
 // Names mentioned in an answer, so that "they" and "the second one" can refer to them.
@@ -1398,6 +1775,26 @@ function mergeAnswers(answers) {
   };
 }
 
+// Works out one question (or one part of a multi-part message) from the conversation so far.
+function answerPart(rawPart, index, now, memory) {
+  const part = fixHomophones(rawPart);
+  let parsed = parseQuestion(part, index, now);
+  const profile = learnAboutUser(part, parsed, index, memory.profile ?? {});
+  const withProfile = { ...memory, profile };
+
+  // Earlier interests answer "what should I try?" when this message doesn't name any.
+  const wantsSuggestion = parsed.has("recommend", "suggest", "should i try", "should i start", "good first", "for me", "would i like", "would i enjoy");
+  if (wantsSuggestion && !parsed.topics.length && !parsed.keywords.length && (profile.topics?.length || profile.interests?.length)) {
+    parsed = { ...parsed, topics: profile.topics, keywords: profile.interests };
+  }
+
+  const answer = memoryAnswer(part, parsed, index, now, withProfile)
+    ?? smallTalk(parsed)
+    ?? followUpAnswer(part, parsed, index, now, withProfile)
+    ?? route(parsed, index, now);
+  return { answer, parsed, profile };
+}
+
 /**
  * Returns { answer, context }. `answer` is null when the data doesn't cover the
  * question. Pass the returned context back in and it carries the conversation:
@@ -1409,27 +1806,19 @@ export function answerQuestion(question, index, context = null, now = new Date()
   let memory = context ?? { history: [], profile: {}, byDomain: {} };
   const answers = [];
 
-  splitQuestion(question).forEach((part) => {
-    let parsed = parseQuestion(part, index, now);
-    const profile = learnAboutUser(part, parsed, index, memory.profile ?? {});
+  splitQuestion(question).forEach((rawPart) => {
+    const part = fixHomophones(rawPart);
+    const { answer, parsed, profile } = answerPart(rawPart, index, now, memory);
     memory = { ...memory, profile };
-
-    // Earlier interests answer "what should I try?" when this message doesn't name any.
-    const wantsSuggestion = parsed.has("recommend", "suggest", "should i try", "should i start", "good first", "for me", "would i like", "would i enjoy");
-    if (wantsSuggestion && !parsed.topics.length && !parsed.keywords.length && (profile.topics?.length || profile.interests?.length)) {
-      parsed = { ...parsed, topics: profile.topics, keywords: profile.interests };
-    }
-
-    const answer = memoryAnswer(part, parsed, index, now, memory)
-      ?? smallTalk(parsed)
-      ?? followUpAnswer(part, parsed, index, now, memory)
-      ?? route(parsed, index, now);
     answers.push(answer);
 
     const { justNamed, justInterested, ...settled } = memory.profile;
     memory = { ...memory, profile: settled };
     if (answer?.clearsMemory) {
       memory = { history: [], profile: {}, byDomain: {} };
+    } else if (answer?.restore) {
+      // Going back to an earlier topic: follow-ups now work on that topic again.
+      memory = { ...memory, ...answer.restore };
     } else if (answer?.domain) {
       const remembered = answer.parsedOverride ?? parsed;
       const mentioned = answer.domain === "people" ? peopleInAnswer(answer, index) : [];
@@ -1441,6 +1830,7 @@ export function answerQuestion(question, index, context = null, now = new Date()
         parsed: remembered,
         sources: answer.sources,
         people,
+        focus: answer.domain === "people" ? (answer.sections?.at(-1)?.focus ?? answer.focus ?? focusFromNames(mentioned, remembered, index)) : memory.focus,
         byDomain: { ...memory.byDomain, [answer.domain]: { set: answer.set } },
       };
     }
@@ -1448,6 +1838,8 @@ export function answerQuestion(question, index, context = null, now = new Date()
 
   const useful = answers.filter(Boolean);
   const merged = useful.length ? mergeAnswers(useful) : null;
-  if (!merged?.clearsMemory) memory = { ...memory, history: [...(memory.history ?? []), { question, answer: merged }].slice(-40) };
+  // Each turn keeps a snapshot of what it was about, so the chat can go back to it.
+  const snapshot = { domain: memory.domain, set: memory.set, parsed: memory.parsed, sources: memory.sources, people: memory.people, focus: memory.focus };
+  if (!merged?.clearsMemory) memory = { ...memory, history: [...(memory.history ?? []), { question, answer: merged, snapshot }].slice(-40) };
   return { answer: merged, context: memory };
 }

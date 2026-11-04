@@ -94,6 +94,7 @@ const image = await loadImages();
               </select>
               <input class="project-filter-control" id="project-search" type="search" placeholder="Search projects" aria-label="Search projects by name or description" autocomplete="off" />
             </div>
+            <p class="project-list-meta" aria-live="polite" data-pagefind-ignore><span id="project-count">{projectCount}</span> <span id="project-count-noun">projects</span><span class="project-swipe-hint" aria-hidden="true"> · swipe to browse</span></p>
             <p class="project-empty" id="project-empty" hidden data-pagefind-ignore>No projects match that search.</p>
             <ul class="project-list" id="project-list" aria-label="Projects">
               {pastProjects.map((project) => {

@@ -1,0 +1,192 @@
+/* ----------------------------- */
+/*     HACKATHON PORTFOLIOS      */
+/* ----------------------------- */
+
+/* Each hackathon is its own full panel with its own look:
+   AIML 2026 is a neon pink build floor; Brains & Bots is a silver disaster response field unit.
+   Colours stay inside the AIML palette: silver, grey, dark grey, black, pink and purple.
+   The full recaps live at /hackathon/aiml-2026 and /hackathon/brains-and-bots. */
+
+:root { --hack-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; --brains-silver: #c8cdd6; }
+
+.hack-folio { align-items: center; display: grid; min-height: min(100svh, 980px); overflow: hidden; padding: clamp(5.5rem, 10vw, 8.5rem) 0; position: relative; }
+.folio-layout { align-items: center; display: grid; gap: clamp(2.5rem, 6vw, 5.5rem); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); position: relative; z-index: 1; }
+.hack-folio .folio-index { font: 700 .72rem/1 var(--hack-mono); letter-spacing: .16em; margin: 0 0 1.4rem; }
+.hack-folio .folio-index b { color: #fff; font: inherit; font-size: 1.1rem; }
+.hack-folio h2 { color: #fff; font-size: clamp(3rem, 5.6vw, 5.6rem); font-weight: 850; margin: 0; }
+.hack-folio .folio-lede { color: #d8d0d6; font-size: clamp(1rem, 1.4vw, 1.12rem); line-height: 1.65; margin: 1.5rem 0 0; max-width: 31rem; }
+.hack-folio .folio-cta { align-items: center; display: inline-flex; font-weight: 800; gap: .6rem; margin-top: 2.2rem; text-decoration: none; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+.hack-folio .folio-cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* ── 01 · AIML Hackathon 2026: neon build floor ── */
+.folio-aiml {
+  background:
+    radial-gradient(circle at 76% 42%, rgba(255, 0, 230, .24), transparent 38%),
+    linear-gradient(rgba(255, 0, 230, .07) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgba(255, 0, 230, .07) 1px, transparent 1px) 0 0 / 48px 48px,
+    #0b090b;
+}
+.hack-folio .folio-aiml-year { bottom: -.12em; color: transparent; font: 900 clamp(9rem, 28vw, 25rem)/.8 var(--font-display); letter-spacing: -.06em; pointer-events: none; position: absolute; right: -.04em; -webkit-text-stroke: 2px rgba(255, 0, 230, .2); }
+.folio-aiml .folio-index { color: var(--hack-pink); }
+
+.folio-stats { align-items: end; border-top: 1px solid rgba(255, 255, 255, .14); display: flex; flex-wrap: wrap; gap: 1.2rem 2.4rem; margin-top: 2rem; padding-top: 1.4rem; }
+.folio-stats strong { color: #fff; display: block; font-size: clamp(2.4rem, 4vw, 3.4rem); font-weight: 850; letter-spacing: -.07em; line-height: 1; }
+.folio-stats span { color: #cbc1ca; display: block; font-size: .78rem; margin-top: .35rem; }
+.hack-folio .folio-badge { border-left: 2px solid var(--hack-pink); color: #cbc1ca; font-size: .82rem; line-height: 1.4; margin: 0; max-width: 13rem; padding-left: .8rem; }
+.hack-folio .folio-badge b { color: var(--hack-soft-pink); display: block; font-size: 1rem; }
+
+.folio-builds { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 1.6rem 0 0; padding: 0; }
+.folio-builds li { background: rgba(255, 0, 230, .06); border: 1px solid rgba(255, 139, 244, .32); border-radius: 999px; color: #f6c8f0; font: 600 .76rem/1 var(--hack-mono); padding: .45rem .8rem; }
+.folio-builds li::before { color: var(--hack-pink); content: "<"; }
+.folio-builds li::after { color: var(--hack-pink); content: " />"; }
+
+.folio-aiml .folio-cta { background: var(--hack-pink); border-radius: 999px; color: #230020; padding: .9rem 1.5rem; }
+.folio-aiml .folio-cta:hover { background: #fff; }
+
+.folio-collage { aspect-ratio: 1 / .92; position: relative; }
+.folio-collage figure { background: #1b161b; border: 1px solid rgba(255, 139, 244, .4); box-shadow: 14px 14px 0 rgba(181, 0, 168, .3); margin: 0; overflow: hidden; position: absolute; transition: rotate .45s var(--motion-ease, ease), scale .45s var(--motion-ease, ease), translate .45s var(--motion-ease, ease); }
+.folio-collage figure:nth-child(1) { left: 0; rotate: -4deg; top: 14%; width: 66%; z-index: 2; }
+.folio-collage figure:nth-child(2) { right: 0; rotate: 5deg; top: 0; width: 48%; z-index: 1; }
+.folio-collage figure:nth-child(3) { bottom: 0; right: 5%; rotate: -1.5deg; width: 54%; z-index: 3; }
+.folio-collage figure:hover { rotate: 0deg; scale: 1.04; z-index: 4; }
+.folio-collage img { aspect-ratio: 4 / 3; display: block; height: auto; object-fit: cover; width: 100%; }
+.folio-collage figcaption { background: rgba(10, 8, 10, .82); bottom: .6rem; color: var(--hack-soft-pink); font: 700 .66rem/1 var(--hack-mono); left: .6rem; letter-spacing: .08em; padding: .35rem .5rem; position: absolute; }
+
+/* ── 02 · Brains & Bots: disaster response field unit ── */
+.folio-brains { background: radial-gradient(circle at 18% 40%, rgba(200, 205, 214, .1), transparent 36%), radial-gradient(circle at 88% 82%, rgba(163, 0, 147, .3), transparent 42%), #110e11; }
+/* Faint range rings spreading from behind the camera feed. */
+.folio-brains::before { background: repeating-radial-gradient(circle at 26% 50%, transparent 0 46px, rgba(200, 205, 214, .07) 46px 47px); content: ""; inset: 0; -webkit-mask-image: radial-gradient(circle at 26% 50%, #000 15%, transparent 70%); mask-image: radial-gradient(circle at 26% 50%, #000 15%, transparent 70%); pointer-events: none; position: absolute; }
+.folio-hazard { background: repeating-linear-gradient(-45deg, var(--brains-silver) 0 14px, #110e11 14px 28px); display: block; height: 10px; inset: 0 0 auto; opacity: .9; position: absolute; }
+.folio-brains .folio-index { color: var(--brains-silver); }
+.folio-brains h2 span { color: var(--hack-soft-pink); }
+
+.hack-folio .folio-brief { align-items: center; border: 1px solid rgba(200, 205, 214, .55); color: #fff; display: inline-flex; font: 700 .8rem/1 var(--hack-mono); gap: .8rem; letter-spacing: .08em; margin: 1.5rem 0 0; padding-right: .8rem; text-transform: uppercase; }
+.hack-folio .folio-brief b { background: var(--brains-silver); color: #111; font: inherit; padding: .55rem .7rem; }
+
+.folio-telemetry { display: grid; gap: 1px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 2rem 0 0; max-width: 30rem; }
+.folio-telemetry > div { background: rgba(255, 255, 255, .035); border-left: 2px solid var(--brains-silver); padding: .85rem 1rem; }
+.folio-telemetry dt { color: var(--brains-silver); font: 700 .64rem/1 var(--hack-mono); letter-spacing: .16em; }
+.folio-telemetry dd { color: #fff; font: 800 clamp(1.6rem, 2.6vw, 2.1rem)/1.1 var(--font-body); letter-spacing: -.04em; margin: .45rem 0 0; }
+.folio-telemetry .folio-telemetry-text { font-size: 1rem; letter-spacing: 0; line-height: 1.3; }
+
+.folio-brains .folio-cta { border: 1.5px solid var(--brains-silver); color: var(--brains-silver); font-family: var(--hack-mono); font-size: .82rem; letter-spacing: .12em; padding: .9rem 1.4rem; text-transform: uppercase; }
+.folio-brains .folio-cta:hover { background: var(--brains-silver); color: #111; }
+
+.folio-viewfinder { aspect-ratio: 4 / 3.2; background: #000; overflow: hidden; position: relative; }
+.folio-viewfinder img { display: block; filter: saturate(.8) contrast(1.08); height: 100%; inset: 0; object-fit: cover; position: absolute; width: 100%; }
+/* Scanlines and a vignette so the photo reads as a live camera feed. */
+.folio-viewfinder::after { background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .2) 0 1px, transparent 1px 3px), radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, .6)); content: ""; inset: 0; pointer-events: none; position: absolute; }
+.vf-corners { inset: 14px; pointer-events: none; position: absolute; z-index: 2; }
+.vf-corners i { border: 0 solid var(--brains-silver); height: 30px; position: absolute; transition: translate .8s var(--motion-ease, ease); width: 30px; }
+.vf-corners i:nth-child(1) { border-left-width: 3px; border-top-width: 3px; left: 0; top: 0; }
+.vf-corners i:nth-child(2) { border-right-width: 3px; border-top-width: 3px; right: 0; top: 0; }
+.vf-corners i:nth-child(3) { border-bottom-width: 3px; border-left-width: 3px; bottom: 0; left: 0; }
+.vf-corners i:nth-child(4) { border-bottom-width: 3px; border-right-width: 3px; bottom: 0; right: 0; }
+.hack-folio .vf-tag, .hack-folio .vf-coords { color: var(--brains-silver); font: 700 .66rem/1 var(--hack-mono); letter-spacing: .14em; position: absolute; text-shadow: 0 1px 4px #000; z-index: 2; }
+.hack-folio .vf-tag { align-items: center; display: flex; gap: .45rem; left: 30px; top: 30px; }
+.vf-tag b { background: var(--hack-pink); border-radius: 50%; box-shadow: 0 0 8px var(--hack-pink); height: .55rem; width: .55rem; }
+.hack-folio .vf-coords { bottom: 30px; left: 30px; }
+.vf-radar { background: radial-gradient(circle, transparent 30%, rgba(200, 205, 214, .25) 31% 32%, transparent 33% 62%, rgba(200, 205, 214, .25) 63% 64%, transparent 65%), rgba(8, 8, 10, .55); border: 1.5px solid rgba(200, 205, 214, .7); border-radius: 50%; bottom: 26px; height: 70px; overflow: hidden; position: absolute; right: 26px; width: 70px; z-index: 2; }
+.vf-radar::after { background: conic-gradient(from 0deg, rgba(200, 205, 214, .65), transparent 28%); content: ""; inset: 0; position: absolute; }
+.vf-scan { background: linear-gradient(180deg, transparent, rgba(200, 205, 214, .35) 85%, rgba(255, 255, 255, .9)); height: 30%; inset: -30% 0 auto; opacity: 0; pointer-events: none; position: absolute; z-index: 1; }
+
+/* ── Portfolio reveals (html.folio-reveal is set by folio.js when motion is allowed) ── */
+.folio-reveal .hack-folio:not(.is-visible) :is(.folio-copy > *, .folio-collage figure, .folio-aiml-year, .folio-viewfinder, .folio-telemetry > div) { opacity: 0; }
+
+.folio-reveal .hack-folio.is-visible .folio-copy > * { animation: motion-rise .9s var(--motion-ease) backwards; }
+.folio-reveal .hack-folio.is-visible .folio-copy > :nth-child(2) { animation-delay: .08s; }
+.folio-reveal .hack-folio.is-visible .folio-copy > :nth-child(3) { animation-delay: .18s; }
+.folio-reveal .hack-folio.is-visible .folio-copy > :nth-child(4) { animation-delay: .28s; }
+.folio-reveal .hack-folio.is-visible .folio-copy > :nth-child(5) { animation-delay: .38s; }
+.folio-reveal .hack-folio.is-visible .folio-copy > :nth-child(n+6) { animation-delay: .48s; }
+
+/* AIML: the year rises behind, and the photos fan out from a stack. */
+.folio-reveal .folio-aiml.is-visible .folio-aiml-year { animation: folio-year-in 1.6s var(--motion-ease) backwards; }
+.folio-reveal .folio-aiml.is-visible .folio-collage figure { animation: folio-fan 1.1s var(--motion-ease) backwards; }
+.folio-reveal .folio-aiml.is-visible .folio-collage figure:nth-child(2) { animation-delay: .15s; }
+.folio-reveal .folio-aiml.is-visible .folio-collage figure:nth-child(3) { animation-delay: .3s; }
+.folio-reveal .folio-aiml.is-visible .folio-builds li { animation: motion-pop .6s var(--motion-ease) backwards; }
+.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(1) { animation-delay: .5s; }
+.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(2) { animation-delay: .56s; }
+.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(3) { animation-delay: .62s; }
+.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(4) { animation-delay: .68s; }
+.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(5) { animation-delay: .74s; }
+.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(6) { animation-delay: .8s; }
+
+/* Brains & Bots: the feed powers on, the brackets lock on, and the readouts come in one by one. */
+.folio-reveal .folio-brains.is-visible .folio-viewfinder { animation: folio-power-on 1.1s var(--motion-ease) backwards; }
+.folio-reveal .folio-brains:not(.is-visible) .vf-corners i:nth-child(1) { translate: -22px -22px; }
+.folio-reveal .folio-brains:not(.is-visible) .vf-corners i:nth-child(2) { translate: 22px -22px; }
+.folio-reveal .folio-brains:not(.is-visible) .vf-corners i:nth-child(3) { translate: -22px 22px; }
+.folio-reveal .folio-brains:not(.is-visible) .vf-corners i:nth-child(4) { translate: 22px 22px; }
+.folio-reveal .folio-brains.is-visible .vf-corners i { transition-delay: .55s; }
+.folio-reveal .folio-brains.is-visible .folio-telemetry > div { animation: motion-left .7s var(--motion-ease) backwards; }
+.folio-reveal .folio-brains.is-visible .folio-telemetry > div:nth-child(1) { animation-delay: .45s; }
+.folio-reveal .folio-brains.is-visible .folio-telemetry > div:nth-child(2) { animation-delay: .55s; }
+.folio-reveal .folio-brains.is-visible .folio-telemetry > div:nth-child(3) { animation-delay: .65s; }
+.folio-reveal .folio-brains.is-visible .folio-telemetry > div:nth-child(4) { animation-delay: .75s; }
+
+/* Looping details only run while the panel is on screen. */
+.folio-reveal .folio-brains.is-onscreen .vf-radar::after { animation: folio-sweep 3.2s linear infinite; }
+.folio-reveal .folio-brains.is-onscreen .vf-tag b { animation: folio-blink 1.4s steps(2, jump-none) infinite; }
+.folio-reveal .folio-brains.is-visible.is-onscreen .vf-scan { animation: folio-scan 5s ease-in-out .9s infinite; }
+
+@keyframes folio-year-in { from { opacity: 0; translate: 0 22%; } }
+@keyframes folio-fan { from { opacity: 0; rotate: 0deg; scale: .88; translate: var(--fan-x, 0) 40px; } }
+@keyframes folio-power-on { 0% { clip-path: inset(49.5% 0 49.5% 0); filter: brightness(3); opacity: 0; } 40% { clip-path: inset(49.5% 0 49.5% 0); filter: brightness(3); opacity: 1; } 100% { clip-path: inset(0 0 0 0); } }
+@keyframes folio-sweep { to { rotate: 1turn; } }
+@keyframes folio-blink { 50% { opacity: .15; } }
+@keyframes folio-scan { 0% { opacity: 0; translate: 0 0; } 10% { opacity: 1; } 55% { opacity: 1; translate: 0 440%; } 56%, 100% { opacity: 0; translate: 0 440%; } }
+
+/* ── Recap detail pages ── */
+.recap-hero { padding: 11rem 0 clamp(4rem, 7vw, 6rem); }
+.recap-hero .recap-back { align-items: center; color: var(--hack-soft-pink); display: inline-flex; font: 700 .76rem/1 var(--hack-mono); gap: .5rem; letter-spacing: .1em; margin-bottom: 2.2rem; text-decoration: none; text-transform: uppercase; }
+.recap-hero .recap-back:hover { color: #fff; }
+.recap-hero .recap-back span { font-family: inherit; }
+.recap-hero h1 { font-size: clamp(3.4rem, 7.2vw, 7rem); }
+.recap-page .hackathon-recap { padding-top: clamp(3.5rem, 6vw, 5rem); }
+.recap-page .recap-stats { margin-top: 0; }
+
+.recap-page-aiml .recap-hero { background: radial-gradient(circle at 82% 30%, rgba(255, 0, 230, .3), transparent 34%), linear-gradient(rgba(255, 0, 230, .07) 1px, transparent 1px) 0 0 / 48px 48px, linear-gradient(90deg, rgba(255, 0, 230, .07) 1px, transparent 1px) 0 0 / 48px 48px, #0b090b; }
+.recap-page-aiml .recap-hero::after { display: none; }
+.recap-page .recap-hero-mark { bottom: -.14em; color: transparent; font: 900 clamp(8rem, 26vw, 22rem)/.8 var(--font-display); letter-spacing: -.06em; pointer-events: none; position: absolute; right: -.03em; -webkit-text-stroke: 2px rgba(255, 0, 230, .22); }
+
+.recap-page-brains .recap-hero { background: radial-gradient(circle at 80% 30%, rgba(200, 205, 214, .12), transparent 34%), radial-gradient(circle at 15% 90%, rgba(163, 0, 147, .3), transparent 40%), #110e11; }
+.recap-page-brains .recap-hero::after { background: repeating-radial-gradient(circle at 82% 45%, transparent 0 46px, rgba(200, 205, 214, .08) 46px 47px); -webkit-mask-image: radial-gradient(circle at 82% 45%, #000 10%, transparent 60%); mask-image: radial-gradient(circle at 82% 45%, #000 10%, transparent 60%); opacity: 1; }
+.recap-page-brains .recap-hero .folio-hazard { inset: auto 0 0; }
+.recap-page-brains .hackathon-kicker, .recap-page-brains .recap-back { color: var(--brains-silver); }
+.recap-page-brains .hackathon-kicker { font-family: var(--hack-mono); }
+.recap-page-brains .solution-grid article { border-top: 2px solid var(--brains-silver); }
+.recap-page-brains .solution-grid span { color: var(--brains-silver); font-family: var(--hack-mono); }
+.recap-page-brains .photo-story-set > header span { color: var(--brains-silver); font-family: var(--hack-mono); }
+
+.recap-next { background: #0a090a; border-top: 1px solid rgba(255, 255, 255, .12); }
+.recap-next a { align-items: center; color: #fff; display: grid; gap: .5rem 2rem; grid-template-columns: 1fr auto; padding: clamp(3rem, 6vw, 4.5rem) 0; text-decoration: none; }
+.recap-next small { color: var(--hack-soft-pink); font: 700 .72rem/1 var(--hack-mono); grid-column: 1; letter-spacing: .14em; }
+.recap-page-brains .recap-next small { color: var(--brains-silver); }
+.recap-next strong { font-size: clamp(2rem, 4.4vw, 4rem); font-weight: 850; grid-column: 1; letter-spacing: -.045em; line-height: 1; }
+.recap-next strong span { color: var(--hack-pink); }
+.recap-next i { color: var(--hack-pink); font-size: clamp(2rem, 4vw, 3.4rem); font-style: normal; grid-column: 2; grid-row: 1 / span 2; transition: translate .35s var(--motion-ease, ease); }
+.recap-next a:hover i { translate: 10px 0; }
+.recap-next a:focus-visible { outline: 3px solid var(--hack-pink); outline-offset: 4px; }
+
+@media (max-width: 900px) {
+  .hack-folio { min-height: 0; }
+  .folio-layout { grid-template-columns: minmax(0, 1fr); }
+  .folio-brains .folio-viewfinder { order: 2; }
+  .folio-collage { aspect-ratio: auto; display: grid; gap: .8rem; grid-template-columns: 1fr 1fr; }
+  .folio-collage figure { position: relative; inset: auto; rotate: 0deg; width: auto; box-shadow: 8px 8px 0 rgba(181, 0, 168, .3); }
+  .folio-collage figure:nth-child(1) { grid-column: 1 / -1; left: auto; top: auto; rotate: 0deg; width: auto; }
+  .folio-collage figure:nth-child(2), .folio-collage figure:nth-child(3) { right: auto; top: auto; bottom: auto; rotate: 0deg; width: auto; }
+}
+
+@media (max-width: 520px) {
+  .folio-telemetry { grid-template-columns: 1fr 1fr; }
+  .hack-folio .folio-brief { font-size: .72rem; }
+}
+
+/* On phones the outlined year stays a background detail, clear of the intro text. */
+@media (max-width: 760px) {
+  .recap-page .recap-hero-mark { bottom: -.2em; font-size: 7.5rem; opacity: .55; }
+  .recap-page-aiml .recap-hero { padding-bottom: 6.5rem; }
+}

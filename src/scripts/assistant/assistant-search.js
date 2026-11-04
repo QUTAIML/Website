@@ -2,7 +2,7 @@ const TOKEN_PATTERN = /[\p{L}\p{N}]+(?:[+#.'-][\p{L}\p{N}+#.'-]+)*/gu;
 const MAX_RESULTS_TO_EVALUATE = 8;
 const LOCAL_SEARCH_PATHS = [
   "/", "/about/", "/team/", "/projects/sandbox/", "/about/faq/", "/about/community/", "/about/exec-application/",
-  "/about/history/", "/events/", "/projects/", "/hackathon/", "/partners/", "/contact/",
+  "/about/history/", "/events/", "/projects/", "/hackathon/", "/hackathon/aiml-2026/", "/hackathon/brains-and-bots/", "/partners/", "/contact/",
 ];
 
 // A compact set of grammatical and conversational terms. Domain words, names,

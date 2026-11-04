@@ -348,19 +348,70 @@ function initializeAssistant(root) {
     });
   }
 
-  function setOpen(open, restoreToggleFocus = false, moveFocus = true) {
-    panel.hidden = !open;
+  // The panel grows out of the button when it opens and folds back into it when it
+  // closes (see "Open and close" in assistant.css). data-assistant-state tracks
+  // opening → open → closing → closed so the CSS can stage each part.
+  let transitionToken = 0;
+  const isOpen = () => !panel.hidden && root.dataset.assistantState !== "closing";
+  const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function afterPanelAnimation(token, done) {
+    let isDone = false;
+    const finish = (event) => {
+      if (event && event.target !== panel) return;
+      panel.removeEventListener("animationend", finish);
+      if (isDone || token !== transitionToken) return;
+      isDone = true;
+      done();
+    };
+    panel.addEventListener("animationend", finish);
+    // A backstop in case the animation is skipped or interrupted.
+    window.setTimeout(finish, 900);
+  }
+
+  // The site header is fixed above everything, so the panel is sized to fit
+  // between the bottom of the header and the Ask AIML button (see assistant.css).
+  function measureHeaderClearance() {
+    const header = document.querySelector(".navbar");
+    const bottom = header ? header.getBoundingClientRect().bottom : 0;
+    root.style.setProperty("--assistant-header-clearance", `${Math.max(0, Math.round(bottom))}px`);
+  }
+
+  measureHeaderClearance();
+  window.addEventListener("resize", () => { if (!panel.hidden) measureHeaderClearance(); }, { passive: true });
+
+  function setOpen(open, restoreToggleFocus = false, moveFocus = true, animate = true) {
+    const token = ++transitionToken;
+    const shouldAnimate = animate && !prefersReducedMotion();
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close AIML Assistant" : "Open AIML Assistant");
     root.classList.toggle("is-open", open);
     writeSavedChat({ ...readSavedChat(), isOpen: open });
 
     if (open) {
-      if (moveFocus) input.focus();
+      measureHeaderClearance();
+      // The panel starts as a pill the size of the button, so it needs the button's width.
+      root.style.setProperty("--assistant-toggle-width", `${toggle.offsetWidth}px`);
+      root.style.setProperty("--assistant-toggle-height", `${toggle.offsetHeight}px`);
+      panel.hidden = false;
+      root.dataset.assistantState = shouldAnimate ? "opening" : "open";
+      if (shouldAnimate) afterPanelAnimation(token, () => { root.dataset.assistantState = "open"; });
+      if (moveFocus) input.focus({ preventScroll: true });
       scrollConversation(messages);
-    } else if (restoreToggleFocus) {
-      toggle.focus();
+      return;
     }
+
+    const finishClosing = () => {
+      panel.hidden = true;
+      root.dataset.assistantState = "closed";
+    };
+    if (shouldAnimate && !panel.hidden) {
+      root.dataset.assistantState = "closing";
+      afterPanelAnimation(token, finishClosing);
+    } else {
+      finishClosing();
+    }
+    if (restoreToggleFocus) toggle.focus();
   }
 
   function setBusy(busy) {
@@ -370,11 +421,11 @@ function initializeAssistant(root) {
     send.disabled = busy;
   }
 
-  toggle.addEventListener("click", () => setOpen(panel.hidden, !panel.hidden));
+  toggle.addEventListener("click", () => setOpen(!isOpen(), isOpen()));
   close.addEventListener("click", () => setOpen(false, true));
 
   root.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !panel.hidden) {
+    if (event.key === "Escape" && isOpen()) {
       event.preventDefault();
       setOpen(false, true);
     }
@@ -461,7 +512,7 @@ function initializeAssistant(root) {
   });
 
   renderSavedChat();
-  if (readSavedChat().isOpen && window.innerWidth >= OPEN_ON_NEW_PAGE_MIN_WIDTH) setOpen(true, false, false);
+  if (readSavedChat().isOpen && window.innerWidth >= OPEN_ON_NEW_PAGE_MIN_WIDTH) setOpen(true, false, false, false);
 }
 
 export function initializeWebsiteAssistants() {

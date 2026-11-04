@@ -23,3 +23,90 @@
 
 /* The pink hero line is text, not an icon: inherit the surrounding h1 typography. */
 .history-page h1 > span { font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
+
+/* ── Motion (src/scripts/about/history-motion.js) ──
+   Everything here is scoped to html.motion, which the layout only sets when the
+   visitor allows motion. Without it the page is shown exactly as designed above. */
+.history-entry { scroll-margin-top: 6rem; }
+
+/* The year links arrive one after another under the headline. */
+html.motion .history-hero-years a { animation: motion-rise .7s var(--motion-ease) backwards; }
+html.motion .history-hero-years a:nth-child(1) { animation-delay: .6s; }
+html.motion .history-hero-years a:nth-child(2) { animation-delay: .68s; }
+html.motion .history-hero-years a:nth-child(3) { animation-delay: .76s; }
+html.motion .history-hero-years a:nth-child(n+4) { animation-delay: .84s; }
+
+/* Each year lights up on the timeline as you reach its chapter. */
+html.motion .history-year-rail span { transform-origin: left center; transition: color .45s ease, scale .6s var(--motion-ease); }
+html.motion .history-entry.is-reached .history-year-rail span { color: var(--history-pink); scale: 1.3; }
+html.motion .history-year-rail i { transition: background-color .4s ease, box-shadow .4s ease; }
+html.motion .history-entry:not(.is-reached) .history-year-rail i { background: #3a2c38; }
+html.motion .history-entry.is-reached:not(.history-entry-current) .history-year-rail i { animation: history-ping 1s ease-out; box-shadow: 0 0 14px rgba(255, 0, 230, .55); }
+
+/* The rule under each chapter heading draws across as the chapter opens. */
+html.motion .history-entry-heading { border-bottom-color: transparent; position: relative; }
+html.motion .history-entry-heading::after { background: rgba(255, 255, 255, .16); bottom: -1px; content: ""; height: 1px; left: 0; position: absolute; right: 0; scale: 0 1; transform-origin: left; transition: scale 1.2s var(--motion-ease) .15s; }
+html.motion .history-entry.is-reached .history-entry-heading::after { scale: 1 1; }
+
+/* Team photos drift slightly against the scroll, and lean in on hover. */
+html.motion .history-photo img { scale: 1.1; transition: scale .8s var(--motion-ease); translate: 0 var(--history-shift, 0px); }
+html.motion .history-photo:hover img { scale: 1.14; }
+html.motion .history-photo figcaption { transition: letter-spacing .4s var(--motion-ease), color .3s ease; }
+html.motion .history-photo:hover figcaption { color: var(--history-soft); letter-spacing: .16em; }
+
+/* Inside each team card, the roles cascade in once the card is shown. */
+html.motion .history-portfolio:not(.is-shown) li { opacity: 0; }
+html.motion .history-portfolio.is-shown li { animation: history-row-in .6s var(--motion-ease) backwards; animation-delay: calc(.3s + min(var(--row, 0) * 70ms, 560ms)); }
+html.motion .history-portfolio { transition: border-color .3s ease, background-color .3s ease, translate .35s var(--motion-ease); }
+html.motion .history-portfolio:hover { background: #211c21; border-color: rgba(255, 139, 244, .38); translate: 0 -4px; }
+
+/* Co-founders: the number lights and the name underlines on hover. */
+html.motion .history-founders-grid li > span { transition: color .3s ease; }
+html.motion .history-founders-grid li:hover > span { color: var(--history-pink); }
+html.motion .history-founders-grid li a { background: linear-gradient(var(--history-pink), var(--history-pink)) left bottom / 0 1px no-repeat; transition: background-size .45s var(--motion-ease); }
+html.motion .history-founders-grid li a:is(:hover, :focus-visible) { background-size: 100% 1px; }
+
+/* The full-size photo viewer opens and closes smoothly. */
+html.motion .history-dialog[open] img { animation: history-zoom-in .5s var(--motion-ease); }
+html.motion .history-dialog[open]::backdrop { animation: history-fade .35s ease; }
+html.motion .history-dialog.is-closing img { animation: history-zoom-out .25s ease-in forwards; }
+html.motion .history-dialog.is-closing::backdrop { animation: history-fade .25s ease reverse forwards; }
+
+@keyframes history-ping { from { box-shadow: 0 0 0 0 rgba(255, 0, 230, .7); scale: 1.35; } to { box-shadow: 0 0 14px rgba(255, 0, 230, .55); } }
+@keyframes history-row-in { from { opacity: 0; translate: 0 10px; } }
+@keyframes history-zoom-in { from { opacity: 0; scale: .92; } }
+@keyframes history-zoom-out { to { opacity: 0; scale: .95; } }
+@keyframes history-fade { from { opacity: 0; } }
+.history-portfolio header span { white-space: nowrap; }
+
+/* ── "View the team" rosters (src/scripts/about/history-roster.js) ──
+   The button sits under each team photo; the roster below folds open and closed.
+   Without JavaScript the button stays hidden and every roster is shown. */
+.history-roster-toggle { align-items: center; background: #161317; border: 1px solid rgba(255, 255, 255, .12); border-radius: 999px; color: #fff; cursor: pointer; display: flex; font: inherit; gap: 1rem; justify-content: space-between; margin: 0 0 1.25rem; padding: .7rem .8rem .7rem 1.4rem; text-align: left; transition: border-color .25s ease, background-color .25s ease; width: 100%; }
+.history-roster-toggle[hidden] { display: none; }
+.history-roster-toggle:hover { background: #1d171d; border-color: rgba(255, 139, 244, .5); }
+.history-roster-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.history-roster-toggle-text { display: flex; flex-wrap: wrap; gap: .2rem 1rem; align-items: baseline; }
+.history-page .history-roster-toggle b { color: #fff; font: 800 .98rem/1.2 var(--font-body); letter-spacing: -.01em; }
+.history-page .history-roster-toggle small { color: #bcb2bb; font-size: .78rem; }
+/* A round plus that turns into a minus. */
+.history-roster-toggle i { background: var(--history-pink); border-radius: 50%; flex: none; height: 2.3rem; position: relative; width: 2.3rem; }
+.history-roster-toggle i::before, .history-roster-toggle i::after { background: #22001e; border-radius: 2px; content: ""; height: 2px; left: 50%; position: absolute; top: 50%; translate: -50% -50%; width: .85rem; }
+.history-roster-toggle i::after { rotate: 90deg; transition: rotate .4s cubic-bezier(.16, 1, .3, 1), opacity .3s ease; }
+.history-roster-toggle[aria-expanded="true"] i::after { opacity: 0; rotate: 0deg; }
+.history-roster-toggle[aria-expanded="true"] { border-color: rgba(255, 139, 244, .38); }
+
+.history-roster.is-collapsible { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s cubic-bezier(.16, 1, .3, 1), visibility 0s linear .6s; visibility: hidden; }
+.history-roster.is-collapsible.is-open { grid-template-rows: 1fr; transition: grid-template-rows .6s cubic-bezier(.16, 1, .3, 1); visibility: visible; }
+.history-roster.is-collapsible > .history-portfolio-grid { min-height: 0; overflow: hidden; }
+/* Room for the cards' hover lift inside the clipped roster. */
+.history-roster.is-collapsible.is-open > .history-portfolio-grid { padding-top: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .history-roster.is-collapsible, .history-roster.is-collapsible.is-open, .history-roster-toggle i::after { transition: none; }
+}
+
+@media (max-width: 650px) {
+  .history-roster-toggle { padding-left: 1.1rem; }
+  .history-roster-toggle-text { flex-direction: column; gap: .15rem; }
+}

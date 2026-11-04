@@ -79,7 +79,8 @@
   .hackathon-lightbox-next { grid-column: 2; grid-row: 2; justify-self: end; right: auto; }
 }
 
-/* Gradient descent on a loss landscape, faded out behind the hero text. */
+/* A training-loss chart drawing itself behind the headline
+   (src/scripts/hackathon/training-curves.js). Fades out under the text. */
 .hackathon-hero { overflow: hidden; }
-.loss-landscape { height: 100%; inset: 0; pointer-events: none; position: absolute; width: 100%; -webkit-mask-image: linear-gradient(to right, transparent 22%, rgba(0,0,0,.35) 45%, #000 68%); mask-image: linear-gradient(to right, transparent 22%, rgba(0,0,0,.35) 45%, #000 68%); }
-@media (max-width: 760px) { .loss-landscape { opacity: .55; -webkit-mask-image: linear-gradient(to right, transparent, #000 80%); mask-image: linear-gradient(to right, transparent, #000 80%); } }
+.training-curves { height: 100%; inset: 0; pointer-events: none; position: absolute; width: 100%; -webkit-mask-image: linear-gradient(to right, transparent 30%, rgba(0,0,0,.5) 50%, #000 72%); mask-image: linear-gradient(to right, transparent 30%, rgba(0,0,0,.5) 50%, #000 72%); }
+@media (max-width: 760px) { .training-curves { opacity: .45; -webkit-mask-image: linear-gradient(to right, transparent 5%, #000 80%); mask-image: linear-gradient(to right, transparent 5%, #000 80%); } }

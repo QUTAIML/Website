@@ -56,7 +56,7 @@ const image = await loadImages();
                 <select id="event-type-filter" class="event-filter-select" aria-label="Filter by event type">
                   {types.map((type) => <option value={type}>{type === "All" ? "All types" : `${type} (${eventsBySemester.filter((event) => (event.type ?? event.category ?? "Other") === type).length})`}</option>)}
                 </select>
-                <select id="event-when-filter" class="event-filter-select" aria-label="Show all, upcoming or past events" hidden>
+                <select id="event-when-filter" class="event-filter-select" aria-label="Show all, upcoming or past events">
                   <option value="all">All dates</option>
                   <option value="upcoming">Upcoming</option>
                   <option value="past">Past</option>

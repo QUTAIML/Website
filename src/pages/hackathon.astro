@@ -7,13 +7,13 @@ import "@/styles/hackathon-folio.css";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 const [aimlHackathon, brainsHackathon] = site.hackathons;
 const image = await loadImages();
-const aimlBuilds = ["CanvAssist", "Course2Career", "Clarity", "FuelFlow", "Neurovox", "Roadify"];
 ---
 
 <ContentLayout title="Hackathon Recaps | QUT AI & ML Society">
   <div class="hackathon-page">
     <header class="hackathon-hero" aria-labelledby="hackathon-title">
-      <canvas class="loss-landscape" id="loss-landscape" aria-hidden="true"></canvas>
+      <!-- A training-loss chart drawing itself behind the headline. -->
+      <canvas class="training-curves" id="training-curves" aria-hidden="true"></canvas>
       <div class="hackathon-shell"><p class="hackathon-kicker">QUT AI &amp; ML SOCIETY</p><h1 id="hackathon-title">Hackathons made<br /><span>to move ideas.</span></h1><p>This is where AIML celebrates its past hackathons. Our next hackathon is coming in Semester 1, 2027. Keep an eye on this page for more details.</p></div>
     </header>
 
@@ -30,13 +30,12 @@ const aimlBuilds = ["CanvAssist", "Course2Career", "Clarity", "FuelFlow", "Neuro
             <h2 id="folio-aiml-title">The AIML<br /><span>Hackathon 2026.</span></h2>
             <p class="folio-lede">A build sprint for practical ideas. Teams turned everyday student and community challenges into working AI products in just a few days.</p>
             <div class="folio-stats"><div><strong>{aimlHackathon.participants}</strong><span>participants</span></div><div><strong>{aimlHackathon.teams}</strong><span>teams</span></div><p class="folio-badge"><b>QUT’s biggest</b> standalone student club hackathon to date</p></div>
-            <ul class="folio-builds" aria-label="Some of the projects built">{aimlBuilds.map((name) => <li>{name}</li>)}</ul>
             <a class="folio-cta" href="/hackathon/aiml-2026">View full recap <span aria-hidden="true">→</span></a>
           </div>
           <div class="folio-collage">
             <figure style="--fan-x: 30%"><img src={image("images/hackathon-aiml-2026-1.jpeg")} alt="AIML Hackathon participants gathered in the QUT atrium" loading="lazy" /><figcaption>// kickoff</figcaption></figure>
             <figure style="--fan-x: -30%"><img src={image("images/hackathon-aiml-2026-5.jpg")} alt="AIML Hackathon team collaborating around a laptop" loading="lazy" /><figcaption>// build</figcaption></figure>
-            <figure style="--fan-x: -20%"><img src={image("images/hackathon-aiml-2026-3.jpg")} alt="AIML Hackathon teams presenting projects at the exhibition" loading="lazy" /><figcaption>// demo day</figcaption></figure>
+            <figure style="--fan-x: -20%"><img src={image("images/hackathon-aiml-2026-3.jpg")} alt="AIML Hackathon teams presenting projects at the exhibition" loading="lazy" /><figcaption>// project exhibition</figcaption></figure>
           </div>
         </div>
       </section>
@@ -68,10 +67,10 @@ const aimlBuilds = ["CanvAssist", "Course2Career", "Clarity", "FuelFlow", "Neuro
         </div>
       </section>
 
-      <PhotoBreak src="images/hackathon-aiml-2026-3.jpg" alt="Teams presenting projects at the AIML Hackathon exhibition" label="DEMO DAY" line="Rough concepts," accent="real demos." />
+      <PhotoBreak src="images/hackathon-aiml-2026-3.jpg" alt="Teams presenting projects at the AIML Hackathon exhibition" label="PROJECT EXHIBITION" line="Rough concepts," accent="real demos." />
     </main>
   </div>
 
-  <script>import "@/scripts/hackathon/loss-landscape.js";</script>
+  <script>import "@/scripts/hackathon/training-curves.js";</script>
   <script>import "@/scripts/hackathon/folio.js";</script>
 </ContentLayout>

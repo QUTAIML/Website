@@ -1297,7 +1297,11 @@ html.motion .calendar-details > * { animation: calendar-detail-in .28s ease both
   .calendar-weekdays span { font-size: .62rem; letter-spacing: 0; }
   .calendar-day { align-items: center; height: 3rem; padding: .4rem .1rem; text-align: center; }
   .event-filter-bar .search-wrapper { flex-basis: 100%; max-width: none; }
-  .event-filter-select { flex: 1 1 0; min-width: 0; }
+  /* Filters share a row of their own (one or two of them, depending on the view), and
+     the Calendar / List switch takes the full row below, so nothing gets squeezed. */
+  .event-filter-select { flex: 1 1 calc(50% - .3rem); min-height: 2.8rem; min-width: 0; text-overflow: ellipsis; }
+  .events-page .event-filter-bar .event-view-toggle { display: flex; flex: 1 1 100%; margin-left: 0; }
+  .events-page .event-filter-bar .event-view-toggle button { flex: 1; min-height: 2.8rem; }
   .events-page { --events-list-height: 42.5rem; }
   .event-list-date, .event-row { padding-inline: 1rem; }
   .event-row, .events-list.is-grouped .event-row { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "dot title" ". time" ". meta"; }

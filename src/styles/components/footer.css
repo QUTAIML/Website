@@ -41,9 +41,16 @@ html.motion .site-footer::before {
   gap: 1.1rem;
 }
 
+/* The logo file has empty space around its artwork (14.6% of its width on the left,
+   about 14% of its height above and below), so it is offset by that much: the visible
+   logo then lines up with "Become a member" below it and with the top of the columns
+   (the left offset is a touch less than the empty space, since the faint dots at the
+   logo's far edge read as lighter than the letters). */
 .footer-logo {
-  width: clamp(210px, 23vw, 300px);
+  --footer-logo-width: clamp(290px, 32vw, 430px);
+  width: var(--footer-logo-width);
   height: auto;
+  margin: calc(var(--footer-logo-width) * -0.051) 0 calc(var(--footer-logo-width) * -0.053) calc(var(--footer-logo-width) * -0.13);
 }
 
 .footer-cta {

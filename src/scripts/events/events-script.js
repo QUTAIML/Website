@@ -46,12 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return eventRows;
   }
 
-  // The calendar shows past and upcoming events together, so "Show" only applies to the list.
-  function matchesSortFilter(date) {
-    if (currentView === 'calendar') return true;
+  // "Upcoming" and "Past" apply to both the list and the calendar. An event counts as
+  // upcoming until its last day has passed, so one that is running today is upcoming.
+  function matchesSortFilter(endDate) {
     const today = new Date(); today.setHours(0, 0, 0, 0);
-    if (currentSort === 'upcoming') return date >= today;
-    if (currentSort === 'past') return date < today;
+    if (currentSort === 'upcoming') return endDate >= today;
+    if (currentSort === 'past') return endDate < today;
     return true;
   }
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const title = card.dataset.title;
       const excerpt = card.querySelector('p')?.textContent.toLowerCase() || '';
       const type = card.dataset.type;
-      const date = new Date(card.dataset.date); date.setHours(0,0,0,0);
+      const endDate = new Date(card.dataset.endDate || card.dataset.date); endDate.setHours(0, 0, 0, 0);
 
       const matchesQuery =
         !query || title.includes(query) || excerpt.includes(query);
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return (
         matchesQuery &&
         matchesType &&
-        matchesSortFilter(date)
+        matchesSortFilter(endDate)
       );
     });
 
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function isFiltering() {
-    return typeFilter.value !== 'All' || searchInput.value.trim() !== '';
+    return typeFilter.value !== 'All' || searchInput.value.trim() !== '' || currentSort !== 'all';
   }
 
   // The matching events in date order, for stepping through them with the arrows.
@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
     calendarPrevious.setAttribute('aria-label', filtering ? 'Show previous matching event' : 'Show previous month');
     calendarNext.setAttribute('aria-label', filtering ? 'Show next matching event' : 'Show next month');
 
-    const label = typeFilter.value !== 'All' ? typeFilter.value : 'Match';
+    const label = typeFilter.value !== 'All' ? typeFilter.value : currentSort === 'upcoming' ? 'Upcoming' : currentSort === 'past' ? 'Past' : 'Match';
     const position = starts.indexOf(selectedDate) + 1;
     calendarPosition.hidden = !filtering || starts.length === 0;
     calendarPosition.textContent = position ? `${label} ${position} of ${starts.length}` : `${starts.length} matching`;
@@ -327,7 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
     calendarViewButton.classList.toggle('active', showCalendar);
     listViewButton.setAttribute('aria-pressed', String(!showCalendar));
     calendarViewButton.setAttribute('aria-pressed', String(showCalendar));
-    whenFilter.hidden = showCalendar;
     applyFilters();
   }
 
@@ -389,7 +388,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (totalPages <= 1) return;
 
-    const isMobile = window.innerWidth < 768;
 
     const createBtn = (label, page, disabled = false, active = false) => {
       const btn = document.createElement('button');
@@ -408,20 +406,11 @@ document.addEventListener("DOMContentLoaded", () => {
       createBtn('Prev', currentPage - 1, currentPage === 1)
     );
 
-    if (isMobile) {
-      [currentPage - 1, currentPage, currentPage + 1]
-        .filter(p => p >= 1 && p <= totalPages)
-        .forEach(p => {
-          paginationContainer.appendChild(
-            createBtn(p, p, false, p === currentPage)
-          );
-        });
-    } else {
-      for (let i = 1; i <= totalPages; i++) {
-        paginationContainer.appendChild(
-          createBtn(i, i, false, i === currentPage)
-        );
-      }
+    // Three page numbers at most, on every screen: the current page with one either
+    // side, kept three wide at the ends (1 2 3 on the first page, the last three on the last).
+    const first = Math.max(1, Math.min(currentPage - 1, totalPages - 2));
+    for (let page = first; page <= Math.min(totalPages, first + 2); page += 1) {
+      paginationContainer.appendChild(createBtn(page, page, false, page === currentPage));
     }
 
     paginationContainer.appendChild(

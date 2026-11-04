@@ -599,7 +599,9 @@ footer {
 :is(main, [data-pagefind-body]) h2:not(.faq-list h2, .exec-hero h2, .history-entry-heading h2) { font-size: clamp(2.2rem, 4.4vw, 4.2rem) !important; }
 
 :is(.hero-proof, .archive-stats, .now-stats, .recap-stats, .history-count) strong,
-:is(.event-hero-facts, .project-hero-facts, .team-hero-facts) strong {
+:is(.event-hero-facts, .project-hero-facts, .team-hero-facts) strong,
+.folio-stats strong,
+.folio-telemetry dd {
   font-family: var(--font-display);
   letter-spacing: -.02em !important;
 }
@@ -608,3 +610,60 @@ footer {
 main:is(.projects-page, .connect-page, .faq-page, .community-page, .exec-page, .history-page, .hackathon-recaps, .hackathon-folios) { padding-inline: 0; }
 main:is(.faq-page, .community-page, .exec-page) { margin-top: 0; }
 main:is(.faq-page, .community-page, .exec-page, .projects-page, .connect-page, .hackathon-recaps, .hackathon-folios) { padding-top: 0 !important; }
+
+/* ── Page headers on phones ──
+   The fixed navbar is 108px tall on phones, and each page's header used to start
+   its text a different distance below it (some were even hidden behind it). Every
+   header now starts its first line of text the same distance below the navbar.
+   Some pages place their header 120px higher or lower than others (their own
+   offsets to the 6rem main padding), so those are corrected here too. Below 760px
+   is where the pages switch to their phone layouts. */
+@media (max-width: 760px) {
+  :root { --mobile-nav-height: 108px; --mobile-header-gap: 44px; --mobile-header-top: calc(var(--mobile-nav-height) + var(--mobile-header-gap)); }
+
+  :is(.aiml-hero, .events-hero, .projects-hero, .hackathon-hero, .connect-hero, .community-hero, .exec-hero, .faq-hero, .history-hero) { padding-top: var(--mobile-header-top) !important; }
+  /* These two sit 120px above the top of the page. */
+  .team-hero { padding-top: calc(var(--mobile-header-top) + 120px) !important; }
+  .about-hero { padding-top: calc(var(--mobile-header-top) + 120px - 27px) !important; }
+  /* This one sits 120px below it. */
+  .partner-hero { padding-top: calc(var(--mobile-header-top) - 120px) !important; }
+  /* Headers that bottom-align or split their text start it at the top instead. */
+  .about-hero { align-items: flex-start !important; }
+  .community-hero .community-shell { align-items: start !important; gap: 1.5rem !important; grid-template-columns: 1fr !important; }
+}
+
+/* ── Page header type ──
+   Every page opens with the same three pieces: a small pink subheading, the title
+   (styled above), and an intro paragraph. Pages used to set the subheading and intro
+   in different fonts, sizes and pinks; these rules make them identical everywhere. */
+:is(.aiml-hero .kicker, .about-hero .about-kicker, .team-hero .about-kicker, .events-hero .events-kicker, .projects-hero .projects-kicker, .hackathon-hero .hackathon-kicker, .partner-hero .partner-eyebrow, .connect-hero .connect-kicker, .community-hero .community-shell > p, .exec-hero .exec-shell > p, .faq-hero .faq-shell > p:first-of-type, .history-hero .history-kicker) {
+  color: #ff00e6 !important;
+  font-family: var(--font-body) !important;
+  font-size: .72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: .16em !important;
+  line-height: 1.5 !important;
+  text-transform: uppercase;
+}
+
+:is(.aiml-hero .hero-lede, .about-hero .about-hero-content > p:not(.about-kicker), .team-hero .team-hero-lede, .events-hero .events-hero-intro, .projects-hero .projects-intro, .hackathon-hero .hackathon-shell > p:not(.hackathon-kicker), .partner-hero .partner-lede p, .connect-hero .connect-hero-copy > p, .community-hero .community-shell > div > p, .exec-hero .exec-shell > div > p, .faq-hero .faq-shell > p:not(:first-of-type), .history-hero .history-shell > p:not(.history-kicker)) {
+  color: #ddd3dc !important;
+  font-family: var(--font-body) !important;
+  font-size: clamp(1rem, 1.5vw, 1.08rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+  line-height: 1.65 !important;
+}
+
+/* ── Square pointer ──
+   A translucent "black glass" square with a glowing hot-pink centre replaces the arrow
+   for a mouse; over anything clickable the glass takes a pink tint and edge and the
+   pink centre grows. Both images are in public/cursors/. Clicks land at the centre.
+   Text fields keep the normal text cursor, and touch screens are unaffected. */
+@media (hover: hover) and (pointer: fine) {
+  html, body, * { cursor: url("/cursors/square.svg") 14 14, default; }
+  :is(a, button, summary, label[for], select, [role="button"], [role="tab"], [onclick], .calendar-day, .pagination-btn, input[type="checkbox"], input[type="radio"], input[type="submit"]),
+  :is(a, button, summary, [role="button"]) * { cursor: url("/cursors/square-link.svg") 16 16, pointer !important; }
+  :is(input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"]), textarea, [contenteditable="true"]) { cursor: text !important; }
+  :disabled, [aria-disabled="true"] { cursor: url("/cursors/square.svg") 14 14, not-allowed !important; }
+}

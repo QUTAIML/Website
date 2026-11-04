@@ -35,10 +35,6 @@
 .hack-folio .folio-badge { border-left: 2px solid var(--hack-pink); color: #cbc1ca; font-size: .82rem; line-height: 1.4; margin: 0; max-width: 13rem; padding-left: .8rem; }
 .hack-folio .folio-badge b { color: var(--hack-soft-pink); display: block; font-size: 1rem; }
 
-.folio-builds { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 1.6rem 0 0; padding: 0; }
-.folio-builds li { background: rgba(255, 0, 230, .06); border: 1px solid rgba(255, 139, 244, .32); border-radius: 999px; color: #f6c8f0; font: 600 .76rem/1 var(--hack-mono); padding: .45rem .8rem; }
-.folio-builds li::before { color: var(--hack-pink); content: "<"; }
-.folio-builds li::after { color: var(--hack-pink); content: " />"; }
 
 .folio-aiml .folio-cta { background: var(--hack-pink); border-radius: 999px; color: #230020; padding: .9rem 1.5rem; }
 .folio-aiml .folio-cta:hover { background: #fff; }
@@ -105,14 +101,7 @@
 .folio-reveal .folio-aiml.is-visible .folio-collage figure { animation: folio-fan 1.1s var(--motion-ease) backwards; }
 .folio-reveal .folio-aiml.is-visible .folio-collage figure:nth-child(2) { animation-delay: .15s; }
 .folio-reveal .folio-aiml.is-visible .folio-collage figure:nth-child(3) { animation-delay: .3s; }
-.folio-reveal .folio-aiml.is-visible .folio-builds li { animation: motion-pop .6s var(--motion-ease) backwards; }
-.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(1) { animation-delay: .5s; }
-.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(2) { animation-delay: .56s; }
-.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(3) { animation-delay: .62s; }
-.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(4) { animation-delay: .68s; }
-.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(5) { animation-delay: .74s; }
-.folio-reveal .folio-aiml.is-visible .folio-builds li:nth-child(6) { animation-delay: .8s; }
-
+.folio-reveal .folio-aiml.is-visible .folio-reveal .folio-aiml.is-visible .folio-reveal .folio-aiml.is-visible .folio-reveal .folio-aiml.is-visible .folio-reveal .folio-aiml.is-visible .folio-reveal .folio-aiml.is-visible .folio-reveal .folio-aiml.is-visible 
 /* Brains & Bots: the feed powers on, the brackets lock on, and the readouts come in one by one. */
 .folio-reveal .folio-brains.is-visible .folio-viewfinder { animation: folio-power-on 1.1s var(--motion-ease) backwards; }
 .folio-reveal .folio-brains:not(.is-visible) .vf-corners i:nth-child(1) { translate: -22px -22px; }

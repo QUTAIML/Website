@@ -33,8 +33,10 @@ export async function GET() {
       year: team.year,
       groups: team.groups.map((group) => ({
         title: group.title,
+        // Everyone on the published record, including people who held a role for one
+        // semester ("(S1)"/"(S2)"). showOnAbout only hides someone from the current
+        // team's photo cards; the history page still lists them, so the assistant does too.
         members: group.items
-          .filter((member) => member.showOnAbout !== false)
           .map(({ role, name, linkedin, degree }) => ({ role, name, linkedin: linkedin ?? null, degree: degree ?? null })),
       })),
     })),

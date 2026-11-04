@@ -184,3 +184,9 @@
   .folio-telemetry { grid-template-columns: 1fr 1fr; }
   .hack-folio .folio-brief { font-size: .72rem; }
 }
+
+/* On phones the outlined year stays a background detail, clear of the intro text. */
+@media (max-width: 760px) {
+  .recap-page .recap-hero-mark { bottom: -.2em; font-size: 7.5rem; opacity: .55; }
+  .recap-page-aiml .recap-hero { padding-bottom: 6.5rem; }
+}

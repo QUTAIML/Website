@@ -27,7 +27,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }, { rootMargin: "0px 0px -18% 0px" });
 
-    groups.forEach((group) => revealer.observe(group));
+    // The emblems' slow idle details only run while their team is on screen.
+    const onscreen = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => target.classList.toggle("is-onscreen", isIntersecting));
+    });
+
+    groups.forEach((group) => {
+      revealer.observe(group);
+      onscreen.observe(group);
+    });
   }
 
   function update() {

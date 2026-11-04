@@ -465,3 +465,135 @@ a.assistant-list-label {
 .assistant-clear:hover,
 .assistant-clear:focus-visible { border-color: #ff8bf4; color: #ff8bf4; }
 .assistant-clear[hidden] { display: none; }
+
+/* ----------------------------- */
+/*        OPEN AND CLOSE         */
+/* ----------------------------- */
+
+/* assistant-ui.js sets data-assistant-state to opening → open → closing → closed.
+   Opening: the panel grows out of the button as a pill and unfolds into the full
+   panel, then its header, conversation and input arrive in order. Closing: the
+   contents fade and the panel folds back into the button. The button swaps its
+   chat icon and label for a close icon and "Close" while the panel is open.
+   Everything that moves is inside prefers-reduced-motion: no-preference. */
+
+.website-assistant { --assistant-ease: cubic-bezier(.16, 1, .3, 1); }
+
+/* The button's icon and label are stacked so they can swap in place. */
+.assistant-toggle { position: relative; }
+.assistant-toggle-icon,
+.assistant-toggle-text { display: grid; }
+.assistant-toggle-icon > svg,
+.assistant-toggle-text > span { grid-area: 1 / 1; }
+.assistant-toggle-text { overflow: hidden; }
+.assistant-toggle-text > span:last-child { text-align: center; }
+.assistant-toggle-x,
+.assistant-toggle-text > span:last-child { opacity: 0; }
+.website-assistant.is-open .assistant-toggle-chat,
+.website-assistant.is-open .assistant-toggle-text > span:first-child { opacity: 0; }
+.website-assistant.is-open .assistant-toggle-x,
+.website-assistant.is-open .assistant-toggle-text > span:last-child { opacity: 1; }
+.website-assistant.is-open .assistant-toggle { border-color: var(--assistant-accent); background: linear-gradient(135deg, #3a1534, #17101a 70%); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .assistant-panel { transform-origin: bottom right; }
+
+  /* ── The panel ── */
+  .website-assistant[data-assistant-state="opening"] .assistant-panel { animation: assistant-unfold .68s var(--assistant-ease) both; }
+  .website-assistant[data-assistant-state="closing"] .assistant-panel { animation: assistant-unfold .42s cubic-bezier(.55, 0, .8, .2) reverse both; pointer-events: none; }
+
+  /* A soft pink glow washes in from the panel edges as it lands (inset, since the panel clips its overflow). */
+  .website-assistant[data-assistant-state="opening"] .assistant-panel::after { animation: assistant-bloom 1.1s ease-out .2s both; border-radius: inherit; content: ""; inset: 0; pointer-events: none; position: absolute; z-index: -1; }
+
+  /* The accent line sweeps across the top. */
+  .assistant-panel::before { transform-origin: left; }
+  .website-assistant[data-assistant-state="opening"] .assistant-panel::before { animation: assistant-sweep .9s var(--assistant-ease) .18s both; }
+
+  /* Header, then conversation, then input. */
+  .website-assistant[data-assistant-state="opening"] .assistant-header > * { animation: assistant-drop .55s var(--assistant-ease) .2s backwards; }
+  .website-assistant[data-assistant-state="opening"] .assistant-header > :nth-child(2) { animation-delay: .26s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-header > :nth-child(3) { animation-delay: .3s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-mark { animation: assistant-drop .55s var(--assistant-ease) .2s backwards, assistant-mark-glow 1.4s ease-out .45s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-form { animation: assistant-lift .6s var(--assistant-ease) .32s backwards; }
+
+  .website-assistant[data-assistant-state="closing"] :is(.assistant-header, .assistant-messages, .assistant-form) { animation: assistant-fade-out .18s ease forwards; }
+
+  /* ── Messages ──
+     Each message slides in from its own side when it is added. On opening, the
+     latest few cascade in after the panel has unfolded. */
+  .assistant-message { animation: assistant-message-in .5s var(--assistant-ease) backwards; }
+  .assistant-message--user { animation-name: assistant-message-in-user; }
+  .website-assistant[data-assistant-state="opening"] .assistant-message { animation-delay: .22s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-message:nth-last-child(3) { animation-delay: .28s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-message:nth-last-child(2) { animation-delay: .34s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-message:nth-last-child(1) { animation-delay: .4s; }
+
+  .assistant-suggestion { animation: assistant-chip-in .45s var(--assistant-ease) backwards; animation-delay: .12s; }
+  .assistant-suggestion:nth-child(2) { animation-delay: .17s; }
+  .assistant-suggestion:nth-child(3) { animation-delay: .22s; }
+  .assistant-suggestion:nth-child(n+4) { animation-delay: .27s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-suggestion { animation-delay: .5s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-suggestion:nth-child(2) { animation-delay: .56s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-suggestion:nth-child(3) { animation-delay: .62s; }
+  .website-assistant[data-assistant-state="opening"] .assistant-suggestion:nth-child(n+4) { animation-delay: .68s; }
+
+  /* ── The button ── */
+  .assistant-toggle { transition: border-color .3s ease, background-color .3s ease, transform .3s var(--assistant-ease); }
+  .assistant-toggle:active { transform: scale(.96); }
+  .assistant-toggle-icon > svg { transition: opacity .3s ease, rotate .5s var(--assistant-ease), scale .5s var(--assistant-ease); }
+  .assistant-toggle-x { rotate: -90deg; scale: .5; }
+  .website-assistant.is-open .assistant-toggle-chat { rotate: 90deg; scale: .5; }
+  .website-assistant.is-open .assistant-toggle-x { rotate: 0deg; scale: 1; }
+  .assistant-toggle-text > span { transition: opacity .3s ease, translate .45s var(--assistant-ease); }
+  .assistant-toggle-text > span:last-child { translate: 0 100%; }
+  .website-assistant.is-open .assistant-toggle-text > span:first-child { translate: 0 -100%; }
+  .website-assistant.is-open .assistant-toggle-text > span:last-child { translate: 0 0; }
+
+  /* A ring ripples out of the button as it opens or closes the panel. */
+  .assistant-toggle::after { border: 1px solid var(--assistant-accent); border-radius: inherit; content: ""; inset: -1px; opacity: 0; pointer-events: none; position: absolute; }
+  .website-assistant[data-assistant-state="opening"] .assistant-toggle::after { animation: assistant-ripple .8s ease-out; }
+  .website-assistant[data-assistant-state="closing"] .assistant-toggle::after { animation: assistant-ripple-in .5s ease-out; }
+}
+
+/* The pill starts exactly over the button (it sits one gap below the panel). */
+@keyframes assistant-unfold {
+  0% {
+    clip-path: inset(calc(100% - var(--assistant-toggle-height, 2.8rem)) 0 0 calc(100% - var(--assistant-toggle-width, 8.5rem)) round 999px);
+    opacity: .4;
+    translate: 0 calc(var(--assistant-toggle-height, 2.8rem) + .7rem);
+  }
+  35% { opacity: 1; }
+  100% { clip-path: inset(0 0 0 0 round 1rem); opacity: 1; translate: 0 0; }
+}
+@keyframes assistant-bloom { 0% { box-shadow: inset 0 0 0 0 rgba(255, 0, 230, 0); } 35% { box-shadow: inset 0 0 3rem .2rem rgba(255, 0, 230, .22); } 100% { box-shadow: inset 0 0 0 0 rgba(255, 0, 230, 0); } }
+@keyframes assistant-sweep { from { scale: 0 1; } }
+@keyframes assistant-drop { from { opacity: 0; translate: 0 -8px; } }
+@keyframes assistant-lift { from { opacity: 0; translate: 0 12px; } }
+@keyframes assistant-fade-out { to { opacity: 0; } }
+@keyframes assistant-mark-glow { 0% { box-shadow: 0 0 0 0 rgba(255, 139, 244, .7); } 100% { box-shadow: 0 0 0 10px rgba(255, 139, 244, 0); } }
+@keyframes assistant-message-in { from { opacity: 0; translate: -14px 6px; } }
+@keyframes assistant-message-in-user { from { opacity: 0; translate: 14px 6px; } }
+@keyframes assistant-chip-in { from { opacity: 0; scale: .9; translate: 0 6px; } }
+@keyframes assistant-ripple { 0% { opacity: .8; scale: 1; } 100% { opacity: 0; scale: 1.35 1.8; } }
+@keyframes assistant-ripple-in { 0% { opacity: 0; scale: 1.3 1.7; } 60% { opacity: .6; } 100% { opacity: 0; scale: 1; } }
+
+/* ── Fit below the site header ──
+   The header is fixed above the panel, so the panel's height is whatever is left
+   between the header (measured into --assistant-header-clearance by assistant-ui.js)
+   and the space taken by the button underneath (--assistant-below: the bottom
+   offset, the button and the gap above it), less a small margin. */
+.website-assistant { --assistant-below: calc(max(1.25rem, env(safe-area-inset-bottom)) + 2.8rem + .7rem); }
+
+.assistant-panel {
+  height: min(560px, calc(100dvh - var(--assistant-header-clearance, 5.5rem) - var(--assistant-below) - .9rem));
+  min-height: min(320px, calc(100dvh - var(--assistant-header-clearance, 5.5rem) - var(--assistant-below) - .9rem));
+}
+
+@media (max-width: 40rem) {
+  .website-assistant { --assistant-below: calc(max(.7rem, env(safe-area-inset-bottom)) + 2.8rem + .7rem); }
+
+  .assistant-panel {
+    height: min(520px, calc(100dvh - var(--assistant-header-clearance, 6.75rem) - var(--assistant-below) - .7rem));
+    min-height: min(300px, calc(100dvh - var(--assistant-header-clearance, 6.75rem) - var(--assistant-below) - .7rem));
+  }
+}

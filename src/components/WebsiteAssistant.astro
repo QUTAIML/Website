@@ -84,11 +84,17 @@ import "@/styles/components/assistant.css";
     aria-expanded="false"
     aria-label="Open AIML Assistant"
   >
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M7 18.5 3.5 21v-5.2A8.5 8.5 0 1 1 7 18.5Z" />
-      <path d="M8 10h8M8 14h5" />
-    </svg>
-    <span>Ask AIML</span>
+    <span class="assistant-toggle-icon" aria-hidden="true">
+      <svg class="assistant-toggle-chat" viewBox="0 0 24 24">
+        <path d="M7 18.5 3.5 21v-5.2A8.5 8.5 0 1 1 7 18.5Z" />
+        <path d="M8 10h8M8 14h5" />
+      </svg>
+      <svg class="assistant-toggle-x" viewBox="0 0 24 24">
+        <path d="M7 7l10 10M17 7 7 17" />
+      </svg>
+    </span>
+    <!-- The button's aria-label names its action; these labels swap visually when the panel opens. -->
+    <span class="assistant-toggle-text" aria-hidden="true"><span>Ask AIML</span><span>Close</span></span>
   </button>
 </div>
 

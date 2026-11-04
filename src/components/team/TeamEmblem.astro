@@ -1,0 +1,94 @@
+---
+// TeamEmblem.astro
+// A small line-art emblem for each team, drawn in silver and pink.
+// It shows as a still drawing by default; team.css animates it (draw-in once,
+// then a slow idle detail) only when motion is allowed. See "Team emblems" in team.css.
+//   Admin      → a checklist being ticked off (operations)
+//   Projects   → a terminal with code typing in (technical builds)
+//   Education  → a presentation board plotting a learning curve (workshops)
+//   Growth     → bars rising with a trend line and reach ripples (marketing, engagement)
+//   Industry   → a partner network with signals passing along links
+//   Chief Returning Officers → a compass needle settling (advisory, direction)
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const name = title.toLowerCase();
+const kind =
+  name.includes("admin") ? "admin" :
+  name.includes("project") ? "projects" :
+  name.includes("education") ? "education" :
+  name.includes("growth") || name.includes("marketing") ? "growth" :
+  name.includes("industry") ? "industry" :
+  name.includes("returning") || name.includes("advis") ? "advisory" :
+  null;
+
+const rows = [28, 44, 60];
+const bars = [[24, 52], [42, 44], [60, 34], [78, 22]];
+const outer = [[20, 18], [20, 62], [100, 18], [100, 62]];
+---
+
+{kind && (
+  <svg class={`team-emblem team-emblem-${kind}`} viewBox="0 0 120 80" aria-hidden="true" focusable="false">
+    {kind === "admin" && <>
+      <rect class="e-silver e-draw" style="--d: 0s" x="34" y="8" width="52" height="66" rx="4" pathLength="1" />
+      <rect class="e-silver e-draw" style="--d: .2s" x="48" y="4" width="24" height="8" rx="2" pathLength="1" />
+      {rows.map((y, i) => <>
+        <rect class="e-silver e-draw" style={`--d: ${.35 + i * .12}s`} x="42" y={y - 5} width="10" height="10" rx="2" pathLength="1" />
+        <line class="e-silver e-faint e-draw" style={`--d: ${.45 + i * .12}s`} x1="58" y1={y} x2="78" y2={y} pathLength="1" />
+        <path class="e-pink e-draw e-quick" style={`--d: ${1 + i * .28}s`} d={`M44.5 ${y} l2.5 2.6 l4.5 -5.6`} pathLength="1" />
+      </>)}
+    </>}
+
+    {kind === "projects" && <>
+      <rect class="e-silver e-draw" style="--d: 0s" x="14" y="10" width="92" height="60" rx="5" pathLength="1" />
+      <line class="e-silver e-faint e-draw" style="--d: .25s" x1="14" y1="21" x2="106" y2="21" pathLength="1" />
+      {[21, 27, 33].map((x, i) => <circle class="e-silver e-pop" style={`--d: ${.35 + i * .08}s`} cx={x} cy="15.5" r="1.6" />)}
+      <path class="e-pink e-draw e-quick" style="--d: .6s" d="M23 32 l5 4 l-5 4" pathLength="1" />
+      <line class="e-silver e-type" style="--d: .85s" x1="34" y1="36" x2="76" y2="36" pathLength="1" />
+      <line class="e-silver e-faint e-type" style="--d: 1.25s" x1="23" y1="48" x2="90" y2="48" pathLength="1" />
+      <line class="e-silver e-faint e-type" style="--d: 1.65s" x1="23" y1="59" x2="58" y2="59" pathLength="1" />
+      <rect class="e-pink-fill e-pop e-blink" style="--d: 1.95s" x="62" y="54.5" width="5" height="9" rx="1" />
+    </>}
+
+    {kind === "education" && <>
+      <rect class="e-silver e-draw" style="--d: 0s" x="18" y="6" width="84" height="52" rx="3" pathLength="1" />
+      <path class="e-silver e-faint e-draw" style="--d: .3s" d="M60 58 V69 M60 69 L49 76 M60 69 L71 76" pathLength="1" />
+      <path class="e-silver e-faint e-draw" style="--d: .45s" d="M28 16 V48 H92" pathLength="1" />
+      <path class="e-pink e-draw e-slow" style="--d: .7s" d="M30 46 C 42 45, 50 40, 58 32 S 78 16, 90 15" pathLength="1" />
+      <circle class="e-pink-fill e-pop" style="--d: 1.9s" cx="90" cy="15" r="2.6" />
+      <circle class="e-pink e-ring" cx="90" cy="15" r="2.6" />
+    </>}
+
+    {kind === "growth" && <>
+      <line class="e-silver e-draw" style="--d: 0s" x1="14" y1="70" x2="106" y2="70" pathLength="1" />
+      {bars.map(([x, y], i) => <rect class="e-silver e-bar e-rise" style={`--d: ${.2 + i * .14}s`} x={x} y={y} width="10" height={70 - y} rx="1.5" />)}
+      <path class="e-pink e-draw e-slow" style="--d: .85s" d="M29 46 L47 38 L65 28 L83 14" pathLength="1" />
+      <circle class="e-pink-fill e-pop" style="--d: 1.8s" cx="83" cy="14" r="2.6" />
+      <circle class="e-pink e-ripple" cx="83" cy="14" r="3" />
+      <circle class="e-pink e-ripple e-ripple-late" cx="83" cy="14" r="3" />
+    </>}
+
+    {kind === "industry" && <>
+      {outer.map(([x, y], i) => <line class="e-silver e-faint e-draw" style={`--d: ${.3 + i * .1}s`} x1="60" y1="40" x2={x} y2={y} pathLength="1" />)}
+      {outer.map(([x, y], i) => <line class="e-pink e-signal" style={`--s: ${i * -.9}s`} x1="60" y1="40" x2={x} y2={y} pathLength="1" />)}
+      <circle class="e-pink e-hub e-pop" style="--d: 0s" cx="60" cy="40" r="7" />
+      {outer.map(([x, y], i) => <circle class="e-silver e-node e-pop" style={`--d: ${.75 + i * .1}s`} cx={x} cy={y} r="5" />)}
+    </>}
+
+    {kind === "advisory" && <>
+      <circle class="e-silver e-draw" style="--d: 0s" cx="60" cy="40" r="31" pathLength="1" />
+      <circle class="e-silver e-faint e-draw" style="--d: .2s" cx="60" cy="40" r="24" pathLength="1" />
+      <path class="e-silver e-draw e-quick" style="--d: .45s" d="M60 9 V15 M60 65 V71 M29 40 H35 M85 40 H91" pathLength="1" />
+      <g class="e-needle">
+        <g class="e-sway">
+          <path class="e-pink-fill" d="M60 18 L65 40 L55 40 Z" />
+          <path class="e-silver-fill" d="M60 62 L65 40 L55 40 Z" />
+          <circle class="e-ink-fill" cx="60" cy="40" r="2.4" />
+        </g>
+      </g>
+    </>}
+  </svg>
+)}

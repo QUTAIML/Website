@@ -26,6 +26,12 @@ const FRAME_STYLES = `
   th { background: #1a171b; color: #fff; }
   blockquote { border-left: 3px solid rgba(255,255,255,.2); color: #cbc1ca; margin: 1em 0; padding-left: 1em; }
   .message { color: #cbc1ca; padding-top: 3rem; text-align: center; }
+  @media (max-width: 600px) {
+    body { font-size: 14px; padding: 1rem; }
+    h1 { font-size: 1.4rem; } h2 { font-size: 1.2rem; } h3 { font-size: 1.05rem; }
+    pre { font-size: 11.5px; padding: .7rem .8rem; }
+    .output { padding-left: .65rem; }
+  }
 `;
 
 const escapeHtml = (text) =>
@@ -84,6 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("project-search");
   const emptyMessage = document.getElementById("project-empty");
   const items = [...list.querySelectorAll("li")];
+  const countLabel = document.getElementById("project-count");
+  const countNoun = document.getElementById("project-count-noun");
+  const isCompact = () => window.matchMedia("(max-width: 900px)").matches;
+  const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const renderedPages = new Map();
   let requestId = 0;
@@ -111,6 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedRow?.removeAttribute("aria-current");
     row.setAttribute("aria-current", "true");
     selectedRow = row;
+
+    // Restart the viewer header's short fade so a new selection reads as a change.
+    viewer.classList.remove("is-switching");
+    void viewer.offsetWidth;
+    viewer.classList.add("is-switching");
 
     title.textContent = row.querySelector("strong").textContent;
     excerpt.textContent = row.querySelector("p").textContent;
@@ -149,7 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const visibleItems = items.filter((item) => !item.hidden);
     list.scrollTop = 0;
+    list.scrollLeft = 0;
     emptyMessage.hidden = visibleItems.length > 0;
+    if (countLabel) countLabel.textContent = visibleItems.length;
+    if (countNoun) countNoun.textContent = visibleItems.length === 1 ? "project" : "projects";
 
     // Keep the open notebook while it still matches, to avoid reloading on each keystroke.
     const isSelectionVisible = selectedRow && !selectedRow.closest("li").hidden;
@@ -165,7 +183,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!row || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
     event.preventDefault();
     showProject(row);
-    if (window.matchMedia("(max-width: 900px)").matches) viewer.scrollIntoView({ behavior: "smooth", block: "start" });
+    // On phones the cards sit just above the viewer, so only scroll when the viewer is mostly out of sight.
+    if (isCompact()) {
+      const { top } = viewer.getBoundingClientRect();
+      const headerHeight = document.querySelector(".navbar")?.getBoundingClientRect().height ?? 80;
+      if (top > window.innerHeight * 0.55) window.scrollBy({ top: top - headerHeight - 12, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    }
   });
 
   applyFilters();

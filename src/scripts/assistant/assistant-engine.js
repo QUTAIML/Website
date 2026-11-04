@@ -1412,7 +1412,11 @@ function peopleFollowUp(question, parsed, index, now, context) {
     const before = /\b(?:before|predecessor|predecessors|did\b.*\breplace)\b/.test(parsed.text);
     const pointsAtLatest = parsed.has("latest", "last one", "most recent", "current", "newest", "the last");
     const pointsAtFirst = parsed.has("first", "earliest", "first one", "oldest");
-    const pivot = pointsAtLatest ? inRole.at(-1) : pointsAtFirst ? inRole[0] : parsed.ordinal !== null ? inRole[parsed.ordinal] : before ? inRole[0] : inRole.at(-1);
+    // "the 2026 one", "the first one", "the latest one" mean that holder on the whole
+    // record; a bare ordinal ("the second one") means the second in the last answer.
+    const everyHolder = index.members.filter((member) => member.roleNorm === role).sort(byTerm);
+    const inYear = parsed.years.length ? everyHolder.filter((member) => parsed.years.includes(member.year)) : [];
+    const pivot = inYear.length ? (before ? inYear[0] : inYear.at(-1)) : pointsAtLatest ? everyHolder.at(-1) : pointsAtFirst ? everyHolder[0] : parsed.ordinal !== null ? inRole[parsed.ordinal] : before ? inRole[0] : inRole.at(-1);
     if (pivot) return peopleAnswer(parseQuestion(`${before ? "who was right before" : "who replaced"} ${pivot.cleanName} as ${roleTitle(index, role)}`, index, now), index);
   }
 

@@ -1452,3 +1452,15 @@
 /* The team feature moved to the Team page, so the journey runs full width. */
 .about-journey .journey-editorial-layout { display: block; }
 .about-journey .journey-milestone-list { max-width: 52rem; }
+
+/* On phones the resource cards keep to the column (a grid track of 1fr grows to fit
+   its widest content, which pushed them past the right edge of the screen), and the
+   icon and arrow sit along the top so the heading and text get the card's full width. */
+@media (max-width: 760px) {
+  .resource-explorer { grid-template-columns: minmax(0, 1fr) !important; }
+  .resource-explorer > * { min-width: 0; }
+  .resource-panel { gap: 1rem 1.1rem; grid-template-columns: minmax(0, 1fr) auto; padding: 1.4rem; }
+  .resource-panel > svg:first-child { grid-column: 1; grid-row: 1; }
+  .resource-panel > svg:last-child { align-self: start; grid-column: 2; grid-row: 1; }
+  .resource-panel > div { grid-column: 1 / -1; grid-row: 2; }
+}

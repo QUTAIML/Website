@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <defs>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a262c" stop-opacity=".78"/><stop offset="1" stop-color="#0a090b" stop-opacity=".62"/></linearGradient>
+    <filter id="glow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="1.4"/></filter>
+  </defs>
+  <rect x="1" y="1" width="26" height="26" fill="url(#glass)"/>
+  <rect x="1.5" y="1.5" width="25" height="25" fill="none" stroke="#ffffff" stroke-opacity=".14"/>
+  <rect x="2" y="2" width="24" height="1" fill="#ffffff" fill-opacity=".12"/>
+  <rect x="10" y="10" width="8" height="8" fill="#ff00e6" filter="url(#glow)" opacity=".8"/>
+  <rect x="11" y="11" width="6" height="6" fill="#ff00e6"/>
+</svg>

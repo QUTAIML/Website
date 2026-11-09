@@ -6,6 +6,7 @@ import ContentLayout from "@/layouts/ContentLayout.astro";
 import { Icon } from "astro-icon/components";
 import TeamEmblem from "@/components/team/TeamEmblem.astro";
 import { loadAboutData } from "@/scripts/about/exec-data";
+import portfolios from "../../content/portfolios.json";
 
 const { teamsForClient } = await loadAboutData();
 // Keep the executive portfolio groups together, then present Academic Champions last.
@@ -19,6 +20,7 @@ const divisions = [...teamsForClient]
 const teams = await getTeams();
 const currentTeam = teams[0];
 const teamPhotoEntry = teams.find((team) => team.teamPhoto);
+const describe = (title) => portfolios.find((p) => p.titles.includes(title))?.description;
 const slug = (title) => title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 ---
 
@@ -53,6 +55,7 @@ const slug = (title) => title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
               <span class="team-group-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               <h3 id={`team-${slug(group.title)}-title`}>{group.title}</h3>
               <p data-pagefind-ignore>{group.items.length} {group.items.length === 1 ? "person" : "people"}</p>
+              {describe(group.title) && <details class="team-group-about"><summary>What we do</summary><div>{describe(group.title)}</div></details>}
               <TeamEmblem title={group.title} />
             </header>
             <ul class="team-profiles">{group.items.map((member) => {

@@ -42,6 +42,17 @@
 .team-group.is-reached .team-group-number { color: rgba(255, 0, 230, .28); }
 .team-group-head h3 { color: #fff; font-size: clamp(1.3rem, 2vw, 1.75rem); line-height: 1.1; margin: .4rem 0 .35rem; }
 .team-group-head p { color: var(--team-blush); font-size: .82rem; font-weight: 700; margin: 0; }
+/* What the team does, tucked behind a toggle under the head count. */
+.team-group-about { margin-top: .7rem; max-width: 22rem; }
+.team-group-about summary { align-items: center; color: var(--team-soft); cursor: pointer; display: inline-flex; font: 800 .7rem/1 var(--font-body); gap: .45rem; letter-spacing: .1em; list-style: none; padding: .3rem 0; text-transform: uppercase; }
+.team-group-about summary::-webkit-details-marker { display: none; }
+.team-group-about summary::after { border: 1px solid rgba(255, 139, 244, .55); border-radius: 50%; content: "+"; display: grid; font-size: .85rem; height: 1.1rem; place-items: center; transition: background-color .2s ease, color .2s ease, rotate .25s ease; width: 1.1rem; }
+.team-group-about summary:hover, .team-group-about[open] summary { color: #fff; }
+.team-group-about summary:hover::after { background: rgba(255, 0, 230, .22); }
+.team-group-about[open] summary::after { background: var(--team-pink); border-color: var(--team-pink); color: #20081b; rotate: 45deg; }
+.team-group-about summary:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.team-group-about div { border-left: 2px solid rgba(255, 0, 230, .45); color: #cbc1ca; font-size: .86rem; line-height: 1.55; margin-top: .5rem; padding-left: .75rem; }
+.motion .team-group-about[open] div { animation: motion-rise .4s var(--motion-ease); }
 
 /* Every card shares its row's tracks for role, photo, name and degree, so they line up. */
 .team-profiles { display: grid; gap: 0 1rem; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
@@ -94,11 +105,12 @@ a.team-profile:hover .team-profile-photo::after, a.team-profile:focus-visible .t
    .team-reveal is added by team-roster.js only when motion is allowed, so without
    it (no JS, reduced motion) every team is simply shown. Each team waits hidden
    until .is-visible, then its number, name and people play in order. */
-.team-reveal .team-group:not(.is-visible) :is(.team-group-number, .team-group-head h3, .team-group-head p, .team-profiles > li) { opacity: 0; }
+.team-reveal .team-group:not(.is-visible) :is(.team-group-number, .team-group-head h3, .team-group-head p, .team-group-about, .team-profiles > li) { opacity: 0; }
 
 .team-reveal .team-group.is-visible .team-group-number { animation: team-number-in 1s var(--motion-ease) backwards; }
 .team-reveal .team-group.is-visible .team-group-head h3 { animation: motion-wipe-text 1s var(--motion-ease) .15s backwards; }
 .team-reveal .team-group.is-visible .team-group-head p { animation: motion-rise .8s var(--motion-ease) .3s backwards; }
+.team-reveal .team-group.is-visible .team-group-about { animation: motion-rise .8s var(--motion-ease) .25s backwards; }
 
 /* People cascade in across the row, capped so large teams don't keep you waiting. */
 .team-reveal .team-profiles > li { --team-delay: calc(.3s + min(var(--team-i, 0) * 75ms, 600ms)); }
@@ -186,6 +198,7 @@ a.team-profile:hover .team-profile-photo::after, a.team-profile:focus-visible .t
   .team-group-head h3 { align-self: end; grid-column: 2; }
   .team-group-head p { align-self: start; grid-column: 2; grid-row: 2; margin-top: .3rem; white-space: nowrap; }
   .team-emblem { grid-column: 3; grid-row: 1 / span 2; margin: 0; width: 4.5rem; }
+  .team-group-about { grid-column: 1 / -1; grid-row: 3; margin-top: .4rem; max-width: 40rem; }
 }
 
 @media (max-width: 420px) {
@@ -193,3 +206,4 @@ a.team-profile:hover .team-profile-photo::after, a.team-profile:focus-visible .t
   .team-group-head h3 { font-size: 1.2rem; }
   .team-emblem { width: 3.75rem; }
 }
+

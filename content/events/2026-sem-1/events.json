@@ -2,7 +2,7 @@
   {
     "title": "Tech Clubs BBQ",
     "date": "2026-02-21",
-    "time": "",
+    "time": "11:00 AM to 2:00 PM",
     "location": "West End",
     "category": "Social Event",
     "excerpt": "Meet students from QUT's technology clubs over a relaxed barbecue.",
@@ -45,7 +45,7 @@
   {
     "title": "GitHub Workshop Collab",
     "date": "2026-03-04",
-    "time": "",
+    "time": "5:30 PM to 7:30 PM",
     "location": "QUT GP-D108",
     "category": "Other",
     "excerpt": "A collaborative workshop covering practical GitHub skills.",
@@ -150,7 +150,7 @@
   {
     "title": "Clubs Exchange Party",
     "date": "2026-03-28",
-    "time": "",
+    "time": "6:00 PM to 10:00 PM",
     "location": "The Beaumont, Fortitude Valley",
     "category": "Social Event",
     "excerpt": "Join us for the Neon Party to meet members from other clubs, dance, and enjoy a vibrant night out!",
@@ -182,7 +182,7 @@
     "title": "AIML Hackathon",
     "date": "2026-04-10",
     "endDate": "2026-04-12",
-    "time": "",
+    "time": "5:00 PM to 8:00 PM",
     "location": "QUT GP P-Block",
     "category": "Flagship Event",
     "excerpt": "A multi-day build sprint for practical AI and machine learning ideas.",
@@ -213,7 +213,7 @@
   {
     "title": "Flagship Industry Night",
     "date": "2026-04-20",
-    "time": "",
+    "time": "5:00 PM to 9:00 PM",
     "location": "QUT GP-OJW",
     "category": "Flagship Event",
     "excerpt": "An industry night connecting students with people working across technology and AI.",
@@ -228,7 +228,7 @@
   {
     "title": "Team400 Workshop",
     "date": "2026-04-21",
-    "time": "5:30 PM to 7:30 PM",
+    "time": "5:00 PM to 8:00 PM",
     "location": "QUT GP-P512",
     "category": "Industry Event",
     "excerpt": "Hear from industry experts about their experiences in AI and their career journeys, and gain valuable insights for your own path.",
@@ -241,7 +241,7 @@
   },
   {
     "title": "Project Night 7",
-    "date": "2026-04-21",
+    "date": "2026-04-28",
     "time": "5:30 PM to 7:30 PM",
     "location": "QUT GP-P514",
     "category": "Project Night",
@@ -257,7 +257,7 @@
   {
     "title": "Study Night",
     "date": "2026-05-06",
-    "time": "",
+    "time": "5:30 PM to 7:30 PM",
     "location": "QUT GP-D101",
     "category": "Social Event",
     "excerpt": "A focused study session with the AIML community.",
@@ -271,7 +271,7 @@
   {
     "title": "AgentCamp",
     "date": "2026-05-09",
-    "time": "",
+    "time": "9:00 AM to 5:00 PM",
     "location": "QUT GP P-Block",
     "category": "Industry Event",
     "excerpt": "A community event exploring AI agents and practical applications.",
@@ -285,7 +285,7 @@
   {
     "title": "Study Night",
     "date": "2026-05-11",
-    "time": "",
+    "time": "5:30 PM to 7:30 PM",
     "location": "QUT GP-D206",
     "category": "Social Event",
     "excerpt": "A focused study session with the AIML community.",
@@ -299,7 +299,7 @@
   {
     "title": "Trivia Night",
     "date": "2026-05-13",
-    "time": "6 PM to 9 PM",
+    "time": "5:30 PM to 9:00 PM",
     "location": "QUT GP BotBar",
     "category": "Social Event",
     "excerpt": "Join us for a fun trivia night in collaboration with QUT BANDS! Test your knowledge, enjoy great company, and compete for prizes in a relaxed social atmosphere.",

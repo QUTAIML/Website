@@ -118,6 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
       location: card.dataset.location ?? '',
       excerpt: card.querySelector('p')?.textContent.trim() ?? '',
       link: card.querySelector('a.event-row-title')?.getAttribute('href') ?? '',
+      gcal: card.dataset.gcal ?? '',
+      ics: card.dataset.ics ?? '',
     };
   }
 
@@ -175,6 +177,28 @@ document.addEventListener("DOMContentLoaded", () => {
     article.appendChild(facts);
 
     if (event.excerpt) article.appendChild(createElement('p', 'calendar-detail-text', event.excerpt));
+    // Upcoming events can be saved straight to a calendar.
+    if (!isPast && (event.gcal || event.ics)) {
+      const save = createElement('div', 'calendar-detail-save');
+      save.appendChild(createElement('span', '', 'Add to calendar'));
+      if (event.gcal) {
+        const google = createElement('a', '', 'Google');
+        google.href = event.gcal;
+        google.target = '_blank';
+        google.rel = 'noopener noreferrer';
+        google.setAttribute('aria-label', `Add ${event.title} to Google Calendar`);
+        save.appendChild(google);
+      }
+      if (event.ics) {
+        const file = createElement('a', '', 'Apple / Outlook');
+        file.href = event.ics;
+        file.download = `${event.title}.ics`;
+        file.setAttribute('aria-label', `Download ${event.title} for Apple Calendar or Outlook`);
+        save.appendChild(file);
+      }
+      article.appendChild(save);
+    }
+
     if (event.link) {
       const link = createElement('a', 'calendar-detail-link', 'View more details');
       link.href = event.link;
@@ -449,4 +473,37 @@ document.addEventListener("DOMContentLoaded", () => {
     applyFilters();
   });
 
+});
+
+// "Copy feed link" puts the calendar feed URL on the clipboard for any other calendar app.
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.getElementById("calendar-copy-feed");
+  if (!button) return;
+
+  // The subscribe links are built for qutaiml.org. Point them at whichever site is
+  // actually serving this page, so they also work on preview copies and locally.
+  const builtFor = new URL(button.dataset.feed);
+  if (location.protocol.startsWith("http") && location.host !== builtFor.host) {
+    const feed = `${location.origin}${builtFor.pathname}`;
+    const webcal = feed.replace(/^https?:/, "webcal:");
+    button.dataset.feed = feed;
+    document.querySelectorAll(".calendar-subscribe-actions a").forEach((link) => {
+      link.href = link.href
+        .replace(builtFor.href.replace(/^https:/, "webcal:"), webcal)
+        .replace(encodeURIComponent(builtFor.href.replace(/^https:/, "webcal:")), encodeURIComponent(webcal))
+        .replace(encodeURIComponent(builtFor.href), encodeURIComponent(feed));
+    });
+  }
+
+  const label = button.querySelector("span");
+  button.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(button.dataset.feed);
+      label.textContent = "Copied!";
+    } catch {
+      window.prompt("Copy this link into your calendar app:", button.dataset.feed);
+      return;
+    }
+    setTimeout(() => { label.textContent = "Copy feed link"; }, 2000);
+  });
 });

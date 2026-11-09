@@ -1,0 +1,46 @@
+/* ── Discord and Instagram cards (src/components/CommunityPreview.astro) ── */
+.social-preview { --social-pink: #ff00e6; --social-soft: #ff8bf4; --social-silver: #c8cdd6; background: radial-gradient(circle at 12% 20%, rgba(255, 0, 230, .12), transparent 32%), #0d0a0e; color: #fff; padding: clamp(4.5rem, 9vw, 7.5rem) 0; }
+.social-shell { margin: 0 auto; max-width: 1220px; padding: 0 2.25rem; }
+.social-kicker { color: var(--social-pink); font-size: .72rem; font-weight: 800; letter-spacing: .16em; margin: 0 0 1rem; }
+.social-heading { margin-bottom: 2.5rem; max-width: 46rem; }
+.social-heading h2 span { color: var(--social-pink); }
+.social-heading > p:not(.social-kicker) { color: #cbc1ca; font-size: 1.02rem; line-height: 1.65; margin: 1.3rem 0 0; }
+
+/* Two matching profile cards. */
+.social-cards { display: grid; gap: 1.25rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.social-card { background: #141015; border: 1px solid rgba(255, 255, 255, .12); border-radius: 1rem; display: flex; flex-direction: column; overflow: hidden; transition: border-color .25s ease, transform .25s ease; }
+.social-card:hover { border-color: rgba(255, 0, 230, .5); transform: translateY(-3px); }
+.social-card-banner { align-items: center; background: linear-gradient(120deg, #2a0026, #a30093 60%, #ff00e6); display: flex; height: 6rem; justify-content: flex-end; padding-right: 1.4rem; }
+.social-card + .social-card .social-card-banner { background: linear-gradient(120deg, #ff00e6, #a30093 45%, #2a0026); }
+.social-card-banner svg { color: rgba(255, 255, 255, .35); height: 3rem; width: 3rem; }
+.social-card-body { display: flex; flex: 1; flex-direction: column; padding: 0 1.6rem 1.6rem; }
+.social-card-avatar { background: #09080a; border: 5px solid #141015; border-radius: 50%; display: block; height: 5rem; margin-top: -2.5rem; object-fit: cover; padding: .35rem; width: 5rem; }
+.social-card-avatar.is-rounded-square { border-radius: 1.4rem; padding: 0; }
+.social-card-platform { color: var(--social-soft); font-size: .7rem; font-weight: 800; letter-spacing: .12em; margin: 1rem 0 .2rem; text-transform: uppercase; }
+.social-card h3 { font-size: 1.4rem; margin: 0; }
+.social-card-stats { color: #cbc1ca; display: flex; flex-wrap: wrap; font-size: .9rem; gap: .4rem 1.3rem; margin-top: .6rem; }
+.social-card-stats span { align-items: center; display: inline-flex; gap: .4rem; }
+.social-card-stats strong { color: #fff; }
+.social-card-stats i { background: var(--social-pink); border-radius: 50%; box-shadow: 0 0 0 3px rgba(255, 0, 230, .2); height: .55rem; width: .55rem; }
+html.motion .social-card-stats .is-live i { animation: social-pulse 2.4s ease-in-out infinite; }
+.social-card-text { color: #d6ccd5; font-size: .94rem; line-height: 1.6; margin: 1rem 0 0; }
+.social-card-tags { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 1rem 0 0; padding: 0; }
+.social-card-tags li { background: rgba(255, 255, 255, .06); border-radius: .4rem; color: var(--social-silver); font-size: .8rem; font-weight: 600; padding: .3rem .55rem; }
+.social-card-tags span { color: #8f858e; margin-right: .15rem; }
+.social-card-bio { color: #d6ccd5; display: grid; font-size: .94rem; gap: .35rem; line-height: 1.5; list-style: none; margin: 1rem 0 0; padding: 0; }
+.social-card-button { align-items: center; align-self: flex-start; background: var(--social-pink); border-radius: 999px; color: #20081b; display: inline-flex; font-size: .9rem; font-weight: 800; gap: .5rem; margin-top: auto; min-height: 2.9rem; padding: 0 1.3rem; text-decoration: none; transition: background-color .2s ease; }
+.social-card-body > :nth-last-child(2) { margin-bottom: 1.5rem; }
+.social-card-button svg { height: 1.2rem; width: 1.2rem; }
+.social-card-button:hover, .social-card-button:focus-visible { background: var(--social-soft); }
+.social-card-button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+@keyframes social-pulse { 50% { box-shadow: 0 0 0 6px rgba(255, 0, 230, 0); } }
+
+@media (max-width: 860px) {
+  .social-cards { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .social-shell { padding: 0 1rem; }
+  .social-card-body { padding: 0 1.2rem 1.3rem; }
+}

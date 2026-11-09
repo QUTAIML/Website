@@ -6,6 +6,8 @@ import ExternalArrow from "@/components/ExternalArrow.astro";
 import ContentLayout from "@/layouts/ContentLayout.astro";
 import { loadEventsData } from "@/scripts/events/events-loader";
 import EventCard from "@/components/EventCard.astro";
+import { Icon } from "astro-icon/components";
+import { googleCalendarUrl, icsPath, subscribeLinks } from "@/lib/calendar";
 
 const { eventsBySemester, types, featuredEvents } = await loadEventsData();
 const eventCount = eventsBySemester.length;
@@ -71,7 +73,7 @@ const image = await loadImages();
             <section class="events-panel">
               <ul id="events-list" class="events-list">
                 {[...eventsBySemester].reverse().map((event) => (
-                  <li class="event-row" data-semester={event.semesterId} data-type={event.type ?? event.category ?? "Event"} data-title={event.title.toLowerCase()} data-date={event.date} data-end-date={event.endDate} data-time={event.time} data-location={event.location}>
+                  <li class="event-row" data-semester={event.semesterId} data-type={event.type ?? event.category ?? "Event"} data-title={event.title.toLowerCase()} data-date={event.date} data-end-date={event.endDate} data-time={event.time} data-location={event.location} data-gcal={googleCalendarUrl(event)} data-ics={icsPath(event)}>
                     <time class="event-row-date" datetime={event.date}>{event.dateLabel}</time>
                     <span class="event-row-time">{event.time || (event.durationDays > 1 ? `${event.durationDays} days` : "")}</span>
                     <i class="event-row-dot" aria-hidden="true"></i>
@@ -116,6 +118,22 @@ const image = await loadImages();
             </section>
 
             <div id="events-pagination" data-pagefind-ignore></div>
+
+            <aside class="calendar-subscribe" aria-labelledby="calendar-subscribe-title" data-pagefind-ignore>
+              <div class="calendar-subscribe-copy">
+                <Icon name="tabler:calendar-plus" aria-hidden="true" />
+                <div>
+                  <h3 id="calendar-subscribe-title">Never miss an event</h3>
+                  <p>Subscribe once and new AIML events appear in your calendar automatically.</p>
+                </div>
+              </div>
+              <div class="calendar-subscribe-actions">
+                <a href={subscribeLinks.google} target="_blank" rel="noopener noreferrer"><Icon name="tabler:brand-google" aria-hidden="true" />Google</a>
+                <a href={subscribeLinks.apple}><Icon name="tabler:brand-apple" aria-hidden="true" />Apple</a>
+                <a href={subscribeLinks.outlook} target="_blank" rel="noopener noreferrer"><Icon name="tabler:brand-windows" aria-hidden="true" />Outlook</a>
+                <button type="button" id="calendar-copy-feed" data-feed={subscribeLinks.feed}><Icon name="tabler:link" aria-hidden="true" /><span>Copy feed link</span></button>
+              </div>
+            </aside>
           </section>
         </div>
       </section>

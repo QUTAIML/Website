@@ -1,0 +1,65 @@
+---
+// The AIML Discord and Instagram, side by side as two profile cards.
+// Discord numbers are live from Discord (read at build time); Instagram details
+// come from content/community.json and the follower stat in content/site.json.
+import { Icon } from "astro-icon/components";
+import ExternalArrow from "@/components/ExternalArrow.astro";
+import { links, site, loadImages } from "@/lib/content";
+import { getDiscord } from "@/lib/discord";
+import community from "../../content/community.json";
+import "@/styles/components/community-preview.css";
+
+const discord = await getDiscord();
+const image = await loadImages();
+const logo = image("images/logo-mark.svg");
+const { instagram } = community;
+const followers = site.stats?.find((stat) => /instagram/i.test(stat.label))?.value;
+const external = { target: "_blank", rel: "noopener noreferrer" };
+---
+
+<section class="social-preview" aria-labelledby="social-preview-title">
+  <div class="social-shell">
+    <div class="social-heading">
+      <p class="social-kicker">BETWEEN EVENTS</p>
+      <h2 id="social-preview-title">The conversation<br /><span>never stops.</span></h2>
+      <p>Discord is where members ask questions, share opportunities and find teammates. Instagram is where every event gets announced first.</p>
+    </div>
+
+    <div class="social-cards">
+      <article class="social-card">
+        <div class="social-card-banner" aria-hidden="true"><Icon name="tabler:brand-discord" /></div>
+        <div class="social-card-body">
+          <img class="social-card-avatar is-rounded-square" src={discord.icon ?? logo} alt="" width="72" height="72" loading="lazy" />
+          <p class="social-card-platform">Discord server</p>
+          <h3>{discord.name}</h3>
+          <div class="social-card-stats">
+            {discord.online && <span class="is-live"><i aria-hidden="true"></i><strong>{discord.online}</strong> online now</span>}
+            {discord.members && <span><strong>{discord.members}</strong> members</span>}
+          </div>
+          <p class="social-card-text">Workshops, projects and discussion on the latest in AI and ML, plus hackathons and industry events. Beginners very welcome.</p>
+          <ul class="social-card-tags" aria-label="Popular channels">
+            {community.discord.channels.map((channel) => <li><span aria-hidden="true">#</span>{channel}</li>)}
+          </ul>
+          <a class="social-card-button" href={links.discord} {...external}><Icon name="tabler:brand-discord" aria-hidden="true" />Join the server <ExternalArrow /></a>
+        </div>
+      </article>
+
+      <article class="social-card">
+        <div class="social-card-banner" aria-hidden="true"><Icon name="tabler:brand-instagram" /></div>
+        <div class="social-card-body">
+          <img class="social-card-avatar" src={logo} alt="" width="72" height="72" loading="lazy" />
+          <p class="social-card-platform">Instagram</p>
+          <h3>@{instagram.handle}</h3>
+          <div class="social-card-stats">
+            {instagram.posts && <span><strong>{instagram.posts}</strong> posts</span>}
+            {followers && <span><strong>{followers}</strong> followers</span>}
+          </div>
+          <ul class="social-card-bio">
+            {instagram.bio.map((line) => <li>{line}</li>)}
+          </ul>
+          <a class="social-card-button" href={links.instagram} {...external}><Icon name="tabler:brand-instagram" aria-hidden="true" />Follow @{instagram.handle} <ExternalArrow /></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

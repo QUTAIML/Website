@@ -1,0 +1,14 @@
+{
+  "discord": {
+    "channels": ["announcements", "opportunities", "introduce-yourself", "general", "hackathons", "projects-general"]
+  },
+  "instagram": {
+    "handle": "qut_aiml",
+    "posts": "150+",
+    "bio": [
+      "QLD's largest university AI & ML society",
+      "📅 Project Nights: Tuesdays 5:30pm to 7:30pm",
+      "🏆 QUT Club President of the Year 2026"
+    ]
+  }
+}

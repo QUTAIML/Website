@@ -1308,3 +1308,26 @@ html.motion .calendar-details > * { animation: calendar-detail-in .28s ease both
   .event-row-meta { text-align: left; }
   .event-row-time:empty { display: none; }
 }
+
+/* ── Calendar subscribe bar and per-event "Add to calendar" ── */
+.calendar-subscribe { align-items: center; background: linear-gradient(120deg, rgba(255, 0, 230, .1), rgba(255, 255, 255, .02) 60%), #100d10; border: 1px solid rgba(255, 139, 244, .28); border-radius: .8rem; display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; justify-content: space-between; margin-top: 1rem; padding: 1rem 1.2rem; }
+.calendar-subscribe-copy { align-items: center; display: flex; gap: .9rem; min-width: 0; }
+.calendar-subscribe-copy > svg { color: var(--event-pink); flex: none; height: 2rem; width: 2rem; }
+.calendar-subscribe h3 { color: #fff; font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin: 0; }
+.calendar-subscribe p { color: #cfc3ce; font-size: .88rem; line-height: 1.45; margin: .15rem 0 0; }
+.calendar-subscribe-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.calendar-subscribe-actions :is(a, button) { align-items: center; background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .18); border-radius: 999px; color: #f3e9f1; cursor: pointer; display: inline-flex; font: 700 .82rem/1 var(--font-body); gap: .4rem; min-height: 2.4rem; padding: 0 .95rem; text-decoration: none; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
+.calendar-subscribe-actions svg { height: 1rem; width: 1rem; }
+.calendar-subscribe-actions :is(a, button):hover { background: rgba(255, 0, 230, .16); border-color: var(--event-pink); color: #fff; }
+.calendar-subscribe-actions :is(a, button):focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.calendar-detail-save { align-items: center; display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
+.calendar-detail-save span { color: #a99ea8; font-size: .78rem; font-weight: 800; letter-spacing: .06em; margin-right: .2rem; text-transform: uppercase; }
+.calendar-detail-save a { border: 1px solid rgba(255, 139, 244, .5); border-radius: 999px; color: #fff; font-size: .82rem; font-weight: 700; padding: .45rem .85rem; text-decoration: none; transition: background-color .2s ease; }
+.calendar-detail-save a:hover, .calendar-detail-save a:focus-visible { background: rgba(255, 0, 230, .2); }
+
+@media (max-width: 600px) {
+  .calendar-subscribe { padding: 1rem; }
+  .calendar-subscribe-actions { width: 100%; }
+  .calendar-subscribe-actions :is(a, button) { flex: 1 1 auto; justify-content: center; }
+}

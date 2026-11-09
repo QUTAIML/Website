@@ -1,0 +1,26 @@
+[
+  {
+    "titles": ["Admin Team"],
+    "description": "Leads the club’s overall direction, guides each division and coordinates the events calendar, finances and governance."
+  },
+  {
+    "titles": ["Projects Team"],
+    "description": "Leads technical initiatives and hands-on projects to help members build skills and experience."
+  },
+  {
+    "titles": ["Education Team"],
+    "description": "Plans and delivers educational workshops, tutorials, and learning sessions to help members grow their AIML skills."
+  },
+  {
+    "titles": ["Growth Team", "Marketing Team"],
+    "description": "Builds and strengthens the AIML community through social media, design, and communications that engage current and future members."
+  },
+  {
+    "titles": ["Industry Team"],
+    "description": "Connects the club with industry professionals, companies, and organisations to create meaningful opportunities for members."
+  },
+  {
+    "titles": ["Chief Returning Officers", "Chief Returning Officer", "Independent"],
+    "description": "Provides experienced, independent guidance and oversight to support the Executive Team."
+  }
+]

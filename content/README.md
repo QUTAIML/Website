@@ -10,6 +10,7 @@ content/
 ├── faq.json             FAQ page questions
 ├── degrees.json         Degrees listed on the About page
 ├── co-founders.json     Co-founders on the History page
+├── portfolios.json      What each team does (shown on the Team page)
 │
 ├── events/
 │   └── 2026-sem-1/      events.json  + the photos it uses

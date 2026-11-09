@@ -4,7 +4,7 @@
     "items": [
       { "role": "President", "name": "Zac Knight", "degree": "Master of AI", "image": "Zac.png", "linkedin": "https://www.linkedin.com/in/zac-knight/" },
       { "role": "Vice President", "name": "Rajinder Singh", "degree": "Bachelor of Engineering (Software)", "image": "Rajinder.png", "linkedin": "https://www.linkedin.com/in/rajinders7/" },
-      { "role": "Secretary", "name": "Varsha Gowda", "degree": "Master of Data Science", "image": "Silhouette.png", "linkedin": "https://www.linkedin.com/in/varsha-gowda-3834341a2/" },
+      { "role": "Secretary", "name": "Varsha Gowda", "degree": "Master of Data Science", "image": "Varsha.png", "linkedin": "https://www.linkedin.com/in/varsha-gowda-3834341a2/" },
       { "role": "Treasurer", "name": "Anay Venugopal", "degree": "Bachelor of Engineering (Software)", "image": "Anay.png", "linkedin": "https://www.linkedin.com/in/anay-venugopal-72b8072a0/" }
     ]
   },

@@ -17,7 +17,19 @@ const image = await loadImages();
       <div class="hackathon-shell"><p class="hackathon-kicker">QUT AI &amp; ML SOCIETY</p><h1 id="hackathon-title">Hackathons made<br /><span>to move ideas.</span></h1><p>This is where AIML celebrates its past hackathons. Our next hackathon is coming in Semester 1, 2027. Keep an eye on this page for more details.</p></div>
     </header>
 
-    <!-- The countdown markup and script remain in src/scripts/hackathon for the next confirmed event. -->
+    <section class="hackathon-countdown" id="hackathon-countdown" data-phase="before" aria-labelledby="countdown-title">
+      <span class="countdown-glow" aria-hidden="true"></span>
+      <div class="hackathon-shell">
+        <p class="hackathon-kicker" id="countdown-kicker">COMING SOON</p>
+        <h2 id="countdown-title">AIML Hackathon <span>2027</span></h2>
+        <div class="countdown-container">
+          <p class="countdown-label" id="countdown-label">Kicks off 2 April 2027, 5:00pm</p>
+          <div class="countdown-grid" id="countdown" role="timer" aria-live="off"></div>
+          <p class="countdown-finished" id="countdown-finished" hidden>The AIML Hackathon 2027 wrapped up on 4 April 2027. Thank you to everyone who took part.</p>
+        </div>
+      </div>
+    </section>
+
     <PhotoStrip photos={[{ src: "images/hackathon-aiml-2026-1.jpeg", alt: "AIML Hackathon participants in the atrium" }, { src: "images/hackathon-brains-and-bots-1.jpeg", alt: "Brains and Bots participants" }, { src: "images/hackathon-aiml-2026-5.jpg", alt: "Team around a laptop" }, { src: "images/hackathon-brains-and-bots-3.jpeg", alt: "Prototype presentation" }, { src: "images/hackathon-aiml-2026-2.jpeg", alt: "Hackathon opening" }, { src: "images/hackathon-aiml-2026-4.jpg", alt: "Team with organisers" }, { src: "images/hackathon-brains-and-bots-2.jpeg", alt: "Hardware and software at work" }, { src: "images/hackathon-aiml-2026-6.jpg", alt: "Mentors reviewing a project" }]} />
 
     <!-- Each hackathon gets its own portfolio panel here; the full recap lives on its own page. -->
@@ -73,4 +85,5 @@ const image = await loadImages();
 
   <script>import "@/scripts/hackathon/training-curves.js";</script>
   <script>import "@/scripts/hackathon/folio.js";</script>
+  <script>import "@/scripts/hackathon/hackathon-script.js";</script>
 </ContentLayout>
